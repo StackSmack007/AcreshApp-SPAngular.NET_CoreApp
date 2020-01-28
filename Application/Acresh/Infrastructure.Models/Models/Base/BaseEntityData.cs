@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Infrastructure.Models.Models
+namespace Infrastructure.Models
 {
     public abstract class BaseEntityData
     {

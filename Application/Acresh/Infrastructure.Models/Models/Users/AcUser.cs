@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Models.Enumerations;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,6 +30,7 @@ namespace Infrastructure.Models
 
         [Required, EmailAddress]
         public string Email { get; set; }
+
         public virtual ICollection<UserBlocking> BlockedUsers { get; set; }
         public virtual ICollection<RecipeRecomendation> RecipesRecomendations { get; set; }
         public virtual ICollection<RecipeComment> Comments { get; set; }
