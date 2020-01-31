@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="">ACRESH</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+    aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto nav-pills">
+
+      <li class="nav-item mr-2">
+        <a class="nav-link active" routerLink="couldron"><i class="fas fa-flask"></i> Couldron</a>
+      </li>
+      <div class="dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-scroll"></i> Recipes
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <!-- <div *ngIf="isLoggedIn">
+            <a class="dropdown-item " routerLink="recipes/mine">My Shared Recipes</a>
+            <a class="dropdown-item" routerLink="recipes/favourite">My Favourite Recipes</a>
+            <a class="dropdown-item" routerLink="recipes/mine">My Shared Recipes</a>
+          </div> -->
+          <a class="dropdown-item active" routerLink="recipes/mine">Recently Added Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/mine">Most Popular Recipes</a>
+        </div>
+      </div>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Ingredients</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="#">Categories</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <h3 class="nav-link font-italic"><span class="font-weight-bold  text-primary">A</span>pplication for <span
+            class="font-weight-bold text-primary">C</span>ooking
+          <span class="font-weight-bold text-primary">RE</span>cipes <span
+            class="font-weight-bold text-primary">SH</span>aring </h3>
+      </li>
+    </ul>
+
+    <ul *ngIf="!isLoggedIn; else unloggedOptions" class="navbar-nav pl-2 pr-0">
+      <li class="nav-item">
+        <div class="dropdown dropdown-menu-right">
+          <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user fa-lg"></i> UserPanel
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item " routerLink="recipes/mine">My Profile</a>
+            <a class="dropdown-item " routerLink="recipes/mine">Messages</a>
+            <a class="dropdown-item " routerLink="recipes/mine">Last Commented</a>
+            <a class="dropdown-item" routerLink="recipes/favourite">My Favourite Recipes</a>
+            <a class="dropdown-item" routerLink="recipes/mine">My Shared Recipes</a>
+            <a class="dropdown-item" routerLink="recipes/mine">Logout</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <ng-template #unloggedOptions>
+      <ul class="navbar-nav pl-2 pr-0">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Register</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+      </ul>
+    </ng-template>
+    <div class="input-group pl-2 pr-2 col-2 ml-0">
+      <input #searchPhrase class="form-control my-0 py-1 lime-border" type="text" placeholder="Name of recipe..."
+        aria-label="Search">
+      <div class="input-group-append">
+        <span class="input-group-text lime lighten-2" (click)="searchPhrase.value=''" id="sbtn"><i class="fas fa-search"
+            aria-hidden="true"></i></span>
+      </div>
+    </div>
+
+
+  </div>
+</nav>

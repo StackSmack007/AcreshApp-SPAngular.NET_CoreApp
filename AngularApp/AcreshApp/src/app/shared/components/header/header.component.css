@@ -1,0 +1,8 @@
+.dropdown-menu a:hover {
+    background-color:blanchedalmond;
+    background-image: none;
+}
+#sbtn:hover {
+    background-color:blanchedalmond;
+    color: rgb(80, 15, 153);
+}
