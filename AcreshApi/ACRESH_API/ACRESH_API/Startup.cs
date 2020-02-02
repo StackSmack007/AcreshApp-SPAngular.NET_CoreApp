@@ -92,7 +92,7 @@ namespace ACRESH_API
 
             app.UseHsts();
             app.UseResponseCompression();
-            app.UseSession();
+            //app.UseSession();
 
             //   app.UseMiddleware<Middlewares.SeederMiddleware>();
 

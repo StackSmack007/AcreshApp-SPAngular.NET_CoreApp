@@ -45,7 +45,7 @@
       </li>
     </ul>
 
-    <ul *ngIf="!isLoggedIn; else unloggedOptions" class="navbar-nav pl-2 pr-0">
+    <ul *ngIf="isLoggedIn; else unloggedOptions" class="navbar-nav pl-2 pr-0">
       <li class="nav-item">
         <div class="dropdown dropdown-menu-right">
           <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -59,7 +59,7 @@
             <a class="dropdown-item " routerLink="recipes/mine">Last Commented</a>
             <a class="dropdown-item" routerLink="recipes/favourite">My Favourite Recipes</a>
             <a class="dropdown-item" routerLink="recipes/mine">My Shared Recipes</a>
-            <a class="dropdown-item" routerLink="recipes/mine">Logout</a>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
           </div>
         </div>
       </li>
@@ -67,10 +67,10 @@
     <ng-template #unloggedOptions>
       <ul class="navbar-nav pl-2 pr-0">
         <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
+          <a class="nav-link" routerLink="authentication/login">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Register</a>
+          <a class="nav-link" routerLink="/authentication/register">Register</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">About</a>

@@ -23,13 +23,18 @@ namespace Infrastructure.Models
             IngredientsAdded = new HashSet<Ingredient>();
             CategoriesAdded = new HashSet<Category>();
         }
-
+        [Required,MaxLength(64)]
         public string FirstName { get; set; }
+        [MaxLength(64)]
         public string LastName { get; set; }
         public CookRank CookRank { get; set; }
+        public Gender Gender { get; set; }
 
         [Url]
         public string AvatarPicture { get; set; }
+
+        [MaxLength(512)]
+        public string Description { get; set; }
 
         [Required, EmailAddress]
         public string Email { get; set; }

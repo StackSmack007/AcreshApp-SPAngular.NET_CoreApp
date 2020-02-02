@@ -16,14 +16,14 @@ namespace Infrastructure.Data
         public ApplicationDbContext()
         { }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    //if (!optionsBuilder.IsConfigured) 
-        //    //{ 
-        //    //    optionsBuilder.UseSqlServer("Server=DESKTOP-FETTQ2O\\SQLEXPRESS;Database=T34;Trusted_Connection=True;MultipleActiveResultSets=true");
-        //    //}
-        //    base.OnConfiguring(optionsBuilder);
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=DESKTOP-FETTQ2O\\SQLEXPRESS;Database=T34;Trusted_Connection=True;MultipleActiveResultSets=true");
+            }
+            base.OnConfiguring(optionsBuilder);
+        }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }

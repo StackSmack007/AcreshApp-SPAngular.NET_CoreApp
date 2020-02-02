@@ -51,14 +51,14 @@ namespace Acresh.Services.JWT
                  opt.IncludeErrorDetails = true;
             });
         }
-        public async Task<string> CreateJWT(AcUser u)
+        public async Task<string> CreateJWT(AcUser u,string role="User")
         {
         //Preferences here
             var roles = await um.GetClaimsAsync(u);
 
             List<Claim> claims = new List<Claim>(){
                 new Claim(ClaimTypes.Name,$"{u.FirstName} {u.LastName}"),
-                new Claim(ClaimTypes.Role, $"Admin"),
+                new Claim(ClaimTypes.Role, role),
                 new Claim("FullName", $"{u.FirstName} {u.LastName}"),
                 new Claim("CookRank", u.CookRank.ToString()),
                 new Claim("Id", u.Id),
