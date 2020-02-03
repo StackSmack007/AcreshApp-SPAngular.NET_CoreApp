@@ -7,8 +7,9 @@ namespace Common.Tools
     public static class GlobalConstants
     {
         public static int TokenExpirationDays = 4;
-        
-        
+
+   
+
         //private static StringBuilder sb;
         //public static readonly int MostPurchasedTotalCount = 10;
         //public static readonly int MostCommentedTotalCount = 10;

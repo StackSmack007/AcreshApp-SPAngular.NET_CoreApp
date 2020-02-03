@@ -185,10 +185,10 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasMaxLength(10240);
 
-                    b.Property<bool>("Essential")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsEssential")
                         .HasColumnType("bit");
 
                     b.Property<int>("MeasureType")
@@ -201,6 +201,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int>("Origin")
                         .HasColumnType("int");
+
+                    b.Property<string>("PicUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -339,6 +342,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int>("IngredientId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Ammount")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RecipeId", "IngredientId");
 

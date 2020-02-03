@@ -5,7 +5,7 @@
             <form [formGroup]="lf" (ngSubmit)="submitLogin()">
                 <fieldset>
                     <h2 class="text-center py-3">LogIn:</h2>
-                    {{lf.value | json}}
+                    <!-- {{lf.value | json}} -->
                     <div class="form-group">
                         <label for="umail">UserName or Email:*</label>
                         <input type="text" class="form-control" id="umail" placeholder="Enter email or username..."
@@ -20,6 +20,10 @@
                         <div class="col-12 d-flex justify-content-center"> <button type="submit" class="btn btn-primary"
                                 [disabled]="lf.invalid">LogIn</button>
                         </div>
+                        <div class="col-12 d-flex justify-content-end"> 
+                            <p class="h5 font-italic">Not a member, <a routerLink="/authentication/register"> Sing Up</a> now!</p>
+    
+                    </div> 
                     </div>
                 </fieldset>
             </form>

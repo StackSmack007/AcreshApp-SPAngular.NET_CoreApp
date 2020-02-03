@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { authPaths } from '../settings/apiSettings';
 import { IUser } from './user';
 import { IUserDataTakenResult } from './IUserDataTakenResult';
-import { Gender } from './Gender';
+import { Gender, CookRank } from './Gender';
 import { IUserSendable } from './IUserSendable';
 
 @Injectable({
@@ -41,8 +41,7 @@ export class AuthService {
     return this.http.post(authPaths.logInUser, { UserNameOrEmail: umail, Password: password });
   }
 
-
-  logout() {
+  clearUserData() {
     localStorage.clear();
   }
 
@@ -78,6 +77,12 @@ interface LoginResult {
 }
 
 interface IUserTokenInfo {
-  //ToDo....
+  Id: string,
+  unique_name: string,
+  role: string,
+  FullName: string, CookRank: CookRank,
+  AvatarPicture: string,
+  exp: number,
+  iss: string,
 }
-
+var s = {}

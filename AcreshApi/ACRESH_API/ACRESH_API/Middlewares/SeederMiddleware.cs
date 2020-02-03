@@ -18,7 +18,7 @@ namespace ACRESH_API.Middlewares
         public async Task Invoke(HttpContext httpContext, DataBaseSeeder seeder)
         {
             await _next(httpContext);
-          // await seeder.SeedData();
+           await seeder.SeedData();
         }
     }
 }

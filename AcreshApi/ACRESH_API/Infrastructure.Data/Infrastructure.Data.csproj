@@ -5,15 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200129211855_Initial.cs" />
-    <Compile Remove="Migrations\20200129211855_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20200129214109_Initial.cs" />
-    <Compile Remove="Migrations\20200129214109_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20200129214706_Initial.cs" />
-    <Compile Remove="Migrations\20200129214706_Initial.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.1" />

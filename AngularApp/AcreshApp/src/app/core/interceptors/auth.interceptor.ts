@@ -22,7 +22,10 @@ export class AuthInterceptor implements HttpInterceptor {
                 }
             }));
         }
-
+        
+        if(this.authService.isAuthenticated() && this.authService.getUserInfo().exp<=Date.now()){
+            this.authService.clearUserData();
+        }
         if (this.authService.isAuthenticated()) {
             return next.handle(req.clone({
                 setHeaders: { Authorization: `Bearer ${this.authService.getToken()}` }

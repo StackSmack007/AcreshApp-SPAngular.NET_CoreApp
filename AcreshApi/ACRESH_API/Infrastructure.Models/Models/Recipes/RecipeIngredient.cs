@@ -11,5 +11,8 @@ namespace Infrastructure.Models
         public int IngredientId { get; set; }
         [ForeignKey(nameof(IngredientId))]
         public virtual Ingredient Ingredient { get; set; }
+
+                public string Ammount { get; set; }
+
     }
 }

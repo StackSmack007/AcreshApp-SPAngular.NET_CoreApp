@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200130085946_initial")]
-    partial class initial
+    [Migration("20200203175605_recreate")]
+    partial class recreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,6 +39,10 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("CookRank")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(512)")
+                        .HasMaxLength(512);
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(256)")
@@ -48,10 +52,16 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -177,10 +187,10 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasMaxLength(10240);
 
-                    b.Property<bool>("Essential")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsEssential")
                         .HasColumnType("bit");
 
                     b.Property<int>("MeasureType")
@@ -193,6 +203,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int>("Origin")
                         .HasColumnType("int");
+
+                    b.Property<string>("PicUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -331,6 +344,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int>("IngredientId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Ammount")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RecipeId", "IngredientId");
 

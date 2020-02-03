@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class recreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,10 +39,12 @@ namespace Infrastructure.Data.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(maxLength: 64, nullable: false),
+                    LastName = table.Column<string>(maxLength: 64, nullable: true),
                     CookRank = table.Column<int>(nullable: false),
+                    Gender = table.Column<int>(nullable: false),
                     AvatarPicture = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(maxLength: 512, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: false)
                 },
                 constraints: table =>
@@ -212,9 +214,10 @@ namespace Infrastructure.Data.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     AuthorId = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 128, nullable: false),
+                    PicUrl = table.Column<string>(nullable: true),
                     Description = table.Column<string>(maxLength: 10240, nullable: true),
                     Origin = table.Column<int>(nullable: false),
-                    Essential = table.Column<bool>(nullable: false),
+                    IsEssential = table.Column<bool>(nullable: false),
                     MeasureType = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
@@ -352,7 +355,8 @@ namespace Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     RecipeId = table.Column<string>(nullable: false),
-                    IngredientId = table.Column<int>(nullable: false)
+                    IngredientId = table.Column<int>(nullable: false),
+                    Ammount = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

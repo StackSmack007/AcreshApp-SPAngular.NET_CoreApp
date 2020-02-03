@@ -9,6 +9,7 @@ namespace Infrastructure.Models
         public Category()
         {
             Recipes = new HashSet<Recipe>();
+            ChildrenCategories = new HashSet<Category>();
         }
 
         [Required, MaxLength(128)]

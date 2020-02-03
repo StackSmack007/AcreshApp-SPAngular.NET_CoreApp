@@ -94,7 +94,7 @@ namespace ACRESH_API
             app.UseResponseCompression();
             //app.UseSession();
 
-            //   app.UseMiddleware<Middlewares.SeederMiddleware>();
+            app.UseMiddleware<Middlewares.SeederMiddleware>();
 
 
             app.UseEndpoints(endpoints =>

@@ -6,12 +6,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Models
 {
-    public class Ingredient : BaseEntity<int>,IReportable
+    public class Ingredient : BaseEntity<int>, IReportable
     {
         public Ingredient()
         {
             Status = ApprovalStatus.Awaiting;
-            Essential = false;
+            IsEssential = false;
             IngredientRecipes = new HashSet<RecipeIngredient>();
             Reports = new HashSet<Report>();
         }
@@ -23,12 +23,18 @@ namespace Infrastructure.Models
 
         [Required, MaxLength(128)]
         public string Name { get; set; }
+
+
+        [Url]
+        public string PicUrl { get; set; }
+
+
         [MaxLength(10240)]
         public string Description { get; set; }
         public OriginType Origin { get; set; }
         [NotMapped]
         public virtual bool IsVegan => Origin != OriginType.Animal;
-        public bool Essential { get; set; }
+        public bool IsEssential { get; set; }
         public virtual ICollection<RecipeIngredient> IngredientRecipes { get; set; }
         public virtual ICollection<Report> Reports { get; set; }
 

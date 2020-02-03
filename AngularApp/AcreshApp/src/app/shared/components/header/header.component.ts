@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+    this.authService.clearUserData();
     this.toastr.show("Goodbye user!");
     this.router.navigate([""]);
   }
