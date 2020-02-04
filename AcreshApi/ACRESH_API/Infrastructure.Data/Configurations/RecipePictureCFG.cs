@@ -8,9 +8,9 @@ namespace Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<RecipePicture> builder)
         {
-            builder.HasKey(e => new { e.RecipeId, e.UrlPath });
+            builder.HasKey(e => e.Id);
             builder.HasOne(e => e.Recipe).WithMany(r => r.Pictures).HasForeignKey(e => e.RecipeId);
-            builder.HasIndex(e => e.UrlPath).IsUnique();
+           // builder.HasIndex(e => new { e.UrlPath, e.RecipeId }).IsUnique();
         }
     }
 }

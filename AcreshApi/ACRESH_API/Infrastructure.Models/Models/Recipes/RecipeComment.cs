@@ -18,6 +18,11 @@ namespace Infrastructure.Models
         [ForeignKey(nameof(AuthorId))]
         public virtual AcUser Author { get; set; }
 
+        [Required]
+        public string RecipeId { get; set; }
+        [ForeignKey(nameof(RecipeId))]
+        public virtual Recipe Recipe { get; set; }
+
         [Required, MaxLength(1024 * 8)]
         public string Content { get; set; }
         public virtual ICollection<CommentAttitude> UsersAttitudes { get; set; }

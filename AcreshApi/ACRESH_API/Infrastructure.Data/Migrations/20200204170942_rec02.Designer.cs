@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200203175605_recreate")]
-    partial class recreate
+    [Migration("20200204170942_rec02")]
+    partial class rec02
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,6 +156,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("ShitGiverId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Attitude")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("datetime2");
 
@@ -258,6 +261,7 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Infrastructure.Models.Recipe", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AuthorId")
@@ -326,6 +330,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("RecipeId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -357,10 +362,8 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Infrastructure.Models.RecipePicture", b =>
                 {
-                    b.Property<string>("RecipeId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UrlPath")
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateOfCreation")
@@ -369,10 +372,17 @@ namespace Infrastructure.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.HasKey("RecipeId", "UrlPath");
+                    b.Property<string>("RecipeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("UrlPath")
-                        .IsUnique();
+                    b.Property<string>("UrlPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("RecipePictures");
                 });
@@ -400,6 +410,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("RecipeId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -782,9 +793,11 @@ namespace Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Infrastructure.Models.Recipe", null)
+                    b.HasOne("Infrastructure.Models.Recipe", "Recipe")
                         .WithMany("Comments")
-                        .HasForeignKey("RecipeId");
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Infrastructure.Models.RecipeIngredient", b =>
@@ -819,9 +832,11 @@ namespace Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Infrastructure.Models.Recipe", null)
+                    b.HasOne("Infrastructure.Models.Recipe", "Recipe")
                         .WithMany("RecipeRecomendations")
-                        .HasForeignKey("RecipeId");
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Infrastructure.Models.RecipeTag", b =>

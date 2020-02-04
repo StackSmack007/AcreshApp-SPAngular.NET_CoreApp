@@ -6,6 +6,18 @@ namespace Infrastructure.Models
 {
     public class Category : BaseEntity<int>
     {
+
+        public Category(string name, string description, params Category[] innerCat) : this(name, description)
+        {
+            ChildrenCategories = innerCat;
+        }
+
+        public Category(string name, string description):this()
+        {
+            Name = name;
+            Description = description;
+        }
+        
         public Category()
         {
             Recipes = new HashSet<Recipe>();

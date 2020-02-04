@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-
-
 namespace Infrastructure.Data.Configurations
 {
     public class RecipeCommentCFG : IEntityTypeConfiguration<RecipeComment>
@@ -12,6 +10,7 @@ namespace Infrastructure.Data.Configurations
         {
             builder.HasKey(e => e.Id);
             builder.HasOne(e => e.Author).WithMany(a => a.Comments).HasForeignKey(e => e.AuthorId);
+            builder.HasOne(e => e.Recipe).WithMany(a => a.Comments).HasForeignKey(e => e.RecipeId);
         }
     }
 }

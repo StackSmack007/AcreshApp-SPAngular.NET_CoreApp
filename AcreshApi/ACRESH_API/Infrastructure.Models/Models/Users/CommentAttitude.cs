@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Infrastructure.Models.Enumerations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Infrastructure.Models
 {
     public class CommentAttitude : BaseEntityData
@@ -10,5 +11,6 @@ namespace Infrastructure.Models
         public string ShitGiverId { get; set; }
         [ForeignKey(nameof(ShitGiverId))]
         public virtual AcUser ShitGiver { get; set; }
+        public virtual Attitude Attitude { get; set; }
     }
 }

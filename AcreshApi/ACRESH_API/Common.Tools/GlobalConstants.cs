@@ -8,7 +8,7 @@ namespace Common.Tools
     {
         public static int TokenExpirationDays = 4;
 
-   
+        public static readonly string UnfoundItem = "Unfound";
 
         //private static StringBuilder sb;
         //public static readonly int MostPurchasedTotalCount = 10;

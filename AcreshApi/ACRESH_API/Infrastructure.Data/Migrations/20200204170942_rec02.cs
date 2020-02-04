@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class recreate : Migration
+    public partial class rec02 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -330,8 +330,8 @@ namespace Infrastructure.Data.Migrations
                     DateOfCreation = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     AuthorId = table.Column<string>(nullable: false),
-                    Content = table.Column<string>(maxLength: 8192, nullable: false),
-                    RecipeId = table.Column<string>(nullable: true)
+                    RecipeId = table.Column<string>(nullable: false),
+                    Content = table.Column<string>(maxLength: 8192, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -347,7 +347,7 @@ namespace Infrastructure.Data.Migrations
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -379,14 +379,15 @@ namespace Infrastructure.Data.Migrations
                 name: "RecipePictures",
                 columns: table => new
                 {
-                    RecipeId = table.Column<string>(nullable: false),
-                    UrlPath = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    RecipeId = table.Column<string>(nullable: false),
+                    UrlPath = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecipePictures", x => new { x.RecipeId, x.UrlPath });
+                    table.PrimaryKey("PK_RecipePictures", x => x.Id);
                     table.ForeignKey(
                         name: "FK_RecipePictures_Recipes_RecipeId",
                         column: x => x.RecipeId,
@@ -404,8 +405,8 @@ namespace Infrastructure.Data.Migrations
                     DateOfCreation = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     AuthorId = table.Column<string>(nullable: false),
-                    Content = table.Column<string>(maxLength: 2048, nullable: false),
-                    RecipeId = table.Column<string>(nullable: true)
+                    RecipeId = table.Column<string>(nullable: false),
+                    Content = table.Column<string>(maxLength: 2048, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -421,7 +422,7 @@ namespace Infrastructure.Data.Migrations
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -510,7 +511,8 @@ namespace Infrastructure.Data.Migrations
                     CommentId = table.Column<int>(nullable: false),
                     ShitGiverId = table.Column<string>(nullable: false),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false)
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Attitude = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -665,10 +667,9 @@ namespace Infrastructure.Data.Migrations
                 column: "IngredientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecipePictures_UrlPath",
+                name: "IX_RecipePictures_RecipeId",
                 table: "RecipePictures",
-                column: "UrlPath",
-                unique: true);
+                column: "RecipeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipeRecomendations_AuthorId",

@@ -9,7 +9,7 @@ using System.Linq;
 namespace Infrastructure.Models
 {
     public class Recipe : BaseEntity<string>,IReportable
-    {
+    {       
         public Recipe()
         {
             Status = ApprovalStatus.Awaiting;
@@ -38,18 +38,18 @@ namespace Infrastructure.Models
         public string VideoLink { get; set; }
         [Url]
         public string MainPicture { get; set; }
+        public virtual ApprovalStatus Status { get; set; }
         public ICollection<RecipePicture> Pictures { get; set; }
-        public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; }
-        public virtual ICollection<RecipeVote> Votes { get; set; }
+        public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; } 
+        public virtual ICollection<RecipeVote> Votes { get; set; } //*
         [NotMapped]
         public virtual bool IsVegan => RecipeIngredients.Any(x => !x.Ingredient.IsVegan);
         [NotMapped]
         public virtual RecipeRating AverageRating => (RecipeRating)(Votes.Any() ? 0 : Math.Round(((double)Votes.Sum(x => (int)x.Score)) / Votes.Count()));
-        public virtual ICollection<UserFavouriteRecipe> RecipeFavorisers { get; set; }
-        public virtual ICollection<RecipeRecomendation> RecipeRecomendations { get; set; }
+        public virtual ICollection<UserFavouriteRecipe> RecipeFavorisers { get; set; } //*
+        public virtual ICollection<RecipeRecomendation> RecipeRecomendations { get; set; } //*
         public ICollection<RecipeTag> RecipeTags { get; set; }
-        public virtual ICollection<RecipeComment> Comments { get; set; }
-        public virtual ApprovalStatus Status { get; set; }
-        public ICollection<Report> Reports { get; set; }
+        public virtual ICollection<RecipeComment> Comments { get; set; } //*
+        public ICollection<Report> Reports { get; set; } //*
     }
 }
