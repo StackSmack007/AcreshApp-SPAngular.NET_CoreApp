@@ -22,8 +22,9 @@ export class AuthInterceptor implements HttpInterceptor {
                 }
             }));
         }
-        
-        if(this.authService.isAuthenticated() && this.authService.getUserInfo().exp<=Date.now()){
+
+        if (this.authService.isAuthenticated() &&
+            this.authService.getUserInfo().exp <= (Date.now() / 1000)) {
             this.authService.clearUserData();
         }
         if (this.authService.isAuthenticated()) {

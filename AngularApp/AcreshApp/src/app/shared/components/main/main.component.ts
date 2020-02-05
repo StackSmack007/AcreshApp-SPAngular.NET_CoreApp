@@ -15,7 +15,7 @@ getChupakabra(){
 this.authService.getChupakabra().subscribe(c=>{
   this.chupakabra=c;
   console.log(this.authService.getUserInfo())
-},this.chupakabra=null)
+})//,this.chupakabra=null)
 }
 
   ngOnInit() {

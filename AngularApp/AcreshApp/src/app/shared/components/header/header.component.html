@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-pills">
   <a class="navbar-brand" routerLink="">ACRESH</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
     aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,10 +6,10 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarColor02">
-    <ul class="navbar-nav mr-auto nav-pills">
+    <ul class="navbar-nav mr-auto">
 
       <li class="nav-item mr-2">
-        <a class="nav-link active" routerLink="couldron"><i class="fas fa-flask"></i> Couldron</a>
+        <a class="nav-link" routerLink="couldron"  routerLinkActive="active"><i class="fas fa-flask"></i> Couldron</a>
       </li>
       <div class="dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -23,7 +23,7 @@
             <a class="dropdown-item" routerLink="recipes/favourite">My Favourite Recipes</a>
             <a class="dropdown-item" routerLink="recipes/mine">My Shared Recipes</a>
           </div> -->
-          <a class="dropdown-item active" routerLink="recipes/mine">Recently Added Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/mine">Recently Added Recipes</a>
           <a class="dropdown-item" routerLink="recipes/mine">Most Popular Recipes</a>
         </div>
       </div>
@@ -37,7 +37,7 @@
     </ul>
 
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item">
         <h4 class="nav-link font-italic"><span class="font-weight-bold  text-primary">A</span>pplication for <span
             class="font-weight-bold text-primary">C</span>ooking
           <span class="font-weight-bold text-primary">RE</span>cipes <span
@@ -67,10 +67,10 @@
     <ng-template #unloggedOptions>
       <ul class="navbar-nav pl-2 pr-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="authentication/login">Login</a>
+          <a class="nav-link " routerLink="authentication/login"  routerLinkActive="active">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/authentication/register">Register</a>
+          <a class="nav-link" routerLink="/authentication/register" routerLinkActive="active">Register</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">About</a>
