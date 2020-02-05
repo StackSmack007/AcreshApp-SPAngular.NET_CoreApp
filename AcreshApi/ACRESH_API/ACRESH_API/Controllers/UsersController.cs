@@ -1,6 +1,6 @@
 ﻿using Acresh.Services.JWT;
-using ACRESH_API.DTO.Users;
 using AutoMapper;
+using DataTransferObjects.Users;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -40,8 +40,9 @@ namespace ACRESH_API.Controllers
         {
             var newUser = mapper.Map<AcUser>(userData);
             var regResult = await um.CreateAsync(newUser, userData.Password);
+            var roleAssignResult = await um.AddToRoleAsync(newUser, "User");
 
-            if (regResult.Succeeded)
+            if (regResult.Succeeded && roleAssignResult.Succeeded)
             {
                 var loginData = new UserLoginDataDTOin { UserNameOrEmail = userData.UserName, Password = userData.Password };
                 return await Login(loginData);
@@ -49,33 +50,54 @@ namespace ACRESH_API.Controllers
 
             var reasons = regResult.Errors.Select(e => e.Description).ToArray();
             return StatusCode(401, new { error = reasons });
-          //  return new LoginResultDTOout { isSuccessfull = false, Errors = reasons };
-          }
+            //  return new LoginResultDTOout { isSuccessfull = false, Errors = reasons };
+        }
 
         [HttpPost("login")]
         public async Task<ActionResult<LoginResultDTOout>> Login(UserLoginDataDTOin data)
         {
             AcUser user = um.Users.FirstOrDefault(x => x.UserName == data.UserNameOrEmail || x.Email == data.UserNameOrEmail);
-            if (user == null)  return StatusCode(401, new { error = "username or password mismatch!" });
+            if (user == null) return StatusCode(401, new { error = "username or password mismatch!" });
 
             await sm.SignInAsync(user, false, data.Password);
-            if (sm.IsSignedIn(User))  return StatusCode(401, new { error = "username or password mismatch!" });
+            if (sm.IsSignedIn(User)) return StatusCode(401, new { error = "username or password mismatch!" });
 
             await sm.SignOutAsync();
-            string role = await um.IsInRoleAsync(user, "Admin") ? "Admin" : "User";
-            string token = await jwtService.CreateJWT(user, role);
+            string token = await jwtService.CreateJWT(user);
             var result = new LoginResultDTOout { authToken = token };
             return result;
         }
 
         [Authorize]
-        [HttpGet("Vzemi")]
-        public object Get()
+        [HttpPost("update-my-token")]
+        public async Task<ActionResult<LoginResultDTOout>> UpdateMyToken()
         {
-             return new { Animal = "chupakabra", Kopita = false };
+            string pastToken = (Request.Headers["Authorization"]).ToString().Replace("Bearer ", "");
+            string newToken = await jwtService.UpdateToken(pastToken);
+            if (newToken is null)
+            {
+                return this.BadRequest();
+            }
+            return new LoginResultDTOout { authToken = newToken };
         }
 
 
+
+
+        [Authorize]
+        [HttpGet("Vzemi")]
+        public object Get()
+        {
+            return new { Animal = "chupakabra", Kopita = false };
+        }
+
+        [Authorize]
+        [HttpGet("info")]
+        public object GetUserNameInfo(string userName)
+        {
+            return new { Animal = "chupakabra", Kopita = false };
+        }
+        #region obsolete
         //[HttpGet("au")]
         //public object UserData()
         //{
@@ -128,6 +150,6 @@ namespace ACRESH_API.Controllers
 
         //}
 
-
+        #endregion
     }
 }

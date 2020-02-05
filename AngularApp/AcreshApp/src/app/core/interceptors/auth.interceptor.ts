@@ -15,7 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        if (req.url === authPaths.registerUser || req.url === authPaths.logInUser) {
+        if (req.url === authPaths.registerUser || req.url === authPaths.logInUser|| req.url === authPaths.updateToken) {
             return next.handle(req).pipe(tap(evnt => {
                 if (evnt instanceof HttpResponse && evnt.body["isSuccessfull"]) {
                     this.authService.storeToken(evnt.body["authToken"])

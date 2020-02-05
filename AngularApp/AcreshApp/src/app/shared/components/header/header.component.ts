@@ -9,19 +9,20 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  public isLoggedIn: boolean = false
+
+  public userName:string=null;
   constructor(private router: Router, private authService: AuthService,private toastr:ToastrService) { }
   ngOnInit() {
-
   }
 
   ngDoCheck() {
-    this.isLoggedIn = this.authService.isAuthenticated();
+    if(this.authService.isAuthenticated()){this.userName=this.authService.getUserInfo().userName;}
   }
 
   logout() {
     this.authService.clearUserData();
     this.toastr.show("Goodbye user!");
+    this.userName=null;
     this.router.navigate([""]);
   }
 

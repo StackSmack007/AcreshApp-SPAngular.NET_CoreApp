@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { authPaths } from '../settings/apiSettings';
-import { IUser } from './user';
-import { IUserDataTakenResult } from './IUserDataTakenResult';
-import { Gender, CookRank } from './Gender';
-import { IUserSendable } from './IUserSendable';
+import { IUser } from '../interfaces/user';
+import { IUserDataTakenResult } from '../interfaces/auth-Interfaces/userDataTakenResult';
+import { Gender } from '../interfaces/Gender';
+import { CookRank } from "../interfaces/CookRank";
+import { IUserSendable } from '../interfaces/auth-Interfaces/userSendable';
+import { IUserInfo } from '../interfaces/auth-Interfaces/userInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -45,17 +47,33 @@ export class AuthService {
     localStorage.clear();
   }
 
-  getUserInfo(): IUserTokenInfo {
+  getUserInfo(): IUserInfo {
     return this.parseJwt(this.getToken())
   }
 
-  private parseJwt(token): IUserTokenInfo {
+  updateToken() {
+    return this.http.post(authPaths.updateToken, { });
+  }
+
+  private parseJwt(token): IUserInfo {
+    if(!token) return null;
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
-    return JSON.parse(jsonPayload);
+    const tInfo: IUserTokenInfo = JSON.parse(jsonPayload);
+    
+    return {
+      id: tInfo._id,
+      userName: tInfo.unique_name,
+      fullName: tInfo.fullName,
+      avPic: tInfo.avPic,
+      cookRank: CookRank[tInfo.cookRank],
+      roles: tInfo.roles.split("|"),
+      blocked: tInfo.blocked.split("|"),
+      exp: tInfo.exp,
+    };
   };
 
   public getToken() {
@@ -71,18 +89,3 @@ export class AuthService {
   }
 }
 
-interface LoginResult {
-  authToken: string,
-  isSuccessfull: boolean
-}
-
-interface IUserTokenInfo {
-  Id: string,
-  unique_name: string,
-  role: string,
-  FullName: string, CookRank: CookRank,
-  AvatarPicture: string,
-  exp: number,
-  iss: string,
-}
-var s = {}

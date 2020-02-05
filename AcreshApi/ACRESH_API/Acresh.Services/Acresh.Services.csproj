@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Contracts\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.1" />
@@ -17,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common.Tools\Common.Tools.csproj" />
+    <ProjectReference Include="..\DataTransferObjects\DataTransferObjects.csproj" />
     <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
   </ItemGroup>
 

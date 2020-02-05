@@ -1,0 +1,104 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <h2 class="text-center py-3">User Info:</h2>
+            <!-- {{user | json}} -->
+            <div class="row">
+                <div class="row container-fluid justify-content-start pb-2">
+                    <div class="col-4 h5">
+                        {{user.userName}}
+                    </div>
+                    <div class="col-8 h5 pl-0 font-italic">
+                        {{user.cookRank}}
+                    </div>
+                </div>
+
+                <div class="row justify-content-between">
+                    <div class="col-6 px-4">
+                        <img class="img-thumbnail rounded-lg" alt="profilePicture" [src]="user.avPic">
+                    </div>
+                    <div class="col">
+
+                        <table class="table table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="py-1 my-1">Name:</td>
+                                    <td class="py-1 my-1">{{addressTitles[user.gender]}} {{user.firstName}}
+                                        {{user.lastName}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-1 my-1">Gender:</td>
+                                    <td class="py-1 my-1">{{user.gender}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-1 my-1">Email</td>
+                                    <td class="py-1 my-1">{{user.email}}</td>
+                                </tr>
+                                <tr *ngIf="user.recipesShared!==0">
+                                    <td class="py-1 my-1">Recipes Shared:</td>
+                                    <td class="py-1 my-1"><a
+                                            routerLink="/goToSharedRecipesTODO...">{{user.recipesShared}} <i
+                                                class="fas fa-scroll"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-1 my-1">About Me:</td>
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <textarea class="form-control" readonly="" id="exampleFormControlTextarea1" rows="5">
+                        {{user.description}}
+                    </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4 justify-content-between" *ngIf="isAuthor(); else visitor">
+                <div class="col-5"><a routerLink="/authentication/profile/download">Download</a>&nbsp; My Personal Data
+                    As JSON</div>
+                <div class="col-5"><a routerLink="/authentication/profile/editMy"
+                        class="btn btn-primary float-right">Edit My Profile</a>
+                </div>
+            </div>
+            <ng-template #visitor>
+                <form #mf="ngForm" (ngSubmit)="submitMessage(mf.value.msg)">
+                    <div class="row mt-2 justify-content-between">
+                        <div class="col-9">
+                            <div class="form-group">
+                                <label for="msg">Write a message:</label>
+                                <textarea name="msg" required minlength="4" #msg="ngModel" ngModel class="form-control"  [disabled]="amBlocked" id="msg" rows="3" placeholder="message..."></textarea> </div>
+                        </div>
+                        <div *ngIf="msg.touched && msg.invalid">
+                            <div class="alert alert-danger" *ngIf="msg.errors.required">Please provide message if you wish to send...</div>
+                            <div class="alert alert-danger" *ngIf="msg.errors.minlength">Please provide message with length {{msg.errors.minlength.requiredLength}}</div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <div class="custom-control custom-switch pt-4">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1"
+                                            [checked]="amBlocked"
+                                        (click)="changeBlocking()" #blockOpt>
+                                        <label class="custom-control-label" for="customSwitch1"
+                                            [ngClass]="{'text-danger': blockOpt.checked, 'text-success': !blockOpt.checked}"><i
+                                                class="fas fa-biohazard"></i>
+                                            Block User Messages!</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-12">
+                                    <button type="button" class="btn btn-info" [ngClass]="{'disabled': mf.invalid,'not-allowed':amBlocked}">
+                                        Send Message</button>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+
+        </div>
+        <div class="col-3"></div>
+    </div>

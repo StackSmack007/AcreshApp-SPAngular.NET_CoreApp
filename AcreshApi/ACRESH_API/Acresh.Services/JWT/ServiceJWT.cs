@@ -1,4 +1,5 @@
-﻿using Common.Tools;
+﻿using Acresh.Services.DBRepository.Contracts;
+using Common.Tools;
 using Common.Tools.Extensions;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -17,16 +19,16 @@ namespace Acresh.Services.JWT
     public class ServiceJWT
     {
         private readonly UserManager<AcUser> um;
-        private readonly RoleManager<IdentityRole> rManager;
+        private readonly IRepository<UserBlocking> userBlockingsRepository;
         private readonly JWTSettings jwtSettings;
-               private static bool validateIssuer=true;     
-        public ServiceJWT(IOptions<JWTSettings> jwtSettings, UserManager<AcUser> um, RoleManager<IdentityRole> rManager)
+        private static bool validateIssuer = true;
+        public ServiceJWT(IOptions<JWTSettings> jwtSettings, UserManager<AcUser> um, IRepository<UserBlocking> userBlockingsRepository)
         {
             this.um = um;
-            this.rManager = rManager;
+            this.userBlockingsRepository = userBlockingsRepository;
             this.jwtSettings = jwtSettings.Value;
         }
-        public static void ConfigureJWTAUth(IServiceCollection services, string secret,string issuer)
+        public static void ConfigureJWTAUth(IServiceCollection services, string secret, string issuer)
         {
             var tokenValParams = new TokenValidationParameters
             {
@@ -49,20 +51,23 @@ namespace Acresh.Services.JWT
              {
                  opt.TokenValidationParameters = tokenValParams;
                  opt.IncludeErrorDetails = true;
-            });
+             });
         }
-        public async Task<string> CreateJWT(AcUser u,string role="User")
+        public async Task<string> CreateJWT(AcUser u)
         {
-        //Preferences here
-            var roles = await um.GetClaimsAsync(u);
+            //Preferences here
+            var blockedUserNames = userBlockingsRepository.All().Where(x => x.DefenderId == u.Id).Select(x => x.Irritator.UserName).ToArray();
+            var roles = await um.GetRolesAsync(u);
+
 
             List<Claim> claims = new List<Claim>(){
-                new Claim(ClaimTypes.Name,$"{u.FirstName} {u.LastName}"),
-                new Claim(ClaimTypes.Role, role),
-                new Claim("FullName", $"{u.FirstName} {u.LastName}"),
-                new Claim("CookRank", u.CookRank.ToString()),
-                new Claim("Id", u.Id),
-                new Claim("AvatarPicture", u.AvatarPicture),
+                new Claim(ClaimTypes.Name,u.UserName),
+                new Claim("roles", string.Join("|", roles)),
+                new Claim("fullName", $"{u.FirstName} {u.LastName}"),
+                new Claim("cookRank", u.CookRank.ToString()),
+                new Claim("_id", u.Id),
+                new Claim("avPic", u.AvatarPicture),
+                new Claim("blocked",string.Join("|", blockedUserNames))
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -79,6 +84,16 @@ namespace Acresh.Services.JWT
             return tokenHandler.WriteToken(token);
         }
 
+        public async Task<string> UpdateToken(string pastToken)
+        {
+            var userData = this.GetPrincipal(pastToken);
+            var user = um.Users.FirstOrDefault(x => x.Id == userData.FindFirst("_id").Value);
+            if (user is null)
+            {
+                return null;
+            }
+            return await CreateJWT(user);
+        }
 
         public ClaimsPrincipal GetPrincipal(string token)
         {

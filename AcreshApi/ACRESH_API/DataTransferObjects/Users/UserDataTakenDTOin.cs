@@ -1,4 +1,4 @@
-﻿namespace ACRESH_API.DTO.Users
+﻿namespace DataTransferObjects.Users
 {
     public class UserDataTakenDTOin
     {

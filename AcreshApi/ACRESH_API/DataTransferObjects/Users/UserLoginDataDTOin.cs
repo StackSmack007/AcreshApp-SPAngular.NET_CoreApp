@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ACRESH_API.DTO.Users
+namespace DataTransferObjects.Users
 {
     public class UserLoginDataDTOin
     {

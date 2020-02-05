@@ -1,9 +1,10 @@
-﻿using Common.Interfaces.Contracts.Automapper;
+﻿
+using Common.Interfaces.Contracts.Automapper;
 using Infrastructure.Models;
 using Infrastructure.Models.Enumerations;
 using System.ComponentModel.DataAnnotations;
 
-namespace ACRESH_API.DTO.Users
+namespace DataTransferObjects.Users
 {
     public class UserDataRegisterDTOin : IMapTo<AcUser>
     {

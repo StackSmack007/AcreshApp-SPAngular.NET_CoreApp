@@ -14,6 +14,8 @@ using Common.AutomapperConfigurations;
 using Acresh.Services.InitialSeed;
 using Common.Tools;
 using Acresh.Services.JWT;
+using Acresh.Services.Services.Contracts;
+using Acresh.Services.Services;
 
 namespace ACRESH_API
 {
@@ -67,6 +69,7 @@ namespace ACRESH_API
             services.AddScoped<DataBaseSeeder>();
 
             services.AddScoped<ServiceJWT>();
+            services.AddTransient<IUserDataService, UserDataService>();
 
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
         }
