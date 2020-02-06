@@ -31,4 +31,17 @@ export class HelperService {
   private deCapitalize(str: string) {
     return str[0].toLowerCase() + str.substr(1)
   }
+
+
+  static getNextItem<T>(arr: T[], currentItem: T): T {
+    let index: number = arr.indexOf(currentItem);
+    index = (index + 1 === arr.length) ? 0 : index + 1
+    return arr[index]
+  }
+  
+  static  getPreviousItem<T>(arr: T[], currentItem: T): T {
+    let index: number = arr.indexOf(currentItem);
+    index = (index === 0) ? arr.length - 1 : index - 1
+    return arr[index]
+  }
 }

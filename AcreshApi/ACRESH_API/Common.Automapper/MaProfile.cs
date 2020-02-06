@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
 using Common.Interfaces.Contracts.Automapper;
+using DataTransferObjects.Messages;
+using DataTransferObjects.UserData;
+using Infrastructure.Models;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Common.AutomapperConfigurations
 {
@@ -14,9 +18,14 @@ namespace Common.AutomapperConfigurations
         {
             var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes());
 
+            var assemb = Assembly.GetAssembly(typeof(MessageDTOin));
+            var isContained = AppDomain.CurrentDomain.GetAssemblies().Contains(assemb);
             CreateMapToMappings(allTypes);
             CreateMapFromMappings(allTypes);
 
+            CreateMap<AcUser, ProfileDataForEditDTOout>()
+                .ForMember(d => d.Gender, opt => opt.MapFrom(s => s.Gender.ToString().ToLower()));
+            
             //CreateMap<Product, ProductMinifiedOutDto>()
             //    .ForMember(d => d.IsAvailable, opt => opt.MapFrom(s => s.Quantity > 0))
             //    .ForMember(d => d.ComentsCount, opt => opt.MapFrom(s => s.ProductComments.Count))
@@ -24,6 +33,7 @@ namespace Common.AutomapperConfigurations
             //     s.Votes.Any() ? (Grade)(int)Math.Round((double)s.Votes.Sum(x => (int)x.Grade) / s.Votes.Count()) : Grade.NotRated))
             //    .ForMember(d => d.OrdersCount, opt => opt.MapFrom(s => s.ProductOrders.Count));
 
+            
         }
 
         private void CreateMapToMappings(System.Collections.Generic.IEnumerable<Type> allTypes)

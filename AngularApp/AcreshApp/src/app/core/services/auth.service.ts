@@ -8,6 +8,7 @@ import { Gender } from '../interfaces/Gender';
 import { CookRank } from "../interfaces/CookRank";
 import { IUserSendable } from '../interfaces/auth-Interfaces/userSendable';
 import { IUserInfo } from '../interfaces/auth-Interfaces/userInfo';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -51,19 +52,27 @@ export class AuthService {
     return this.parseJwt(this.getToken())
   }
 
-  updateToken() {
-    return this.http.post(authPaths.updateToken, { });
+  updateToken(): Observable<LoginResult> {
+    return this.http.post<LoginResult>(authPaths.updateToken, {}).pipe(
+      tap(lr => {
+        if (lr.isSuccessfull) {
+          this.storeToken(lr.authToken);
+          console.log(lr);
+        }
+      })
+    );
   }
 
+
   private parseJwt(token): IUserInfo {
-    if(!token) return null;
+    if (!token) return null;
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
     const tInfo: IUserTokenInfo = JSON.parse(jsonPayload);
-    
+
     return {
       id: tInfo._id,
       userName: tInfo.unique_name,

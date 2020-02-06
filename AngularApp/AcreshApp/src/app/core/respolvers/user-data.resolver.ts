@@ -3,14 +3,16 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { IUserProfileData } from '../interfaces/user-data-interfaces/uprofile';
 import { Observable } from 'rxjs';
 import { UserDataService } from '../services/user-data.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDataResolver implements Resolve<IUserProfileData> {
   constructor(private udService: UserDataService) { }
-  
+
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IUserProfileData> {
-    return this.udService.getUserInfoById(route.paramMap.get('userName'))
+    var userName = route.paramMap.get('userName');
+    return this.udService.getUserInfoById(userName);
   }
 }

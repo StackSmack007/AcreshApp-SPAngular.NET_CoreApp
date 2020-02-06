@@ -1,15 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { NgForm } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
+import { IUserProfileData } from 'src/app/core/interfaces/user-data-interfaces/uprofile';
+import { MessageService } from 'src/app/core/services/message.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'acr-profile-info',
   templateUrl: './profile-info.component.html',
   styleUrls: ['./profile-info.component.css']
 })
-export class ProfileInfoComponent implements OnInit {
+export class ProfileInfoComponent {
 
   public addressTitles = {
     male: "m-r. ",
@@ -19,51 +22,38 @@ export class ProfileInfoComponent implements OnInit {
 
   public isAuthor = (): boolean => this.myUserName == this.user.userName;
   public amBlocked = false;
-
+  public iblocked = false;
 
   @ViewChild("blockOpt", { static: false })
   blockOption: ElementRef;
 
-  public user = {
-    gender: "male",
-    cookRank: "Shef Aprentice",
-    userName: "lajnogrizetc",
-    firstName: "Първан",
-    lastName: "Вториславов",
-    avPic: `https://media.gettyimages.com/photos/cropped-image-of-person-eye-picture-id942369796?s=612x612`,
-    email: "bab@vuna",
-    description: `What is Lorem Ipsum?Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-    recipesShared: 10,
-    blockedUserNames: ["generala", "lopodroz"]
-  }
-
+  public user: IUserProfileData = null;
 
   public myUserName: string;
-  constructor(private route: ActivatedRoute, private authService: AuthService,private userDataService:UserDataService) {
+  constructor(private toastr: ToastrService, private route: ActivatedRoute, private authService: AuthService, private userDataService: UserDataService, private messageService: MessageService) {
     this.user = route.snapshot.data["userInfo"];
     this.myUserName = authService.getUserInfo().userName;
     this.amBlocked = this.user.blockedUserNames.includes(this.myUserName);
+    this.iblocked = this.authService.getUserInfo().blocked.includes(this.user.userName);
   }
 
-  changeBlocking() {
-
-  }
-
-  ngOnInit() {
-  }
-
-
-  ngOnDestroy() {
-    const isThisUserBlockedByMe = this.authService.getUserInfo().blocked.includes(this.user.userName);
-    if (this.blockOption.nativeElement.checked && !isThisUserBlockedByMe ||
-      !this.blockOption.nativeElement.checked && isThisUserBlockedByMe) { 
-        this.userDataService.changeBlockedStatus(this.user.userName).subscribe();
+   ngOnDestroy() {
+    if (!this.isAuthor()) {
+      const iBlockedUser = this.authService.getUserInfo().blocked.includes(this.user.userName);
+      if (this.blockOption.nativeElement.checked && !iBlockedUser ||
+        !this.blockOption.nativeElement.checked && iBlockedUser) {
+        this.userDataService.changeBlockedStatus(this.user.userName).subscribe(() => {
+          this.authService.updateToken().subscribe((t) => { console.log(`new token: ${t}`) })
+        });
       }
+    }
   }
 
-
-  submitMessage(msg: string) {
-    console.log(msg);
+  submitMessage(mf: NgForm) {
+    this.messageService.submitMsg(mf.value.msg, this.user.id).subscribe(() => {
+      this.toastr.success("Message Sent", "Success");
+      mf.reset();
+    }, () => this.toastr.error(`Message Not Sent`, "Failure"))
+    console.log(mf);
   }
-
 }

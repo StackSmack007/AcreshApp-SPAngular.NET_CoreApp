@@ -1,4 +1,5 @@
 export interface IUserProfileData {
+    id:string,
     userName: string,
     gender: string,
     cookRank: string,

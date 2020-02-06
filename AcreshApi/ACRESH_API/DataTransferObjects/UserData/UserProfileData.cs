@@ -4,6 +4,7 @@ namespace ACRESH_API.DTO.UserData
 {
     public class UserProfileData
     {
+        public string Id { get; set; }
         public string UserName { get; set; }
         public string Gender { get; set; }
         public string CookRank { get; set; }

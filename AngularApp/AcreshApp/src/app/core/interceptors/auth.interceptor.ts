@@ -15,7 +15,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        if (req.url === authPaths.registerUser || req.url === authPaths.logInUser|| req.url === authPaths.updateToken) {
+        if (this.authService.isAuthenticated() &&
+            this.authService.getUserInfo().exp <= (Date.now() / 1000)) {
+            this.authService.clearUserData();
+        }
+
+        if (req.url === authPaths.registerUser || req.url === authPaths.logInUser) {
             return next.handle(req).pipe(tap(evnt => {
                 if (evnt instanceof HttpResponse && evnt.body["isSuccessfull"]) {
                     this.authService.storeToken(evnt.body["authToken"])
@@ -23,10 +28,6 @@ export class AuthInterceptor implements HttpInterceptor {
             }));
         }
 
-        if (this.authService.isAuthenticated() &&
-            this.authService.getUserInfo().exp <= (Date.now() / 1000)) {
-            this.authService.clearUserData();
-        }
         if (this.authService.isAuthenticated()) {
             return next.handle(req.clone({
                 setHeaders: { Authorization: `Bearer ${this.authService.getToken()}` }

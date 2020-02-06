@@ -3,7 +3,9 @@ using Common.Tools;
 using Common.Tools.Extensions;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -56,10 +58,9 @@ namespace Acresh.Services.JWT
         public async Task<string> CreateJWT(AcUser u)
         {
             //Preferences here
-            var blockedUserNames = userBlockingsRepository.All().Where(x => x.DefenderId == u.Id).Select(x => x.Irritator.UserName).ToArray();
+            var blockedUserNames = userBlockingsRepository.All().Where(x =>!x.IsDeleted && x.DefenderId == u.Id).Select(x => x.Irritator.UserName).ToArray();
             var roles = await um.GetRolesAsync(u);
-
-
+            
             List<Claim> claims = new List<Claim>(){
                 new Claim(ClaimTypes.Name,u.UserName),
                 new Claim("roles", string.Join("|", roles)),
@@ -84,18 +85,14 @@ namespace Acresh.Services.JWT
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<string> UpdateToken(string pastToken)
+         public async Task<AcUser> GetUserFromRequestTokenAsync(HttpRequest request)
         {
-            var userData = this.GetPrincipal(pastToken);
-            var user = um.Users.FirstOrDefault(x => x.Id == userData.FindFirst("_id").Value);
-            if (user is null)
-            {
-                return null;
-            }
-            return await CreateJWT(user);
+            string token = (request.Headers["Authorization"]).ToString().Replace("Bearer ", "");
+            var userData = this.GetPrincipal(token);
+            return await um.Users.FirstOrDefaultAsync(x => x.Id == userData.FindFirst("_id").Value);
         }
 
-        public ClaimsPrincipal GetPrincipal(string token)
+        private  ClaimsPrincipal GetPrincipal(string token)
         {
             try
             {
