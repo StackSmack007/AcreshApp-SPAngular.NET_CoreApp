@@ -25,12 +25,34 @@ namespace ACRESH_API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(MessageDTOin message)
         {
-            if (await this.messageService.SubmitMessage(message))
+            if (await messageService.SubmitMessage(message))
             {
                 return NoContent();
             }
             return BadRequest("UserBlocking prevents messaging!");
         }
+
+
+        [HttpGet("unread-count")]
+        public async Task<ActionResult<int>> GetUnreadCount()
+        {
+            return await messageService.UnreadMessagesCount(getUserId());
+        }
+
+        [HttpGet()]
+        public async Task<ActionResult<ICollection<MessageDTOout>>> GetRecievedMessages()
+        {
+            var result = await messageService.GetUserRecievedMessages(getUserId());
+            return result.ToArray();
+        }
+
+        [HttpGet("sent")]
+        public async Task<ICollection<MessageDTOout>> GetSentMessages()
+        {
+            var result = await messageService.GetSentMessages(getUserId());
+            return result;
+        }
+
 
         //// GET: api/Messages/5
         //[HttpGet("{id}", Name = "Get")]

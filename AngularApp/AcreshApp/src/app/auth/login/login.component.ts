@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { minLengthFields } from 'src/app/core/settings/globalConstants';
 import { ToastrService } from 'ngx-toastr';
+import { AppState } from 'src/app/store/app.state';
+import { Store } from '@ngrx/store';
+import { MessageService } from 'src/app/core/services/message.service';
+import { SetMessageCount } from 'src/app/store/actions/user.unread.count.action';
 
 @Component({
   selector: 'acr-login',
@@ -13,10 +17,15 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent {
   public lf: FormGroup = null;
 
-  constructor(private router: Router, private authService: AuthService, private fb: FormBuilder, private toastrService: ToastrService) {
+  constructor(private router: Router,
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private toastrService: ToastrService,
+    private messageService: MessageService,
+    private store: Store<AppState>) {
     this.buildForm();
-    this.toastrService.toastrConfig.positionClass="toastr";
-    this.toastrService.toastrConfig.closeButton=true;
+    this.toastrService.toastrConfig.positionClass = "toastr";
+    this.toastrService.toastrConfig.closeButton = true;
   }
 
   isTouchedInvalid(name: string) {
@@ -46,6 +55,12 @@ export class LoginComponent {
       console.log("Avemos Papa:", this.authService.getUserInfo());
       this.toastrService.success("Successfull login", `Welcome ${values.umail}`)
       this.router.navigate([""]);
+
+      this.messageService.getUnreadMsgCount().subscribe(cnt => {
+        debugger;
+        this.store.dispatch(new SetMessageCount({ userName: values.userName, unreadMessagesCount: cnt }))
+        debugger;
+      })
     },
       e => {
         console.log("failure ->", e.error.error);

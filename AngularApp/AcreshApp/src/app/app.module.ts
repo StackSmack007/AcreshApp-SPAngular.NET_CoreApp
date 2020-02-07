@@ -9,7 +9,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-
+import { StoreModule } from '@ngrx/store'
+import { unreadMsgsReducer } from './store/reducers/unread.msg.reducer';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,9 @@ import { ToastrModule } from 'ngx-toastr';
     SharedModule,
     CoreModule,
     AuthModule,
+    StoreModule.forRoot({
+      userUnread: unreadMsgsReducer
+    }),//TODO!!!
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],

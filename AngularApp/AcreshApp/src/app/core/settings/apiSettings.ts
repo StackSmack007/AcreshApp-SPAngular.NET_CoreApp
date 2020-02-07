@@ -16,26 +16,26 @@ export interface IAuthPaths {
 
 export const userDataPaths: IUserDataPaths = {
     getUserProfileData: basePath + "userData/profileInfo?userName=",//get
-    getUserProfileEditData:basePath+"userData/profile?userId=",//get
-    updateUserInfo:basePath+"userData/profile",
+    getUserProfileEditData: basePath + "userData/profile?userId=",//get
+    updateUserInfo: basePath + "userData/profile",
     submitEdittedData: basePath + "userData/editData",//post
     setBlocking: basePath + "userData/setUserBlocking",//post
 }
 
 export interface IUserDataPaths {
     getUserProfileData: string,
-    getUserProfileEditData:string,
-    updateUserInfo:string,
-    submitEdittedData:string,
+    getUserProfileEditData: string,
+    updateUserInfo: string,
+    submitEdittedData: string,
     setBlocking: string,
 }
 
 export const messagePaths: IMessagePaths = {
-    submitMsgPath: basePath + "messages/"//post
-
+    baseCtrlPath: basePath + "messages/",//post
+    userUnreadCount: basePath + "messages/unread-count"
 }
 export interface IMessagePaths {
-    submitMsgPath: string,
-
+    baseCtrlPath: string,
+    userUnreadCount: string,
 }
 

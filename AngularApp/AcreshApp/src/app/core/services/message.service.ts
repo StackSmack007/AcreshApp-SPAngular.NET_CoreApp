@@ -17,10 +17,12 @@ export class MessageService {
 
   submitMsg(content: string, recieverId: string): Observable<any> {
     let messageObj: IMessageSend = { recieverId, content, senderId: this.authService.getUserInfo().id };
-    return this.http.post(messagePaths.submitMsgPath, this.helper.toCS_keys(messageObj))
+    return this.http.post(messagePaths.baseCtrlPath, this.helper.toCS_keys(messageObj))
   }
 
-
+  getUnreadMsgCount(): Observable<number> {
+    return this.http.get<number>(messagePaths.userUnreadCount);
+  }
 
 
 
