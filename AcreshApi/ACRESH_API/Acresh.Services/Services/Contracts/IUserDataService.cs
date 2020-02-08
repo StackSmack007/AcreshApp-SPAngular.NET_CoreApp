@@ -1,5 +1,6 @@
 ﻿using ACRESH_API.DTO.UserData;
 using DataTransferObjects.UserData;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Acresh.Services.Services.Contracts
@@ -11,5 +12,7 @@ namespace Acresh.Services.Services.Contracts
         Task<string> GetIdByUserName(string userName);
         Task<ProfileDataForEditDTOout> GetProfileDataForEdit(string userId);
         Task<bool> EditUserData(ProfileDataForEditDTOin userData);
+        IQueryable<BlockedByMeDTOout> GetBlockers(string v);
+        IQueryable<BlockedByMeDTOout> GetOnesIblock(string myId);
     }
 }

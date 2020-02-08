@@ -77,8 +77,7 @@
                                 <div class="form-group col-12">
                                     <div class="custom-control custom-switch pt-4">
                                         <input type="checkbox" class="custom-control-input" id="customSwitch1"
-                                            [checked]="iblocked"
-                                        (click)="changeBlocking()" #blockOpt>
+                                            [checked]="iblocked" #blockOpt>
                                         <label class="custom-control-label" for="customSwitch1"
                                             [ngClass]="{'text-danger': blockOpt.checked, 'text-success': !blockOpt.checked}"><i
                                                 class="fas fa-biohazard"></i>

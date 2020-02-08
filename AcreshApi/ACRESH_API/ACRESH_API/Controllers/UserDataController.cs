@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Acresh.Services.JWT;
 using Acresh.Services.Services.Contracts;
 using ACRESH_API.DTO.UserData;
@@ -19,8 +20,7 @@ namespace ACRESH_API.Controllers
             this.userDataService = userDataService;
             this.jwtService = jwtService;
         }
-
-
+        
         [HttpGet("profileInfo")]
         public async Task<ActionResult<UserProfileData>> GetProfileInfo(string userName)
         {
@@ -31,9 +31,7 @@ namespace ACRESH_API.Controllers
             }
             return userData;
         }
-
-
-
+                
         [HttpPost("setUserBlocking")]
         public async Task<ActionResult<UserProfileData>> SetBlocking(SetBlockingDTOIn blockData)
         {
@@ -48,8 +46,7 @@ namespace ACRESH_API.Controllers
             if (result is null) return BadRequest("User was not found");
             return result;
         }
-
-
+        
         [HttpPost("profile")]
         public async Task<ActionResult> UpdateProfileInfo(ProfileDataForEditDTOin userData)
         {
@@ -59,6 +56,19 @@ namespace ACRESH_API.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet("blockers")]
+        public async Task<ActionResult<ICollection<BlockedByMeDTOout>>> GetMyBlockers()
+        {
+            var usersWhoBlockMe = this.userDataService.GetBlockers(getUserId());
+
+
+
+
+            return BadRequest();
+        }
+
+
 
     }
 }

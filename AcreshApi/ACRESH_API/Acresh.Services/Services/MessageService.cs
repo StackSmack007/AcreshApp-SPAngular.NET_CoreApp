@@ -35,17 +35,7 @@ namespace Acresh.Services.Services
         {
             var blockingPresent = await blockingRepo.All().FirstOrDefaultAsync(x => !x.IsDeleted && x.DefenderId == message.RecieverId && x.IrritatorId == message.SenderId);
             if (blockingPresent != null) return false;
-
-            Message newMsg;
-            try
-            {
-                newMsg = mapper.Map<Message>(message);
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
+            Message newMsg = mapper.Map<Message>(message);
 
             await messageRepo.AddAssync(newMsg);
             await messageRepo.SaveChangesAsync();
@@ -56,16 +46,19 @@ namespace Acresh.Services.Services
             int unreadCount = await messageRepo.All().Where(x => !x.IsDeleted && x.RecieverId == userId && x.Status == MessageStatus.UnRead).CountAsync();
             return unreadCount;
         }
-        public async Task<ICollection<MessageDTOout>> GetUserRecievedMessages(string userId)
+        public  IQueryable<MessageDTOout> GetUserRecievedMessages(string userId)
         {
-            MessageDTOout[] userMessages = await messageRepo.All().Where(x => !x.IsDeleted && x.RecieverId == userId).To<MessageDTOout>().ToArrayAsync();
+            //DeletedAndNotDeleted
+           var userMessages =  messageRepo.All().Where(x =>  x.RecieverId == userId).To<MessageDTOout>();
             return userMessages;
         }
 
-        public async Task<ICollection<MessageDTOout>> GetSentMessages(string userId)
+        public  IQueryable<MessageDTOout> GetSentMessages(string userId)
         {
-            MessageDTOout[] userMessages = await messageRepo.All().Where(x => !x.IsDeleted && x.SenderId == userId).To<MessageDTOout>().ToArrayAsync();
+            //DeletedAndNotDeleted
+            var userMessages =  messageRepo.All().Where(x => x.SenderId == userId).To<MessageDTOout>();
             return userMessages;
         }
+
     }
 }

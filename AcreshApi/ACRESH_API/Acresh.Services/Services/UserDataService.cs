@@ -2,6 +2,7 @@
 using Acresh.Services.Services.Contracts;
 using ACRESH_API.DTO.UserData;
 using AutoMapper;
+using Common.Tools.Extensions;
 using DataTransferObjects.UserData;
 using Infrastructure.Models;
 using Infrastructure.Models.Enumerations;
@@ -74,6 +75,7 @@ namespace Acresh.Services.Services
             }
             else
             {
+                blocking.DateOfCreation = DateTime.UtcNow;
                 blocking.IsDeleted = !blocking.IsDeleted;
             }
             await blockingsRepository.SaveChangesAsync();
@@ -113,6 +115,19 @@ namespace Acresh.Services.Services
                 return true;
             }
             return false;
+        }
+        //TODO
+        public IQueryable<BlockedByMeDTOout> GetBlockers(string myId)
+        {
+            var result = this.blockingsRepository.All().Where(x => !x.IsDeleted && x.IrritatorId == myId).To<BlockedByMeDTOout>();
+            return result;
+        }
+
+
+        public IQueryable<BlockedByMeDTOout> GetOnesIblock(string myId)
+        {
+            var result = this.blockingsRepository.All().Where(x => !x.IsDeleted && x.DefenderId == myId).To<BlockedByMeDTOout>();
+            return result;
         }
     }
 }

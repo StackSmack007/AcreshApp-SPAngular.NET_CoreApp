@@ -16,6 +16,9 @@ namespace Common.AutomapperConfigurations
         //public string MappingsAsString => sb.ToString().Trim();
         public MaProfile()
         {
+           // var configuration2 = new MapperConfiguration(cfg => cfg.AddMaps("MyAssembly"));
+
+
             var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes());
 
             var assemb = Assembly.GetAssembly(typeof(MessageDTOin));

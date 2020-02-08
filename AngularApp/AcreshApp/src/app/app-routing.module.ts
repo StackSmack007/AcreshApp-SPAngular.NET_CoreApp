@@ -7,6 +7,8 @@ import { ProfileInfoComponent } from './auth/profile-info/profile-info.component
 import { UserDataResolver } from './core/respolvers/user-data.resolver';
 import { ProfileEditComponent } from './auth/profile-edit/profile-edit.component';
 import { UserDataProfileEditResolver } from './core/respolvers/user-data-profile-edit.resolver';
+import { ListAllComponent } from './messages/list-all/list-all.component';
+import { AuthorizedOnlyGuard } from './core/guards/authorized.only';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", component: MainComponent },
@@ -19,10 +21,14 @@ const routes: Routes = [
   {
     path: "user-data/edit-profile", component: ProfileEditComponent,
     resolve: { userInfo: UserDataProfileEditResolver }
+  },
+  {
+    path: "message-box", component: ListAllComponent,
+    canActivate: [AuthorizedOnlyGuard]
   }
 
-    ///user-data/profile/Edit
-  
+  ///user-data/profile/Edit
+
 ];
 
 @NgModule({

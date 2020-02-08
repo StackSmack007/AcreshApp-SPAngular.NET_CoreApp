@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { authPaths } from '../settings/apiSettings';
 import { IUser } from '../interfaces/user';
@@ -8,7 +9,8 @@ import { Gender } from '../interfaces/Gender';
 import { CookRank } from "../interfaces/CookRank";
 import { IUserSendable } from '../interfaces/auth-Interfaces/userSendable';
 import { IUserInfo } from '../interfaces/auth-Interfaces/userInfo';
-import { tap } from 'rxjs/operators';
+import { LoginResult } from '../interfaces/auth-Interfaces/loginResult';
+import { IUserTokenInfo } from '../interfaces/auth-Interfaces/userTokenInfo';
 
 @Injectable({
   providedIn: 'root'

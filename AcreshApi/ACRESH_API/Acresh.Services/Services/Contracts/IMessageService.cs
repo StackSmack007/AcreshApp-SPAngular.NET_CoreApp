@@ -1,5 +1,6 @@
 ﻿using DataTransferObjects.Messages;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Acresh.Services.Services.Contracts
@@ -8,7 +9,7 @@ namespace Acresh.Services.Services.Contracts
     {
         Task<bool> SubmitMessage(MessageDTOin message);
         Task<int> UnreadMessagesCount(string userId);
-        Task<ICollection<MessageDTOout>> GetSentMessages(string userId);
-        Task<ICollection<MessageDTOout>> GetUserRecievedMessages(string userId);
+        IQueryable<MessageDTOout> GetSentMessages(string userId);
+        IQueryable<MessageDTOout> GetUserRecievedMessages(string userId);
     }
 }

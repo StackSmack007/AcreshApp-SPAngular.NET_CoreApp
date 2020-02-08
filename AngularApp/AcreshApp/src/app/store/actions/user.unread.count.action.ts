@@ -17,7 +17,7 @@ export class ResetMessageCount implements Action {
 }
 
 export class IncrementMessageCount implements Action {
-    readonly type: string = RESET_UNR_MESSAGE_COUNT
+    readonly type: string = INCREMENT_UNR_MESSAGE_COUNT
     constructor(public payload: string) { }
 }
 

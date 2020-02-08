@@ -1,4 +1,4 @@
-interface LoginResult {
+export interface LoginResult {
     authToken: string;
     isSuccessfull: boolean;
 }

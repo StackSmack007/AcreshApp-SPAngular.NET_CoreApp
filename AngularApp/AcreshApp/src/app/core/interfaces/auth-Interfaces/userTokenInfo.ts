@@ -1,4 +1,4 @@
-interface IUserTokenInfo {
+export interface IUserTokenInfo {
     _id: string;
     unique_name: string;
     roles: string;

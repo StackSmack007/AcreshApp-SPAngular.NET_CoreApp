@@ -27,7 +27,9 @@
               "src/styles.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/chart.js/dist/Chart.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -61,6 +63,7 @@
           }
         },
         "serve": {
+          "proxyConfig": "src/proxy.conf.json",
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "AcreshApp:build"
@@ -121,6 +124,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "AcreshApp"
 }

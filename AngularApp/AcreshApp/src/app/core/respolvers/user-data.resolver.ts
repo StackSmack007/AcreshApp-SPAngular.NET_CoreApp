@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { IUserProfileData } from '../interfaces/user-data-interfaces/uprofile';
 import { Observable } from 'rxjs';
 import { UserDataService } from '../services/user-data.service';
-import { AuthService } from '../services/auth.service';
+
 
 @Injectable({
   providedIn: 'root'

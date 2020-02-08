@@ -56,11 +56,11 @@ export class LoginComponent {
       this.toastrService.success("Successfull login", `Welcome ${values.umail}`)
       this.router.navigate([""]);
 
-      this.messageService.getUnreadMsgCount().subscribe(cnt => {
-        debugger;
-        this.store.dispatch(new SetMessageCount({ userName: values.userName, unreadMessagesCount: cnt }))
-        debugger;
-      })
+      // this.messageService.getUnreadMsgCount().subscribe(cnt => {
+      //   debugger;
+      //   this.store.dispatch(new SetMessageCount({ userName: this.authService.getUserInfo().userName, unreadMessagesCount: cnt }))
+      //   debugger;
+      // })
     },
       e => {
         console.log("failure ->", e.error.error);

@@ -9,7 +9,7 @@
     <ul class="navbar-nav mr-auto">
 
       <li class="nav-item mr-2">
-        <a class="nav-link" routerLink="couldron"  routerLinkActive="active"><i class="fas fa-flask"></i> Couldron</a>
+        <a class="nav-link" routerLink="couldron" routerLinkActive="active"><i class="fas fa-flask"></i> Couldron</a>
       </li>
       <div class="dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -43,6 +43,7 @@
           <span class="font-weight-bold text-primary">RE</span>cipes <span
             class="font-weight-bold text-primary">SH</span>aring </h4>
       </li>
+
     </ul>
 
     <ul *ngIf="userName; else unloggedOptions" class="navbar-nav pl-2 pr-0">
@@ -55,7 +56,9 @@
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <a class="dropdown-item " [routerLink]="['/user-data/profile/', userName]">My Profile</a>
-            <a class="dropdown-item " routerLink="recipes/mine">Messages</a>
+            <a class="dropdown-item pt-2" routerLink="/message-box"><i class="far fa-envelope"></i> &nbsp; Messages
+              <span class="badge badge-pill badge-danger ml-2 py-2 my-0 px-2" *ngIf="unreadCount"> {{unreadCount}}</span>
+            </a>
             <a class="dropdown-item " routerLink="recipes/mine">Last Commented</a>
             <a class="dropdown-item" routerLink="recipes/favourite">My Favourite Recipes</a>
             <a class="dropdown-item" routerLink="recipes/mine">My Shared Recipes</a>
@@ -67,7 +70,7 @@
     <ng-template #unloggedOptions>
       <ul class="navbar-nav pl-2 pr-0">
         <li class="nav-item">
-          <a class="nav-link " routerLink="authentication/login"  routerLinkActive="active">Login</a>
+          <a class="nav-link " routerLink="authentication/login" routerLinkActive="active">Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/authentication/register" routerLinkActive="active">Register</a>

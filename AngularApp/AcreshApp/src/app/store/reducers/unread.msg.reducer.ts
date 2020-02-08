@@ -1,7 +1,7 @@
 import * as MsgOptions from "../actions/user.unread.count.action"
 import { IUserUnreadMsgCount } from 'src/app/core/interfaces/store/user.unread.msg-count.model'
 
-const initialValue: IUserUnreadMsgCount[] = [];
+const initialValue: IUserUnreadMsgCount[] = [{ userName: "kitodar", unreadMessagesCount: -2 }];
 
 export function unreadMsgsReducer(state: IUserUnreadMsgCount[] = initialValue, action: MsgOptions.Actions): IUserUnreadMsgCount[] {
     switch (action.type) {
@@ -26,7 +26,10 @@ function setUnreadMessagesCountForUser(state: IUserUnreadMsgCount[], userUnrMess
 }
 
 function addNewUnreadMessage(state: IUserUnreadMsgCount[], username) {
-    let { userName, unreadMessagesCount } = state.find(x => x.userName === username);
+    console.log(state, "asiktir");
+    let foundUser = state.find(x => x.userName === username);
+    if (!foundUser) { return state; }
+    let { userName, unreadMessagesCount } = foundUser;
     if (!userName) {
         //it does not matter for this user he ll see when he logs in!
         return state;

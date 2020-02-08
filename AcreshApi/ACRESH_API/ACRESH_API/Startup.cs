@@ -16,6 +16,7 @@ using Common.Tools;
 using Acresh.Services.JWT;
 using Acresh.Services.Services.Contracts;
 using Acresh.Services.Services;
+using ACRESH_API.Hubs;
 
 namespace ACRESH_API
 {
@@ -59,6 +60,18 @@ namespace ACRESH_API
             services.Configure<JWTSettings>(JWTsettingsSection);
             var jwtSettings = JWTsettingsSection.Get<JWTSettings>();
 
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy", builder => builder
+            //           .WithOrigins("http://localhost:4200")
+            //           .AllowAnyMethod()
+            //           .AllowAnyHeader()
+            //           //.AllowCredentials()
+            //           );
+            //});
+
+            services.AddSignalR();
+
             //Configuring OfJWTHappensHere
             ServiceJWT.ConfigureJWTAUth(services, jwtSettings.Secret, jwtSettings.Issuer);
 
@@ -87,12 +100,15 @@ namespace ACRESH_API
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseCors(builder => builder
+                       .WithOrigins("http://localhost:4200")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowCredentials()
+                       );
+
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors(x => x
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
 
             app.UseHsts();
             app.UseResponseCompression();
@@ -104,6 +120,7 @@ namespace ACRESH_API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<RecievedMessagesHub>("/unread-messages");
             });
         }
     }

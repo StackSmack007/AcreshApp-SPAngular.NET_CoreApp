@@ -1,0 +1,69 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-3 toastr"></div>
+        <div class="col-6">
+            <h2 class="text-center py-3">Message Box:</h2>
+            <ul class="nav nav-tabs h4">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#recieved"><i
+                            class="fas fa-envelope-open-text"></i>
+                        &nbsp; Recieved</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#unread"><i class="far fa-envelope"></i> &nbsp;
+                        Unread</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="tab" href="#sent"><i class="fas fa-paper-plane"></i> &nbsp;
+                        Sent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#deleted"><i class="far fa-trash-alt"></i> &nbsp;
+                        Deleted</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#users-i-block"><i class="fas fa-biohazard"></i> &nbsp;
+                        Users I Block</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#users-blocking-me"><i class="fas fa-comment-slash"></i>
+                        &nbsp;
+                        Users Blocking Me</a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade show active" id="recieved" #defaultTab>
+<div *ngFor="let message of (nonDeleted$ | async); index as i;"> Recieved All Non Deleted {{i}}</div>
+                    <acr-message-display >
+                    </acr-message-display>
+                </div>
+
+
+                <div class="tab-pane fade" id="sent">
+                    <div *ngFor="let message of (sent$ | async); index as i;"> Sent messages {{i}}</div>
+                    <acr-message-display>
+                    </acr-message-display>
+                </div>
+
+                <div class="tab-pane fade" id="deleted">
+                    <div *ngFor="let message of (deleted$ | async); index as i;"> Recieved All Non Deleted {{i}}</div>
+                    <acr-message-display>
+                    </acr-message-display>
+                </div>
+
+                <div class="tab-pane fade" id="users-i-block">
+                    <p>All users who can't tell me shit... </p>
+                </div>
+
+                <div class="tab-pane fade" id="users-blocking-me">
+                    <p>All users who I can not write... </p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-3 validationMessages">
+
+        </div>
+    </div>
+</div>
