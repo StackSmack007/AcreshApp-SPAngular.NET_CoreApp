@@ -1,1 +1,53 @@
-<p>message-display works!</p>
+<div class="card border-primary mb-3 mx-4" style="max-width: 100%;">
+    <div class="card-header">
+        <div class="row justify-content-start">
+            <div class="col-4" *ngIf="!amSender; else toUser">
+                <span class="h4">From : </span><a class="h4"
+                    [routerLink]="['/user-data/profile/', message.senderUserName]">
+                    <span *ngIf="!isSenderBlocked" (mouseenter)="showHideBlockInfo()"
+                        (mouseleave)="showHideBlockInfo()"> <i class="fas fa-ban text-danger fa-xs"></i></span>
+                    {{message.senderUserName}}</a>&nbsp;&nbsp;
+                <span *ngIf="!isSenderBlocked && showBlockInfo" class="text-danger font-weight-bold h5">
+                    I have blocked this user!</span>
+            </div>
+            <ng-template #toUser>
+                <div class="col-4">
+                    <span class="h4">To : </span>
+                    <a class="h4"
+                        [routerLink]="['/user-data/profile/', message.recieverUserName]">{{message.recieverUserName}}</a>
+                </div>
+            </ng-template>
+
+            <div class="col-2">
+                <div *ngIf="message.status==='Read'; else unread" class="col-2 text-success">
+                    <i class="fas fa-eye"></i> &nbsp; Read
+                </div>
+                <ng-template #unread>
+                    <div class=" text-danger"><i class="fas fa-eye-slash"></i> &nbsp; Unread</div>
+                </ng-template>
+            </div>
+            <div class="col-3">
+                <span class="font-italic">&nbsp;Sent on: {{dateSent}}</span>
+            </div>
+            <div class="col-3 float-right">
+                <div (click)="showHideContent()" class="stretched-link">
+                    <div *ngIf="shown" class="float-right pt-1 px-4">
+                        <i class="far fa-minus-square"></i> &nbsp; Hide
+                    </div>
+                    <div *ngIf="!shown" class="float-right pt-1 px-4">
+                        <i class="far fa-plus-square"></i> &nbsp; Display
+                    </div>
+                </div>
+                <a *ngIf="!amSender" class="float-right pt-1" (click)="deleteThis()"><i class="far fa-trash-alt"></i>
+                    &nbsp; Delete</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-2 h5 mb-0 mt-1" [ngStyle]="{'display':shown ? 'inline' : 'none'}">
+        <p class="mb-2 px-2"><a [routerLink]="['/user-data/profile/', message.senderUserName]"><img class="avatar"
+                    [src]="relevantPicture" alt="avatar picture of sender"></a>
+            {{message.content}}
+        </p>
+    </div>
+</div>

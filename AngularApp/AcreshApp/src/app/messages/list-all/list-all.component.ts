@@ -1,8 +1,8 @@
-import { Component,  ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MessageService } from 'src/app/core/services/message.service';
 import { Observable } from 'rxjs';
-import { IMessageRecieved } from 'src/app/core/interfaces/message-interfaces/messageRecieve';
+import { IMessageRecievedSent } from 'src/app/core/interfaces/message-interfaces/messageRecieve';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -12,18 +12,20 @@ import { map } from 'rxjs/operators';
 })
 export class ListAllComponent {
 
-  private all$: Observable<IMessageRecieved[]> = null;
-  public nonDeleted$: Observable<IMessageRecieved[]> = null;
-  public deleted$: Observable<IMessageRecieved[]> = null;
-  public sent$: Observable<IMessageRecieved[]> = null;
-  @ViewChild("defaultTab", {static:true})
+  private all$: Observable<IMessageRecievedSent[]> = null;
+  public nonDeleted$: Observable<IMessageRecievedSent[]> = null;
+  public deleted$: Observable<IMessageRecievedSent[]> = null;
+  public sent$: Observable<IMessageRecievedSent[]> = null;
+  @ViewChild("defaultTab", { static: true })
   defaultTab: ElementRef;
+  public myUserName: string = null;
 
   constructor(authService: AuthService, private messageService: MessageService) {
     this.all$ = this.messageService.getRecievedMessages()
     this.nonDeleted$ = this.all$.pipe(map(res => res.slice().filter(x => !x.isDeleted)));
     this.deleted$ = this.all$.pipe(map(res => res.slice().filter(x => x.isDeleted)));
-    this.sent$=this.messageService.getSentMessages()
+    this.sent$ = this.messageService.getSentMessages()
+    this.myUserName = authService.getUserInfo().userName;
     //TODO
   }
 

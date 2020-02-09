@@ -7,7 +7,8 @@ import { IMessageSend } from '../interfaces/message-interfaces/messageSend';
 import { HelperService } from './helper.service';
 import { SignalRNewMessagesService } from './signal-r.new-messages.service';
 import { map } from 'rxjs/operators';
-import { IMessageRecieved } from '../interfaces/message-interfaces/messageRecieve';
+import { IMessageRecievedSent } from '../interfaces/message-interfaces/messageRecieve';
+import { MessageStatus } from '../interfaces/message-interfaces/MessageStatus';
 
 
 @Injectable({
@@ -30,16 +31,14 @@ export class MessageService {
     return this.http.get<number>(messagePaths.userUnreadCount);
   }
 
-  getRecievedMessages(): Observable<IMessageRecieved[]> {
-    return this.http.get<IMessageRecieved[]>(messagePaths.base).pipe(
+  getRecievedMessages(): Observable<IMessageRecievedSent[]> {
+    return this.http.get<IMessageRecievedSent[]>(messagePaths.base).pipe(
       map(res => res.map(x => this.helper.toJS_keys(x))
       ))
   }
 
-
-  getSentMessages():Observable<IMessageRecieved[]>{
-    return this.http.get<IMessageRecieved[]>(messagePaths.SentMessages).pipe(
-      map(res => res.map(x => this.helper.toJS_keys(x))
-      ))
+  getSentMessages(): Observable<IMessageRecievedSent[]> {
+    return this.http.get<IMessageRecievedSent[]>(messagePaths.SentMessages).pipe(
+      map(res => res.map(x => this.helper.toJS_keys(x))))
   }
 }

@@ -9,10 +9,6 @@
                             class="fas fa-envelope-open-text"></i>
                         &nbsp; Recieved</a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#unread"><i class="far fa-envelope"></i> &nbsp;
-                        Unread</a>
-                </li> -->
                 <li class="nav-item">
                     <a class="nav-link " data-toggle="tab" href="#sent"><i class="fas fa-paper-plane"></i> &nbsp;
                         Sent</a>
@@ -32,23 +28,19 @@
                         Users Blocking Me</a>
                 </li>
             </ul>
-            <div id="myTabContent" class="tab-content">
+            <div id="myTabContent" class="tab-content pt-4">
                 <div class="tab-pane fade show active" id="recieved" #defaultTab>
-<div *ngFor="let message of (nonDeleted$ | async); index as i;"> Recieved All Non Deleted {{i}}</div>
-                    <acr-message-display >
+                    <acr-message-display *ngFor="let mes of (nonDeleted$ | async)" [message]="mes" [amSender]="myUserName===mes.senderUserName">
                     </acr-message-display>
                 </div>
 
-
                 <div class="tab-pane fade" id="sent">
-                    <div *ngFor="let message of (sent$ | async); index as i;"> Sent messages {{i}}</div>
-                    <acr-message-display>
+                    <acr-message-display *ngFor="let mes of (sent$ | async)" [message]="mes" [amSender]="myUserName===mes.senderUserName">
                     </acr-message-display>
                 </div>
 
                 <div class="tab-pane fade" id="deleted">
-                    <div *ngFor="let message of (deleted$ | async); index as i;"> Recieved All Non Deleted {{i}}</div>
-                    <acr-message-display>
+                    <acr-message-display *ngFor="let mes of (deleted$ | async)" [message]="mes" >
                     </acr-message-display>
                 </div>
 

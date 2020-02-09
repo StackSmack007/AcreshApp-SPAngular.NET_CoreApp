@@ -1,11 +1,12 @@
-import { MessageStatus } from './MessageStatus';
-
-export interface IMessageRecieved {
+export interface IMessageRecievedSent {
     id: number,
-    dateOfCreation: number,
+    dateOfCreation: string,
     isDeleted: boolean,
-    senderUserName: string
-    senderAvatarPicture: string
-    sontent: string
-    status:MessageStatus,
+    senderUserName: string,
+    senderAvatarPicture: string,
+    recieverUserName:string,
+    recieverAvatarPicture: string,
+
+    content: string
+    status:string,
   }
