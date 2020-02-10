@@ -26,8 +26,18 @@ export class ListAllComponent {
     this.deleted$ = this.all$.pipe(map(res => res.slice().filter(x => x.isDeleted)));
     this.sent$ = this.messageService.getSentMessages()
     this.myUserName = authService.getUserInfo().userName;
-    //TODO
+
+    this.messageService.signalR.startConnection(this.myUserName);
   }
 
+  openUnreadMessage(id: number) {
+  console.log("deistvame",id)
+    this.messageService.markReadMessage(id).subscribe(() =>{
+      this.messageService.signalR.updateUserUnreadCount(this.myUserName)
+
+
+    })
+    
+  }
 
 }

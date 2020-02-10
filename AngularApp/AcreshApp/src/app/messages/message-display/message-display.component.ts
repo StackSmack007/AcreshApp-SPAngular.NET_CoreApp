@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IMessageRecievedSent } from 'src/app/core/interfaces/message-interfaces/messageRecieve';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -22,9 +22,12 @@ export class MessageDisplayComponent {
     content: "kade e mlqkoto",
     status: "UnRead",
   }
+  @Output()
+  openUnreadMessageEmitter: EventEmitter<number> = new EventEmitter();
+  
   @Input()
   public amSender: boolean = false;
-  public shown: boolean = true;
+  public expanded: boolean = true;
   public showBlockInfo: boolean = false;
 
   constructor(private authService: AuthService) { }
@@ -35,7 +38,7 @@ export class MessageDisplayComponent {
   @Input()
   set message(m: IMessageRecievedSent) {
     this._mesg = m;
-    this.shown = m.status === "Read";
+    this.expanded = m.status === "Read";
   }
 
   get isSenderBlocked() {
@@ -43,11 +46,14 @@ export class MessageDisplayComponent {
   }
 
   get relevantPicture() {
-    return this.amSender ?  this.message.recieverAvatarPicture:this.message.senderAvatarPicture;
+    return this.amSender ? this.message.recieverAvatarPicture : this.message.senderAvatarPicture;
   }
 
   showHideContent() {
-    this.shown = !this.shown;
+    this.expanded = !this.expanded;
+    if (this.message.status === "Read") { return; }
+    this.message.status = "Read";
+    this.openUnreadMessageEmitter.emit(this.message.id);
   }
 
   showHideBlockInfo() {

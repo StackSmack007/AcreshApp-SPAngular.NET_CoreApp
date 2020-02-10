@@ -5,43 +5,40 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: "root" })
 export class SignalRNewMessagesService {
-  public unreadCount = 0;
+  unreadCount = 0;
   private hubConnection: signalR.HubConnection
 
-  public startConnection = () => {
+  public startConnection = (userName: string): Promise<any> => {//TODO
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('https://localhost:5001/unread-messages')
       .build();
 
-    this.hubConnection
+    return this.hubConnection
       .start()
-      .then(() => console.log('Connection started'))
-      .catch(err => {
-        console.log('Error while starting connection: ', err)
-      })
-
-    this.hubConnection.on("resetUnread", () => this.unreadCount = 0 );
-  }
-  closeConnection() {
-    this.hubConnection.off;
+      .then(() => console.log('Connection started')).then(() =>
+        this.hubConnection.invoke("RegisterUserConnection", userName)
+          .then(() => {
+            console.log("registered connection for " + userName);
+            this.monitorChange();
+          }))
+      .catch(err => console.log('Error while starting connection: ', err))
   }
 
-  setAllRead() {
-    this.unreadCount = 0;
+  stopConnection(): Promise<any> {
+    return this.hubConnection.invoke("RemoveUserConnection")
+      .then(() => console.log("connection closed"))
+      .catch(console.log);
   }
 
-  public monitorMessagesForUser = (userId: string) => {
-    this.hubConnection.on('incrementUnread', (recieverId: string) => {
-      this.unreadCount += userId === recieverId ? 1 : 0
+  monitorChange() {
+    this.hubConnection.on('updateUnrCount', (unreadCount: number) => {
+      console.log("obnovqvame", unreadCount);
+      this.unreadCount = unreadCount
     });
   }
 
-  public monitorAllSeen = (userId: string) => {
-    this.hubConnection.on('incrementUnread', (recieverId: string) => {
-      this.unreadCount += userId === recieverId ? 1 : 0
-    });
+  updateUserUnreadCount = (userName: string) => {
+    debugger;
+    this.hubConnection.invoke('UpdateUserUnreadCount', userName).catch(console.log)
   }
-
-
-
 }

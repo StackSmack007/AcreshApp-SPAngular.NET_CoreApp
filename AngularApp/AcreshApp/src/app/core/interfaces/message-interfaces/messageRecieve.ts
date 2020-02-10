@@ -6,7 +6,6 @@ export interface IMessageRecievedSent {
     senderAvatarPicture: string,
     recieverUserName:string,
     recieverAvatarPicture: string,
-
     content: string
     status:string,
   }

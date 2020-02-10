@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-3 toastr"></div>
-        <div class="col-6">
+        <div class="col-2 toastr"></div>
+        <div class="col-8">
             <h2 class="text-center py-3">Message Box:</h2>
             <ul class="nav nav-tabs h4">
                 <li class="nav-item">
@@ -30,17 +30,20 @@
             </ul>
             <div id="myTabContent" class="tab-content pt-4">
                 <div class="tab-pane fade show active" id="recieved" #defaultTab>
-                    <acr-message-display *ngFor="let mes of (nonDeleted$ | async)" [message]="mes" [amSender]="myUserName===mes.senderUserName">
+                    <acr-message-display *ngFor="let mes of (nonDeleted$ | async)" [message]="mes"
+                        [amSender]="myUserName===mes.senderUserName"
+                        (openUnreadMessageEmitter)="openUnreadMessage($event)">
                     </acr-message-display>
                 </div>
 
                 <div class="tab-pane fade" id="sent">
-                    <acr-message-display *ngFor="let mes of (sent$ | async)" [message]="mes" [amSender]="myUserName===mes.senderUserName">
+                    <acr-message-display *ngFor="let mes of (sent$ | async)" [message]="mes"
+                        [amSender]="myUserName===mes.senderUserName">
                     </acr-message-display>
                 </div>
 
                 <div class="tab-pane fade" id="deleted">
-                    <acr-message-display *ngFor="let mes of (deleted$ | async)" [message]="mes" >
+                    <acr-message-display *ngFor="let mes of (deleted$ | async)" [message]="mes">
                     </acr-message-display>
                 </div>
 
@@ -54,7 +57,7 @@
 
             </div>
         </div>
-        <div class="col-3 validationMessages">
+        <div class="col-2">
 
         </div>
     </div>

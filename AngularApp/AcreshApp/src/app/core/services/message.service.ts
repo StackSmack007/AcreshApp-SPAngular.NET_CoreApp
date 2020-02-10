@@ -8,18 +8,12 @@ import { HelperService } from './helper.service';
 import { SignalRNewMessagesService } from './signal-r.new-messages.service';
 import { map } from 'rxjs/operators';
 import { IMessageRecievedSent } from '../interfaces/message-interfaces/messageRecieve';
-import { MessageStatus } from '../interfaces/message-interfaces/MessageStatus';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
-
   constructor(private http: HttpClient, private authService: AuthService, private helper: HelperService, public signalR: SignalRNewMessagesService) {
-    if (authService.isAuthenticated()) {
-      this.getUnreadMsgCount().subscribe(n => this.signalR.unreadCount = n);
-    }
   }
 
   submitMsg(content: string, recieverId: string): Observable<any> {
@@ -27,8 +21,8 @@ export class MessageService {
     return this.http.post(messagePaths.base, this.helper.toCS_keys(messageObj))
   }
 
-  getUnreadMsgCount(): Observable<number> {
-    return this.http.get<number>(messagePaths.userUnreadCount);
+  markReadMessage(messageId: number): Observable<number> {
+    return this.http.post<number>(messagePaths.setToRead, messageId );
   }
 
   getRecievedMessages(): Observable<IMessageRecievedSent[]> {

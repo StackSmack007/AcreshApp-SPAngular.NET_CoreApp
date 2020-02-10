@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Acresh.Services.Services.Contracts;
-using ACRESH_API.Hubs;
 using DataTransferObjects.Messages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ACRESH_API.Controllers
@@ -15,12 +12,10 @@ namespace ACRESH_API.Controllers
     public class MessagesController : BaseController
     {
         private readonly IMessageService messageService;
-        private readonly IHubContext<RecievedMessagesHub> messagesHub;
 
-        public MessagesController(IMessageService ms, IHubContext<RecievedMessagesHub> messagesHub)
+        public MessagesController(IMessageService ms)
         {
             this.messageService = ms;
-            this.messagesHub = messagesHub;
         }
 
         // POST: /Messages
@@ -29,23 +24,24 @@ namespace ACRESH_API.Controllers
         {
             if (await messageService.SubmitMessage(message))
             {
-                await this.messagesHub.Clients.All.SendAsync("incrementUnread", message.RecieverId);
                 return Ok(new { Message = "Message Sent" });
             }
             return BadRequest("UserBlocking prevents messaging!");
         }
 
-
-        [HttpGet("unread-count")]
-        public async Task<ActionResult<int>> GetUnreadCount()
+        [HttpPost("setRead")]
+        public async Task<ActionResult> SetToRead([FromBody]int messageId)
         {
-            return await messageService.UnreadMessagesCount(getUserId());
+            if (await messageService.SetToRead(messageId))
+            {
+                return Ok(new { message = $"Message with {messageId} was read!" });
+            }
+            return BadRequest(new { message = $"Message with {messageId} was not read!" });
         }
 
         [HttpGet()]
         public async Task<ActionResult<ICollection<MessageDTOout>>> GetRecievedMessages()
         {
-            await messagesHub.Clients.All.SendAsync("resetUnread", getUserId());
             var result = await messageService.GetUserRecievedMessages(getUserId()).ToArrayAsync();
             return result;
         }

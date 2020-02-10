@@ -41,24 +41,32 @@ namespace Acresh.Services.Services
             await messageRepo.SaveChangesAsync();
             return true;
         }
-        public async Task<int> UnreadMessagesCount(string userId)
+        public async Task<int> UnreadMessagesCountAsync(string userId)
         {
             int unreadCount = await messageRepo.All().Where(x => !x.IsDeleted && x.RecieverId == userId && x.Status == MessageStatus.UnRead).CountAsync();
             return unreadCount;
         }
-        public  IQueryable<MessageDTOout> GetUserRecievedMessages(string userId)
+        public IQueryable<MessageDTOout> GetUserRecievedMessages(string userId)
         {
             //DeletedAndNotDeleted
-           var userMessages =  messageRepo.All().Where(x =>  x.RecieverId == userId).To<MessageDTOout>();
+            var userMessages = messageRepo.All().Where(x => x.RecieverId == userId).To<MessageDTOout>();
             return userMessages;
         }
 
-        public  IQueryable<MessageDTOout> GetSentMessages(string userId)
+        public IQueryable<MessageDTOout> GetSentMessages(string userId)
         {
             //DeletedAndNotDeleted
-            var userMessages =  messageRepo.All().Where(x => x.SenderId == userId).To<MessageDTOout>();
+            var userMessages = messageRepo.All().Where(x => x.SenderId == userId).To<MessageDTOout>();
             return userMessages;
         }
 
+        public async Task<bool> SetToRead(int messageId)
+        {
+            var messageFd = await messageRepo.All().FirstOrDefaultAsync(x => x.Id == messageId);
+            if (messageFd is null) return false;
+            messageFd.Status = MessageStatus.Read;
+            await messageRepo.SaveChangesAsync();
+            return true;
+        }
     }
 }

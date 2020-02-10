@@ -57,16 +57,16 @@ namespace ACRESH_API.Controllers
             return BadRequest();
         }
 
-        [HttpGet("blockers")]
-        public async Task<ActionResult<ICollection<BlockedByMeDTOout>>> GetMyBlockers()
-        {
-            var usersWhoBlockMe = this.userDataService.GetBlockers(getUserId());
+        //[HttpGet("blockers")]
+        //public async Task<ActionResult<ICollection<BlockedByMeDTOout>>> GetMyBlockers()
+        //{
+        //    var usersWhoBlockMe = this.userDataService.GetBlockers(getUserId());
 
 
 
 
-            return BadRequest();
-        }
+        //    return BadRequest();
+        //}
 
 
 

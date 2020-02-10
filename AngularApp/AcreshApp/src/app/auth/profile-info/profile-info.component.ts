@@ -53,6 +53,7 @@ export class ProfileInfoComponent {
     this.messageService.submitMsg(mf.value.msg, this.user.id).subscribe(() => {
       this.toastr.success("Message Sent", "Success");
       mf.reset();
+      this.messageService.signalR.updateUserUnreadCount(this.user.userName)
     }, () => this.toastr.error(`Message Not Sent`, "Failure"))
     console.log(mf);
   }

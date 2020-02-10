@@ -32,13 +32,13 @@ export interface IUserDataPaths {
 
 export const messagePaths: IMessagePaths = {
     base: basePath + "messages/",//post
-    userUnreadCount: basePath + "messages/unread-count",
+    setToRead: basePath + "messages/setRead",//post
     SentMessages: basePath + "messages/sent",
 }
 
 export interface IMessagePaths {
     base: string,
-    userUnreadCount: string,
+    setToRead: string,
     SentMessages:string
 }
 
