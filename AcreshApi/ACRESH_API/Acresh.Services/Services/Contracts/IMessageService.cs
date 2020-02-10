@@ -12,5 +12,6 @@ namespace Acresh.Services.Services.Contracts
         IQueryable<MessageDTOout> GetSentMessages(string userId);
         IQueryable<MessageDTOout> GetUserRecievedMessages(string userId);
         Task<bool> SetToRead(int messageId);
+        Task<bool> DeleteMessageAsync(int messageId);
     }
 }

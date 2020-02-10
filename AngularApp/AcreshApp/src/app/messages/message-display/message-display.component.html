@@ -30,7 +30,7 @@
                 <span class="font-italic">&nbsp;Sent on: {{dateSent}}</span>
             </div>
             <div class="col-3 float-right">
-                <div (click)="showHideContent()" class="stretched-link">
+                <div (click)="showHideContent()" class="link">
                     <div *ngIf="expanded" class="float-right pt-1 px-4">
                         <i class="far fa-minus-square"></i> &nbsp; Hide
                     </div>
@@ -38,7 +38,7 @@
                         <i class="far fa-plus-square"></i> &nbsp; Display
                     </div>
                 </div>
-                <a *ngIf="!amSender" class="float-right pt-1" (click)="deleteThis()"><i class="far fa-trash-alt"></i>
+                <a *ngIf="!amSender" class="float-right pt-1" (click)="del()"><i class="far fa-trash-alt"></i>
                     &nbsp; Delete</a>
             </div>
         </div>
@@ -47,7 +47,7 @@
     <div class="card-body p-2 h5 mb-0 mt-1" [ngStyle]="{'display':expanded ? 'inline' : 'none'}">
         <p class="mb-2 px-2"><a [routerLink]="['/user-data/profile/', message.senderUserName]"><img class="avatar"
                     [src]="relevantPicture" alt="avatar picture of sender"></a>
-            {{message.content}} Ebasi
+            {{message.content}}
         </p>
     </div>
 </div>

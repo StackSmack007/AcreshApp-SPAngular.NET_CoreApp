@@ -2,7 +2,6 @@
 import * as signalR from "@aspnet/signalr";
 import { Injectable } from '@angular/core';
 
-
 @Injectable({ providedIn: "root" })
 export class SignalRNewMessagesService {
   unreadCount = 0;
@@ -16,11 +15,11 @@ export class SignalRNewMessagesService {
     return this.hubConnection
       .start()
       .then(() => console.log('Connection started')).then(() =>
-        this.hubConnection.invoke("RegisterUserConnection", userName)
-          .then(() => {
-            console.log("registered connection for " + userName);
-            this.monitorChange();
-          }))
+        this.hubConnection.invoke("RegisterUserConnection", userName))
+      .then(() => {
+        console.log("registered connection for " + userName);
+        this.monitorChange();
+      })
       .catch(err => console.log('Error while starting connection: ', err))
   }
 
@@ -38,7 +37,6 @@ export class SignalRNewMessagesService {
   }
 
   updateUserUnreadCount = (userName: string) => {
-    debugger;
     this.hubConnection.invoke('UpdateUserUnreadCount', userName).catch(console.log)
   }
 }

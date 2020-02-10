@@ -18,7 +18,6 @@ namespace ACRESH_API.Controllers
             this.messageService = ms;
         }
 
-        // POST: /Messages
         [HttpPost]
         public async Task<ActionResult> Post(MessageDTOin message)
         {
@@ -29,7 +28,7 @@ namespace ACRESH_API.Controllers
             return BadRequest("UserBlocking prevents messaging!");
         }
 
-        [HttpPost("setRead")]
+        [HttpPut()]
         public async Task<ActionResult> SetToRead([FromBody]int messageId)
         {
             if (await messageService.SetToRead(messageId))
@@ -37,6 +36,16 @@ namespace ACRESH_API.Controllers
                 return Ok(new { message = $"Message with {messageId} was read!" });
             }
             return BadRequest(new { message = $"Message with {messageId} was not read!" });
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            if (await messageService.DeleteMessageAsync(id))
+            {
+                return Ok(new { message = $"Message with {id} was soft deleted!" });
+            }
+            return BadRequest(new { message = $"Message with {id} was not deleted!" });
         }
 
         [HttpGet()]
@@ -52,26 +61,5 @@ namespace ACRESH_API.Controllers
             var result = await messageService.GetSentMessages(getUserId()).ToArrayAsync();
             return result;
         }
-
-
-        //// GET: api/Messages/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-
-        //// PUT: api/Messages/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

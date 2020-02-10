@@ -24,7 +24,10 @@ export class MessageDisplayComponent {
   }
   @Output()
   openUnreadMessageEmitter: EventEmitter<number> = new EventEmitter();
-  
+
+  @Output()
+  deleteMessageEmitter: EventEmitter<{ id: number, isSeen: boolean }> = new EventEmitter();
+
   @Input()
   public amSender: boolean = false;
   public expanded: boolean = true;
@@ -35,6 +38,7 @@ export class MessageDisplayComponent {
   get message() {
     return this._mesg;
   }
+
   @Input()
   set message(m: IMessageRecievedSent) {
     this._mesg = m;
@@ -60,13 +64,13 @@ export class MessageDisplayComponent {
     this.showBlockInfo = !this.showBlockInfo;
   }
 
-  deleteThis() {
+  del() {
+    this.deleteMessageEmitter.emit({ id: this.message.id, isSeen: this.message.status === "Read" });
   }
 
   get dateSent(): string {
     let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
     d.setUTCSeconds(Date.parse(this.message.dateOfCreation));
-    // debugger;
     return `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${pad2(d.getFullYear())} [${d.getHours()} : ${pad2(d.getMinutes())}]`;
   }
 }

@@ -68,5 +68,14 @@ namespace Acresh.Services.Services
             await messageRepo.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> DeleteMessageAsync(int messageId)
+        {
+            var messageFd = await messageRepo.All().FirstOrDefaultAsync(x => x.Id == messageId);
+            if (messageFd is null) return false;
+            messageFd.IsDeleted = true;
+            await messageRepo.SaveChangesAsync();
+            return true;
+        }
     }
 }

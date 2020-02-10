@@ -32,7 +32,9 @@
                 <div class="tab-pane fade show active" id="recieved" #defaultTab>
                     <acr-message-display *ngFor="let mes of (nonDeleted$ | async)" [message]="mes"
                         [amSender]="myUserName===mes.senderUserName"
-                        (openUnreadMessageEmitter)="openUnreadMessage($event)">
+                        (openUnreadMessageEmitter)="openUnreadMessage($event)"
+                        (deleteMessageEmitter)="setDeletedStatus($event)"
+                        >
                     </acr-message-display>
                 </div>
 

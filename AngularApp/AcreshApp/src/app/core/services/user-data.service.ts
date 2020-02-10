@@ -17,7 +17,7 @@ export class UserDataService {
   constructor(private http: HttpClient, private hlp: HelperService, private authService: AuthService) { }
 
   getUserInfoById(userName: string): Observable<IUserProfileData> {
-    return this.http.get<IUserProfileData>(userDataPaths.userProfileData + userName).pipe(map(x => this.hlp.toJS_keys(x)))
+    return this.http.get<IUserProfileData>(userDataPaths.userProfileData(userName)).pipe(map(x => this.hlp.toJS_keys(x)))
   }
 
   changeBlockedStatus(IrritatorUserName: string): Observable<any> {
@@ -25,8 +25,8 @@ export class UserDataService {
   }
 
   getUserInfoForEditing(): Observable<IUserProfileEditData> {
-    return this.http.get<IUserProfileEditData>(userDataPaths.userProfileEditData + this.authService.getUserInfo().id)
-    .pipe(map(x => this.hlp.toJS_keys(x)))
+    return this.http.get<IUserProfileEditData>(userDataPaths.userProfileEditData(this.authService.getUserInfo().id))
+      .pipe(map(x => this.hlp.toJS_keys(x)))
   }
 
   updateUserData(dataWithPassword: IUserProfileEditData): Observable<any> {

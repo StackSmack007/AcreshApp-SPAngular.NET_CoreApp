@@ -22,7 +22,7 @@ export class MessageService {
   }
 
   markReadMessage(messageId: number): Observable<number> {
-    return this.http.post<number>(messagePaths.setToRead, messageId );
+    return this.http.put<number>(messagePaths.base, messageId);
   }
 
   getRecievedMessages(): Observable<IMessageRecievedSent[]> {
@@ -32,7 +32,11 @@ export class MessageService {
   }
 
   getSentMessages(): Observable<IMessageRecievedSent[]> {
-    return this.http.get<IMessageRecievedSent[]>(messagePaths.SentMessages).pipe(
+    return this.http.get<IMessageRecievedSent[]>(messagePaths.sentMessages).pipe(
       map(res => res.map(x => this.helper.toJS_keys(x))))
+  }
+
+  deleteMessage(messageId: number): Observable<any> {
+    return this.http.delete(messagePaths.delete(messageId));
   }
 }
