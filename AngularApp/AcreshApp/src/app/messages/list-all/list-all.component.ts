@@ -15,7 +15,7 @@ export class ListAllComponent {
   private all$: Observable<IMessageRecievedSent[]> = null;
   public nonDeleted$: Observable<IMessageRecievedSent[]> = null;
   public deleted$: Observable<IMessageRecievedSent[]> = null;
- 
+
   public sent$: Observable<IMessageRecievedSent[]> = null;
   @ViewChild("defaultTab", { static: true })
   defaultTab: ElementRef;
@@ -27,7 +27,7 @@ export class ListAllComponent {
     this.myUserName = authService.getUserInfo().userName;
     this.messageService.signalR.startConnection(this.myUserName);
   }
-  
+
   private resetDeletedNonDeletedStreams() {
     this.all$ = this.messageService.getRecievedMessages()
     this.nonDeleted$ = this.all$.pipe(map(res => res.slice().filter(x => !x.isDeleted)));

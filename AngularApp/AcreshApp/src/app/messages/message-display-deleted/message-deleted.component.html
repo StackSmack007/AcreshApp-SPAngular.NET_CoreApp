@@ -1,0 +1,31 @@
+<div class="card border-primary mb-3 mx-4" style="max-width: 100%;">
+    <div class="card-header">
+        <div class="row justify-content-between">
+                <div class="col-4">
+                    <span class="h4">To : </span>
+                    <a class="h4"
+                        [routerLink]="['/user-data/profile/', message.recieverUserName]">{{message.recieverUserName}}</a>
+                </div>
+            <div class="col-3">
+                <span class="font-italic">&nbsp;Recieved on: {{dateSent}}</span>
+            </div>
+            <div class="col-3 float-right">
+                <div (click)="showHideContent()" class="link">
+                    <div *ngIf="expanded" class="float-right pt-1 px-4">
+                        <i class="far fa-minus-square"></i> &nbsp; Hide
+                    </div>
+                    <div *ngIf="!expanded" class="float-right pt-1 px-4">
+                        <i class="far fa-plus-square"></i> &nbsp; Display
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-2 h5 mb-0 mt-1" [ngStyle]="{'display':expanded ? 'inline' : 'none'}">
+        <p class="mb-2 px-2"><a [routerLink]="['/user-data/profile/', message.senderUserName]"><img class="avatar"
+                    [src]="message.recieverAvatarPicture" alt="avatar picture of sender"></a>
+            {{message.content}}
+        </p>
+    </div>
+</div>

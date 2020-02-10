@@ -7,8 +7,6 @@ using Infrastructure.Models;
 using Infrastructure.Models.Enumerations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -48,15 +46,14 @@ namespace Acresh.Services.Services
         }
         public IQueryable<MessageDTOout> GetUserRecievedMessages(string userId)
         {
-            //DeletedAndNotDeleted
-            var userMessages = messageRepo.All().Where(x => x.RecieverId == userId).To<MessageDTOout>();
+            var userMessages = messageRepo.All().Where(x => x.RecieverId == userId).OrderByDescending(x => x.DateOfCreation).To<MessageDTOout>();
             return userMessages;
         }
 
         public IQueryable<MessageDTOout> GetSentMessages(string userId)
         {
             //DeletedAndNotDeleted
-            var userMessages = messageRepo.All().Where(x => x.SenderId == userId).To<MessageDTOout>();
+            var userMessages = messageRepo.All().Where(x => x.SenderId == userId).OrderByDescending(x=>x.DateOfCreation).To<MessageDTOout>();
             return userMessages;
         }
 

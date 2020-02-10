@@ -1,18 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { IMessageRecievedSent } from 'src/app/core/interfaces/message-interfaces/messageRecieve';
 
-
 const pad2 = (num: number): string => (num < 10 ? '0' : '') + num;
 
 @Component({
-  selector: 'acr-message-sent',
-  templateUrl: './message-sent.component.html',
-  styleUrls: ['./message-sent.component.css']
+  selector: 'acr-message-deleted',
+  templateUrl: './message-deleted.component.html',
+  styleUrls: ['./message-deleted.component.css']
 })
-export class MessageSentComponent {
+export class MessageDeletedComponent {
+
   @Input()
   message: IMessageRecievedSent;
-  public expanded: boolean = false;
+
+  expanded: boolean = false;
 
   constructor() { }
 
