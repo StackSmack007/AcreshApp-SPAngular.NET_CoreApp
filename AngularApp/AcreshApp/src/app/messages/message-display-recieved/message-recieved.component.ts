@@ -5,11 +5,11 @@ import { AuthService } from 'src/app/core/services/auth.service';
 const pad2 = (num: number): string => (num < 10 ? '0' : '') + num;
 
 @Component({
-  selector: 'acr-message-display',
-  templateUrl: './message-display.component.html',
-  styleUrls: ['./message-display.component.css']
+  selector: 'acr-message-recieved',
+  templateUrl: './message-recieved.component.html',
+  styleUrls: ['./message-recieved.component.css']
 })
-export class MessageDisplayComponent {
+export class MessageRecievedComponent {
 
   private _mesg: IMessageRecievedSent = {
     id: 123,
@@ -28,8 +28,6 @@ export class MessageDisplayComponent {
   @Output()
   deleteMessageEmitter: EventEmitter<{ id: number, isSeen: boolean }> = new EventEmitter();
 
-  @Input()
-  public amSender: boolean = false;
   public expanded: boolean = true;
   public showBlockInfo: boolean = false;
 
@@ -47,10 +45,6 @@ export class MessageDisplayComponent {
 
   get isSenderBlocked() {
     return this.authService.getUserInfo().blocked.includes(this.message.senderUserName);
-  }
-
-  get relevantPicture() {
-    return this.amSender ? this.message.recieverAvatarPicture : this.message.senderAvatarPicture;
   }
 
   showHideContent() {

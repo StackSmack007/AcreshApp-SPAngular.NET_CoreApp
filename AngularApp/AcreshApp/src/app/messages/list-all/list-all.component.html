@@ -30,23 +30,20 @@
             </ul>
             <div id="myTabContent" class="tab-content pt-4">
                 <div class="tab-pane fade show active" id="recieved" #defaultTab>
-                    <acr-message-display *ngFor="let mes of (nonDeleted$ | async)" [message]="mes"
-                        [amSender]="myUserName===mes.senderUserName"
+                    <acr-message-recieved *ngFor="let mes of (nonDeleted$ | async)" [message]="mes"
                         (openUnreadMessageEmitter)="openUnreadMessage($event)"
-                        (deleteMessageEmitter)="setDeletedStatus($event)"
-                        >
-                    </acr-message-display>
+                        (deleteMessageEmitter)="setDeletedStatus($event)">
+                    </acr-message-recieved>
                 </div>
 
                 <div class="tab-pane fade" id="sent">
-                    <acr-message-display *ngFor="let mes of (sent$ | async)" [message]="mes"
-                        [amSender]="myUserName===mes.senderUserName">
-                    </acr-message-display>
+                    <acr-message-sent *ngFor="let mes of (sent$ | async)" [message]="mes">
+                    </acr-message-sent>
                 </div>
 
                 <div class="tab-pane fade" id="deleted">
-                    <acr-message-display *ngFor="let mes of (deleted$ | async)" [message]="mes">
-                    </acr-message-display>
+                    <acr-message-recieved *ngFor="let mes of (deleted$ | async)" [message]="mes">
+                    </acr-message-recieved>
                 </div>
 
                 <div class="tab-pane fade" id="users-i-block">
