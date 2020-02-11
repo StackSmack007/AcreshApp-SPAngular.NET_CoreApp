@@ -7,8 +7,7 @@ import { takenValueValidator } from 'src/app/core/validators/takenName';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HelperService } from 'src/app/core/services/helper.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
-import { IUserProfileEditData } from 'src/app/core/interfaces/user-data-interfaces/IUserProfileEditData';
-import { Gender } from 'src/app/core/interfaces/Gender';
+import { IUserProfileEditData } from 'src/app/core/interfaces/user-data-interfaces/userProfileEditData';
 
 
 @Component({

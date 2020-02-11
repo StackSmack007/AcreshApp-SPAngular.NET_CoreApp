@@ -6,7 +6,8 @@ import { userDataPaths } from '../settings/apiSettings';
 import { map } from 'rxjs/operators';
 import { HelperService } from './helper.service';
 import { AuthService } from './auth.service';
-import { IUserProfileEditData } from '../interfaces/user-data-interfaces/IUserProfileEditData';
+import { ISmallUserInfo } from '../interfaces/user-data-interfaces/userSmallData';
+import { IUserProfileEditData } from '../interfaces/user-data-interfaces/userProfileEditData';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class UserDataService {
 
   constructor(private http: HttpClient, private hlp: HelperService, private authService: AuthService) { }
 
-  getUserInfoById(userName: string): Observable<IUserProfileData> {
+  getUserInfoByUserName(userName: string): Observable<IUserProfileData> {
     return this.http.get<IUserProfileData>(userDataPaths.userProfileData(userName)).pipe(map(x => this.hlp.toJS_keys(x)))
   }
 
@@ -25,11 +26,20 @@ export class UserDataService {
   }
 
   getUserInfoForEditing(): Observable<IUserProfileEditData> {
-    return this.http.get<IUserProfileEditData>(userDataPaths.userProfileEditData(this.authService.getUserInfo().id))
+    return this.http.get<IUserProfileEditData>(userDataPaths.userInfo)
       .pipe(map(x => this.hlp.toJS_keys(x)))
   }
 
   updateUserData(dataWithPassword: IUserProfileEditData): Observable<any> {
-    return this.http.post(userDataPaths.updateUserInfo, this.hlp.toCS_keys(dataWithPassword))
+    return this.http.post(userDataPaths.userInfo, this.hlp.toCS_keys(dataWithPassword))
+  }
+
+  getBlockedUserInfos(): Observable<ISmallUserInfo[]> {
+    return this.http.get<ISmallUserInfo[]>(userDataPaths.blocked).pipe(map(arr => arr.map(x => this.hlp.toJS_keys(x))))
+  }
+  
+
+  getBlockerUserInfos(): Observable<ISmallUserInfo[]> {
+    return this.http.get<ISmallUserInfo[]>(userDataPaths.myblockers).pipe(map(arr => arr.map(x => this.hlp.toJS_keys(x))))
   }
 }

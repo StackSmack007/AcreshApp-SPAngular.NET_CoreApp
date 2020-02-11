@@ -13,6 +13,6 @@ export class UserDataResolver implements Resolve<IUserProfileData> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IUserProfileData> {
     var userName = route.paramMap.get('userName');
-    return this.udService.getUserInfoById(userName);
+    return this.udService.getUserInfoByUserName(userName);
   }
 }

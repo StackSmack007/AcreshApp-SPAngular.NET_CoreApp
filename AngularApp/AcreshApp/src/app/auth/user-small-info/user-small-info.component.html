@@ -1,0 +1,12 @@
+<a [routerLink]="['/user-data/profile/', user.userName]">
+    <div class="card mb-3">
+        <h4 class="card-header py-1">{{user.userName}}</h4>
+        <div class="card-body pb-0 pt-2">
+            <h6 classs="card-title">{{user.cookRank}}</h6>
+        </div>
+        <img class="px-1" style="height: 200px; width: 100%; display: block;" [src]="user.avatarPicture" alt="Profile Picture">
+        <div class="card-body py-2">
+            <p class="card-text">Blocked On : {{dateOfBlocking}}</p>
+        </div>
+    </div>
+</a>

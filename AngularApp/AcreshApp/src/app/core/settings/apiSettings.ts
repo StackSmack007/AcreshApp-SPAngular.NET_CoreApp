@@ -15,17 +15,20 @@ export interface IAuthPaths {
 }
 
 export const userDataPaths: IUserDataPaths = {
-    userProfileData:(id: string) =>  basePath + "userData/profileInfo?userName="+id,//get
-    userProfileEditData:(id: string) =>  basePath + "userData/profile?userId="+id,//get
-    updateUserInfo: basePath + "userData/profile",
+    userProfileData: (uName: string) => basePath + "userData/profileInfo?userName=" + uName,//get
+
+    userInfo: basePath + "userData/profile",//post get
+    blocked: basePath + "userData/blocked",
+    myblockers: basePath + "userData/my-blockers",
     submitEdittedData: basePath + "userData/editData",//post
     setBlocking: basePath + "userData/setUserBlocking",//post
 }
 
 export interface IUserDataPaths {
-    userProfileData: (id: string) => string,
-    userProfileEditData: (id: string) => string,
-    updateUserInfo: string,
+    userProfileData: (uName: string) => string,
+    userInfo: string,
+    blocked: string,
+    myblockers: string,
     submitEdittedData: string,
     setBlocking: string,
 }

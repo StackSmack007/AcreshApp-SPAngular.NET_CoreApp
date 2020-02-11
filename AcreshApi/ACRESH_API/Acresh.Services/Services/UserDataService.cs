@@ -2,6 +2,7 @@
 using Acresh.Services.Services.Contracts;
 using ACRESH_API.DTO.UserData;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Common.Tools.Extensions;
 using DataTransferObjects.UserData;
 using Infrastructure.Models;
@@ -82,7 +83,7 @@ namespace Acresh.Services.Services
             return true;
         }
 
-        public async Task<ProfileDataForEditDTOout> GetProfileDataForEdit(string userId)
+        public async Task<ProfileDataForEditDTOout> GetProfileDataForEditAsync(string userId)
         {
             var userFound = await this.uManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
             if (userFound is null) return null;
@@ -127,6 +128,19 @@ namespace Acresh.Services.Services
         public IQueryable<BlockedByMeDTOout> GetOnesIblock(string myId)
         {
             var result = this.blockingsRepository.All().Where(x => !x.IsDeleted && x.DefenderId == myId).To<BlockedByMeDTOout>();
+            return result;
+        }
+
+        public IQueryable<BlockedUserInfoDTOout> GetBlockedUserInfos(string userId)
+        {
+                var result = this.blockingsRepository.All().Where(x => !x.IsDeleted && x.DefenderId == userId).OrderByDescending(x => x.DateOfCreation).To<BlockedUserInfoDTOout>();
+                return result;
+        }
+
+
+        public IQueryable<BlockerUserInfoDTOout> GetBlockerUserInfos(string userId)
+        {
+            var result = this.blockingsRepository.All().Where(x => !x.IsDeleted && x.IrritatorId == userId).OrderByDescending(x => x.DateOfCreation).To<BlockerUserInfoDTOout>();
             return result;
         }
     }

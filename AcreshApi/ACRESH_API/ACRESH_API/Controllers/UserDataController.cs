@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Acresh.Services.JWT;
 using Acresh.Services.Services.Contracts;
 using ACRESH_API.DTO.UserData;
 using DataTransferObjects.UserData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ACRESH_API.Controllers
 {
@@ -40,13 +40,29 @@ namespace ACRESH_API.Controllers
         }
 
         [HttpGet("profile")]
-        public async Task<ActionResult<ProfileDataForEditDTOout>> GetMyProfileData(string userId)
+        public async Task<ActionResult<ProfileDataForEditDTOout>> GetMyProfileDataForEdit()
         {
-            ProfileDataForEditDTOout result = await this.userDataService.GetProfileDataForEdit(userId);
-            if (result is null) return BadRequest("User was not found");
+            ProfileDataForEditDTOout result = await this.userDataService.GetProfileDataForEditAsync(getUserId());
+            if (result is null) return BadRequest();
             return result;
         }
-        
+
+        [HttpGet("blocked")]
+        public async Task<ActionResult<BlockedUserInfoDTOout[]>> GetBlocked()
+        {
+            BlockedUserInfoDTOout[] result = await this.userDataService.GetBlockedUserInfos(getUserId()).ToArrayAsync();
+            if (result is null) return BadRequest();
+            return result;
+        }
+
+        [HttpGet("my-blockers")]
+        public async Task<ActionResult<BlockerUserInfoDTOout[]>> GetBlockers()
+        {
+            BlockerUserInfoDTOout[] result = await this.userDataService.GetBlockerUserInfos(getUserId()).ToArrayAsync();
+            if (result is null) return BadRequest();
+            return result;
+        }
+
         [HttpPost("profile")]
         public async Task<ActionResult> UpdateProfileInfo(ProfileDataForEditDTOin userData)
         {

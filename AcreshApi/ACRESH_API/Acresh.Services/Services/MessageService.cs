@@ -32,7 +32,7 @@ namespace Acresh.Services.Services
         public async Task<bool> SubmitMessage(MessageDTOin message)
         {
             var blockingPresent = await blockingRepo.All().FirstOrDefaultAsync(x => !x.IsDeleted && x.DefenderId == message.RecieverId && x.IrritatorId == message.SenderId);
-            if (blockingPresent != null) return false;
+            if (blockingPresent != null) return false; //not allowed to recieve messages from blocked users!
             Message newMsg = mapper.Map<Message>(message);
 
             await messageRepo.AddAssync(newMsg);
@@ -46,6 +46,7 @@ namespace Acresh.Services.Services
         }
         public IQueryable<MessageDTOout> GetUserRecievedMessages(string userId)
         {
+            //DeletedAndNotDeleted
             var userMessages = messageRepo.All().Where(x => x.RecieverId == userId).OrderByDescending(x => x.DateOfCreation).To<MessageDTOout>();
             return userMessages;
         }

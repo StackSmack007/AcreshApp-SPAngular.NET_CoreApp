@@ -1,4 +1,13 @@
 import { Injectable } from '@angular/core';
+const pad2 = (num: number): string => (num < 10 ? '0' : '') + num;
+
+const dateFormats = {
+  defaultformater: (d: Date) => `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${pad2(d.getFullYear())} [${d.getHours()} : ${pad2(d.getMinutes())}]`
+}
+export enum DateFormats {
+  DefaultFormater = 1,
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +32,6 @@ export class HelperService {
     return result;
   }
 
-
   private capitalize(str: string) {
     return str[0].toUpperCase() + str.substr(1)
   }
@@ -38,10 +46,16 @@ export class HelperService {
     index = (index + 1 === arr.length) ? 0 : index + 1
     return arr[index]
   }
-  
-  static  getPreviousItem<T>(arr: T[], currentItem: T): T {
+
+  static getPreviousItem<T>(arr: T[], currentItem: T): T {
     let index: number = arr.indexOf(currentItem);
     index = (index === 0) ? arr.length - 1 : index - 1
     return arr[index]
+  }
+
+  dateConvert(date: string, formatFn: DateFormats): string {
+    let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    d.setUTCSeconds(Date.parse(date));
+    return dateFormats[DateFormats[formatFn].toLowerCase()](d);
   }
 }
