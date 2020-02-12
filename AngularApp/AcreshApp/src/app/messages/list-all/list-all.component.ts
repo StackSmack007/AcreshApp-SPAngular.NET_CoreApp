@@ -57,4 +57,16 @@ export class ListAllComponent implements AfterViewInit {
       }
     })
   }
+
+// changeRoute(subPath:string="sad"){
+
+// window.history.pushState({},"","/plasmodii");
+
+//     //   function onTabChange(tabIndex){
+//     //     const personId = <get person id>;
+//     //     window.history.replaceState({}, '',`/person/${personId}/${tabIndex}`);
+//     // }
+// }
+
+
 }

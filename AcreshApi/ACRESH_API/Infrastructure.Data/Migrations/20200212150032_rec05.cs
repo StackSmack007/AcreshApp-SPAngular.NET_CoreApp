@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class rec02 : Migration
+    public partial class rec05 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -302,6 +302,7 @@ namespace Infrastructure.Data.Migrations
                     CategoryId = table.Column<int>(nullable: false),
                     VideoLink = table.Column<string>(nullable: true),
                     MainPicture = table.Column<string>(nullable: true),
+                    Difficulty = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

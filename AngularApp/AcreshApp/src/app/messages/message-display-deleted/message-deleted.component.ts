@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { IMessageRecievedSent } from 'src/app/core/interfaces/message-interfaces/messageRecieve';
-import { HelperService, DateFormats } from 'src/app/core/services/helper.service';
+import { HelperService, CustomDateFormats } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'acr-message-deleted',
@@ -21,6 +21,6 @@ export class MessageDeletedComponent {
   }
 
   get dateSent(): string {
-    return this.help.dateConvert(this.message.dateOfCreation,DateFormats.DefaultFormater);
+    return this.help.dateConvert(this.message.dateOfCreation,CustomDateFormats.DefaultFormater);
   }
 }

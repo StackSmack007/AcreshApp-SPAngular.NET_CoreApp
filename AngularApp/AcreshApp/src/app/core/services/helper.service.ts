@@ -4,7 +4,7 @@ const pad2 = (num: number): string => (num < 10 ? '0' : '') + num;
 const dateFormats = {
   defaultformater: (d: Date) => `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${pad2(d.getFullYear())} [${d.getHours()} : ${pad2(d.getMinutes())}]`
 }
-export enum DateFormats {
+export enum CustomDateFormats {
   DefaultFormater = 1,
 }
 
@@ -53,9 +53,9 @@ export class HelperService {
     return arr[index]
   }
 
-  dateConvert(date: string, formatFn: DateFormats): string {
+  dateConvert(date: string, formatFn: CustomDateFormats): string {
     let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
     d.setUTCSeconds(Date.parse(date));
-    return dateFormats[DateFormats[formatFn].toLowerCase()](d);
+    return dateFormats[CustomDateFormats[formatFn].toLowerCase()](d);
   }
 }

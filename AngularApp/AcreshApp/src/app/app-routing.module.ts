@@ -9,9 +9,11 @@ import { ProfileEditComponent } from './auth/profile-edit/profile-edit.component
 import { UserDataProfileEditResolver } from './core/respolvers/user-data-profile-edit.resolver';
 import { ListAllComponent } from './messages/list-all/list-all.component';
 import { AuthorizedOnlyGuard } from './core/guards/authorized.only';
+import { ListRecipesComponent } from './recipes/list-recipes/list-recipes.component';
 
 const routes: Routes = [
-  { path: "", pathMatch: "full", component: MainComponent },
+  { path: "", pathMatch: "full", redirectTo: "/index" },
+  { path: "index", pathMatch: "full", component: MainComponent },
   { path: "authentication/register", component: RegisterComponent },
   { path: "authentication/login", component: LoginComponent },
   {
@@ -22,12 +24,36 @@ const routes: Routes = [
     path: "user-data/edit-profile", component: ProfileEditComponent,
     resolve: { userInfo: UserDataProfileEditResolver }
   },
+
   {
     path: "message-box", component: ListAllComponent,
     canActivate: [AuthorizedOnlyGuard]
-  }
+  },
 
-  ///user-data/profile/Edit
+  {
+    path: "recipes",
+    children: [{
+      path: "", pathMatch: "full",
+      redirectTo: "/all"
+    },
+    {
+      path: "all",
+      component: ListRecipesComponent,
+    },
+    {
+      path: "recent",
+     component: ListRecipesComponent
+    },
+    {
+      path: "favourized",
+     component: ListRecipesComponent
+    },
+    {
+      path: "discussed",
+     component: ListRecipesComponent
+    }
+    ]
+  }
 
 ];
 

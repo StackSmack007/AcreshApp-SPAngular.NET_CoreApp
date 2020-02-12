@@ -167,6 +167,9 @@
                 tagNames: "fried",
                 ingredients: new Dictionary<string,string>() { ["Eggs"]="2", ["Milk"]="6 tsp", ["Butter"]="1 knob", ["SunflowerOil"]="1 tsp",["Pepper"]="per Taste" }),
             };
+            public static int RecipesMultiplier { get; } = 3;//it will multiply recipes provided in the array to generate more data...
+
+            public static int RecipesCount => RecipesMultiplier * Recipes.Length;
 
             public static string[] RecipeCommentsGood = { "I have tried it, It is very nice", "Cant find the ingredients", "Is this possible to achieve!", "Where is my pan", "What temperature do I cook it on?" };
             public static string[] RecipeCommentsBad = { "I hate you all", "UVENTUS FOREVER" };

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IMessageRecievedSent } from 'src/app/core/interfaces/message-interfaces/messageRecieve';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { HelperService, DateFormats } from 'src/app/core/services/helper.service';
+import { HelperService, CustomDateFormats } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'acr-message-recieved',
@@ -62,6 +62,6 @@ export class MessageRecievedComponent {
   }
 
   get dateSent(): string {
-    return this.help.dateConvert(this.message.dateOfCreation,DateFormats.DefaultFormater);
+    return this.help.dateConvert(this.message.dateOfCreation,CustomDateFormats.DefaultFormater);
   }
 }

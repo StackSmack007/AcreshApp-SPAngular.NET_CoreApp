@@ -13,6 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { StoreModule } from '@ngrx/store'
 import { unreadMsgsReducer } from './store/reducers/unread.msg.reducer';
 import { MessagesModule } from './messages/messages.module';
+import { RecipesModule } from './recipes/recipes.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +21,7 @@ import { MessagesModule } from './messages/messages.module';
   imports: [
     // ChartsModule,
     BrowserModule,
+    RecipesModule,
     AppRoutingModule,
     SharedModule,
     CoreModule,

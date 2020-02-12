@@ -23,8 +23,10 @@
             <a class="dropdown-item" routerLink="recipes/favourite">My Favourite Recipes</a>
             <a class="dropdown-item" routerLink="recipes/mine">My Shared Recipes</a>
           </div> -->
-          <a class="dropdown-item" routerLink="recipes/mine">Recently Added Recipes</a>
-          <a class="dropdown-item" routerLink="recipes/mine">Most Popular Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/all">All Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/recent">Most Rated Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/discussed">Most Discussed Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/favourized"> Most Favourized Recipes</a>
         </div>
       </div>
       <li class="nav-item">
@@ -56,7 +58,7 @@
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <a class="dropdown-item " [routerLink]="['/user-data/profile/', userName]">My Profile</a>
-            <a class="dropdown-item pt-2" routerLink="/message-box"><i class="far fa-envelope"></i> &nbsp; Messages
+            <a class="dropdown-item pt-2" routerLink="/message-box"><i class="far fa-envelope"></i> &nbsp; Communications
               <span class="badge badge-pill badge-danger ml-2 py-2 my-0 px-2" *ngIf="unreadCount"> {{unreadCount}}</span>
             </a>
             <a class="dropdown-item " routerLink="recipes/mine">Last Commented</a>

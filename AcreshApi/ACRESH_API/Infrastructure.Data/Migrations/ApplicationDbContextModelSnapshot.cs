@@ -276,6 +276,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasMaxLength(25600);
 
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 

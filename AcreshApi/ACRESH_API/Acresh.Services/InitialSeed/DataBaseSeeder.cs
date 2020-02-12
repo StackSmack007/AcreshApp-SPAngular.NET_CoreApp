@@ -155,68 +155,64 @@
         {
             var userIds = await GetUserIds();
             var recipesNew = new HashSet<Recipe>();
-            for (int i = 0; i < SeederConstants.Recipes.Length; i++)
+            int recCounter = 0;
+            for (int j = 0; j < SeederConstants.RecipesMultiplier; j++)
             {
-                var rec = SeederConstants.Recipes[i];
-                Recipe newRec = new Recipe
+                for (int i = 0; i < SeederConstants.Recipes.Length; i++)
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = rec.Name,
-                    Description = rec.Description,
-                    Portions = rec.Portions,
-                    CategoryId = await getCategoryIdAsync(rec.CategoryName),
-                    MainPicture = rec.MainPicture,
-                    VideoLink = rec.VideoLink,
-                    Status = rec.Status,
-                    RecipeTags = rec.TagNames.Select(t =>
+                    var rec = SeederConstants.Recipes[i];
+                    Recipe newRec = new Recipe
                     {
-                        var tagId = GetTagIdAsync(t).GetAwaiter().GetResult();
-                        if (tagId == -1)
+                        Id = Guid.NewGuid().ToString(),
+                        Name = rec.Name + (++recCounter),
+                        Description = rec.Description,
+                        Portions = rec.Portions,
+                        CategoryId = await getCategoryIdAsync(rec.CategoryName),
+                        MainPicture = rec.MainPicture,
+                        VideoLink = rec.VideoLink,
+                        Status = rec.Status,
+                        RecipeTags = rec.TagNames.Select(t =>
                         {
+                            var tagId = GetTagIdAsync(t).GetAwaiter().GetResult();
+                            if (tagId == -1)
+                            {
+                                return new RecipeTag
+                                {
+                                    Tag = new Tag(t)
+                                };
+                            }
                             return new RecipeTag
                             {
-                                Tag = new Tag(t)
+                                TagId = tagId
                             };
-                        }
-                        return new RecipeTag
+                        }).ToHashSet(),
+                        RecipeIngredients = rec.IngredientNameQuantity.Select(kvp =>
                         {
-                            TagId = tagId
-                        };
-                    }).ToHashSet(),
-                    RecipeIngredients = rec.IngredientNameQuantity.Select(kvp =>
-                    {
-                        var ingId = GetIngredientIdAsync(kvp.Key).GetAwaiter().GetResult();
-                        return new RecipeIngredient
-                        {
-                            IngredientId = ingId,
-                            Ammount = kvp.Value
-                        };
-                    }).ToHashSet(),
-                    Pictures = rec.Pictures.Distinct().Select(url => new RecipePicture { UrlPath = url }).ToHashSet(),
-                    AuthorId = userIds[i % userIds.Length],
-                };
-                recipesNew.Add(newRec);
+                            var ingId = GetIngredientIdAsync(kvp.Key).GetAwaiter().GetResult();
+                            return new RecipeIngredient
+                            {
+                                IngredientId = ingId,
+                                Ammount = kvp.Value
+                            };
+                        }).ToHashSet(),
+                        Pictures = rec.Pictures.Distinct().Select(url => new RecipePicture { UrlPath = url }).ToHashSet(),
+                        AuthorId = userIds[i % userIds.Length],
+                    };
+                    recipesNew.Add(newRec);
+                }
             }
             await db.Recipes.AddRangeAsync(recipesNew);
-            try
-            {
-                db.SaveChanges();
-
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
+            db.SaveChanges();
         }
         private async Task SeedRecipeVotes()
         {
             string[] userIds = await GetUserIds();
             var newVotes = new HashSet<RecipeVote>();
             int scoreCounter = 0;
-            for (int i = 0; i < SeederConstants.Recipes.Length; i++)
+            var recipeIds = await db.Recipes.Select(x => x.Id).ToArrayAsync();
+            for (int i = 0; i < recipeIds.Length; i++)
             {
-                string recipeId = await GetRecipeIdByNameAsync(SeederConstants.Recipes[i].Name);
+                string recipeId = recipeIds[i];
                 for (int j = i % 2; j < userIds.Length; j += 2)
                 {
                     newVotes.Add(new RecipeVote
@@ -236,9 +232,11 @@
             var newComments = new HashSet<RecipeComment>();
             int commentGoodCounter = 0;
             int commentBadCounter = 0;
-            for (int i = 0; i < SeederConstants.Recipes.Length; i++)
+
+            var recipeIds = await db.Recipes.Select(x => x.Id).ToArrayAsync();
+            for (int i = 0; i < recipeIds.Length; i++)
             {
-                string recipeId = await GetRecipeIdByNameAsync(SeederConstants.Recipes[i].Name);
+                string recipeId = recipeIds[i];
                 for (int j = i % 2; j < userIds.Length; j += 2)
                 {
                     newComments.Add(new RecipeComment

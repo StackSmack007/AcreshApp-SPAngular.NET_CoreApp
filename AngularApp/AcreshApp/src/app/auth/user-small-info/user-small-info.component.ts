@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ISmallUserInfo } from 'src/app/core/interfaces/user-data-interfaces/userSmallData';
-import { HelperService, DateFormats } from 'src/app/core/services/helper.service';
+import { HelperService, CustomDateFormats } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'acr-user-sm',
@@ -16,6 +16,6 @@ export class UserSmallInfoComponent implements OnInit {
   }
 
   get dateOfBlocking(): string {
-    return this.help.dateConvert(this.user.dateOfCreation, DateFormats.DefaultFormater);
+    return this.help.dateConvert(this.user.dateOfCreation, CustomDateFormats.DefaultFormater);
   }
 }

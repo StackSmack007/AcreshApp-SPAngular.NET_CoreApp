@@ -1,0 +1,39 @@
+<div class="row justify-content-start" (mouseenter)="displayInfo(0)" (mouseleave)="hideInfo()">
+    <div class="card border-primary my-2 mx-4 col-8 px-0">
+        <div class="card-header py-0">
+            <div class="row justify-content-between pt-1">
+                <div class="col-6 pt-2 mt-1"><i class="fas fa-scroll"></i>&nbsp;
+                    <a class="h4" href="#"> {{recipe.name}}</a>
+                </div>
+                <div class="col-6 ">
+                    <div class="float-right h5">
+                        <div height="15" width="15">
+                            <img src="../../../../assets/hat.png" alt="cook-hat">
+                        </div>
+                        {{recipe.authorCookRank}}
+                        &nbsp; <a [routerLink]="['/user-data/profile/', recipe.authorUserName]"
+                            class="text-success ">{{recipe.authorUserName}} </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-2 h5 mb-0 mt-1">
+            <div class="row justify-content-start px-2">
+                <div class="col-2 pr-2 mx-0">
+                    <img class="meal-picture" [src]="recipe.mainPicture" alt="picture of meal">
+                    <div class="pt-2 mb-0">
+                        <h6 class="font-italic"> Added on :</h6>
+                        <h6 class="font-italic">{{date}}</h6>
+                    </div>
+                </div>
+                <div class="col-10 pl-2">
+                    <p class="mb-2"> {{recipe.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div @fade class="col-3" *ngIf="infoShown">
+        <acr-recipe-sub-info [info]="recipe.subInfo"></acr-recipe-sub-info>
+    </div>
+</div>
