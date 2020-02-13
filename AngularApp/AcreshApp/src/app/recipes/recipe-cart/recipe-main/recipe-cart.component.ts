@@ -1,4 +1,4 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit, Input, } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { IRecipeMiniInfo } from 'src/app/core/interfaces/recipes/recipeMiniInfo';
 import { HelperService, CustomDateFormats as CustomDateFormats } from 'src/app/core/services/helper.service';
@@ -19,6 +19,7 @@ import { HelperService, CustomDateFormats as CustomDateFormats } from 'src/app/c
 
 export class RecipeCartComponent implements OnInit {
 
+  @Input()
   public recipe: IRecipeMiniInfo = {
     id: "someId",
     name: "Ramen",

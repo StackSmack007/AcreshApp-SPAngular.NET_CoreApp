@@ -42,19 +42,30 @@ const routes: Routes = [
     },
     {
       path: "recent",
-     component: ListRecipesComponent
+      component: ListRecipesComponent
+    },
+    {
+      path: "commented",
+      component: ListRecipesComponent
+    },
+    {
+      path: "commented-recently",
+      component: ListRecipesComponent
+    },
+    {
+      path: "highly-rated",
+      component: ListRecipesComponent
+    },
+    {
+      path: "most-rated",
+      component: ListRecipesComponent
     },
     {
       path: "favourized",
-     component: ListRecipesComponent
+      component: ListRecipesComponent
     },
-    {
-      path: "discussed",
-     component: ListRecipesComponent
-    }
     ]
   }
-
 ];
 
 @NgModule({

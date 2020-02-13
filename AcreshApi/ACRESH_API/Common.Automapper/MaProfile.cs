@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.Interfaces.Contracts.Automapper;
+using DataTransferObjects.Recipes;
 using DataTransferObjects.UserData;
 using Infrastructure.Models;
 using System;
@@ -37,6 +38,18 @@ namespace Common.AutomapperConfigurations
 .ForMember(d => d.UserName, opt => opt.MapFrom(x => x.Defender.UserName))
 .ForMember(d => d.CookRank, opt => opt.MapFrom(x => x.Defender.CookRank.ToString()))
 .ForMember(d => d.AvatarPicture, opt => opt.MapFrom(x => x.Defender.AvatarPicture));
+
+            CreateMap<Recipe, RecipeSubInfoDTOout>()
+.ForMember(d => d.Category, opt => opt.MapFrom(x => x.Category.Name))
+.ForMember(d => d.Fans, opt => opt.MapFrom(x => x.RecipeFavorisers.Count()))
+.ForMember(d => d.IngredientsCount, opt => opt.MapFrom(x => x.RecipeIngredients.Count()))
+.ForMember(d => d.Rating, opt => opt.MapFrom(x => x.Votes.Sum(v => (int)v.Score) / x.Votes.Count()));
+
+            CreateMap<Recipe, RecipeCardDTOout>()
+.ForMember(d => d.SubInfo, opt => opt.MapFrom(x => x))
+.ForMember(d => d.Description, opt => opt.MapFrom(x => x.Description.Substring(0,600)));
+
+
 
 
             //.ForMember(d => d.Gender, opt => opt.MapFrom(s => s.Gender.ToString().ToLower()));

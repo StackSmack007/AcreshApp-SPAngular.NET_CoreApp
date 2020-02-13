@@ -84,6 +84,7 @@ namespace ACRESH_API
             services.AddScoped<ServiceJWT>();
             services.AddTransient<IUserDataService, UserDataService>();
             services.AddTransient<IMessageService, MessageService>();
+            services.AddTransient<IRecipesService, RecipesService>();
 
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
         }

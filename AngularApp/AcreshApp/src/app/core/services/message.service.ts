@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { messagePaths } from '../settings/apiSettings';
 import { IMessageSend } from '../interfaces/message-interfaces/messageSend';
-import { HelperService } from './helper.service';
 import { SignalRNewMessagesService } from './signal-r.new-messages.service';
 import { map } from 'rxjs/operators';
 import { IMessageRecievedSent } from '../interfaces/message-interfaces/messageRecieve';
@@ -13,12 +12,12 @@ import { IMessageRecievedSent } from '../interfaces/message-interfaces/messageRe
   providedIn: 'root'
 })
 export class MessageService {
-  constructor(private http: HttpClient, private authService: AuthService, private helper: HelperService, public signalR: SignalRNewMessagesService) {
+  constructor(private http: HttpClient, private authService: AuthService,  public signalR: SignalRNewMessagesService) {
   }
 
   submitMsg(content: string, recieverId: string): Observable<any> {
     let messageObj: IMessageSend = { recieverId, content, senderId: this.authService.getUserInfo().id };
-    return this.http.post(messagePaths.base, this.helper.toCS_keys(messageObj))
+    return this.http.post(messagePaths.base, messageObj)
   }
 
   markReadMessage(messageId: number): Observable<number> {
@@ -26,14 +25,11 @@ export class MessageService {
   }
 
   getRecievedMessages(): Observable<IMessageRecievedSent[]> {
-    return this.http.get<IMessageRecievedSent[]>(messagePaths.base).pipe(
-      map(res => res.map(x => this.helper.toJS_keys(x))
-      ))
+    return this.http.get<IMessageRecievedSent[]>(messagePaths.base)
   }
 
   getSentMessages(): Observable<IMessageRecievedSent[]> {
-    return this.http.get<IMessageRecievedSent[]>(messagePaths.sentMessages).pipe(
-      map(res => res.map(x => this.helper.toJS_keys(x))))
+    return this.http.get<IMessageRecievedSent[]>(messagePaths.sentMessages)
   }
 
   deleteMessage(messageId: number): Observable<any> {
