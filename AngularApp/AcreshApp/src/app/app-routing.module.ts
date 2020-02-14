@@ -64,6 +64,15 @@ const routes: Routes = [
       path: "favourized",
       component: ListRecipesComponent
     },
+    {
+      path: "search",
+      component: ListRecipesComponent
+    },
+    {
+      path: "user",
+      component: ListRecipesComponent
+    },
+  //  `/recipes/search?phrase=${v}`
     ]
   }
 ];

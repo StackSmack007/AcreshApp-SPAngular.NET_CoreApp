@@ -1,4 +1,4 @@
-import { Component, DoCheck } from '@angular/core';
+import { Component, DoCheck, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -13,16 +13,14 @@ export class HeaderComponent implements DoCheck {
   public userName: string = null;
   constructor(private router: Router, private authService: AuthService, private toastr: ToastrService, private messageService: MessageService) { }
 
+  @ViewChild("searchPhrase")
+  phrase: ElementRef;
+
+
   ngDoCheck() {
     if (this.authService.isAuthenticated() && !this.userName) {
       this.userName = this.authService.getUserInfo().userName;
-     // debugger;
       this.messageService.signalR.startConnection(this.userName).then(() => this.messageService.signalR.updateUserUnreadCount(this.userName))
-      // this.messageService.getUnreadMsgCount().subscribe(x => { 
-      //   this.messageService.signalR.unreadCount = x }, console.log, () => {
-      //   this.messageService.signalR.monitorChange(this.authService.getUserInfo().id);
-      //   this.messageService.signalR.monitorAllSeen(this.authService.getUserInfo().id);
-      // });
     }
   }
 
@@ -41,4 +39,12 @@ export class HeaderComponent implements DoCheck {
     this.router.navigate([""]);
     this.messageService.signalR.stopConnection()
   }
+
+  search() {
+    let v: string = this.phrase.nativeElement.value;
+    if (v.length < 2) return;
+    this.router.navigate([`/recipes/search`, { phrase: v }]);
+    this.phrase.nativeElement.value = '';
+  }
+
 }

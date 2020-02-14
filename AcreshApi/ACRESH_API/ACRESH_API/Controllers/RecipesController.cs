@@ -19,12 +19,12 @@ namespace ACRESH_API.Controllers
             this.recipeService = recipeService;
         }
 
-        
+
         // GET: api/Recipes
         [HttpGet]
-        public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetCarts(string criteria, int pageNum)
+        public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetCards(string criteria, int pageNum, string val ="")
         {
-            IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetRecipeCarts(criteria);
+            IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetRecipeCarts(criteria, val);
             if (sqlReq is null) return BadRequest(new { reason = "Criteria is invalid!" });
 
             var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(REC_COUNT_PER_FETCH).ToArrayAsync();

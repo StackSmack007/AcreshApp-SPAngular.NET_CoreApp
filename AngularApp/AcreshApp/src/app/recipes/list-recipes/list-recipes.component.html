@@ -1,4 +1,6 @@
+<h3 class="text-center pt-4" [innerHTML]="title | htmlRaw"></h3>
 <div class="row">
+
     <div class="col-2"></div>
     <div class="col-10">
         <acr-recipe-cart *ngFor="let item of recipesFetched" [recipe]="item"></acr-recipe-cart>
@@ -12,5 +14,14 @@
             <p style="font-size: 20px; color: white">Loading...</p>
         </ngx-spinner>
     </div>
+</div>
 
+<div class="row" *ngIf="phrase && !isLoading && recipesFetched.length===0">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <h3 class="text-center py-4"> Sorry No results for your search... </h3>
+        <img width="100%" src="https://lh5.googleusercontent.com/proxy/bzT0KbGaK4qzgclV6hH_gbo3KfnMJBiywQ3VBkWZiGT8I7VbisSxA1FSsJ_5C4hGj7x71QAr30rFdpmGjWmH2oTErs2bi-fXcCnjW_k4cd33PgsImR5ONdbqGyu8DSymxdHD0KMD6z_AcwMGEJA"
+            alt="">
+    </div>
+    <div class="col-4"></div>
 </div>

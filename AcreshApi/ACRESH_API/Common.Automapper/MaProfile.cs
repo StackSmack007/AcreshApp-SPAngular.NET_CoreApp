@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.Interfaces.Contracts.Automapper;
+using Common.Tools.Extensions;
 using DataTransferObjects.Recipes;
 using DataTransferObjects.UserData;
 using Infrastructure.Models;
@@ -16,7 +17,8 @@ namespace Common.AutomapperConfigurations
         public MaProfile()
         {
             // var configuration2 = new MapperConfiguration(cfg => cfg.AddMaps("MyAssembly"));
-
+          
+            //CreateMap<DateTime, string>().ConvertUsing(new DateTimeEpochConverter());
 
             var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes());
 
@@ -25,9 +27,10 @@ namespace Common.AutomapperConfigurations
             CreateMapToMappings(allTypes);
             CreateMapFromMappings(allTypes);
 
+
+
             CreateMap<AcUser, ProfileDataForEditDTOout>()
                 .ForMember(d => d.Gender, opt => opt.MapFrom(s => s.Gender.ToString().ToLower()));
-
 
             CreateMap<UserBlocking, BlockedUserInfoDTOout>()
 .ForMember(d => d.UserName, opt => opt.MapFrom(x => x.Irritator.UserName))
@@ -47,7 +50,7 @@ namespace Common.AutomapperConfigurations
 
             CreateMap<Recipe, RecipeCardDTOout>()
 .ForMember(d => d.SubInfo, opt => opt.MapFrom(x => x))
-.ForMember(d => d.Description, opt => opt.MapFrom(x => x.Description.Substring(0,600)));
+.ForMember(d => d.Description, opt => opt.MapFrom(x => x.Description.Substring(0, 600)));
 
 
 
@@ -102,5 +105,15 @@ namespace Common.AutomapperConfigurations
             }
         }
 
+        private class DateTimeEpochConverter : ITypeConverter<DateTime, String>
+        {
+            string ITypeConverter<DateTime, string>.Convert(DateTime date, string destination, ResolutionContext context)
+            {
+                TimeSpan span = date.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
+                return span.TotalSeconds.ToString();
+            }
+        }
     }
 }
+
+

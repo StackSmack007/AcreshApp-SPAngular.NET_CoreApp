@@ -23,13 +23,13 @@
             <a class="dropdown-item" routerLink="recipes/favourite">My Favourite Recipes</a>
             <a class="dropdown-item" routerLink="recipes/mine">My Shared Recipes</a>
           </div> -->
-          <a class="dropdown-item" routerLink="recipes/all">All Recipes</a>
-          <a class="dropdown-item" routerLink="recipes/recent">Recently Added Recipes</a>
-          <a class="dropdown-item" routerLink="recipes/commented">Most Discussed Recipes</a>
-          <a class="dropdown-item" routerLink="recipes/commented-recently">Recently Discussed Recipes</a>
-          <a class="dropdown-item" routerLink="recipes/highly-rated">Highly Rated Recipes</a>
-          <a class="dropdown-item" routerLink="recipes/most-rated">Most Rated Recipes</a>
-          <a class="dropdown-item" routerLink="recipes/favourized"> Most Prefered</a>
+          <a class="dropdown-item" routerLink="recipes/all"><i class='fas fa-scroll'></i>&nbsp; All Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/recent"><i class='fas fa-concierge-bell'></i> &nbsp; Recently Added Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/commented"><i class='far fa-comments'></i> &nbsp; Most Commented Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/commented-recently"><i class='far fa-clock'></i>&nbsp; Recently Commented Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/highly-rated"><i class='fas fa-medal'></i>&nbsp; Highly Rated Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/most-rated"><i class='fas fa-users'></i>&nbsp; Most Rated Recipes</a>
+          <a class="dropdown-item" routerLink="recipes/favourized"><i class='fas fa-grin-hearts'></i>&nbsp; Most Prefered</a>
         </div>
       </div>
       <li class="nav-item">
@@ -48,7 +48,6 @@
           <span class="font-weight-bold text-primary">RE</span>cipes <span
             class="font-weight-bold text-primary">SH</span>aring </h4>
       </li>
-
     </ul>
 
     <ul *ngIf="userName; else unloggedOptions" class="navbar-nav pl-2 pr-0">
@@ -64,9 +63,9 @@
             <a class="dropdown-item pt-2" routerLink="/message-box"><i class="far fa-envelope"></i> &nbsp; Communications
               <span class="badge badge-pill badge-danger ml-2 py-2 my-0 px-2" *ngIf="unreadCount"> {{unreadCount}}</span>
             </a>
-            <a class="dropdown-item " routerLink="recipes/mine">Last Commented</a>
-            <a class="dropdown-item" routerLink="recipes/favourite">My Favourite Recipes</a>
-            <a class="dropdown-item" routerLink="recipes/mine">My Shared Recipes</a>
+            <a class="dropdown-item " routerLink="/recipes/mine">Last Commented</a>
+            <a class="dropdown-item" routerLink="/recipes/favourite">My Favourite Recipes</a>
+            <a class="dropdown-item" [routerLink]="['/recipes/user']" [queryParams]="{username: userName}">My Shared Recipes</a>
             <a class="dropdown-item" (click)="logout()">Logout</a>
           </div>
         </div>
@@ -89,7 +88,7 @@
       <input #searchPhrase class="form-control my-0 py-1 lime-border" type="text" placeholder="Name of recipe..."
         aria-label="Search">
       <div class="input-group-append">
-        <span class="input-group-text lime lighten-2" (click)="searchPhrase.value=''" id="sbtn"><i class="fas fa-search"
+        <span class="input-group-text lime lighten-2" (click)="search()" id="sbtn"><i class="fas fa-search"
             aria-hidden="true"></i></span>
       </div>
     </div>

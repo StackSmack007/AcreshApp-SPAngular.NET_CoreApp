@@ -11,7 +11,7 @@ namespace DataTransferObjects.Messages
     public class MessageDTOout : IMapFrom<Message>
     {
         public int Id { get; set; }
-        public DateTime DateOfCreation { get; set; }
+        public string DateOfCreation { get; set; }
         public bool IsDeleted { get; set; }
         [Required]
         public string SenderUserName { get; set; }

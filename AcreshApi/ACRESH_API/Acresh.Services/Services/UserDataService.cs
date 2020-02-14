@@ -2,8 +2,7 @@
 using Acresh.Services.Services.Contracts;
 using ACRESH_API.DTO.UserData;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Common.Tools.Extensions;
+using Common.AutomapperConfigurations;
 using DataTransferObjects.UserData;
 using Infrastructure.Models;
 using Infrastructure.Models.Enumerations;
@@ -19,14 +18,12 @@ namespace Acresh.Services.Services
 {
     public class UserDataService : IUserDataService
     {
-        private readonly IRepository<Recipe> recipeRepo;
         private readonly UserManager<AcUser> uManager;
         private readonly IRepository<UserBlocking> blockingsRepository;
         private readonly IMapper mapper;
 
-        public UserDataService(IRepository<Recipe> recipeRepo, UserManager<AcUser> uManager, IRepository<UserBlocking> blockingsRepository, IMapper mapper)
+        public UserDataService(UserManager<AcUser> uManager, IRepository<UserBlocking> blockingsRepository, IMapper mapper)
         {
-            this.recipeRepo = recipeRepo;
             this.uManager = uManager;
             this.blockingsRepository = blockingsRepository;
             this.mapper = mapper;
@@ -34,6 +31,7 @@ namespace Acresh.Services.Services
 
         public async Task<UserProfileData> GetUserByUserName(string userName)
         {
+            //TODO USE AUTOMAPPER!
             UserProfileData userInfo = await uManager.Users.Where(x => x.UserName.ToLower() == userName.ToLower())
                 .Select(x => new UserProfileData
                 {
@@ -88,15 +86,7 @@ namespace Acresh.Services.Services
             var userFound = await this.uManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
             if (userFound is null) return null;
             ProfileDataForEditDTOout result;
-            try
-            {
-                result = mapper.Map<ProfileDataForEditDTOout>(userFound);
-            }
-            catch (System.Exception e)
-            {
-
-                throw;
-            }
+            result = mapper.Map<ProfileDataForEditDTOout>(userFound);
             return result;
         }
 
@@ -133,8 +123,8 @@ namespace Acresh.Services.Services
 
         public IQueryable<BlockedUserInfoDTOout> GetBlockedUserInfos(string userId)
         {
-                var result = this.blockingsRepository.All().Where(x => !x.IsDeleted && x.DefenderId == userId).OrderByDescending(x => x.DateOfCreation).To<BlockedUserInfoDTOout>();
-                return result;
+            var result = this.blockingsRepository.All().Where(x => !x.IsDeleted && x.DefenderId == userId).OrderByDescending(x => x.DateOfCreation).To<BlockedUserInfoDTOout>();
+            return result;
         }
 
 

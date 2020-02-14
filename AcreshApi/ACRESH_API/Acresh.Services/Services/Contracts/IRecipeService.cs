@@ -8,6 +8,6 @@ namespace Acresh.Services.Services.Contracts
 {
     public interface IRecipesService
     {
-        IQueryable<RecipeCardDTOout> GetRecipeCarts(string criteria);
+        IQueryable<RecipeCardDTOout> GetRecipeCarts(string criteria, string val);
     }
 }

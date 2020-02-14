@@ -2,11 +2,31 @@ import { Injectable } from '@angular/core';
 const pad2 = (num: number): string => (num < 10 ? '0' : '') + num;
 
 const dateFormats = {
-  defaultformater: (d: Date) => `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${pad2(d.getFullYear())} [${d.getHours()} : ${pad2(d.getMinutes())}]`
+  defaultformater: (d: Date) => `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${d.getFullYear()} [${d.getHours()} : ${pad2(d.getMinutes())}]`
 }
 export enum CustomDateFormats {
   DefaultFormater = 1,
 }
+
+
+
+const DateTimeCStoJS = (date: string) => {
+  let t = {};
+  let csDate = date.split("-");
+  t["year"] = +csDate.shift();
+  t["month"] = +csDate.shift();
+  csDate = csDate[0].split(" ");
+  console.log(csDate);
+  t["date"] = +csDate.shift();
+  csDate = csDate[0].split(":");
+  t["hours"] = +csDate.shift();
+  t["minutes"] = +csDate.shift();
+  csDate = csDate[0].split(".");
+  t["seconds"] = +csDate.shift();
+  t["ms"] = 1000 * +(`0.` + csDate.shift());
+  return new Date(t["year"], t["month"], t["date"], t["hours"], t["minutes"], t["seconds"], t["ms"])
+}
+
 
 
 @Injectable({
@@ -54,8 +74,6 @@ export class HelperService {
   }
 
   dateConvert(date: string, formatFn: CustomDateFormats): string {
-    let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-    d.setUTCSeconds(Date.parse(date));
-    return dateFormats[CustomDateFormats[formatFn].toLowerCase()](d);
+    return dateFormats[CustomDateFormats[formatFn].toLowerCase()](DateTimeCStoJS(date));
   }
 }

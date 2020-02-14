@@ -4,12 +4,12 @@ import { RecipeCartComponent } from './recipe-cart/recipe-main/recipe-cart.compo
 import { RecipeSubInfoCartComponent } from './recipe-cart/recipe-sub-info-cart/recipe-sub-info-cart.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { ListRecipesComponent } from './list-recipes/list-recipes.component';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [RecipeCartComponent, RecipeSubInfoCartComponent, ListRecipesComponent],
   imports: [
-    CommonModule,AppRoutingModule,NgxSpinnerModule
+    CommonModule,AppRoutingModule,CoreModule
   ],
   exports: [RecipeCartComponent]
 })

@@ -27,7 +27,7 @@ export class RecipeCartComponent implements OnInit {
     mainPicture: "https://prods3.imgix.net/images/articles/2017_08/Non-feature-cold-summer-ramen-recipe-noodle-soup1.jpg?auto=format%2Ccompress&ixjsv=2.2.3",
     authorUserName: "User12",
     authorCookRank: "Chef",
-    dateOfCreation: "Wed Feb 12 2020 17:59:25 GMT+0200 (Eastern European Standard Time)",
+    dateOfCreation: "0",
     subInfo: {
       rating: 7,
       category:"BreakFast",

@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 import { IUserProfileData } from 'src/app/core/interfaces/user-data-interfaces/uprofile';
@@ -30,7 +30,7 @@ export class ProfileInfoComponent {
   public user: IUserProfileData = null;
 
   public myUserName: string;
-  constructor(private toastr: ToastrService, route: ActivatedRoute, private authService: AuthService, private userDataService: UserDataService, private messageService: MessageService) {
+  constructor(private router:Router,private toastr: ToastrService, route: ActivatedRoute, private authService: AuthService, private userDataService: UserDataService, private messageService: MessageService) {
     this.user = route.snapshot.data["userInfo"];
     this.myUserName = authService.getUserInfo().userName;
     this.amBlocked = this.user.blockedUserNames.includes(this.myUserName);
@@ -56,5 +56,10 @@ export class ProfileInfoComponent {
       this.messageService.signalR.updateUserUnreadCount(this.user.userName)
     }, () => this.toastr.error(`Message Not Sent`, "Failure"))
     console.log(mf);
+  }
+
+
+  showRecipes(){
+    this.router.navigate([`/recipes/user`, { userName: this.user.userName }]);
   }
 }

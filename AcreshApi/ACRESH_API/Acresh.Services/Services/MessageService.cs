@@ -1,7 +1,8 @@
 ﻿using Acresh.Services.DBRepository.Contracts;
 using Acresh.Services.Services.Contracts;
 using AutoMapper;
-using Common.Tools.Extensions;
+using AutoMapper.QueryableExtensions;
+using Common.AutomapperConfigurations;
 using DataTransferObjects.Messages;
 using Infrastructure.Models;
 using Infrastructure.Models.Enumerations;
@@ -54,7 +55,26 @@ namespace Acresh.Services.Services
         public IQueryable<MessageDTOout> GetSentMessages(string userId)
         {
             //DeletedAndNotDeleted
-            var userMessages = messageRepo.All().Where(x => x.SenderId == userId).OrderByDescending(x=>x.DateOfCreation).To<MessageDTOout>();
+
+            //try
+            //{
+            //    var test1 = messageRepo.All().Where(x => x.SenderId == userId).OrderByDescending(x => x.DateOfCreation)
+            //        .Include(x=>x.Sender)
+            //        .Include(x=>x.Reciever)
+            //        .First();
+
+            //    var res2 = mapper.Map<MessageDTOout>(test1);
+
+            //    var test = messageRepo.All().Where(x => x.SenderId == userId).OrderByDescending(x => x.DateOfCreation).Select(x=>mapper.Map<MessageDTOout>(x));
+            //}
+            //catch (System.Exception e)
+            //{
+
+            //    throw;
+            //}
+
+            var userMessages = messageRepo.All().Where(x => x.SenderId == userId).OrderByDescending(x => x.DateOfCreation).To<MessageDTOout>();
+
             return userMessages;
         }
 

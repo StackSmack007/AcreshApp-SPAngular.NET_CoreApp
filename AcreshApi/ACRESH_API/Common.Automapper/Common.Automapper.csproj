@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common.Interfaces\Common.Interfaces.csproj" />
+    <ProjectReference Include="..\Common.Tools\Common.Tools.csproj" />
     <ProjectReference Include="..\DataTransferObjects\DataTransferObjects.csproj" />
     <ProjectReference Include="..\Infrastructure.Models\Infrastructure.Models.csproj" />
   </ItemGroup>
