@@ -59,7 +59,5 @@ export class ProfileInfoComponent {
   }
 
 
-  showRecipes(){
-    this.router.navigate([`/recipes/user`, { userName: this.user.userName }]);
-  }
+s
 }

@@ -47,7 +47,7 @@ export interface IMessagePaths {
 
 export const recipePaths: IRecipePaths = {
     base: basePath + "recipes/",//post//put//get
-    getMinified: (crit, val, pNum) => basePath + `recipes?criteria=${crit}&value=${val}&pageNum=${pNum}`
+    getMinified: (crit, val, pNum) => basePath + `recipes?criteria=${crit}&val=${val}&pageNum=${pNum}`
 }
 
 export interface IRecipePaths {

@@ -37,9 +37,9 @@
                                     <tr *ngIf="user.recipesShared!==0">
                                         <td class="py-1 my-1">Recipes Shared:</td>
                                         <td class="py-1 my-1">
-                                            <a (click)="showRecipes()">{{user.recipesShared}} 
+                                            <a [routerLink]="['/recipes/user/',user.userName]">{{user.recipesShared}}
                                                 <i class="fas fa-scroll"></i></a></td>
-                                                <!-- [routerLink]="['/recipes/user']" [queryParams]="{username: user.userName}" -->
+
                                     </tr>
                                     <tr>
                                         <td class="py-1 my-1">About Me:</td>
@@ -90,7 +90,9 @@
                                 </div>
 
                                 <div class="form-group col-12">
-                                    <button type="submit" class="btn btn-info" [ngClass]="{'disabled': mf.invalid,'not-allowed':amBlocked}"> Send Message</button>
+                                    <button type="submit" class="btn btn-info"
+                                        [ngClass]="{'disabled': mf.invalid,'not-allowed':amBlocked}"> Send
+                                        Message</button>
                                 </div>
                             </div>
                         </div>

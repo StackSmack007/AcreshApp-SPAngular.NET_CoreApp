@@ -65,11 +65,11 @@ const routes: Routes = [
       component: ListRecipesComponent
     },
     {
-      path: "search",
+      path: "search/:phrase",
       component: ListRecipesComponent
     },
     {
-      path: "user",
+      path: "user/:username",
       component: ListRecipesComponent
     },
   //  `/recipes/search?phrase=${v}`

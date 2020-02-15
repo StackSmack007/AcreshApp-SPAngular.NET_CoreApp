@@ -43,7 +43,8 @@ export class HeaderComponent implements DoCheck {
   search() {
     let v: string = this.phrase.nativeElement.value;
     if (v.length < 2) return;
-    this.router.navigate([`/recipes/search`, { phrase: v }]);
+    this.router.navigate([`/recipes/search/${v}`]);
+   // this.router.navigate([`/recipes/search/${v}`, { phrase: v }]);
     this.phrase.nativeElement.value = '';
   }
 
