@@ -72,6 +72,16 @@ const routes: Routes = [
       path: "user/:username",
       component: ListRecipesComponent
     },
+    {
+      path: "my-favourite",
+      component: ListRecipesComponent,
+      canActivate: [AuthorizedOnlyGuard]
+    },
+    {
+      path: "my-commented",
+      component: ListRecipesComponent,
+      canActivate: [AuthorizedOnlyGuard]
+    },
   //  `/recipes/search?phrase=${v}`
     ]
   }

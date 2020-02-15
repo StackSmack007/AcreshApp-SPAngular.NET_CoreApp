@@ -1,5 +1,6 @@
 ﻿using Acresh.Services.Services.Contracts;
 using DataTransferObjects.Recipes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ namespace ACRESH_API.Controllers
 {
     public class RecipesController : BaseController
     {
-
         private const int REC_COUNT_PER_FETCH = 3;
         private readonly IRecipesService recipeService;
 
@@ -22,7 +22,7 @@ namespace ACRESH_API.Controllers
 
         // GET: api/Recipes
         [HttpGet]
-        public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetCards(string criteria, int pageNum, string val ="")
+        public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetCards(string criteria, int pageNum, string val = "")
         {
             IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetRecipeCarts(criteria, val);
             if (sqlReq is null) return BadRequest(new { reason = "Criteria is invalid!" });
@@ -31,6 +31,19 @@ namespace ACRESH_API.Controllers
             //if (result.Length == 0) return NoContent();
             return result;
         }
+
+        [Authorize]
+        [HttpGet("private")]
+        public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetPrivateCards(string criteria, int pageNum)
+        {
+            IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetPrivateRecipeCarts(criteria,getUserId());
+            if (sqlReq is null) return BadRequest(new { reason = "Criteria is invalid!" });
+
+            var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(REC_COUNT_PER_FETCH).ToArrayAsync();
+            //if (result.Length == 0) return NoContent();
+            return result;
+        }
+
 
         //// GET: api/Recipes/5
         //[HttpGet("{id}", Name = "Get")]

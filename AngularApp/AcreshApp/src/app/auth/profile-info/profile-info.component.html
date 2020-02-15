@@ -2,7 +2,8 @@
     <div class="row justify-content-center">
         <div class="col-3"></div>
         <div class="col-6">
-            <h2 class="text-center py-3">User Info:</h2>
+            <h2 class="text-center py-3" *ngIf="!isAuthor()"><i class="fas fa-info-circle"></i> &nbsp; User Info:</h2>
+            <h2 class="text-center py-3" *ngIf="isAuthor()"><i class="fas fa-info-circle"></i> &nbsp; My Profile Info:</h2>
             <!-- {{user | json}} -->
             <div class="row">
                 <div class="row container-fluid justify-content-start pb-2">

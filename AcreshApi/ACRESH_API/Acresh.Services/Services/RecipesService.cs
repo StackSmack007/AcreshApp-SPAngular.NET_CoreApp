@@ -18,6 +18,23 @@ namespace Acresh.Services.Services
             this.recipeRepo = recipeRepo;
         }
 
+        public IQueryable<RecipeCardDTOout> GetPrivateRecipeCarts(string criteria, string myId)
+        {
+            Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>> sortCriteria = new Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>>
+            {
+                ["my-favourite"] = (x) => x.Where(x => !x.IsDeleted && x.RecipeFavorisers.Any(rf => !rf.IsDeleted && rf.UserId == myId))
+                .OrderByDescending(x => x.RecipeFavorisers.Where(rf => rf.UserId == myId).First().DateOfCreation),
+                ["my-commented"] = (x) => x.Where(x => !x.IsDeleted && x.Comments.Any(rc => !rc.IsDeleted && rc.AuthorId == myId))
+                                         .OrderByDescending(x => x.Comments.Where(rc => !rc.IsDeleted && rc.AuthorId == myId).Select(rc => rc.DateOfCreation)
+                                                                                                                             .OrderByDescending(d => d).First()),
+            };
+            if (sortCriteria.ContainsKey(criteria))
+            {
+                return sortCriteria[criteria](recipeRepo.All()).To<RecipeCardDTOout>();
+            }
+            return null;
+        }
+
         public IQueryable<RecipeCardDTOout> GetRecipeCarts(string criteria, string val)
         {
             string[] phrases = val.ToLower().Split(new[] { ',', ' ', ';', '_', '\t' }, StringSplitOptions.RemoveEmptyEntries).ToArray();

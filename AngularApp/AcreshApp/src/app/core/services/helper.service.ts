@@ -16,7 +16,7 @@ const DateTimeCStoJS = (date: string) => {
   t["year"] = +csDate.shift();
   t["month"] = +csDate.shift();
   csDate = csDate[0].split(" ");
-  console.log(csDate);
+
   t["date"] = +csDate.shift();
   csDate = csDate[0].split(":");
   t["hours"] = +csDate.shift();

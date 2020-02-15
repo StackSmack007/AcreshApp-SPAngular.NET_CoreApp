@@ -23,11 +23,15 @@ export class ListRecipesComponent {
     "most-rated": () => "<i class='fas fa-users'></i>&nbsp; Recipes With Most Votes...",
     "favourized": () => "<i class='fas fa-grin-hearts'></i>&nbsp; Everyone's First Choise...",
     "search": () => `<i class='fas fa-search'></i>&nbsp; Results Of Search for...<span class="text-info font-italic">"${this.phrase}"</span>`,
-    "user": () => (this.authService.isAuthenticated() && this.authService.getUserInfo().userName.toLowerCase() === this.userName.toLowerCase()) ? `<i class='fas fa-scroll'></i></i>&nbsp; My Recipes...` : `<i class='fas fa-user'></i></i>&nbsp; ${this.userName}'s Recipes...`,
+    "user": () => (this.authService.isAuthenticated() && this.authService.getUserInfo().userName.toLowerCase() === this.userName.toLowerCase()) ? `<i class='fas fa-share-alt'></i></i>&nbsp; My Shared Recipes...` : `<i class='fas fa-user'></i></i>&nbsp; ${this.userName}'s Recipes...`,
+    "my-favourite": () => "<i class='far fa-heart'></i>&nbsp; My Favourite Recipes...",
+    "my-commented": () => "<i class='far fa-comment-alt'></i>&nbsp; My Commented Recipes...",
   }
 
   get title() {
-    return this.titles[this.criteria]();
+    const crit_lcase = this.criteria.toLowerCase();
+    if (!this.titles[crit_lcase]) return "No Results..." + crit_lcase;
+    return this.titles[crit_lcase]();
   }
   public recipesFetched: IRecipeMiniInfo[] = [];
 
@@ -63,29 +67,31 @@ export class ListRecipesComponent {
   }
 
   private fetchRecipes() {
-    this.startLoading();
-
-    this.recipeService.getRecipes(this.criteria, (this.phrase || this.userName), this.currentPage++).subscribe(x => {
-      if (x.length === 0) {
-        this.endReached = true;
-        this.stopLoading();
+    this.startLoadingInfo();
+    let serviceMethodProper = (this.criteria.startsWith("my-") ? this.recipeService.getPrivateRecipes : this.recipeService.getRecipes).bind(this.recipeService);
+    serviceMethodProper(this.currentPage++, this.criteria, (this.phrase || this.userName))
+      .subscribe(x => {
+        if (x.length === 0) {
+          this.endReached = true;
+          this.stopLoadingInfo();
+        }
+        this.recipesFetched = this.recipesFetched.concat(x);
+        this.stopLoadingInfo();
       }
-      this.recipesFetched = this.recipesFetched.concat(x);
-      this.stopLoading();
-    }, (e) => {
-      this.stopLoading();
-      console.log(e);
-      this.notFound = true;
-    })
+        , (e) => {
+          this.stopLoadingInfo();
+          console.log(e, "problemNSH");
+          this.notFound = true;
+        })
   }
 
-  private startLoading() {
+  private startLoadingInfo() {
     this.isLoading = true;
     if (this.endReached) return;
     this.spinner.show();
   }
 
-  private stopLoading() {
+  private stopLoadingInfo() {
     this.isLoading = false;
     this.spinner.hide();
   }

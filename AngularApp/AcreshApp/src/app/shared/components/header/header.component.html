@@ -59,14 +59,14 @@
           </a>
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item " [routerLink]="['/user-data/profile/', userName]">My Profile</a>
+            <a class="dropdown-item " [routerLink]="['/user-data/profile/', userName]"><i class="fas fa-user-cog"></i> &nbsp; My Profile</a>
             <a class="dropdown-item pt-2" routerLink="/message-box"><i class="far fa-envelope"></i> &nbsp; Communications
               <span class="badge badge-pill badge-danger ml-2 py-2 my-0 px-2" *ngIf="unreadCount"> {{unreadCount}}</span>
             </a>
-            <a class="dropdown-item " routerLink="/recipes/mine">Last Commented</a>
-            <a class="dropdown-item" routerLink="/recipes/favourite">My Favourite Recipes</a>
-            <a class="dropdown-item" [routerLink]="['/recipes/user']" [queryParams]="{username: userName}">My Shared Recipes</a>
-            <a class="dropdown-item" (click)="logout()">Logout</a>
+            <a class="dropdown-item " routerLink="/recipes/my-commented"><i class="far fa-comment-alt"></i> &nbsp; My Commented</a>
+            <a class="dropdown-item" routerLink="/recipes/my-favourite"><i class="far fa-heart"></i>&nbsp; My Favourite Recipes</a>
+            <a class="dropdown-item" [routerLink]="['/recipes/user/',userName]"><i class="fas fa-share-alt"></i> &nbsp; My Shared Recipes</a>
+            <a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </div>
       </li>

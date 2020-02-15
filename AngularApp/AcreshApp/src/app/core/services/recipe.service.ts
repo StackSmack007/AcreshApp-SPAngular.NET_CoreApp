@@ -12,7 +12,11 @@ export class RecipeService {
 
   constructor(private http: HttpClient) { }
 
-  getRecipes(criteria: string, val: string, pageNum: number): Observable<IRecipeMiniInfo[]> {
-    return this.http.get<IRecipeMiniInfo[]>(recipePaths.getMinified(criteria, val, pageNum))
+  getRecipes(pageNum: number, criteria: string, val: string, ): Observable<IRecipeMiniInfo[]> {
+    return this.http.get<IRecipeMiniInfo[]>(recipePaths.getMinified( pageNum,criteria, val))
+  }
+
+  getPrivateRecipes(pageNum: number, criteria: string, ): Observable<IRecipeMiniInfo[]> {
+    return this.http.get<IRecipeMiniInfo[]>(recipePaths.getMinifiedPrivate( pageNum,criteria))
   }
 }
