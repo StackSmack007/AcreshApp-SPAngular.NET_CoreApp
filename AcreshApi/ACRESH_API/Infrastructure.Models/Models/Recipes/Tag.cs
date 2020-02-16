@@ -5,6 +5,10 @@ namespace Infrastructure.Models
 {
     public class Tag : BaseEntity<int>
     {
+        public Tag()
+        {
+
+        }
         public Tag(string name)
         {
             Name = name;
