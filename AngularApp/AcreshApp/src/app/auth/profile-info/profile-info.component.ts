@@ -50,6 +50,7 @@ export class ProfileInfoComponent {
   }
 
   submitMessage(mf: NgForm) {
+    if(mf.invalid) return;
     this.messageService.submitMsg(mf.value.msg, this.user.id).subscribe(() => {
       this.toastr.success("Message Sent", "Success");
       mf.reset();

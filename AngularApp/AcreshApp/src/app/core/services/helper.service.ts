@@ -24,7 +24,10 @@ const DateTimeCStoJS = (date: string) => {
   csDate = csDate[0].split(".");
   t["seconds"] = +csDate.shift();
   t["ms"] = 1000 * +(`0.` + csDate.shift());
-  return new Date(t["year"], t["month"], t["date"], t["hours"], t["minutes"], t["seconds"], t["ms"])
+  let result = new Date(t["year"], t["month"], t["date"], t["hours"], t["minutes"], t["seconds"], t["ms"]);
+  let offsetHours = new Date().getTimezoneOffset() / -60;
+  result.setHours(result.getHours() + offsetHours);
+  return new Date(result);
 }
 
 
