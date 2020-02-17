@@ -5,12 +5,13 @@ import { RecipeSubInfoCartComponent } from './recipe-cart/recipe-sub-info-cart/r
 import { AppRoutingModule } from '../app-routing.module';
 import { ListRecipesComponent } from './list-recipes/list-recipes.component';
 import { CoreModule } from '../core/core.module';
+import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
 
 @NgModule({
-  declarations: [RecipeCartComponent, RecipeSubInfoCartComponent, ListRecipesComponent],
+  declarations: [RecipeCartComponent, RecipeSubInfoCartComponent, ListRecipesComponent, RecipeDetailsComponent],
   imports: [
     CommonModule,AppRoutingModule,CoreModule
   ],
-  exports: [RecipeCartComponent]
+  exports: [RecipeCartComponent,RecipeDetailsComponent]
 })
 export class RecipesModule { }

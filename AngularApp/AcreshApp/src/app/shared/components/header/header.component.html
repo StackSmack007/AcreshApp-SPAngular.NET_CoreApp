@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-pills">
-  <a class="navbar-brand" routerLink="">ACRESH</a>
+  <a class="navbar-brand" routerLink=""><span class="acsh">ACRESH</span></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
     aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -18,11 +18,6 @@
         </a>
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <!-- <div *ngIf="isLoggedIn">
-            <a class="dropdown-item " routerLink="recipes/mine">My Shared Recipes</a>
-            <a class="dropdown-item" routerLink="recipes/favourite">My Favourite Recipes</a>
-            <a class="dropdown-item" routerLink="recipes/mine">My Shared Recipes</a>
-          </div> -->
           <a class="dropdown-item" routerLink="recipes/all"><i class='fas fa-scroll'></i>&nbsp; All Recipes</a>
           <a class="dropdown-item" routerLink="recipes/recent"><i class='fas fa-concierge-bell'></i> &nbsp; Recently Added Recipes</a>
           <a class="dropdown-item" routerLink="recipes/commented"><i class='far fa-comments'></i> &nbsp; Most Commented Recipes</a>
@@ -43,10 +38,10 @@
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <h4 class="nav-link font-italic"><span class="font-weight-bold  text-primary">A</span>pplication for <span
-            class="font-weight-bold text-primary">C</span>ooking
-          <span class="font-weight-bold text-primary">RE</span>cipes <span
-            class="font-weight-bold text-primary">SH</span>aring </h4>
+        <h4 class="nav-link font-italic"><span class="acsh">A</span>pplication for <span
+            class="acsh">C</span>ooking
+          <span class="acsh">RE</span>cipes <span
+            class="acsh">SH</span>aring </h4>
       </li>
     </ul>
 
@@ -66,7 +61,7 @@
             <a class="dropdown-item " routerLink="/recipes/my-commented"><i class="far fa-comment-alt"></i> &nbsp; My Commented</a>
             <a class="dropdown-item" routerLink="/recipes/my-favourite"><i class="far fa-heart"></i>&nbsp; My Favourite Recipes</a>
             <a class="dropdown-item" [routerLink]="['/recipes/user/',userName]"><i class="fas fa-share-alt"></i> &nbsp; My Shared Recipes</a>
-            <a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt"></i> &nbsp; Logout</a>
           </div>
         </div>
       </li>
@@ -92,7 +87,5 @@
             aria-hidden="true"></i></span>
       </div>
     </div>
-
-
   </div>
 </nav>

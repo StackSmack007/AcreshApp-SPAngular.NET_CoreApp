@@ -1,0 +1,45 @@
+main {
+    max-width: 100em; 
+    margin: 0 auto;
+    background: rgb(241, 241, 241);
+}
+
+.hr{
+    border-bottom: 2px solid royalblue;
+    margin: 1em 2em;
+
+}
+table {
+    width: 100%;
+}
+
+/* div.mediaDiv{
+    width:10em;
+    margin-right: 2em;
+    display: inline-block;
+} */
+
+/* h2 {
+    padding: 1em;
+} */
+
+ul.undecorated{
+    margin:0;
+    padding-left:1em;
+}
+
+ul.undecorated li{
+    list-style-type: none;
+}
+
+button.not-allowed{cursor: not-allowed;}
+
+img.round {
+    border-radius: 10%;
+    padding: 0 1em;
+  }
+
+  div.embed-responsive{
+      margin:1em;
+width: auto;
+  }

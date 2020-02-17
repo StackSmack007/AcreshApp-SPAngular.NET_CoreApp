@@ -1,0 +1,118 @@
+<main>
+    <div class="row justify-content-start pt-3">
+        <div class="col-3 p-3 mt-4">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" *ngFor="let pic of pictures; let i=index;" [attr.data-slide-to]="i"></li>
+                </ol>                  
+                <div class="carousel-inner">
+                  <div class="carousel-item" *ngFor="let pic of pictures" [ngClass]="{'active': pic===pictures[0]}">
+                    <img  [src]="pic" class="d-block w-100 round" alt="...">
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+            </div>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+                </div>
+        </div>
+
+        <div class="col-9">
+<div class="row justify-content-between pr-4 pl-2">
+    <div class="col-4 text-left"><h3><i class="fas fa-scroll"></i> &nbsp; Боб с кюфтета</h3></div>
+    <div class="col-5 pl-2">
+        <h4 class="pt-2 text-center"><i *ngFor="let star of starCondition.positive" class="fas fa-star pr-1"></i><i *ngIf="starCondition.halfStar" class="fas fa-star-half-alt pr-1"></i><i *ngFor="let star of starCondition.lacking" class="far fa-star pr-1"></i>  &nbsp;{{recipeOptions[starCondition.overal]}}</h4>
+    </div>
+    <div class="col-3 text-right"><h5 class="pb-0 pr-2">Майстор Цветко</h5></div>
+</div>
+
+<div class="hr"></div>
+<h4 class="text-center pb-2"><i class="fas fa-book-open"></i> &nbsp;Category: Qhniesto chorbesti</h4> 
+<div class="row justify-content-between pt-2 px-3">
+<div class="col-5">
+    <h5>Ingredients: </h5> 
+<table>
+    <tbody>
+        <tr>
+            <td><a href="#">Tomato</a>   </td>
+            <td>2</td>
+            <td>spns</td>
+        </tr>
+        <tr>
+            <td><a href="#">Potato</a></td>
+            <td>2</td>
+            <td>numbers</td>
+        </tr>
+        <tr>
+            <td><a href="#">Cucumber</a></td>
+            <td>3</td>
+            <td>spns</td>
+        </tr>
+    <tfoot>
+        <tr>
+            <td colspan="6">Tags: kufteta, bobove, zaprujka, bobec</td>
+        </tr>
+    </tfoot>
+</table>
+
+</div>
+<div class="col-7">
+<form #f="ngForm" (ngSubmit)="makeVote(f.value)">
+    <label for="choise">Rate This Recipe:</label>
+    <div class="row justify-content-between">
+        <div class="col-4">
+            <select  [(ngModel)]="defaultRatingOpt" name="choise" class="custom-select" id="choise" [disabled]="!isLoggedIn">
+                <option  *ngIf="defaultRatingOpt===0" value="0" >Choose rating...</option>
+                <option *ngFor="let opt of recipeOptions; let i=index;" [value]="i+1" [selected]="myVote===i">{{opt}}</option>>
+            </select>
+        </div>
+    <div class="col-3 pt-1">
+        <button type="submit" class="btn btn-primary btn-sm" [ngClass]="{'not-allowed': !rateBtnEnabled(f.value.choise)}" [disabled]="!rateBtnEnabled(f.value.choise)"><i class="fas fa-star"> </i>&nbsp; <span [innerHTML]="myVote? 'Change':'Give'" ></span> Rating </button>
+    </div>
+    <div class="col-4 pt-1 px-0">
+        <button (click)="favUnfav()" class="btn btn-primary btn-sm" [ngClass]="{'not-allowed': !isLoggedIn}" [disabled]="!isLoggedIn">
+            <span *ngIf="false; else isFavourite"><i class="fas fa-heart"></i>&nbsp; Add to Favourite </span>
+            <ng-template #isFavourite> <i class="fas fa-heart-broken"></i>&nbsp; Remove from Favourite </ng-template>
+        </button>
+    </div>
+</div>
+</form>
+    <div class="col-12 py-2">
+        <div class="row justify-content-start">         
+            <div class="col-6"></div>
+            <div class="col-6 px-0">
+                <ul class="undecorated">
+                    <li ><i class="fas fa-user"></i> 78 voters</li>
+                    <li ><i class="fas fa-poll"></i> 5.42 average</li>
+                    <li ><i class="fas fa-user"></i> 34 users Bookmerked this recipe</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+<div class="pt-2">
+    <h4>How to prepare:</h4>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam.</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam.</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam.</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam.</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam.</p>
+
+</div>
+
+</div>
+
+           
+
+        </div>
+   
+</main>
