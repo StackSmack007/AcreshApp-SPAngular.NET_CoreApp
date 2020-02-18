@@ -39,6 +39,14 @@ img.round {
     padding: 0 1em;
   }
 
+img.cook-hat{
+    width: 1em;
+    height:  1em;
+    text-align: left;
+    display: block;
+}
+
+
   div.embed-responsive{
       margin:1em;
 width: auto;

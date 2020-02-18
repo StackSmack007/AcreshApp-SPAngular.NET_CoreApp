@@ -76,7 +76,7 @@ export class HelperService {
     return arr[index]
   }
 
-  dateConvert(date: string, formatFn: CustomDateFormats): string {
+ static dateConvert(date: string, formatFn: CustomDateFormats): string {
     return dateFormats[CustomDateFormats[formatFn].toLowerCase()](DateTimeCStoJS(date));
   }
 }

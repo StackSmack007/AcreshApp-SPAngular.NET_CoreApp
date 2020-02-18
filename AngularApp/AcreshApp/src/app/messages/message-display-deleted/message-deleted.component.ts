@@ -14,13 +14,13 @@ export class MessageDeletedComponent {
 
   expanded: boolean = false;
 
-  constructor(private help:HelperService) { }
+  constructor() { }
 
   showHideContent() {
     this.expanded = !this.expanded;
   }
 
   get dateSent(): string {
-    return this.help.dateConvert(this.message.dateOfCreation,CustomDateFormats.DefaultFormater);
+    return HelperService.dateConvert(this.message.dateOfCreation,CustomDateFormats.DefaultFormater);
   }
 }

@@ -30,7 +30,7 @@ export class MessageRecievedComponent {
   public expanded: boolean = true;
   public showBlockInfo: boolean = false;
 
-  constructor(private authService: AuthService,private help:HelperService) { }
+  constructor(private authService: AuthService) { }
 
   get message() {
     return this._mesg;
@@ -62,6 +62,6 @@ export class MessageRecievedComponent {
   }
 
   get dateSent(): string {
-    return this.help.dateConvert(this.message.dateOfCreation,CustomDateFormats.DefaultFormater);
+    return HelperService.dateConvert(this.message.dateOfCreation,CustomDateFormats.DefaultFormater);
   }
 }

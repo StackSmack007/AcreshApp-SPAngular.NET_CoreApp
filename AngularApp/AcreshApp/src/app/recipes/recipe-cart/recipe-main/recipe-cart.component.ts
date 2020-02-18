@@ -38,7 +38,7 @@ export class RecipeCartComponent implements OnInit {
     }
   }
 
-  constructor(private help:HelperService) { }
+  constructor() { }
 
   infoShown: boolean = false;
   ngOnInit(): void {
@@ -55,7 +55,7 @@ export class RecipeCartComponent implements OnInit {
   }
   
   get date(){
-  return this.help.dateConvert(this.recipe.dateOfCreation,CustomDateFormats.DefaultFormater)
+  return HelperService.dateConvert(this.recipe.dateOfCreation,CustomDateFormats.DefaultFormater)
   }
 
 }

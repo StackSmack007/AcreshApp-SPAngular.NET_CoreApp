@@ -11,11 +11,11 @@ export class UserSmallInfoComponent implements OnInit {
 
   @Input()
   user: ISmallUserInfo = null
-  constructor(private help: HelperService) { }
+  constructor() { }
   ngOnInit(): void {
   }
 
   get dateOfBlocking(): string {
-    return this.help.dateConvert(this.user.dateOfCreation, CustomDateFormats.DefaultFormater);
+    return HelperService.dateConvert(this.user.dateOfCreation, CustomDateFormats.DefaultFormater);
   }
 }
