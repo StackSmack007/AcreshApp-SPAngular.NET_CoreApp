@@ -68,7 +68,7 @@ export class ListRecipesComponent {
 
   private fetchRecipes() {
     this.startLoadingInfo();
-    let serviceMethodProper = (this.criteria.startsWith("my-") ? this.recipeService.getPrivateRecipes : this.recipeService.getRecipes).bind(this.recipeService);
+    let serviceMethodProper:(a:number,b:string,c:string|void)=>Observable<IRecipeMiniInfo[]> = (this.criteria.startsWith("my-") ? this.recipeService.getPrivateRecipes : this.recipeService.getRecipes).bind(this.recipeService);
     serviceMethodProper(this.currentPage++, this.criteria, (this.phrase || this.userName))
       .subscribe(x => {
         if (x.length === 0) {
@@ -77,6 +77,7 @@ export class ListRecipesComponent {
         }
         this.recipesFetched = this.recipesFetched.concat(x);
         this.stopLoadingInfo();
+        console.log(x[0]?x[0].dateOfCreation:"");
       }
         , (e) => {
           this.stopLoadingInfo();

@@ -39,9 +39,7 @@ namespace Infrastructure.Models
         public string VideoLink { get; set; }
         [Url]
         public string MainPicture { get; set; }
-
         public RecipeDifficulty Difficulty { get; set; }
-
         public virtual ApprovalStatus Status { get; set; }
         public ICollection<RecipePicture> Pictures { get; set; }
         public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; } 
@@ -55,9 +53,6 @@ namespace Infrastructure.Models
         public ICollection<RecipeTag> RecipeTags { get; set; }
         public virtual ICollection<RecipeComment> Comments { get; set; } //*
         public ICollection<Report> Reports { get; set; } //*
-
-
-
-
+                     
     }
 }

@@ -10,12 +10,12 @@ export enum CustomDateFormats {
 
 
 
-const DateTimeCStoJS = (date: string) => {
+const DateTimeCStoJS = (date: string,symbol="T") => {
   let t = {};
   let csDate = date.split("-");
   t["year"] = +csDate.shift();
   t["month"] = +csDate.shift();
-  csDate = csDate[0].split(" ");
+  csDate = csDate[0].split(symbol);
 
   t["date"] = +csDate.shift();
   csDate = csDate[0].split(":");

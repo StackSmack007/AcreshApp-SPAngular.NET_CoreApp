@@ -9,6 +9,6 @@
         public string CookRank { get; set; }
         [SourceMember(nameof(UserBlocking.Irritator.AvatarPicture))]
         public string AvatarPicture { get; set; }
-        public string DateOfCreation { get; set; }
+        public DateTime DateOfCreation { get; set; }
     }
 }

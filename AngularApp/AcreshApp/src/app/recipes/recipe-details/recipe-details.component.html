@@ -19,8 +19,8 @@
                   <span class="sr-only">Next</span>
                 </a>
             </div>
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" [attr.src]="recipe.videoLink | safe" allowfullscreen></iframe>
+                <div class="embed-responsive embed-responsive-16by9" *ngIf="videoLink">
+                    <iframe class="embed-responsive-item" [attr.src]="videoLink | safe" allowfullscreen></iframe>
                 </div>
         </div>
         <div class="col-9">
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="hr"></div>
-            <h4 class="text-center pb-2"><i class="fas fa-book-open"></i> &nbsp;Category: {{recipe.category}}</h4> 
+            <h4 class="text-center pb-2"><i class="fas fa-book-open"></i> &nbsp;Category: {{recipe.categoryName}}</h4> 
             <div class="row justify-content-between pt-2 px-3">
                 <div class="col-5">
                     <h5>Ingredients: </h5> 
@@ -78,17 +78,17 @@
                     </form>
                     <div class="col-12 py-2">
                         <div class="row justify-content-start">         
-                            <div class="col-5 px-0">
+                            <div class="col-7 px-0">
                                 <ul class="undecorated">
                                     <li ><i class="fas fa-user"></i> &nbsp; {{ratingProperties.voterCount}} Voters</li>
                                     <li ><i class="fas fa-poll"></i> &nbsp; {{ratingProperties.avRating | number:"1.2"}} Average Rating</li>
-                                    <li ><i class="fas fa-user"></i> &nbsp; {{recipe.recipeFavorisers.length}} users Bookmerked this recipe</li>
+                                    <li ><i class="fas fa-user"></i> &nbsp; {{recipe.favorizers.length}} users Bookmerked this recipe</li>
+                                    <li ><i class="far fa-clock"></i> &nbsp; Last Modified: {{dateAdded}}</li>
                                 </ul>
                             </div>
-                            <div class="col-7">
+                            <div class="col-5">
                                 <ul class="undecorated">
                                     <li ><i class="fas fa-dumbbell"></i> &nbsp; Difficulty: {{recipe.difficulty}}</li>
-                                    <li ><i class="far fa-clock"></i> &nbsp; Added On: {{dateAdded}}</li>
                                     <li ><i class="far fa-bookmark"></i> &nbsp; Tags: {{recipe.tags.join(", ")}}</li>
                                 </ul>
                             </div>

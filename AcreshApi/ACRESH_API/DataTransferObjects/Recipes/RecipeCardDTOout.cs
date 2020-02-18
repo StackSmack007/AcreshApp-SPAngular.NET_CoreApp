@@ -10,9 +10,8 @@ namespace DataTransferObjects.Recipes
         public string MainPicture { get; set; }
         public string AuthorUserName { get; set; }
         public string AuthorCookRank { get; set; }
-        public string DateOfCreation { get; set; }
+        public DateTime DateOfCreation { get; set; }
         public RecipeSubInfoDTOout SubInfo { get; set; }
-
     }
 
     public class RecipeSubInfoDTOout

@@ -3,7 +3,7 @@
         <div class="card-header py-0">
             <div class="row justify-content-between pt-1">
                 <div class="col-6 pt-2 mt-1"><i class="fas fa-scroll"></i>&nbsp;
-                    <a class="h5" href="#"> {{recipe.name}}</a>
+                    <a class="h5" [routerLink]="['/recipes/details', recipe.id]"> {{recipe.name}}</a>
                 </div>
                 <div class="col-5">
                     <div class="float-right h6">

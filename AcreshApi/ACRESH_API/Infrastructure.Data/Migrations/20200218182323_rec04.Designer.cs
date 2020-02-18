@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200212150032_rec05")]
-    partial class rec05
+    [Migration("20200218182323_rec04")]
+    partial class rec04
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -123,6 +123,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfLastEdit")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(1024)")
@@ -162,6 +165,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfLastEdit")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -184,6 +190,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfLastEdit")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -235,6 +244,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfLastEdit")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -271,6 +283,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfLastEdit")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -329,6 +344,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfLastEdit")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -356,6 +374,15 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Ammount")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfLastEdit")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("RecipeId", "IngredientId");
 
                     b.HasIndex("IngredientId");
@@ -370,6 +397,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfLastEdit")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -409,6 +439,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfLastEdit")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -436,6 +469,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfLastEdit")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -455,6 +491,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfLastEdit")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -481,6 +520,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfLastEdit")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("IngredientId")
@@ -529,6 +571,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfLastEdit")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -561,6 +606,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateOfLastEdit")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -580,6 +628,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfLastEdit")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")

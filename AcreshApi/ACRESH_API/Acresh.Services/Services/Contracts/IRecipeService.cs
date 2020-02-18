@@ -1,8 +1,10 @@
 ﻿using DataTransferObjects.Recipes;
+using DataTransferObjects.Recipes.Details;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Acresh.Services.Services.Contracts
 {
@@ -10,5 +12,6 @@ namespace Acresh.Services.Services.Contracts
     {
         IQueryable<RecipeCardDTOout> GetRecipeCarts(string criteria, string val);
         IQueryable<RecipeCardDTOout> GetPrivateRecipeCarts(string criteria, string userId);
+        Task<RecipeDetailsDTOout> GetRecipeDetailsByIdAsync(string recipeId);
     }
 }

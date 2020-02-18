@@ -30,7 +30,7 @@ export class ProfileInfoComponent {
   public user: IUserProfileData = null;
 
   public myUserName: string;
-  constructor(private router:Router,private toastr: ToastrService, route: ActivatedRoute, private authService: AuthService, private userDataService: UserDataService, private messageService: MessageService) {
+  constructor(private toastr: ToastrService, route: ActivatedRoute, private authService: AuthService, private userDataService: UserDataService, private messageService: MessageService) {
     this.user = route.snapshot.data["userInfo"];
     this.myUserName = authService.getUserInfo().userName;
     this.amBlocked = this.user.blockedUserNames.includes(this.myUserName);

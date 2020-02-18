@@ -4,9 +4,8 @@ export interface IRecipeDetails {
     name: string,
     authorUserName: string,
     authorCookRank: string,
-    rating: number,
-    category: string,
-    dateOfCreation: string,
+    categoryName: string,
+    dateOfLastEdit: string,
     description: string,
     pictures: string[],
     videoLink: string,
@@ -14,6 +13,6 @@ export interface IRecipeDetails {
     difficulty: number,
     tags: string[],
     ingridients: IRecipeIngredient[],
-    recipeFavorisers: string[]
+    favorizers: string[]
 }
 

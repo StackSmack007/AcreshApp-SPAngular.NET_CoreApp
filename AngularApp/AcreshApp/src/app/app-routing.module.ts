@@ -10,6 +10,8 @@ import { UserDataProfileEditResolver } from './core/respolvers/user-data-profile
 import { ListAllComponent } from './messages/list-all/list-all.component';
 import { AuthorizedOnlyGuard } from './core/guards/authorized.only';
 import { ListRecipesComponent } from './recipes/list-recipes/list-recipes.component';
+import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
+import { RecipeDetailsResolver } from './core/respolvers/recipe-details-resolver';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -82,8 +84,12 @@ const routes: Routes = [
       component: ListRecipesComponent,
       canActivate: [AuthorizedOnlyGuard]
     },
-  //  `/recipes/search?phrase=${v}`
-    ]
+    {
+      path: "details/:id",
+      component: RecipeDetailsComponent,
+      resolve: { data: RecipeDetailsResolver }
+    },
+  ]
   }
 ];
 

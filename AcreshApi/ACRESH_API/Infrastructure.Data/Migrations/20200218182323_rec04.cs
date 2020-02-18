@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class rec05 : Migration
+    public partial class rec04 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,6 +59,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 32, nullable: false),
                     NormalizedName = table.Column<string>(maxLength: 32, nullable: false)
@@ -181,6 +182,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 128, nullable: false),
                     AuthorId = table.Column<string>(nullable: false),
@@ -211,6 +213,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     AuthorId = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 128, nullable: false),
@@ -239,6 +242,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     SenderId = table.Column<string>(nullable: false),
                     RecieverId = table.Column<string>(nullable: false),
@@ -269,6 +273,7 @@ namespace Infrastructure.Data.Migrations
                     DefenderId = table.Column<string>(nullable: false),
                     IrritatorId = table.Column<string>(nullable: false),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -294,6 +299,7 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 256, nullable: false),
                     Description = table.Column<string>(maxLength: 25600, nullable: false),
@@ -329,6 +335,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     AuthorId = table.Column<string>(nullable: false),
                     RecipeId = table.Column<string>(nullable: false),
@@ -357,6 +364,9 @@ namespace Infrastructure.Data.Migrations
                 {
                     RecipeId = table.Column<string>(nullable: false),
                     IngredientId = table.Column<int>(nullable: false),
+                    DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     Ammount = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -382,6 +392,7 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     RecipeId = table.Column<string>(nullable: false),
                     UrlPath = table.Column<string>(nullable: false)
@@ -404,6 +415,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     AuthorId = table.Column<string>(nullable: false),
                     RecipeId = table.Column<string>(nullable: false),
@@ -433,6 +445,7 @@ namespace Infrastructure.Data.Migrations
                     RecipeId = table.Column<string>(nullable: false),
                     TagId = table.Column<int>(nullable: false),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -459,6 +472,7 @@ namespace Infrastructure.Data.Migrations
                     VoterId = table.Column<string>(nullable: false),
                     RecipeId = table.Column<string>(nullable: false),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Score = table.Column<int>(nullable: false)
                 },
@@ -486,6 +500,7 @@ namespace Infrastructure.Data.Migrations
                     UserId = table.Column<string>(nullable: false),
                     RecipeId = table.Column<string>(nullable: false),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -512,6 +527,7 @@ namespace Infrastructure.Data.Migrations
                     CommentId = table.Column<int>(nullable: false),
                     ShitGiverId = table.Column<string>(nullable: false),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Attitude = table.Column<int>(nullable: false)
                 },
@@ -539,6 +555,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfCreation = table.Column<DateTime>(nullable: false),
+                    DateOfLastEdit = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ReportType = table.Column<int>(nullable: false),
                     IngredientId = table.Column<int>(nullable: true),

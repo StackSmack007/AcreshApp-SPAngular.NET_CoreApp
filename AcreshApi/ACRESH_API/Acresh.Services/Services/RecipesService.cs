@@ -1,23 +1,28 @@
 ﻿using Acresh.Services.DBRepository.Contracts;
 using Acresh.Services.Services.Contracts;
+using AutoMapper;
 using Common.AutomapperConfigurations;
 using DataTransferObjects.Recipes;
+using DataTransferObjects.Recipes.Details;
 using Infrastructure.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Acresh.Services.Services
 {
     public class RecipesService : IRecipesService
     {
         private readonly IRepository<Recipe> recipeRepo;
-        private readonly IRepository<Tag> tagRepo;
 
-        public RecipesService(IRepository<Recipe> recipeRepo, IRepository<Tag> tagRepo)
+        private readonly IMapper mapper;
+
+        public RecipesService(IRepository<Recipe> recipeRepo, IMapper mapper)
         {
             this.recipeRepo = recipeRepo;
-            this.tagRepo = tagRepo;
+            this.mapper = mapper;
         }
 
         public IQueryable<RecipeCardDTOout> GetPrivateRecipeCarts(string criteria, string myId)
@@ -70,5 +75,26 @@ namespace Acresh.Services.Services
             }
             return null;
         }
+
+        public async Task<RecipeDetailsDTOout> GetRecipeDetailsByIdAsync(string recipeId)
+        {
+            var recipeFd = await recipeRepo.All().Where(x => !x.IsDeleted)
+                .Include(x => x.Author)
+                .Include(x => x.Category)
+                .Include(x => x.Pictures)
+                .Include(x => x.RecipeFavorisers)
+                    .ThenInclude(x => x.User)
+                .Include(x => x.RecipeTags)
+                    .ThenInclude(x => x.Tag)
+                .Include(x => x.RecipeIngredients)
+                    .ThenInclude(x => x.Ingredient)
+                 .Include(x => x.Votes)
+                    .ThenInclude(x => x.Voter)
+                .FirstOrDefaultAsync(x => x.Id == recipeId);
+            if (recipeId is null) return null;
+            var result = mapper.Map<RecipeDetailsDTOout>(recipeFd);
+            return result;
+        }
+
     }
 }

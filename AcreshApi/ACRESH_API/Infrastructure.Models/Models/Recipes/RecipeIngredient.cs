@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Models
 {
-    public class RecipeIngredient
+    public class RecipeIngredient:BaseEntityData
     {
         public string RecipeId { get; set; }
         [ForeignKey(nameof(RecipeId))]

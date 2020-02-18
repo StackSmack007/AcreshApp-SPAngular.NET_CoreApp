@@ -1,22 +1,22 @@
-using Acresh.Services.DBRepository.Contracts;
 using Acresh.Services.DBRepository;
-using Infrastructure.Data;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Infrastructure.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using System;
+using Acresh.Services.DBRepository.Contracts;
+using Acresh.Services.InitialSeed;
+using Acresh.Services.JWT;
+using Acresh.Services.Services;
+using Acresh.Services.Services.Contracts;
+using ACRESH_API.Hubs;
 using AutoMapper;
 using Common.AutomapperConfigurations;
-using Acresh.Services.InitialSeed;
 using Common.Tools;
-using Acresh.Services.JWT;
-using Acresh.Services.Services.Contracts;
-using Acresh.Services.Services;
-using ACRESH_API.Hubs;
+using Infrastructure.Data;
+using Infrastructure.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace ACRESH_API
 {
@@ -51,8 +51,10 @@ namespace ACRESH_API
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<AcUser>, UserClaimsPrincipalFactory<AcUser, IdentityRole>>();
+         
             var mappingConfig = new MapperConfiguration(mc =>
             {
+                mc.AddMaps(new[] { "DataTransferObjects", "Infrastructure.Models" });
                 mc.AddProfile(new MaProfile());
             });
 

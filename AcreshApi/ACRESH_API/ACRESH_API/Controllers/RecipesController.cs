@@ -1,5 +1,6 @@
 ﻿using Acresh.Services.Services.Contracts;
 using DataTransferObjects.Recipes;
+using DataTransferObjects.Recipes.Details;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,13 @@ namespace ACRESH_API.Controllers
             this.recipeService = recipeService;
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RecipeDetailsDTOout>> GetRecipeDetails(string id)
+        {
+            var result = await this.recipeService.GetRecipeDetailsByIdAsync(id);
+            if (result is null) return NotFound();
+            return result;
+        }
 
         // GET: api/Recipes
         [HttpGet]
@@ -43,6 +51,8 @@ namespace ACRESH_API.Controllers
             //if (result.Length == 0) return NoContent();
             return result;
         }
+
+
 
 
         //// GET: api/Recipes/5

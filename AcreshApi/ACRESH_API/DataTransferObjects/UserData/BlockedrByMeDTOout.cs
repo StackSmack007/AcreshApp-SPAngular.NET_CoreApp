@@ -7,7 +7,7 @@ namespace DataTransferObjects.UserData
 {
     public class BlockedByMeDTOout : IMapFrom<UserBlocking>
     {
-        public string DateOfCreation { get; set; }
+        public DateTime DateOfCreation { get; set; }
         public string UserName { get; set; }
 
         public CookRank CookRank { get; set; }

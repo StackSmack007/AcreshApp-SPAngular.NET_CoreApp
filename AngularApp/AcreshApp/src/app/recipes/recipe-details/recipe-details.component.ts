@@ -2,6 +2,9 @@ import { Component, } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HelperService, CustomDateFormats } from 'src/app/core/services/helper.service';
 import { IRecipeDetails } from 'src/app/core/interfaces/recipeDetails';
+import { ActivatedRoute } from '@angular/router';
+
+const videoLinkMake = (id) => `https://www.youtube.com/embed/${id}?rel=0`
 
 @Component({
   selector: 'acr-rec-det',
@@ -10,13 +13,12 @@ import { IRecipeDetails } from 'src/app/core/interfaces/recipeDetails';
 })
 export class RecipeDetailsComponent {
   ratingNames = ["Distasteful", "Questionable", "Acceptable", "Recomendable", "Good", "Magnifique"]
-  public recipe:IRecipeDetails = {
+  public recipe: IRecipeDetails = {
     name: "Боб с кюфтета",
     authorUserName: "User5",
-    authorCookRank:"Wizard",
-    rating: 3,
-    category: "BreakFast",
-    dateOfCreation: "vtornik",
+    authorCookRank: "Wizard",
+    categoryName: "BreakFast",
+    dateOfLastEdit: "2/18/2020 8:18:57 PM",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam.",
     pictures: ["https://www.theflavorbender.com/wp-content/uploads/2019/01/Easy-Chicken-Ramen-Featured.jpg",
       "https://www.justonecookbook.com/wp-content/uploads/2017/07/Spicy-Shoyu-Ramen-NEW-500x400.jpg",
@@ -30,7 +32,12 @@ export class RecipeDetailsComponent {
       { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: true, isEssential: false },
       { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: false, isEssential: true }
     ],
-    recipeFavorisers: ["Aladin", "Sebaidin", "Maradin", "Martin"],
+    favorizers: ["Aladin", "Sebaidin", "Maradin", "Martin"],
+  }
+  get videoLink() {
+   if(!this.recipe.videoLink) return null;
+    const id = this.recipe.videoLink.substr(this.recipe.videoLink.indexOf("v=") + 2 || this.recipe.videoLink.lastIndexOf("\\") + 1);
+    return videoLinkMake(id);
   }
 
   get ratingProperties() {
@@ -43,18 +50,17 @@ export class RecipeDetailsComponent {
       overal: Math.floor(rating) - 1,
       voterCount: this.recipe.votes.length,
       avRating: currentRating,
-      ratingName: this.ratingNames[Math.floor(rating) - 1] 
+      ratingName: this.ratingNames[Math.floor(rating) - 1]
     };
     return result;
   }
 
   get isFavourite() {
-    return this.isLoggedIn && this.recipe.recipeFavorisers.includes(this.authService.getUserInfo().userName)
+    return this.isLoggedIn && this.recipe.favorizers.includes(this.authService.getUserInfo().userName)
   }
 
   get dateAdded() {
-    return "вторник";//TODO SWAP
-    return HelperService.dateConvert(this.recipe.dateOfCreation,CustomDateFormats.DefaultFormater)
+    return HelperService.dateConvert(this.recipe.dateOfLastEdit, CustomDateFormats.DefaultFormater)
   }
 
   get isLoggedIn() {
@@ -63,10 +69,10 @@ export class RecipeDetailsComponent {
 
   public defaultRatingOpt: number = this.authService.isAuthenticated() ? this.myVote : 0;
   get myVote(): number {
-   if(!this.isLoggedIn) return 0;
-    const mv=this.recipe.votes.find(x=>x.name);
-    if(!mv) return 0;
-    return mv.vote; 
+    if (!this.isLoggedIn) return 0;
+    const mv = this.recipe.votes.find(x => x.name);
+    if (!mv) return 0;
+    return mv.vote;
   }
 
   rateBtnEnabled(choise) {
@@ -87,5 +93,8 @@ export class RecipeDetailsComponent {
     }
     // add to favourites and update signalR!
   }
-  constructor(private authService: AuthService, ) { }
+  constructor(route: ActivatedRoute, private authService: AuthService, ) {
+    this.recipe = route.snapshot.data.data;
+    console.log(this.recipe.dateOfLastEdit);
+  }
 }

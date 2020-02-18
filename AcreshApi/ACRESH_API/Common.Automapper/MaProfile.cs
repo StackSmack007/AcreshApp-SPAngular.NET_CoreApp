@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Common.Interfaces.Contracts.Automapper;
-using Common.Tools.Extensions;
 using DataTransferObjects.Recipes;
+using DataTransferObjects.Recipes.Details;
 using DataTransferObjects.UserData;
 using Infrastructure.Models;
 using System;
@@ -11,60 +11,52 @@ namespace Common.AutomapperConfigurations
 {
     public class MaProfile : Profile
     {
-        //private readonly string confName = "con";
-        //private StringBuilder sb = new StringBuilder();
-        //public string MappingsAsString => sb.ToString().Trim();
         public MaProfile()
         {
-            // var configuration2 = new MapperConfiguration(cfg => cfg.AddMaps("MyAssembly"));
-          
-            //CreateMap<DateTime, string>().ConvertUsing(new DateTimeEpochConverter());
-
             var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes());
-
-            //var assemb = Assembly.GetAssembly(typeof(MessageDTOin));
-            //var isContained = AppDomain.CurrentDomain.GetAssemblies().Contains(assemb);
-            CreateMapToMappings(allTypes);
-            CreateMapFromMappings(allTypes);
-
-
-
+                CreateMapToMappings(allTypes);
+                CreateMapFromMappings(allTypes);
+            
             CreateMap<AcUser, ProfileDataForEditDTOout>()
                 .ForMember(d => d.Gender, opt => opt.MapFrom(s => s.Gender.ToString().ToLower()));
 
             CreateMap<UserBlocking, BlockedUserInfoDTOout>()
-.ForMember(d => d.UserName, opt => opt.MapFrom(x => x.Irritator.UserName))
-.ForMember(d => d.CookRank, opt => opt.MapFrom(x => x.Irritator.CookRank.ToString()))
-.ForMember(d => d.AvatarPicture, opt => opt.MapFrom(x => x.Irritator.AvatarPicture));
+                .ForMember(d => d.UserName, opt => opt.MapFrom(x => x.Irritator.UserName))
+                .ForMember(d => d.CookRank, opt => opt.MapFrom(x => x.Irritator.CookRank.ToString()))
+                .ForMember(d => d.AvatarPicture, opt => opt.MapFrom(x => x.Irritator.AvatarPicture));
 
             CreateMap<UserBlocking, BlockerUserInfoDTOout>()
-.ForMember(d => d.UserName, opt => opt.MapFrom(x => x.Defender.UserName))
-.ForMember(d => d.CookRank, opt => opt.MapFrom(x => x.Defender.CookRank.ToString()))
-.ForMember(d => d.AvatarPicture, opt => opt.MapFrom(x => x.Defender.AvatarPicture));
+                .ForMember(d => d.UserName, opt => opt.MapFrom(x => x.Defender.UserName))
+                .ForMember(d => d.CookRank, opt => opt.MapFrom(x => x.Defender.CookRank.ToString()))
+                .ForMember(d => d.AvatarPicture, opt => opt.MapFrom(x => x.Defender.AvatarPicture));
 
             CreateMap<Recipe, RecipeSubInfoDTOout>()
-.ForMember(d => d.Category, opt => opt.MapFrom(x => x.Category.Name))
-.ForMember(d => d.Fans, opt => opt.MapFrom(x => x.RecipeFavorisers.Count()))
-.ForMember(d => d.IngredientsCount, opt => opt.MapFrom(x => x.RecipeIngredients.Count()))
-.ForMember(d => d.Rating, opt => opt.MapFrom(x => x.Votes.Sum(v => (int)v.Score) / x.Votes.Count()));
+                .ForMember(d => d.Category, opt => opt.MapFrom(x => x.Category.Name))
+                .ForMember(d => d.Fans, opt => opt.MapFrom(x => x.RecipeFavorisers.Count()))
+                .ForMember(d => d.IngredientsCount, opt => opt.MapFrom(x => x.RecipeIngredients.Count()))
+                .ForMember(d => d.Rating, opt => opt.MapFrom(x => x.Votes.Sum(v => (int)v.Score) / x.Votes.Count()));
 
             CreateMap<Recipe, RecipeCardDTOout>()
-.ForMember(d => d.SubInfo, opt => opt.MapFrom(x => x))
-.ForMember(d => d.Description, opt => opt.MapFrom(x => x.Description.Substring(0, 600)));
+                .ForMember(d => d.SubInfo, opt => opt.MapFrom(x => x))
+                .ForMember(d => d.Description, opt => opt.MapFrom(x => x.Description.Substring(0, 600)));
 
 
+            CreateMap<Recipe, RecipeDetailsDTOout>()
+                .ForMember(d => d.Ingridients, opt => opt.MapFrom(s => s.RecipeIngredients.Where(s=>!s.IsDeleted)))
+                .ForMember(d => d.Pictures, opt => opt.MapFrom(s => s.Pictures.Where(s => !s.IsDeleted).Select(p => p.UrlPath)))
+                .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.RecipeTags.Where(s => !s.IsDeleted && !s.Tag.IsDeleted).Select(t => t.Tag.Name.ToLower())))
+                .ForMember(d => d.Favorizers, opt => opt.MapFrom(s => s.RecipeFavorisers.Where(s => !s.IsDeleted).Select(f => f.User.UserName)));
 
+            CreateMap<RecipeIngredient, IngridientRecipeDetailsDTOout>()
+                 .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Ingredient.Id))
+                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Ingredient.Name))
+                 .ForMember(d => d.PicURL, opt => opt.MapFrom(s => s.Ingredient.PicUrl))
+                 .ForMember(d => d.IsVegan, opt => opt.MapFrom(s => s.Ingredient.IsVegan))
+                 .ForMember(d => d.IsEssential, opt => opt.MapFrom(s => s.Ingredient.IsEssential));
 
-            //.ForMember(d => d.Gender, opt => opt.MapFrom(s => s.Gender.ToString().ToLower()));
-
-            //CreateMap<Product, ProductMinifiedOutDto>()
-            //    .ForMember(d => d.IsAvailable, opt => opt.MapFrom(s => s.Quantity > 0))
-            //    .ForMember(d => d.ComentsCount, opt => opt.MapFrom(s => s.ProductComments.Count))
-            //    .ForMember(d => d.Grade, opt => opt.MapFrom(s =>
-            //     s.Votes.Any() ? (Grade)(int)Math.Round((double)s.Votes.Sum(x => (int)x.Grade) / s.Votes.Count()) : Grade.NotRated))
-            //    .ForMember(d => d.OrdersCount, opt => opt.MapFrom(s => s.ProductOrders.Count));
-
-
+            CreateMap<RecipeVote, VoteRecipeDetailsDTOout>()
+                 .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Voter.UserName))
+                 .ForMember(d => d.Vote, opt => opt.MapFrom(s => s.Score));
         }
 
         private void CreateMapToMappings(System.Collections.Generic.IEnumerable<Type> allTypes)
@@ -115,5 +107,3 @@ namespace Common.AutomapperConfigurations
         }
     }
 }
-
-

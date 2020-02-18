@@ -1,6 +1,5 @@
 ﻿namespace Acresh.Services.InitialSeed
 {
-    using AutoMapper;
     using Common.Tools;
     using Infrastructure.Data;
     using Infrastructure.Models;
@@ -15,24 +14,20 @@
     public partial class DataBaseSeeder
     {
         private readonly ApplicationDbContext db;
-        private readonly IMapper mapper;
         private readonly UserManager<AcUser> um;
         private readonly RoleManager<IdentityRole> rm;
-        public DataBaseSeeder(IMapper mapper, UserManager<AcUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext)
+        public DataBaseSeeder( UserManager<AcUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext)
         {
             this.rm = roleManager;
-            this.mapper = mapper;
             this.um = userManager;
             this.db = dbContext;
         }
         public async Task SeedData()
-        {
-
+        {  
             if (!db.Roles.Any())
             {
                 await db.Database.EnsureDeletedAsync();
                 await db.Database.EnsureCreatedAsync();
-
                 await SeedRoles();
                 await SeedUsers();
                 await SeedUserMessages();
@@ -329,10 +324,6 @@
         private async Task<string[]> GetUserIds(string role = "User")
         {
             return (await um.GetUsersInRoleAsync(role)).Select(x => x.Id).ToArray();
-        }
-        private async Task<string> GetRecipeIdByNameAsync(string name)
-        {
-            return await db.Recipes.Where(x => x.Name == name).Select(x => x.Id).FirstOrDefaultAsync();
         }
         public async Task<int> getCategoryIdAsync(string name)
         {
