@@ -7,7 +7,7 @@ export class SignalRNewMessagesService {
   unreadCount = 0;
   private hubConnection: signalR.HubConnection
 
-  public startConnection = (userName: string): Promise<any> => {//TODO
+  public startConnection = (userName: string): Promise<any> => {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('https://localhost:5001/unread-messages')
       .build();

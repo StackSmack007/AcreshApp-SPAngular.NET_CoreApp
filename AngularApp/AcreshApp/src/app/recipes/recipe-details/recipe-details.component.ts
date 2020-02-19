@@ -1,31 +1,35 @@
-import { Component, } from '@angular/core';
+import { Component, OnDestroy, } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HelperService, CustomDateFormats } from 'src/app/core/services/helper.service';
 import { IRecipeDetails } from 'src/app/core/interfaces/recipeDetails';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from 'src/app/core/services/recipe.service';
+import { SignalRRecipeDetailsService } from 'src/app/core/services/signal-r.recipe-details.service';
 
 @Component({
   selector: 'acr-rec-det',
   templateUrl: './recipe-details.component.html',
   styleUrls: ['./recipe-details.component.css']
 })
-export class RecipeDetailsComponent {
+export class RecipeDetailsComponent implements OnDestroy {
   ratingNames = ["Distasteful", "Questionable", "Acceptable", "Recomendable", "Good", "Magnifique"]
-
-  constructor(route: ActivatedRoute, private authService: AuthService, private recipeService: RecipeService) {
-    this.recipe = route.snapshot.data.data;
-  }
-
-  public recipe: IRecipeDetails = null;
-  // {
-  //   id: "2safdg2sadsadasd",
-  //   name: "Боб с кюфтета",
-  //   authorUserName: "User5",
-  //   authorCookRank: "Wizard",
-  //   categoryName: "BreakFast",
-  //   dateOfLastEdit: "2/18/2020 8:18:57 PM",
-  //   description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam.",
+  
+  constructor(route: ActivatedRoute, private authService: AuthService, 
+    private recipeService: RecipeService,private singalRService:SignalRRecipeDetailsService) {
+      this.recipe = route.snapshot.data.data;
+      singalRService.startConnection(this.recipe);
+      
+    }
+    
+    public recipe: IRecipeDetails = null;
+    // {
+      //   id: "2safdg2sadsadasd",
+      //   name: "Боб с кюфтета",
+      //   authorUserName: "User5",
+      //   authorCookRank: "Wizard",
+      //   categoryName: "BreakFast",
+      //   dateOfLastEdit: "2/18/2020 8:18:57 PM",
+      //   description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus odit illum incidunt autem soluta molestiae officia iusto doloremque voluptates facilis vero cumque, voluptatum, tenetur ullam blanditiis deserunt magnam.",
   //   pictures: ["https://www.theflavorbender.com/wp-content/uploads/2019/01/Easy-Chicken-Ramen-Featured.jpg",
   //     "https://www.justonecookbook.com/wp-content/uploads/2017/07/Spicy-Shoyu-Ramen-NEW-500x400.jpg",
   //     "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg"],
@@ -34,25 +38,25 @@ export class RecipeDetailsComponent {
   //   difficulty: 2,
   //   tags: ["kufteta", "bobove", "zaprujka", "bobec"],
   //   ingridients: [
-  //     { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: false, isEssential: true },
-  //     { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: true, isEssential: false },
-  //     { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: false, isEssential: true }
-  //   ],
-  //   favorizers: ["Aladin", "Sebaidin", "Maradin", "Martin"],
-  // }
-
-  get videoLink() {
-    if (!this.recipe.videoLink) return null;
-    const id = this.recipe.videoLink.substr(this.recipe.videoLink.indexOf("v=") + 2 || this.recipe.videoLink.lastIndexOf("\\") + 1);
-    return HelperService.videoLinkMake(id);
-  }
-
-  get ratingProperties() {
+    //     { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: false, isEssential: true },
+    //     { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: true, isEssential: false },
+    //     { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: false, isEssential: true }
+    //   ],
+    //   favorizers: ["Aladin", "Sebaidin", "Maradin", "Martin"],
+    // }
+    
+    get videoLink() {
+      if (!this.recipe.videoLink) return null;
+      const id = this.recipe.videoLink.substr(this.recipe.videoLink.indexOf("v=") + 2 || this.recipe.videoLink.lastIndexOf("\\") + 1);
+      return HelperService.videoLinkMake(id);
+    }
+    
+    get ratingProperties() {
       const meaningfullVotes = this.recipe.votes.slice().filter(v => v.vote > 0);
-    const currentRating = meaningfullVotes.reduce((acc, next, _, arr) => acc + (next.vote / arr.length), 0);
-    const rating = Math.round(currentRating * 2) / 2;
-    const result = {
-      halfStar: rating - Math.floor(rating) > 0,
+      const currentRating = meaningfullVotes.reduce((acc, next, _, arr) => acc + (next.vote / arr.length), 0);
+      const rating = Math.round(currentRating * 2) / 2;
+      const result = {
+        halfStar: rating - Math.floor(rating) > 0,
       positive: new Array(Math.floor(rating)),
       lacking: new Array(6 - Math.ceil(rating)),
       overal: Math.floor(rating) - 1,
@@ -62,19 +66,19 @@ export class RecipeDetailsComponent {
     };
     return result;
   }
-
+  
   get isFavourite() {
     return this.isLoggedIn && this.recipe.favorizers.includes(this.authService.getUserInfo().userName)
   }
-
+  
   get dateAdded() {
     return HelperService.dateConvert(this.recipe.dateOfLastEdit, CustomDateFormats.DefaultFormater)
   }
-
+  
   get isLoggedIn() {
     return this.authService.isAuthenticated();
   }
-
+  
   get myVote(): number {
     if (!this.isLoggedIn || !this.recipe) return 0;
     const mv = this.recipe.votes.find(x => x.name === this.myName);
@@ -87,7 +91,7 @@ export class RecipeDetailsComponent {
     if (isNaN(choise) + choise === 0) return false;
     return this.authService.isAuthenticated() && +choise > 0 && +choise !== this.myVote;
   }
-
+  
   makeVote({ choise }) {
     choise = +choise;
     if (![1, 2, 3, 4, 5, 6].includes(choise)) return;
@@ -100,21 +104,26 @@ export class RecipeDetailsComponent {
       this.recipe.votes.push({ name: this.myName, vote: choise });
     })
   }
-
+  
   get myName() {
     if (!this.isLoggedIn) return null;
     return this.authService.getUserInfo().userName;
   }
-
+  
   favUnfav() {
     if (!this.isLoggedIn) return;
+    
     this.recipeService.favUnfavRecipe(this.recipe.id).subscribe(i_favedR => {
       if (i_favedR && !this.recipe.favorizers.includes(this.myName)) {
         this.recipe.favorizers.push(this.myName);
       } else if (!i_favedR && this.recipe.favorizers.includes(this.myName)) {
         this.recipe.favorizers = this.recipe.favorizers.filter(n => n !== this.myName);
       }
+      this.singalRService.changeFavourisers(this.recipe.id,this.recipe.favorizers);
     })
     // remove from favourites and update signalR!
   }
+        ngOnDestroy(): void {
+          this.singalRService.stopConnection();
+        }
 }

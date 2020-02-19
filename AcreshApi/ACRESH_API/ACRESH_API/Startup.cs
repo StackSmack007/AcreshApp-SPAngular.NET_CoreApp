@@ -35,23 +35,22 @@ namespace ACRESH_API
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
-
             services.AddIdentity<AcUser, IdentityRole>(opt =>
-            {
-                opt.Password.RequireDigit = false;
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequireLowercase = false;
-                opt.Password.RequireUppercase = false;
-                opt.Password.RequiredLength = 4;
-                opt.Password.RequiredUniqueChars = 2;
-                opt.Lockout.MaxFailedAccessAttempts = 10;
-                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-            })
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+{
+    opt.Password.RequireDigit = false;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequiredLength = 4;
+    opt.Password.RequiredUniqueChars = 2;
+    opt.Lockout.MaxFailedAccessAttempts = 10;
+    opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+})
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<AcUser>, UserClaimsPrincipalFactory<AcUser, IdentityRole>>();
-         
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddMaps(new[] { "DataTransferObjects", "Infrastructure.Models" });
@@ -87,7 +86,6 @@ namespace ACRESH_API
             services.AddTransient<IUserDataService, UserDataService>();
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IRecipesService, RecipesService>();
-
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
         }
 
@@ -119,11 +117,11 @@ namespace ACRESH_API
 
             app.UseMiddleware<Middlewares.SeederMiddleware>();
 
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<RecievedMessagesHub>("/unread-messages");
+                endpoints.MapHub<RecipeDetailsTrackHub>("/recipe-details");
             });
         }
     }

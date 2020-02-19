@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ACRESH_API.Hubs
 {
-    public class RecievedMessagesHub : Hub
+    public class RecievedMessagesHub : BaseHub
     {
         private readonly IMessageService messageService;
         private readonly UserManager<AcUser> userManager;
@@ -27,23 +27,22 @@ namespace ACRESH_API.Hubs
             this.userManager = userManager;
         }
 
-        private string conId => Context.ConnectionId;
-
+ 
         public void RegisterUserConnection(string userName)
         {
             if (!EnlistedMembersConections.ContainsKey(userName))
             {
                 EnlistedMembersConections[userName] = new HashSet<string>();
             }
-            if (EnlistedMembersConections[userName].Contains(conId)) return;
-            EnlistedMembersConections[userName].Add(conId);
+            if (EnlistedMembersConections[userName].Contains(ConId)) return;
+            EnlistedMembersConections[userName].Add(ConId);
         }
 
         public void RemoveUserConnection()
         {
-            var key = EnlistedMembersConections.FirstOrDefault(x => x.Value.Contains(conId)).Key;
+            var key = EnlistedMembersConections.FirstOrDefault(x => x.Value.Contains(ConId)).Key;
             if (key is null) return;//Nothing to remove...
-            EnlistedMembersConections[key].Remove(conId);
+            EnlistedMembersConections[key].Remove(ConId);
         }
 
         public async Task UpdateUserUnreadCount(string userName)
@@ -54,5 +53,5 @@ namespace ACRESH_API.Hubs
             List<string> userConIds = EnlistedMembersConections[userName].ToList();
             await Clients.Clients(userConIds).SendAsync("updateUnrCount", unreadCount);
         }
-                   }
-          }
+    }
+}
