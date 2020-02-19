@@ -5,7 +5,6 @@ import { AuthService } from './auth.service';
 import { messagePaths } from '../settings/apiSettings';
 import { IMessageSend } from '../interfaces/message-interfaces/messageSend';
 import { SignalRNewMessagesService } from './signal-r.new-messages.service';
-import { map } from 'rxjs/operators';
 import { IMessageRecievedSent } from '../interfaces/message-interfaces/messageRecieve';
 
 @Injectable({

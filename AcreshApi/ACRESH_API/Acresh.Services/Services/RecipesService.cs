@@ -25,12 +25,30 @@ namespace Acresh.Services.Services
             this.mapper = mapper;
         }
 
+        public async Task<bool> FavUnfav(string id, string userId)
+        {
+            Recipe recipeFd = await recipeRepo.All().Include(x => x.RecipeFavorisers).FirstOrDefaultAsync(r => r.Id == id);
+            if (recipeFd is null) throw new ArgumentException("Recipe with given id not found in database!");
+
+            UserFavouriteRecipe recipeFavFd = recipeFd.RecipeFavorisers.FirstOrDefault(f => f.UserId == userId);
+            if (recipeFavFd is null)
+            {
+                recipeFd.RecipeFavorisers.Add(new UserFavouriteRecipe { UserId = userId });
+                await recipeRepo.SaveChangesAsync();
+                return true;
+            }
+            recipeFavFd.DateOfLastEdit = DateTime.UtcNow;
+            recipeFavFd.IsDeleted = !recipeFavFd.IsDeleted;
+            await recipeRepo.SaveChangesAsync();
+            return !recipeFavFd.IsDeleted;
+        }
+
         public IQueryable<RecipeCardDTOout> GetPrivateRecipeCarts(string criteria, string myId)
         {
             Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>> sortCriteria = new Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>>
             {
                 ["my-favourite"] = (x) => x.Where(x => !x.IsDeleted && x.RecipeFavorisers.Any(rf => !rf.IsDeleted && rf.UserId == myId))
-                .OrderByDescending(x => x.RecipeFavorisers.Where(rf => rf.UserId == myId).First().DateOfCreation),
+                .OrderByDescending(x => x.RecipeFavorisers.Where(rf => rf.UserId == myId).First().DateOfLastEdit),
                 ["my-commented"] = (x) => x.Where(x => !x.IsDeleted && x.Comments.Any(rc => !rc.IsDeleted && rc.AuthorId == myId))
                                          .OrderByDescending(x => x.Comments.Where(rc => !rc.IsDeleted && rc.AuthorId == myId).Select(rc => rc.DateOfCreation)
                                          .OrderByDescending(d => d).First()),

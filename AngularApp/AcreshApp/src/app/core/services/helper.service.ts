@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 const pad2 = (num: number): string => (num < 10 ? '0' : '') + num;
 
 const dateFormats = {
@@ -7,8 +8,6 @@ const dateFormats = {
 export enum CustomDateFormats {
   DefaultFormater = 1,
 }
-
-
 
 const DateTimeCStoJS = (date: string,symbol="T") => {
   let t = {};
@@ -29,8 +28,6 @@ const DateTimeCStoJS = (date: string,symbol="T") => {
   result.setHours(result.getHours() + offsetHours);
   return new Date(result);
 }
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +51,10 @@ export class HelperService {
   //   })
   //   return result;
   // }
+
+  public static appJsonHeader={
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
+  };
 
   private capitalize(str: string) {
     return str[0].toUpperCase() + str.substr(1)

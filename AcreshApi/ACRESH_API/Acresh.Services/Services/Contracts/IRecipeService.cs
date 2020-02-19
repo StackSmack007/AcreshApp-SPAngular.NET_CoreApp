@@ -13,5 +13,6 @@ namespace Acresh.Services.Services.Contracts
         IQueryable<RecipeCardDTOout> GetRecipeCarts(string criteria, string val);
         IQueryable<RecipeCardDTOout> GetPrivateRecipeCarts(string criteria, string userId);
         Task<RecipeDetailsDTOout> GetRecipeDetailsByIdAsync(string recipeId);
+        Task<bool> FavUnfav(string id, string v);
     }
 }

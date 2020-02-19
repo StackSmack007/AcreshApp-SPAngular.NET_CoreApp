@@ -1,6 +1,7 @@
 import { IRecipeIngredient } from './RecipeIngredient';
 
 export interface IRecipeDetails {
+    id: string,
     name: string,
     authorUserName: string,
     authorCookRank: string,

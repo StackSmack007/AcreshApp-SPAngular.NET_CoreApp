@@ -5,6 +5,7 @@ namespace DataTransferObjects.Recipes.Details
 {
     public class RecipeDetailsDTOout
     {
+        public string Id { get; set; }
         public DateTime DateOfLastEdit { get; set; }
         public string Name { get; set; }
         public string CategoryName { get; set; }

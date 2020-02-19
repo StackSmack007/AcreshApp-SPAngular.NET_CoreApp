@@ -77,7 +77,6 @@ export class ListRecipesComponent {
         }
         this.recipesFetched = this.recipesFetched.concat(x);
         this.stopLoadingInfo();
-        console.log(x[0]?x[0].dateOfCreation:"");
       }
         , (e) => {
           this.stopLoadingInfo();

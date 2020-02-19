@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { HelperService, CustomDateFormats } from 'src/app/core/services/helper.service';
 import { IRecipeDetails } from 'src/app/core/interfaces/recipeDetails';
 import { ActivatedRoute } from '@angular/router';
+import { RecipeService } from 'src/app/core/services/recipe.service';
 
 const videoLinkMake = (id) => `https://www.youtube.com/embed/${id}?rel=0`
 
@@ -14,6 +15,7 @@ const videoLinkMake = (id) => `https://www.youtube.com/embed/${id}?rel=0`
 export class RecipeDetailsComponent {
   ratingNames = ["Distasteful", "Questionable", "Acceptable", "Recomendable", "Good", "Magnifique"]
   public recipe: IRecipeDetails = {
+    id: "2safdg2sadsadasd",
     name: "Боб с кюфтета",
     authorUserName: "User5",
     authorCookRank: "Wizard",
@@ -35,9 +37,13 @@ export class RecipeDetailsComponent {
     favorizers: ["Aladin", "Sebaidin", "Maradin", "Martin"],
   }
   get videoLink() {
-   if(!this.recipe.videoLink) return null;
+    if (!this.recipe.videoLink) return null;
     const id = this.recipe.videoLink.substr(this.recipe.videoLink.indexOf("v=") + 2 || this.recipe.videoLink.lastIndexOf("\\") + 1);
     return videoLinkMake(id);
+  }
+
+  constructor(route: ActivatedRoute, private authService: AuthService, private recipeService: RecipeService) {
+    this.recipe = route.snapshot.data.data;
   }
 
   get ratingProperties() {
@@ -77,7 +83,6 @@ export class RecipeDetailsComponent {
 
   rateBtnEnabled(choise) {
     if (!choise || +choise === 0) return false;
-    console.log(this.authService.isAuthenticated(), +choise > 0, +choise !== this.myVote);
     return this.authService.isAuthenticated() && +choise > 0 && +choise !== this.myVote;
   }
 
@@ -85,16 +90,21 @@ export class RecipeDetailsComponent {
     console.log(ch);
   }
 
+  get myName() {
+    if (!this.isLoggedIn) return null;
+    return this.authService.getUserInfo().userName;
+  }
+
   favUnfav() {
     if (!this.isLoggedIn) return;
-    if (this.isFavourite) {
+    this.recipeService.favUnfavRecipe(this.recipe.id).subscribe(i_favedR => {
+      if (i_favedR && !this.recipe.favorizers.includes(this.myName)) {
+        this.recipe.favorizers.push(this.myName);
+      } else if (!i_favedR && this.recipe.favorizers.includes(this.myName)) {
+        this.recipe.favorizers = this.recipe.favorizers.filter(n => n !== this.myName);
+      }
+    })
       // remove from favourites and update signalR!
-      return;
     }
-    // add to favourites and update signalR!
-  }
-  constructor(route: ActivatedRoute, private authService: AuthService, ) {
-    this.recipe = route.snapshot.data.data;
-    console.log(this.recipe.dateOfLastEdit);
-  }
+ 
 }

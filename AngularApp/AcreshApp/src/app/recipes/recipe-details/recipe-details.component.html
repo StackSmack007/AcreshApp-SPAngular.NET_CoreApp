@@ -1,4 +1,5 @@
 <main>
+    {{recipe.favorizers |json}}
     <div class="row justify-content-start pt-3">
         <div class="col-3 p-3 mt-4">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -70,8 +71,8 @@
                         </div>
                         <div class="col-4 pt-1 px-0">
                             <button (click)="favUnfav()" class="btn btn-primary btn-sm" [ngClass]="{'not-allowed': !isLoggedIn}" [disabled]="!isLoggedIn">
-                                <span *ngIf="false; else isFavourite"><i class="fas fa-heart"></i>&nbsp; Add to Favourite </span>
-                                <ng-template #isFavourite> <i class="fas fa-heart-broken"></i>&nbsp; Remove from Favourite </ng-template>
+                                <span *ngIf="isFavourite; else removeOpt" opt="addOpt"> <i class="fas fa-heart-broken"></i>&nbsp; Remove from Favourite </span>
+                                <ng-template #removeOpt><i class="fas fa-heart"></i>&nbsp; Add to Favourite </ng-template>
                             </button>
                         </div>
                     </div>

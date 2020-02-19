@@ -4,6 +4,7 @@ using DataTransferObjects.Recipes.Details;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace ACRESH_API.Controllers
         [HttpGet("private")]
         public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetPrivateCards(string criteria, int pageNum)
         {
-            IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetPrivateRecipeCarts(criteria,getUserId());
+            IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetPrivateRecipeCarts(criteria, getUserId());
             if (sqlReq is null) return BadRequest(new { reason = "Criteria is invalid!" });
 
             var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(REC_COUNT_PER_FETCH).ToArrayAsync();
@@ -52,8 +53,20 @@ namespace ACRESH_API.Controllers
             return result;
         }
 
-
-
+        [Authorize]
+        [HttpPut("fav-unfav")]
+        public async Task<ActionResult<bool>> FavUnfav([FromBody]string id)
+        {
+            try
+            {
+                return await this.recipeService.FavUnfav(id, getUserId());
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+                throw ex;
+            }
+        }
 
         //// GET: api/Recipes/5
         //[HttpGet("{id}", Name = "Get")]

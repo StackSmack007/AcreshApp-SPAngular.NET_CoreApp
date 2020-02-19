@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { recipePaths } from '../settings/apiSettings';
 import { Observable } from 'rxjs';
 import { IRecipeMiniInfo } from '../interfaces/recipes/recipeMiniInfo';
 import { IRecipeDetails } from '../interfaces/recipeDetails';
+import { HelperService } from './helper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +23,9 @@ export class RecipeService {
 
   getDetails(id:string): Observable<IRecipeDetails> {
     return this.http.get<IRecipeDetails>(recipePaths.base+id);
+  }
+
+  favUnfavRecipe(id): Observable<boolean> {
+    return this.http.put<boolean>(recipePaths.favUnvaf,JSON.stringify(id),HelperService.appJsonHeader);
   }
 }
