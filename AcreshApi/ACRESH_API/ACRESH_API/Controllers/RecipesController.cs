@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ACRESH_API.Controllers
 {
-    public class RecipesController : BaseController
+    public partial class RecipesController : BaseController
     {
         private const int REC_COUNT_PER_FETCH = 3;
         private readonly IRecipesService recipeService;
@@ -59,7 +59,24 @@ namespace ACRESH_API.Controllers
         {
             try
             {
-                return await this.recipeService.FavUnfav(id, getUserId());
+               var result=await this.recipeService.FavUnfav(id, getUserId());
+                return Ok(result);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+                throw ex;
+            }
+        }
+
+        [Authorize]
+        [HttpPut("set-rating")]
+        public async Task<ActionResult> SetRecipeRating(RecipeVoteDTOin recipeVote)
+        {
+            try
+            {
+                await recipeService.VoteForRecipeAsync(recipeVote.Id, getUserId(),recipeVote.Score );
+                return NoContent();
             }
             catch (ArgumentException ex)
             {

@@ -25,7 +25,12 @@ export class RecipeService {
     return this.http.get<IRecipeDetails>(recipePaths.base+id);
   }
 
-  favUnfavRecipe(id): Observable<boolean> {
+  favUnfavRecipe(id:string): Observable<boolean> {
     return this.http.put<boolean>(recipePaths.favUnvaf,JSON.stringify(id),HelperService.appJsonHeader);
   }
+
+  rateRecipe(id:string,score:number): Observable<any> {
+    return this.http.put(recipePaths.setRating,{id,score});
+  }
+
 }

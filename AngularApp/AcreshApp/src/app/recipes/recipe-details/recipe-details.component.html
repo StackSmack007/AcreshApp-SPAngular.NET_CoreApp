@@ -1,5 +1,4 @@
 <main>
-    {{recipe.favorizers |json}}
     <div class="row justify-content-start pt-3">
         <div class="col-3 p-3 mt-4">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -28,7 +27,7 @@
             <div class="row justify-content-between pr-4 pl-2">
                 <div class="col-4 text-left"><h3><i class="fas fa-scroll"></i> &nbsp; {{recipe.name}}</h3></div>
                 <div class="col-5 pl-2">
-                    <h4 class="pt-2 text-center"><i *ngFor="let star of ratingProperties.positive" class="fas fa-star pr-1"></i><i *ngIf="ratingProperties.halfStar" class="fas fa-star-half-alt pr-1"></i><i *ngFor="let star of ratingProperties.lacking" class="far fa-star pr-1"></i>  &nbsp;{{ratingProperties.ratingName}}</h4>
+                    <h4 class="pt-2 text-center"><span *ngIf="ratingProperties.voterCount"><i *ngFor="let star of ratingProperties.positive" class="fas fa-star pr-1"></i><i *ngIf="ratingProperties.halfStar" class="fas fa-star-half-alt pr-1"></i><i *ngFor="let star of ratingProperties.lacking" class="far fa-star pr-1"></i>  &nbsp;</span>{{ratingProperties.ratingName}}</h4>
                 </div>
                 <div class="col-3">
                     <div class=" text-left d-inline d-block">
@@ -61,19 +60,19 @@
                         <label for="choise">Rate This Recipe:</label>
                         <div class="row justify-content-between">
                             <div class="col-4">
-                                <select  [(ngModel)]="defaultRatingOpt" name="choise" class="custom-select" id="choise" [disabled]="!isLoggedIn">
-                                    <option  *ngIf="defaultRatingOpt===0" value="0" >Choose rating...</option>
-                                    <option *ngFor="let opt of ratingNames; let i=index;" [value]="i+1" [selected]="myVote===i">{{opt}}</option>>
+                                <select  name="choise" ngModel [(ngModel)]="myVote" class="custom-select" id="choise" [disabled]="!isLoggedIn">
+                                    <option  *ngIf="myVote===0"  value="0" selected disabled >Choose rating...</option>
+                                    <option *ngFor="let opt of ratingNames; let i=index;" [value]="i+1">{{opt}}</option>>
                                 </select>
                             </div>
                         <div class="col-3 pt-1">
-                            <button type="submit" class="btn btn-primary btn-sm" [ngClass]="{'not-allowed': !rateBtnEnabled(f.value.choise)}" [disabled]="!rateBtnEnabled(f.value.choise)"><i class="fas fa-star"> </i>&nbsp; <span [innerHTML]="myVote? 'Change':'Give'" ></span> Rating </button>
+                            <button type="submit" class="btn btn-primary btn-sm" [ngClass]="{'not-allowed': !rateBtnEnabled(f.value)}" [disabled]="!rateBtnEnabled(f.value)"><i class="fas fa-star"> </i>&nbsp; <span [innerHTML]="myVote? 'Change':'Give'" ></span> Rating </button>
                         </div>
                         <div class="col-4 pt-1 px-0">
-                            <button (click)="favUnfav()" class="btn btn-primary btn-sm" [ngClass]="{'not-allowed': !isLoggedIn}" [disabled]="!isLoggedIn">
+                            <button type="button" (click)="favUnfav()" class="btn btn-primary btn-sm" [ngClass]="{'not-allowed': !isLoggedIn}" [disabled]="!isLoggedIn">
                                 <span *ngIf="isFavourite; else removeOpt" opt="addOpt"> <i class="fas fa-heart-broken"></i>&nbsp; Remove from Favourite </span>
                                 <ng-template #removeOpt><i class="fas fa-heart"></i>&nbsp; Add to Favourite </ng-template>
-                            </button>
+                            </button>            
                         </div>
                     </div>
                     </form>

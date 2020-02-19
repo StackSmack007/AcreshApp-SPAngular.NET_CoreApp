@@ -50,6 +50,7 @@ export const recipePaths: IRecipePaths = {
     getMinified: ( pNum,crit, val) => basePath + `recipes?criteria=${crit}&val=${val}&pageNum=${pNum}`,
     getMinifiedPrivate: ( pNum,crit) => basePath + `recipes/private?criteria=${crit}&pageNum=${pNum}`,
     favUnvaf:basePath+"recipes/fav-unfav",
+    setRating:basePath+"recipes/set-rating",
 }
 
 export interface IRecipePaths {
@@ -57,5 +58,6 @@ export interface IRecipePaths {
     getMinified: (pNum: number,crit: string, val: string, ) => string,
     getMinifiedPrivate: (pNum: number,crit: string,) => string,
     favUnvaf:string,
+    setRating:string,
 }
 

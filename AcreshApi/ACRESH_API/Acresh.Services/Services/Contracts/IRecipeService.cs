@@ -1,9 +1,7 @@
 ﻿using DataTransferObjects.Recipes;
 using DataTransferObjects.Recipes.Details;
-using System;
-using System.Collections.Generic;
+using Infrastructure.Models.Enumerations;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Acresh.Services.Services.Contracts
@@ -13,6 +11,7 @@ namespace Acresh.Services.Services.Contracts
         IQueryable<RecipeCardDTOout> GetRecipeCarts(string criteria, string val);
         IQueryable<RecipeCardDTOout> GetPrivateRecipeCarts(string criteria, string userId);
         Task<RecipeDetailsDTOout> GetRecipeDetailsByIdAsync(string recipeId);
-        Task<bool> FavUnfav(string id, string v);
+        Task<bool> FavUnfav(string recipeId, string userId);
+        Task VoteForRecipeAsync(string recipeId, string userId, RecipeRating score);
     }
 }

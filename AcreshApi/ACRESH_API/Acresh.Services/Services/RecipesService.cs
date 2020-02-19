@@ -5,6 +5,7 @@ using Common.AutomapperConfigurations;
 using DataTransferObjects.Recipes;
 using DataTransferObjects.Recipes.Details;
 using Infrastructure.Models;
+using Infrastructure.Models.Enumerations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -114,5 +115,27 @@ namespace Acresh.Services.Services
             return result;
         }
 
+        public async Task VoteForRecipeAsync(string recipeId, string userId, RecipeRating score)
+        {
+            if (score == RecipeRating.noVotes) throw new ArgumentException( "Score is Invalid 0 not allowed");
+            var recipeFd = await recipeRepo.All().Include(r => r.Votes).FirstOrDefaultAsync(r => r.Id == recipeId);
+            if (recipeFd is null) throw new ArgumentException("Unfound Recipe with given Id");
+            var voteFd = recipeFd.Votes.Where(x => !x.IsDeleted).FirstOrDefault(x => x.VoterId == userId);
+            if (voteFd != null)
+            {
+                if (score == voteFd.Score) throw new ArgumentException("Same vote can not be given!");
+                voteFd.Score = score;
+                voteFd.DateOfLastEdit = DateTime.UtcNow;
+                await recipeRepo.SaveChangesAsync();
+                return;
+            }
+            recipeFd.Votes.Add(new RecipeVote
+            {
+                VoterId = userId,
+                Score = score,
+                RecipeId = recipeId
+            });
+            await recipeRepo.SaveChangesAsync();
+        }
     }
 }

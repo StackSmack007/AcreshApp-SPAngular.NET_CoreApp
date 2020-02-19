@@ -64,6 +64,7 @@ export class HelperService {
     return str[0].toLowerCase() + str.substr(1)
   }
 
+  static videoLinkMake = (id) => `https://www.youtube.com/embed/${id}?rel=0`
 
   static getNextItem<T>(arr: T[], currentItem: T): T {
     let index: number = arr.indexOf(currentItem);
