@@ -7,8 +7,8 @@ export class SignalRRecipeDetailsService {
     unreadCount = 0;
     private hubConnection: signalR.HubConnection
 
-    private recipeMonitored: { id: string, favorizers: string[] } = null;
-    public startConnection = (rec: { id: string, favorizers: string[] }): Promise<any> => {//TODO
+    private recipeMonitored: { id: string } = null;
+    public startConnection = (rec: { id: string }): Promise<any> => {//TODO
         this.hubConnection = new signalR.HubConnectionBuilder()
             .withUrl('https://localhost:5001/recipe-details')
             .build();
@@ -31,14 +31,16 @@ export class SignalRRecipeDetailsService {
             .catch(console.log);
     }
 
-    changeFavourisers(id: string, newFavourisers: string[]): Promise<any> {
-        return this.hubConnection.invoke("ChangeFavourisers", id, newFavourisers);
+    patchRecipeData(newFragment: {}): Promise<any> {
+        return this.hubConnection.invoke("ChangeDetailsProp", this.recipeMonitored.id, newFragment);
     }
 
     StartListening() {
-        this.hubConnection.on("updateFavs", (newFavs: string[]) => {
-            console.log("haber za nov pochitatel!");
-            this.recipeMonitored.favorizers = [...newFavs]
+        this.hubConnection.on("updateFavs", (newPatch: {}) => {
+            console.log("haber za nov pochitatel!", newPatch);
+            Object.entries(newPatch).forEach(([key, value]) => {
+                this.recipeMonitored[key] = value;
+            })
         })
     }
 }

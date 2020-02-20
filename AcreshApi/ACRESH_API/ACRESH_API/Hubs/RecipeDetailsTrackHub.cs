@@ -21,11 +21,11 @@ namespace ACRESH_API.Hubs
             if (RecipeDetailsViewerConections[recipeId].Contains(ConId)) return;
             RecipeDetailsViewerConections[recipeId].Add(ConId);
         }
-        public async Task ChangeFavourisers(string recId, ICollection<string> newFavs)
+        public async Task ChangeDetailsProp(string recId, object newFragment)
         {
             if (!RecipeDetailsViewerConections.ContainsKey(recId)) return;
             var recievers = RecipeDetailsViewerConections[recId].Where(x => x != ConId).ToArray();
-            await Clients.Clients(recievers).SendAsync("updateFavs", newFavs);
+            await Clients.Clients(recievers).SendAsync("updateFavs", newFragment);
         }
 
         public void RemoveUserConnection()
