@@ -6,7 +6,7 @@ export interface IRecipeMiniInfo {
     description: string,
     mainPicture: string,
     authorUserName: string,
-    authorCookRank: string,
+    authorCookRank: number,
     dateOfCreation: string,
     subInfo: IRecipeMiniSubInfo
 }

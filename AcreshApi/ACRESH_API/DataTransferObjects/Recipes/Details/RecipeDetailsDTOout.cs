@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Models.Enumerations;
+using System;
 using System.Collections.Generic;
 
 namespace DataTransferObjects.Recipes.Details
@@ -9,7 +10,7 @@ namespace DataTransferObjects.Recipes.Details
         public DateTime DateOfLastEdit { get; set; }
         public string Name { get; set; }
         public string CategoryName { get; set; }
-        public string AuthorCookRank { get; set; }
+        public CookRank AuthorCookRank { get; set; }
         public string AuthorUserName { get; set; }
         public string Description { get; set; }
         public string VideoLink { get; set; }

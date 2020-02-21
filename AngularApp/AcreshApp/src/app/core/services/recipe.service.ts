@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { recipePaths } from '../settings/apiSettings';
 import { Observable } from 'rxjs';
 import { IRecipeMiniInfo } from '../interfaces/recipes/recipeMiniInfo';
@@ -14,23 +14,26 @@ export class RecipeService {
   constructor(private http: HttpClient) { }
 
   getRecipes(pageNum: number, criteria: string, val: string, ): Observable<IRecipeMiniInfo[]> {
-    return this.http.get<IRecipeMiniInfo[]>(recipePaths.getMinified( pageNum,criteria, val))
+    return this.http.get<IRecipeMiniInfo[]>(recipePaths.getMinified(pageNum, criteria, val))
   }
 
   getPrivateRecipes(pageNum: number, criteria: string, ): Observable<IRecipeMiniInfo[]> {
-    return this.http.get<IRecipeMiniInfo[]>(recipePaths.getMinifiedPrivate( pageNum,criteria))
+    return this.http.get<IRecipeMiniInfo[]>(recipePaths.getMinifiedPrivate(pageNum, criteria))
   }
 
-  getDetails(id:string): Observable<IRecipeDetails> {
-    return this.http.get<IRecipeDetails>(recipePaths.base+id);
+  getDetails(id: string): Observable<IRecipeDetails> {
+    return this.http.get<IRecipeDetails>(recipePaths.base + id);
   }
 
-  favUnfavRecipe(id:string): Observable<boolean> {
-    return this.http.put<boolean>(recipePaths.favUnvaf,JSON.stringify(id),HelperService.appJsonHeader);
+  favUnfavRecipe(id: string): Observable<boolean> {
+    return this.http.put<boolean>(recipePaths.favUnvaf, JSON.stringify(id), HelperService.appJsonHeader);
   }
 
-  rateRecipe(id:string,score:number): Observable<any> {
-    return this.http.put(recipePaths.setRating,{id,score});
+  rateRecipe(id: string, score: number): Observable<any> {
+    return this.http.put(recipePaths.setRating, { id, score });
   }
 
+  nameTaken(v: string): Observable<boolean> {
+    return this.http.get<boolean>(recipePaths.base)
+  }
 }

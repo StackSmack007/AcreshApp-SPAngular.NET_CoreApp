@@ -2,6 +2,7 @@ import { Component, OnInit, Input, } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { IRecipeMiniInfo } from 'src/app/core/interfaces/recipes/recipeMiniInfo';
 import { HelperService, CustomDateFormats as CustomDateFormats } from 'src/app/core/services/helper.service';
+import { CookRank } from 'src/app/core/interfaces/CookRank';
 
 @Component({
   selector: 'acr-recipe-cart',
@@ -19,6 +20,10 @@ import { HelperService, CustomDateFormats as CustomDateFormats } from 'src/app/c
 
 export class RecipeCartComponent implements OnInit {
 
+  get cookRank(){
+    return CookRank[this.recipe.authorCookRank];
+  }
+
   @Input()
   public recipe: IRecipeMiniInfo = {
     id: "someId",
@@ -26,7 +31,7 @@ export class RecipeCartComponent implements OnInit {
     description: "More description! Lorem, ipsum dolor sit amet consectetur adipisicing elit.Debitis molestiae quae voluptate, vitae cumque aspernatur fugit autem quo minus accusantium uttotam delectus maxime, velit reiciendis obcaecati, quasi sit ipsam! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis molestiae quae voluptate, vitae cumque aspernatur fugit autem quo minus accusantium ut totam delectus maxime, velit reiciendis obcaecati, quasi sit ipsam! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis molestiae quae voluptate, vitae cumque aspernatur fugit autem quo minus accusantium ut totam delectus maxime, velit reiciendis obcaecati, quasi sit ipsam! Lorem, ipsum dolor sit amet consectetur adipisicingelit. Debitis molestiae quae voluptate, vitae cumque aspernatur fugit autem quo minus accusantium ut totam delectus maxime, velit reiciendis obcaecati, quasi sit ipsam!",
     mainPicture: "https://prods3.imgix.net/images/articles/2017_08/Non-feature-cold-summer-ramen-recipe-noodle-soup1.jpg?auto=format%2Ccompress&ixjsv=2.2.3",
     authorUserName: "User12",
-    authorCookRank: "Chef",
+    authorCookRank: 1,
     dateOfCreation: "0",
     subInfo: {
       rating: 7,
@@ -43,6 +48,7 @@ export class RecipeCartComponent implements OnInit {
   infoShown: boolean = false;
   ngOnInit(): void {
   }
+  
   
   displayInfo(timeDelay: number = 1000) {
     setTimeout(() =>

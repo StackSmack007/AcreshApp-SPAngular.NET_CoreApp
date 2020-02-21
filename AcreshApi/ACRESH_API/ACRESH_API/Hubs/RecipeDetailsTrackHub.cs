@@ -34,14 +34,5 @@ namespace ACRESH_API.Hubs
             if (key is null) return;//Nothing to remove...
             RecipeDetailsViewerConections[key].Remove(ConId);
         }
-
-
-
-
-
-
-
-
-
     }
 }

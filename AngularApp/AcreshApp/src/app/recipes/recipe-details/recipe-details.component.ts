@@ -5,6 +5,7 @@ import { IRecipeDetails } from 'src/app/core/interfaces/recipeDetails';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { SignalRRecipeDetailsService } from 'src/app/core/services/signal-r.recipe-details.service';
+import { CookRank } from 'src/app/core/interfaces/CookRank';
 
 @Component({
   selector: 'acr-rec-det',
@@ -20,6 +21,9 @@ export class RecipeDetailsComponent implements OnDestroy {
     singalRService.startConnection(this.recipe);
   }
 
+  get cookRank(){
+    return CookRank[this.recipe.authorCookRank];
+  }
   public recipe: IRecipeDetails = null;
   // {
   //   id: "2safdg2sadsadasd",

@@ -6,12 +6,13 @@ import { AppRoutingModule } from '../app-routing.module';
 import { ListRecipesComponent } from './list-recipes/list-recipes.component';
 import { CoreModule } from '../core/core.module';
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
+import { CreateComponent } from './create/create.component';
 
 @NgModule({
-  declarations: [RecipeCartComponent, RecipeSubInfoCartComponent, ListRecipesComponent, RecipeDetailsComponent],
+  declarations: [RecipeCartComponent, RecipeSubInfoCartComponent, ListRecipesComponent, RecipeDetailsComponent, CreateComponent],
   imports: [
     CommonModule,AppRoutingModule,CoreModule
   ],
-  exports: [RecipeCartComponent,RecipeDetailsComponent]
+  exports: [RecipeCartComponent,RecipeDetailsComponent,CreateComponent]
 })
 export class RecipesModule { }

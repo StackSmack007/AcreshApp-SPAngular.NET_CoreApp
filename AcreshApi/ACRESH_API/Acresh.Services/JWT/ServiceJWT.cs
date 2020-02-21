@@ -65,7 +65,7 @@ namespace Acresh.Services.JWT
                 new Claim(ClaimTypes.Name,u.UserName),
                 new Claim("roles", string.Join("|", roles)),
                 new Claim("fullName", $"{u.FirstName} {u.LastName}"),
-                new Claim("cookRank", u.CookRank.ToString()),
+                new Claim("cookRank", ((int)u.CookRank).ToString()),
                 new Claim("_id", u.Id),
                 new Claim("avPic", u.AvatarPicture),
                 new Claim("blocked",string.Join("|", blockedUserNames))

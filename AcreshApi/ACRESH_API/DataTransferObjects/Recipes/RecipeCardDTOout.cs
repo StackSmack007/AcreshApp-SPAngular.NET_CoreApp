@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Models.Enumerations;
+using System;
 
 namespace DataTransferObjects.Recipes
 {
@@ -9,7 +10,7 @@ namespace DataTransferObjects.Recipes
         public string Description { get; set; }
         public string MainPicture { get; set; }
         public string AuthorUserName { get; set; }
-        public string AuthorCookRank { get; set; }
+        public CookRank AuthorCookRank { get; set; }
         public DateTime DateOfCreation { get; set; }
         public RecipeSubInfoDTOout SubInfo { get; set; }
     }
