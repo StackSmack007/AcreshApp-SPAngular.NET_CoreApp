@@ -13,5 +13,6 @@ namespace Acresh.Services.Services.Contracts
         Task<RecipeDetailsDTOout> GetRecipeDetailsByIdAsync(string recipeId);
         Task<bool> FavUnfav(string recipeId, string userId);
         Task VoteForRecipeAsync(string recipeId, string userId, RecipeRating score);
+        Task<bool> IsNameUsed(string name);
     }
 }

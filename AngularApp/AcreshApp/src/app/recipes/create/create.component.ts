@@ -11,24 +11,23 @@ import { HelperService } from 'src/app/core/services/helper.service';
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
-  private takenRecipeNames: string[] = ["taken1"];
+  private takenRecipeNames: string[] = ["taken"];
   form: FormGroup
-  categories = [{ name: "no category", id: -1 },{ name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
+  categories = [{ name: "no category", id: -1 }, { name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
   diffGrades = ["Easy", "Normal", "Hard"];
-  ingredients = [{id:1,name:"salati"},{id:2,name:"torshii"}];
+  ingredients = [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
   constructor(private fb: FormBuilder, private authService: AuthService, private recipeService: RecipeService) {
     this.buildForm();
   }
 
-  get videoLink(){
-    if(this.getCtrl('videoUrl').invalid || this.form.value['videoUrl'].length===0){return null}
+  get videoLink() {
+    if (this.getCtrl('videoUrl').invalid || this.form.value['videoUrl'].length === 0) { return null }
     const id = this.form.value['videoUrl'].substr(this.form.value['videoUrl'].indexOf("v=") + 2 || this.form.value['videoUrl'].lastIndexOf("\\") + 1);
     return HelperService.videoLinkMake(id);
   }
 
   get myPersonality() {
     const { userName, cookRank } = this.authService.getUserInfo();
-    let user=this.authService.getUserInfo();
     return { userName, cookRank };
   }
 
@@ -43,15 +42,15 @@ export class CreateComponent implements OnInit {
   getErr(name: string, errName: string) {
     return this.getCtrl(name).errors[errName];
   }
-//Used to clasify input field as valid or not
+  //Used to clasify input field as valid or not
   getValClasses(name: string): { 'is-invalid': boolean, 'is-valid': boolean } {
     const ctrl = this.getCtrl(name);
     // if (this.getCtrl(name).pristine) return { 'is-invalid': false, 'is-valid': false };
-    return { 'is-invalid': (ctrl.invalid&&ctrl.touched), 'is-valid': ctrl.valid }
+    return { 'is-invalid': (ctrl.invalid && ctrl.touched), 'is-valid': ctrl.valid }
   }
-//Used to clasify input field as valid or not
+  //Used to clasify input field as valid or not
   getCtrlValClasses(ctr: FormControl): { 'is-invalid': boolean, 'is-valid': boolean } {
-    return { 'is-invalid': (ctr.invalid&&ctr.touched), 'is-valid': ctr.valid }
+    return { 'is-invalid': (ctr.invalid && ctr.touched), 'is-valid': ctr.valid }
   }
 
   invalidTouchedCtrl(name: string) {
@@ -62,7 +61,7 @@ export class CreateComponent implements OnInit {
 
   addPicture() {
     this.formArrs.pictures = this.form.get('pictures') as FormArray;
-    this.formArrs.pictures.push(this.fb.control("", [Validators.required,Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")]))
+    this.formArrs.pictures.push(this.fb.control("", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")]))
   }
   removePicture(index: number = 0) {
     this.formArrs.pictures.removeAt(index);
@@ -79,24 +78,29 @@ export class CreateComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      name: ["", [Validators.required, Validators.minLength(4), takenValueValidator(this.takenRecipeNames),Validators.pattern("[a-zA-Z ]+")], []],
+      name: ["", [Validators.required, Validators.minLength(4), takenValueValidator(this.takenRecipeNames), Validators.pattern("[a-zA-Z ]+")], []],
       category: ["-1", [], []],
-      description: ["", [Validators.required,Validators.minLength(100),Validators.maxLength(25600)], []],
-      mainPic: ["", [Validators.required,Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")], []],
+      description: ["", [Validators.required, Validators.minLength(100), Validators.maxLength(25600)], []],
+      mainPic: ["", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")], []],
       videoUrl: ["", [], []],
       difficulty: ["1", [Validators.required], []],
       pictures: this.fb.array([]),
       ingridients: this.fb.array([])
-    })
+    }, { updateOn: "blur" })
 
     this.getCtrl('name').valueChanges.subscribe(v => {
-      if (this.invalidTouchedCtrl('name')) {
-        this.recipeService.nameTaken(v).subscribe((answ: boolean) => {
-          if (!answ) return;
+      if (this.getCtrl('name').invalid) { return; }
+      if (!this.takenRecipeNames.includes(v) && this.takenRecipeNames.some(x => x.toLowerCase() === v.toLowerCase())) {
+        this.takenRecipeNames.push(v);
+        this.getCtrl('name').updateValueAndValidity();
+        return;
+      }
+      this.recipeService.nameTaken(v).subscribe((answ: boolean) => {
+        if (answ) {
           this.takenRecipeNames.push(v);
           this.getCtrl('name').updateValueAndValidity();
-        })
-      }
+        }
+      })
     });
   }
 
@@ -107,9 +111,9 @@ export class CreateComponent implements OnInit {
     })
   }
 
-submitRecipe(){
-  console.log(this.form.value)
-}
+  submitRecipe() {
+    console.log(this.form.value)
+  }
 
 
   ngOnInit(): void { }

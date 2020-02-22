@@ -115,9 +115,11 @@ namespace Acresh.Services.Services
             return result;
         }
 
+        public async Task<bool> IsNameUsed(string name) => await this.recipeRepo.All().AnyAsync(x => x.Name.ToLower() == name.ToLower());
+
         public async Task VoteForRecipeAsync(string recipeId, string userId, RecipeRating score)
         {
-            if (score == RecipeRating.noVotes) throw new ArgumentException( "Score is Invalid 0 not allowed");
+            if (score == RecipeRating.noVotes) throw new ArgumentException("Score is Invalid 0 not allowed");
             var recipeFd = await recipeRepo.All().Include(r => r.Votes).FirstOrDefaultAsync(r => r.Id == recipeId);
             if (recipeFd is null) throw new ArgumentException("Unfound Recipe with given Id");
             var voteFd = recipeFd.Votes.Where(x => !x.IsDeleted).FirstOrDefault(x => x.VoterId == userId);

@@ -47,19 +47,19 @@ export interface IMessagePaths {
 
 export const recipePaths: IRecipePaths = {
     base: basePath + "recipes/",//post//put//get
-    getMinified: ( pNum,crit, val) => basePath + `recipes?criteria=${crit}&val=${val}&pageNum=${pNum}`,
-    getMinifiedPrivate: ( pNum,crit) => basePath + `recipes/private?criteria=${crit}&pageNum=${pNum}`,
-    favUnvaf:basePath+"recipes/fav-unfav",
-    setRating:basePath+"recipes/set-rating",
-    chkNameTaken:basePath+"recipes/name-taken",
+    getMinified: (pNum, crit, val) => basePath + `recipes?criteria=${crit}&val=${val}&pageNum=${pNum}`,
+    getMinifiedPrivate: (pNum, crit) => basePath + `recipes/private?criteria=${crit}&pageNum=${pNum}`,
+    favUnvaf: basePath + "recipes/fav-unfav",
+    setRating: basePath + "recipes/set-rating",
+    chkNameTaken: (name) => basePath + `recipes/name-used?name=${name}`,
 }
 
 export interface IRecipePaths {
     base: string,
-    getMinified: (pNum: number,crit: string, val: string, ) => string,
-    getMinifiedPrivate: (pNum: number,crit: string,) => string,
-    favUnvaf:string,
-    setRating:string,
-    chkNameTaken:string,
+    getMinified: (pNum: number, crit: string, val: string, ) => string,
+    getMinifiedPrivate: (pNum: number, crit: string, ) => string,
+    favUnvaf: string,
+    setRating: string,
+    chkNameTaken: (name: string) => string,
 }
 

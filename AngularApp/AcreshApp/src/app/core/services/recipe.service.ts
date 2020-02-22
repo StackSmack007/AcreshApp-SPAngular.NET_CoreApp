@@ -33,7 +33,7 @@ export class RecipeService {
     return this.http.put(recipePaths.setRating, { id, score });
   }
 
-  nameTaken(v: string): Observable<boolean> {
-    return this.http.get<boolean>(recipePaths.base)
+  nameTaken(name: string): Observable<boolean> {
+    return this.http.get<boolean>(recipePaths.chkNameTaken(name))
   }
 }

@@ -85,6 +85,19 @@ namespace ACRESH_API.Controllers
             }
         }
 
+
+
+       
+                    [Authorize]
+        [HttpGet("name-used")]
+        public async Task<ActionResult<bool>> CheckNameUsed(string name)
+        {
+           if(await this.recipeService.IsNameUsed(name))
+            {
+                return true;
+            }
+            return false;
+        }
         //// GET: api/Recipes/5
         //[HttpGet("{id}", Name = "Get")]
         //public string Get(int id)
