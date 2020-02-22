@@ -11,7 +11,7 @@
                 </div>
             </div>
 
-            {{form.value|json}}
+            <!-- {{form.value|json}} -->
             <form [formGroup]="form" (ngSubmit)="submitRecipe()">
                 <fieldset>
                     <legend class="text-center pb-3">Please Provide Recipe Info</legend>
@@ -36,7 +36,8 @@
                                 <div class="form-group has-danger has-success">
                                     <label class="form-control-label pr-3 h5" for="category"> Category:</label>
                                     <select class="custom-select" formControlName="category" id="category">
-                                        <option *ngFor="let opt of categories; index as i" [value]="opt.id">
+                                        <option  [value]="-1">No Category</option>                                            
+                                        <option *ngFor="let opt of (categorie$ | async); index as i" [value]="opt.id">
                                             {{opt.name}}</option>
                                     </select>
                                 </div>
@@ -50,8 +51,8 @@
                                     <div class="custom-control custom-radio col-3"
                                         *ngFor="let dif of diffGrades; let i=index;">
                                         <input class="custom-control-input" type="radio" formControlName="difficulty"
-                                            [value]="i+1" [id]="dif|lowercase">
-                                        <label class="custom-control-label" [for]=" dif|lowercase">{{dif}}</label>
+                                            [value]="dif[0]" [id]="dif[1]|lowercase">
+                                        <label class="custom-control-label" [for]="dif[1]|lowercase">{{dif[1]}}</label>
                                     </div>
                                 </div>
                             </div>

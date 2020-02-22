@@ -84,10 +84,7 @@ namespace ACRESH_API.Controllers
                 throw ex;
             }
         }
-
-
-
-       
+                            
                     [Authorize]
         [HttpGet("name-used")]
         public async Task<ActionResult<bool>> CheckNameUsed(string name)
@@ -98,6 +95,10 @@ namespace ACRESH_API.Controllers
             }
             return false;
         }
+
+
+
+
         //// GET: api/Recipes/5
         //[HttpGet("{id}", Name = "Get")]
         //public string Get(int id)

@@ -2,7 +2,8 @@ import { Component, OnInit, Input, } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { IRecipeMiniInfo } from 'src/app/core/interfaces/recipes/recipeMiniInfo';
 import { HelperService, CustomDateFormats as CustomDateFormats } from 'src/app/core/services/helper.service';
-import { CookRank } from 'src/app/core/interfaces/CookRank';
+import { CookRank } from 'src/app/core/enumerations/CookRank';
+
 
 @Component({
   selector: 'acr-recipe-cart',

@@ -79,13 +79,13 @@ namespace ACRESH_API
             services.AddSingleton<Random>();
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
-
             services.AddScoped<DataBaseSeeder>();
-
             services.AddScoped<ServiceJWT>();
             services.AddTransient<IUserDataService, UserDataService>();
             services.AddTransient<IMessageService, MessageService>();
-            services.AddTransient<IRecipesService, RecipesService>();
+            services.AddTransient<IRecipesService, RecipeService>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IIngridientService, IngridientService>();
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
         }
 

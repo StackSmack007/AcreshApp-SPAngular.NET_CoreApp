@@ -5,7 +5,8 @@ import { IRecipeDetails } from 'src/app/core/interfaces/recipeDetails';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { SignalRRecipeDetailsService } from 'src/app/core/services/signal-r.recipe-details.service';
-import { CookRank } from 'src/app/core/interfaces/CookRank';
+import { CookRank } from 'src/app/core/enumerations/CookRank';
+
 
 @Component({
   selector: 'acr-rec-det',

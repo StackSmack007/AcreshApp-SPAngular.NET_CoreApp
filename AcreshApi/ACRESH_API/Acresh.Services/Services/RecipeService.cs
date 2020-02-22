@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace Acresh.Services.Services
 {
-    public class RecipesService : IRecipesService
+    public class RecipeService : IRecipesService
     {
         private readonly IRepository<Recipe> recipeRepo;
 
         private readonly IMapper mapper;
 
-        public RecipesService(IRepository<Recipe> recipeRepo, IMapper mapper)
+        public RecipeService(IRepository<Recipe> recipeRepo, IMapper mapper)
         {
             this.recipeRepo = recipeRepo;
             this.mapper = mapper;

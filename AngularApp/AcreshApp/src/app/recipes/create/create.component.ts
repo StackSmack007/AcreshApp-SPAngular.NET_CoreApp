@@ -1,22 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
+import { Component, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { takenValueValidator } from 'src/app/core/validators/takenName';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { HelperService } from 'src/app/core/services/helper.service';
+import { CategoryService } from 'src/app/core/services/category.service';
+import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
+import { ICategoryMini } from 'src/app/core/interfaces/categories/ICategoryMini';
+import { IngridientService } from 'src/app/core/services/ingridient.service';
+import { IIngridientMini } from 'src/app/core/interfaces/categories/IIngridientMini';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'acr-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent implements OnDestroy {
   private takenRecipeNames: string[] = ["taken"];
   form: FormGroup
-  categories = [{ name: "no category", id: -1 }, { name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
-  diffGrades = ["Easy", "Normal", "Hard"];
-  ingredients = [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
-  constructor(private fb: FormBuilder, private authService: AuthService, private recipeService: RecipeService) {
+  categorie$: Observable<ICategoryMini> = null; //[{ name: "no category", id: -1 }, { name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
+
+  subscription$: Subscription[] = [];
+
+  diffGrades = Object.entries(RecipeDifficulty).filter((_, index, arr) => index < arr.length / 2);
+  ingredients: IIngridientMini[] = [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
+  constructor(private fb: FormBuilder, private authService: AuthService, private recipeService: RecipeService, catService: CategoryService, ingridientService: IngridientService) {
+    this.categorie$ = catService.getAllMini();
+    this.subscription$.push(ingridientService.getAllMini().subscribe(x => {
+      this.ingredients = x;
+    }))
     this.buildForm();
   }
 
@@ -78,7 +91,7 @@ export class CreateComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      name: ["", [Validators.required, Validators.minLength(4), takenValueValidator(this.takenRecipeNames), Validators.pattern("[a-zA-Z ]+")], []],
+      name: ["", { validators: [Validators.required, Validators.minLength(4), takenValueValidator(this.takenRecipeNames), Validators.pattern("[a-zA-Z ]+")], updateOn: "blur" }],
       category: ["-1", [], []],
       description: ["", [Validators.required, Validators.minLength(100), Validators.maxLength(25600)], []],
       mainPic: ["", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")], []],
@@ -86,22 +99,26 @@ export class CreateComponent implements OnInit {
       difficulty: ["1", [Validators.required], []],
       pictures: this.fb.array([]),
       ingridients: this.fb.array([])
-    }, { updateOn: "blur" })
+    },
+      // { updateOn: "blur" }
+    )
 
-    this.getCtrl('name').valueChanges.subscribe(v => {
+    this.subscription$.push(this.getCtrl('name').valueChanges.subscribe(v => {
+      console.log("ch")
       if (this.getCtrl('name').invalid) { return; }
       if (!this.takenRecipeNames.includes(v) && this.takenRecipeNames.some(x => x.toLowerCase() === v.toLowerCase())) {
         this.takenRecipeNames.push(v);
         this.getCtrl('name').updateValueAndValidity();
         return;
       }
-      this.recipeService.nameTaken(v).subscribe((answ: boolean) => {
+      this.subscription$.push(this.recipeService.nameTaken(v).subscribe((answ: boolean) => {
+        console.log("base")
         if (answ) {
           this.takenRecipeNames.push(v);
           this.getCtrl('name').updateValueAndValidity();
         }
-      })
-    });
+      }))
+    }))
   }
 
   private createIngredient(): FormGroup {
@@ -115,6 +132,7 @@ export class CreateComponent implements OnInit {
     console.log(this.form.value)
   }
 
-
-  ngOnInit(): void { }
+  ngOnDestroy(): void { 
+    this.subscription$.filter(x=>!x.closed).forEach(x=>x.unsubscribe())
+  }
 }

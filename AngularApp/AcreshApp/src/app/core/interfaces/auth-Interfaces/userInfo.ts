@@ -1,4 +1,5 @@
-import { CookRank } from "../CookRank";
+import { CookRank } from '../../enumerations/CookRank';
+
 
 export interface IUserInfo {
     id: string;

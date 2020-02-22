@@ -8,8 +8,6 @@ import { avImages, maxLengthFields, minLengthFields } from 'src/app/core/setting
 import { ToastrService } from 'ngx-toastr';
 import { HelperService } from 'src/app/core/services/helper.service';
 
-
-
 @Component({
   selector: 'acr-register',
   templateUrl: './register.component.html',
@@ -69,8 +67,7 @@ export class RegisterComponent {
   }
 
   submitRegister() {
-    console.log(this.rf);
-    const values = this.rf.value;
+     const values = this.rf.value;
     this.authService.checkUserNameOrEmailTaken(values).subscribe(answer => {
       if (answer.userNameTaken || answer.emailTaken) {
         if (answer.userNameTaken) {

@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 import { authPaths } from '../settings/apiSettings';
 import { IUser } from '../interfaces/user';
 import { IUserDataTakenResult } from '../interfaces/auth-Interfaces/userDataTakenResult';
-import { Gender } from '../interfaces/Gender';
-import { CookRank } from "../interfaces/CookRank";
 import { IUserSendable } from '../interfaces/auth-Interfaces/userSendable';
 import { IUserInfo } from '../interfaces/auth-Interfaces/userInfo';
 import { LoginResult } from '../interfaces/auth-Interfaces/loginResult';
 import { IUserTokenInfo } from '../interfaces/auth-Interfaces/userTokenInfo';
+import { Gender } from '../enumerations/Gender';
+import { CookRank } from '../enumerations/CookRank';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +64,6 @@ export class AuthService {
       })
     );
   }
-
 
   private parseJwt(token): IUserInfo {
     if (!token) return null;
