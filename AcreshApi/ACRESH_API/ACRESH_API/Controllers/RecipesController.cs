@@ -1,6 +1,7 @@
 ﻿using Acresh.Services.Services.Contracts;
 using DataTransferObjects.Recipes;
 using DataTransferObjects.Recipes.Details;
+using Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ACRESH_API.Controllers
 {
+    [Authorize]
     public partial class RecipesController : BaseController
     {
         private const int REC_COUNT_PER_FETCH = 3;
@@ -20,7 +22,7 @@ namespace ACRESH_API.Controllers
         {
             this.recipeService = recipeService;
         }
-
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<RecipeDetailsDTOout>> GetRecipeDetails(string id)
         {
@@ -28,7 +30,7 @@ namespace ACRESH_API.Controllers
             if (result is null) return NotFound();
             return result;
         }
-
+        [AllowAnonymous]
         // GET: api/Recipes
         [HttpGet]
         public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetCards(string criteria, int pageNum, string val = "")
@@ -41,7 +43,6 @@ namespace ACRESH_API.Controllers
             return result;
         }
 
-        [Authorize]
         [HttpGet("private")]
         public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetPrivateCards(string criteria, int pageNum)
         {
@@ -53,13 +54,12 @@ namespace ACRESH_API.Controllers
             return result;
         }
 
-        [Authorize]
         [HttpPut("fav-unfav")]
         public async Task<ActionResult<bool>> FavUnfav([FromBody]string id)
         {
             try
             {
-               var result=await this.recipeService.FavUnfav(id, getUserId());
+                var result = await this.recipeService.FavUnfav(id, getUserId());
                 return Ok(result);
             }
             catch (ArgumentException ex)
@@ -69,13 +69,12 @@ namespace ACRESH_API.Controllers
             }
         }
 
-        [Authorize]
         [HttpPut("set-rating")]
         public async Task<ActionResult> SetRecipeRating(RecipeVoteDTOin recipeVote)
         {
             try
             {
-                await recipeService.VoteForRecipeAsync(recipeVote.Id, getUserId(),recipeVote.Score );
+                await recipeService.VoteForRecipeAsync(recipeVote.Id, getUserId(), recipeVote.Score);
                 return NoContent();
             }
             catch (ArgumentException ex)
@@ -84,20 +83,24 @@ namespace ACRESH_API.Controllers
                 throw ex;
             }
         }
-                            
-                    [Authorize]
+
         [HttpGet("name-used")]
         public async Task<ActionResult<bool>> CheckNameUsed(string name)
         {
-           if(await this.recipeService.IsNameUsed(name))
+            if (await this.recipeService.IsNameUsed(name))
             {
                 return true;
             }
             return false;
         }
 
-
-
+        [HttpPost]
+        public async Task<ActionResult<string>> Post(RecipeCreateDTOin recipe)
+        {
+            Recipe newRecipe = await this.recipeService.RegisterAsync(recipe, this.getUserId());
+            if (newRecipe is null) return BadRequest();
+            return newRecipe.Id;
+        }
 
         //// GET: api/Recipes/5
         //[HttpGet("{id}", Name = "Get")]
@@ -107,10 +110,6 @@ namespace ACRESH_API.Controllers
         //}
 
         //// POST: api/Recipes
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
 
         //// PUT: api/Recipes/5
         //[HttpPut("{id}")]

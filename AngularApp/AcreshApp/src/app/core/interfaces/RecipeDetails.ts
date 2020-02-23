@@ -13,7 +13,8 @@ export interface IRecipeDetails {
     votes: { name: string, vote: number }[],
     difficulty: number,
     tags: string[],
-    ingridients: IRecipeIngredient[],
+    ingredients: IRecipeIngredient[],
     favorizers: string[]
 }
+
 

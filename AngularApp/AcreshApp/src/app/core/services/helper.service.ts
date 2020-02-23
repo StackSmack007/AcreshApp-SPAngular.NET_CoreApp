@@ -52,6 +52,21 @@ export class HelperService {
   //   return result;
   // }
 
+public static fixJsonNumbers(obj: any): any {
+    let result = {};
+    Object.keys(obj).forEach(key => {
+     let value = obj[key];
+      if(!isNaN(obj[key])){
+        result[key] = Number(value);
+      }else if(typeof(value)==="object"){
+        result[key]=this.fixJsonNumbers(value);
+      }else{
+        result[key]=value;
+      }   
+    })
+    return result;
+  }
+
   public static appJsonHeader={
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };

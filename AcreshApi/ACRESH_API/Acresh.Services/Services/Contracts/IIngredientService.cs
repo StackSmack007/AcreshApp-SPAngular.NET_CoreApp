@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace Acresh.Services.Services.Contracts
 {
-    public interface IIngridientService
+    public interface IIngredientService
     {
-        Task<ICollection<IngridientDTOout>> GetAllIngridientsMini();
+        Task<ICollection<IngredientDTOout>> GetAllIngridientsMini();
     }
 }

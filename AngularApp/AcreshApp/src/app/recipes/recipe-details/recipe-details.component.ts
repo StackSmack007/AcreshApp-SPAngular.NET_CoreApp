@@ -41,7 +41,7 @@ export class RecipeDetailsComponent implements OnDestroy {
   //   votes: [{ name: "amet", vote: 3 }, { name: "aspar", vote: 4 }, { name: "chukcha", vote: 4 }, { name: "User1", vote: 3 }],
   //   difficulty: 2,
   //   tags: ["kufteta", "bobove", "zaprujka", "bobec"],
-  //   ingridients: [
+  //   ingredients: [
   //     { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: false, isEssential: true },
   //     { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: true, isEssential: false },
   //     { name: "Tomato", ammount: "2 spns", picURL: "https://cdn.ruled.me/wp-content/uploads/2019/09/ramen-bowl-featured.jpg", id: 2, isVegan: false, isEssential: true }

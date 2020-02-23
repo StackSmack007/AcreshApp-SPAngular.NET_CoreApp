@@ -63,7 +63,6 @@ export interface IRecipePaths {
     chkNameTaken: (name: string) => string,
 }
 
-
 export const categoryPaths: ICategoryPath = {
     base: basePath + "categories/",
     getAllMini: basePath + "categories/all-mini"
@@ -74,12 +73,12 @@ export interface ICategoryPath {
     getAllMini: string
 }
 
-export const ignridientPaths: ICategoryPath = {
-    base: basePath + "ingridients/",
-    getAllMini: basePath + "ingridients/all-mini"
+export const ignredientPaths: IIgnredientPaths = {
+    base: basePath + "ingredients/",
+    getAllMini: basePath + "ingredients/all-mini"
 }
 
-export interface IIgnridientPaths {
+export interface IIgnredientPaths {
     base: string,
     getAllMini: string
 }

@@ -70,8 +70,8 @@ namespace ACRESH_API
             //           //.AllowCredentials()
             //           );
             //});
-
             services.AddSignalR();
+            services.AddControllers().AddNewtonsoftJson();
 
             //Configuring OfJWTHappensHere
             ServiceJWT.ConfigureJWTAUth(services, jwtSettings.Secret, jwtSettings.Issuer);
@@ -85,14 +85,14 @@ namespace ACRESH_API
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IRecipesService, RecipeService>();
             services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IIngridientService, IngridientService>();
+            services.AddTransient<IIngredientService, IngredientService>();
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.EnvironmentName == EnvironmentName.Development)
+            if (env.EnvironmentName == Microsoft.Extensions.Hosting.Environments.Development)
             {
                 app.UseDeveloperExceptionPage();
             }

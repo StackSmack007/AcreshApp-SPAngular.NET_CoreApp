@@ -12,6 +12,7 @@ import { AuthorizedOnlyGuard } from './core/guards/authorized.only';
 import { ListRecipesComponent } from './recipes/list-recipes/list-recipes.component';
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
 import { RecipeDetailsResolver } from './core/respolvers/recipe-details-resolver';
+import { CreateRecipeComponent } from './recipes/create/create.component';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -88,6 +89,10 @@ const routes: Routes = [
       path: "details/:id",
       component: RecipeDetailsComponent,
       resolve: { data: RecipeDetailsResolver }
+    },    {
+      path: "add-new",
+      component: CreateRecipeComponent,
+      canActivate: [AuthorizedOnlyGuard]
     },
   ]
   }

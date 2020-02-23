@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace ACRESH_API.Controllers
 {
-    public class IngridientsController : BaseController
+    public class IngredientsController : BaseController
     {
-        private readonly IIngridientService ingService;
+        private readonly IIngredientService ingService;
 
-        public IngridientsController(IIngridientService ingService)
+        public IngredientsController(IIngredientService ingService)
         {
             this.ingService = ingService;
         }
 
         [HttpGet("all-mini")]
-        public async Task<ActionResult<IngridientDTOout[]>> GetAllMini()
+        public async Task<ActionResult<IngredientDTOout[]>> GetAllMini()
         {
             var result = (await ingService.GetAllIngridientsMini()).ToArray();
             return result;

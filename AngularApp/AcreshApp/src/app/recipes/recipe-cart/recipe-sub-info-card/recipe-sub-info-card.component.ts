@@ -3,10 +3,10 @@ import { IRecipeMiniSubInfo } from 'src/app/core/interfaces/recipes/recipeMiniSu
 
 @Component({
   selector: 'acr-recipe-sub-info',
-  templateUrl: './recipe-sub-info-cart.component.html',
-  styleUrls: ['./recipe-sub-info-cart.component.css']
+  templateUrl: './recipe-sub-info-card.component.html',
+  styleUrls: ['./recipe-sub-info-card.component.css']
 })
-export class RecipeSubInfoCartComponent {
+export class RecipeSubInfoCardComponent {
 
   @Input()
   info: IRecipeMiniSubInfo;

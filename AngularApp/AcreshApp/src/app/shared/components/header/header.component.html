@@ -55,6 +55,7 @@
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <a class="dropdown-item " [routerLink]="['/user-data/profile/', userName]"><i class="fas fa-user-cog"></i> &nbsp; My Profile</a>
+            <a class="dropdown-item " [routerLink]="['/recipes/add-new']"><i class="fas fa-plus-circle"></i> &nbsp; Share New Recipe</a>
             <a class="dropdown-item pt-2" routerLink="/message-box"><i class="far fa-envelope"></i> &nbsp; Communications
               <span class="badge badge-pill badge-danger ml-2 py-2 my-0 px-2" *ngIf="unreadCount"> {{unreadCount}}</span>
             </a>
@@ -80,11 +81,9 @@
       </ul>
     </ng-template>
     <div class="input-group pl-2 pr-2 col-2 ml-0">
-      <input #searchPhrase class="form-control my-0 py-1 lime-border" type="text" placeholder="Name of recipe..."
-        aria-label="Search">
+      <input #searchPhrase class="form-control my-0 py-1 lime-border" type="text" placeholder="Name of recipe..." aria-label="Search">
       <div class="input-group-append">
-        <span class="input-group-text lime lighten-2" (click)="search()" id="sbtn"><i class="fas fa-search"
-            aria-hidden="true"></i></span>
+        <span class="input-group-text lime lighten-2" (click)="search()" id="sbtn"><i class="fas fa-search" aria-hidden="true"></i></span>
       </div>
     </div>
   </div>

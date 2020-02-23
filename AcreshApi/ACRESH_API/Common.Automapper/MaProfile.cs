@@ -42,12 +42,12 @@ namespace Common.AutomapperConfigurations
 
 
             CreateMap<Recipe, RecipeDetailsDTOout>()
-                .ForMember(d => d.Ingridients, opt => opt.MapFrom(s => s.RecipeIngredients.Where(s=>!s.IsDeleted)))
+                .ForMember(d => d.Ingredients, opt => opt.MapFrom(s => s.RecipeIngredients.Where(s=>!s.IsDeleted)))
                 .ForMember(d => d.Pictures, opt => opt.MapFrom(s => s.Pictures.Where(s => !s.IsDeleted).Select(p => p.UrlPath)))
                 .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.RecipeTags.Where(s => !s.IsDeleted && !s.Tag.IsDeleted).Select(t => t.Tag.Name.ToLower())))
                 .ForMember(d => d.Favorizers, opt => opt.MapFrom(s => s.RecipeFavorisers.Where(s => !s.IsDeleted).Select(f => f.User.UserName)));
 
-            CreateMap<RecipeIngredient, IngridientRecipeDetailsDTOout>()
+            CreateMap<RecipeIngredient, IngredientRecipeDetailsDTOout>()
                  .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Ingredient.Id))
                  .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Ingredient.Name))
                  .ForMember(d => d.PicURL, opt => opt.MapFrom(s => s.Ingredient.PicUrl))
@@ -57,6 +57,14 @@ namespace Common.AutomapperConfigurations
             CreateMap<RecipeVote, VoteRecipeDetailsDTOout>()
                  .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Voter.UserName))
                  .ForMember(d => d.Vote, opt => opt.MapFrom(s => s.Score));
+
+            CreateMap<RecipeIngredientDTOin, RecipeIngredient>()
+                 .ForMember(d => d.IngredientId, opt => opt.MapFrom(s => s.Id));
+
+            CreateMap<RecipeCreateDTOin, Recipe>()
+                 .ForMember(d => d.Pictures, opt => opt.MapFrom(s => s.Pictures.Select(p=>new RecipePicture {UrlPath=p})))
+                 .ForMember(d => d.RecipeIngredients, opt => opt.MapFrom(s => s.Ingredients))
+                 .ForMember(d=>d.RecipeTags,opt=>opt.Ignore());
         }
 
         private void CreateMapToMappings(System.Collections.Generic.IEnumerable<Type> allTypes)

@@ -19,11 +19,13 @@ namespace Acresh.Services.Services
         private readonly IRepository<Recipe> recipeRepo;
 
         private readonly IMapper mapper;
+        private readonly IRepository<Tag> tagRepo;
 
-        public RecipeService(IRepository<Recipe> recipeRepo, IMapper mapper)
+        public RecipeService(IRepository<Recipe> recipeRepo, IMapper mapper, IRepository<Tag> tagRepo)
         {
             this.recipeRepo = recipeRepo;
             this.mapper = mapper;
+            this.tagRepo = tagRepo;
         }
 
         public async Task<bool> FavUnfav(string id, string userId)
@@ -116,6 +118,45 @@ namespace Acresh.Services.Services
         }
 
         public async Task<bool> IsNameUsed(string name) => await this.recipeRepo.All().AnyAsync(x => x.Name.ToLower() == name.ToLower());
+
+        public async Task<Recipe> RegisterAsync(RecipeCreateDTOin rec, string authorId)
+        {
+            var tagsU = rec.Tags.Select(x => x.ToUpper());
+            try
+            {
+                var result = mapper.Map<Recipe>(rec);
+                result.AuthorId = authorId;
+                var dbTags = await this.tagRepo.All().Where(x => tagsU.Contains(x.NormalizedName)).Select(x => new { x.Id, x.NormalizedName }).ToArrayAsync();
+                foreach (string tag in rec.Tags)
+                {
+                    var tagFd = dbTags.FirstOrDefault(x => x.NormalizedName == tag.ToUpper());
+                    if (tagFd != null)
+                    {
+                        result.RecipeTags.Add(new RecipeTag
+                        {
+                            TagId = tagFd.Id
+                        });
+                        continue;
+                    }
+                    result.RecipeTags.Add(new RecipeTag
+                    {
+                        Tag = new Tag
+                        {
+                            Name = tag,
+                            NormalizedName = tag.ToUpper(),
+                        }
+                    });
+                }
+                await this.recipeRepo.AddAssync(result);
+                await this.recipeRepo.SaveChangesAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
 
         public async Task VoteForRecipeAsync(string recipeId, string userId, RecipeRating score)
         {

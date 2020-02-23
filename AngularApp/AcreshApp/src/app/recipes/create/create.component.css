@@ -10,3 +10,8 @@ p.img-func, span.img-func {
     /* padding: 0 0 0 0.8em; */
     margin:0;
 }
+
+#remTagBtn:hover {
+    background-color:blanchedalmond;
+    color: red;
+}

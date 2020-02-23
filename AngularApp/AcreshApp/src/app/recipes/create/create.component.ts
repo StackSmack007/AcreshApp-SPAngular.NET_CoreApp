@@ -7,10 +7,12 @@ import { HelperService } from 'src/app/core/services/helper.service';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
 import { ICategoryMini } from 'src/app/core/interfaces/categories/ICategoryMini';
-import { IngridientService } from 'src/app/core/services/ingridient.service';
-import { IIngridientMini } from 'src/app/core/interfaces/categories/IIngridientMini';
+import { IngredientService } from 'src/app/core/services/ingredient.service';
+import { IIngredientMini } from 'src/app/core/interfaces/categories/IIngredientMini';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { trigger, style, animate, transition, } from '@angular/animations';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'acr-create',
@@ -27,25 +29,25 @@ import { trigger, style, animate, transition, } from '@angular/animations';
     ])
   ]
 })
-export class CreateComponent implements OnDestroy, DoCheck {
+export class CreateRecipeComponent implements OnDestroy, DoCheck {
   private takenRecipeNames: string[] = ["taken"];
-  private ingredients: IIngridientMini[] = null// [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
+  private ingredients: IIngredientMini[] = null// [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
   form: FormGroup
   categorie$: Observable<ICategoryMini> = null; //[{ name: "no category", id: -1 }, { name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
   subscription$: Subscription[] = [];
 
   diffGrades = Object.entries(RecipeDifficulty).filter((_, index, arr) => index < arr.length / 2);
-  constructor(private fb: FormBuilder, private authService: AuthService, private recipeService: RecipeService, catService: CategoryService, ingridientService: IngridientService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private recipeService: RecipeService, catService: CategoryService, ingredientService: IngredientService, private toastr: ToastrService, private router: Router) {
     this.categorie$ = catService.getAllMini();
-    this.subscription$.push(ingridientService.getAllMini().subscribe(x => {
+    this.subscription$.push(ingredientService.getAllMini().subscribe(x => {
       this.ingredients = x;
     }))
     this.buildForm();
   }
 
   get videoLink() {
-    if (this.getCtrl('videoUrl').invalid || this.form.value['videoUrl'].length === 0) { return null }
-    const id = this.form.value['videoUrl'].substr(this.form.value['videoUrl'].indexOf("v=") + 2 || this.form.value['videoUrl'].lastIndexOf("\\") + 1);
+    if (this.getCtrl('videoLink').invalid || this.form.value['videoLink'].length === 0) { return null }
+    const id = this.form.value['videoLink'].substr(this.form.value['videoLink'].indexOf("v=") + 2 || this.form.value['videoLink'].lastIndexOf("\\") + 1);
     return HelperService.videoLinkMake(id);
   }
 
@@ -76,7 +78,7 @@ export class CreateComponent implements OnDestroy, DoCheck {
     return this.getCtrl(name).invalid && this.getCtrl(name).touched;
   }
 
-  public formArrs: { pictures: FormArray, ingridients: FormArray } = { pictures: undefined, ingridients: undefined };
+  public formArrs: { pictures: FormArray, tags: FormArray, ingredients: FormArray } = { pictures: undefined, tags: undefined, ingredients: undefined };
   addPicture() {
     this.formArrs.pictures = this.form.get('pictures') as FormArray;
     this.formArrs.pictures.push(this.fb.control("", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")]))
@@ -84,18 +86,25 @@ export class CreateComponent implements OnDestroy, DoCheck {
   removePicture(index: number = 0) {
     this.formArrs.pictures.removeAt(index);
   }
+  addTag() {
+    this.formArrs.tags = this.form.get('tags') as FormArray;
+    this.formArrs.tags.push(this.fb.control("", [Validators.required, Validators.pattern("[a-zA-Z]{3,10}")]))
+  }
+  removeTag(index: number = 0) {
+    this.formArrs.tags.removeAt(index);
+  }
 
   addIngredient() {
-    this.formArrs.ingridients = this.form.get('ingridients') as FormArray;
-    this.formArrs.ingridients.push(this.createIngredient());
+    this.formArrs.ingredients = this.form.get('ingredients') as FormArray;
+    this.formArrs.ingredients.push(this.createIngredient());
   }
   removeIngredient(index: number = 0) {
-    this.formArrs.ingridients.removeAt(index);
+    this.formArrs.ingredients.removeAt(index);
   }
 
   availableIngredients({ id }) {
-    if (!this.formArrs.ingridients) return [];
-    const usedIds = this.formArrs.ingridients.value?.map(x => +x.id);
+    if (!this.formArrs.ingredients || this.ingredients===null) return [];
+    const usedIds = this.formArrs.ingredients.value?.map(x => +x.id);
     return this.ingredients.filter(x => !usedIds.includes(x.id) || x.id === +id);
   }
 
@@ -107,13 +116,14 @@ export class CreateComponent implements OnDestroy, DoCheck {
   buildForm() {
     this.form = this.fb.group({
       name: ["", { validators: [Validators.required, Validators.minLength(4), takenValueValidator(this.takenRecipeNames), Validators.pattern("[a-zA-Z ]+")], updateOn: "blur" }],
-      category: ["-1", [], []],
+      categoryId: ["-1", [Validators.min(1),Validators.required], []],
       description: ["", [Validators.required, Validators.minLength(100), Validators.maxLength(25600)], []],
-      mainPic: ["", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")], []],
-      videoUrl: ["", [], []],
+      mainPicture: ["", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")], []],
+      videoLink: ["", [], []],
       difficulty: ["1", [Validators.required], []],
       pictures: this.fb.array([]),
-      ingridients: this.fb.array([])
+      tags: this.fb.array([]),
+      ingredients: this.fb.array([])
     },  // { updateOn: "blur" }
     )
 
@@ -141,17 +151,23 @@ export class CreateComponent implements OnDestroy, DoCheck {
   }
 
   ngDoCheck() {
-    //Validates that we have atleast one ingridient chosen!
-     if (this.form.valid && (!this.form.value.ingridients || this.form.value.ingridients.length === 0)) {
-      this.form.setErrors({"noIngridient":true})    
-    } else if (this.form.hasError("noIngridient")) {
-      this.form.setErrors({"noIngridient":false})    
+    //Validates that we have atleast one ingredient chosen!
+    if (this.form.valid && (!this.form.value.ingredients || this.form.value.ingredients.length === 0)) {
+      this.form.setErrors({ "noIngredient": true })
+    } else if (this.form.hasError("noIngredient")) {
+      this.form.setErrors({ "noIngredient": false })
     }
   }
 
   submitRecipe() {
-     console.log(this.form.value)
-    // console.log(this.formArrs.pictures.controls.filter(x => x.valid).map(x => x.value));
+    if (this.form.invalid) return;
+    this.recipeService.submitRecipe(this.form.value).subscribe((id: string) => {
+      this.toastr.success("Successfully published a new recipe", "Congratulations!")
+
+      this.router.navigate(["/recipes/details", id]);
+    }, (e) => {
+      this.toastr.error("Something went wrong please try again");
+    })
   }
 
   ngOnDestroy(): void {

@@ -3,7 +3,7 @@ using Infrastructure.Models;
 
 namespace DataTransferObjects.Recipes.Details
 {
-    public class IngridientRecipeDetailsDTOout
+    public class IngredientRecipeDetailsDTOout
     {
         public int Id { get; set; }
         public string Name { get; set; }//TODO

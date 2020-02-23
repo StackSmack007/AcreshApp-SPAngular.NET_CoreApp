@@ -31,10 +31,10 @@
                         </div>
                         <div class="col-2">
                             <div class="form-group ">
-                                <div class="form-group has-danger has-success">
-                                    <label class="form-control-label pr-3 h5" for="category"> Category:</label>
-                                    <select class="custom-select" formControlName="category" id="category">
-                                        <option  [value]="-1">No Category</option>                                            
+                                <div class="form-group has-danger has-success has-danger">
+                                    <label class="form-control-label pr-3 h5" for="category"> Category*:</label>
+                                    <select class="custom-select" formControlName="categoryId" id="category" [ngClass]="getValClasses('categoryId')">
+                                        <option  [value]="-1">Choose...</option>                                            
                                         <option *ngFor="let opt of (categorie$ | async); index as i" [value]="opt.id">{{opt.name}}</option>
                                     </select>
                                 </div>
@@ -60,11 +60,11 @@
                                 <div class="row justify-content-start">
                                     <div class="col-10 px-0">
                                         <div class="form-group has-danger has-success">
-                                            <input class="form-control" type="url" id="main-pic" formControlName="mainPic" placeholder="Picture url..."
-                                                [ngClass]="getValClasses('mainPic')">
-                                            <div class="invalid-feedback" *ngIf="invalidTouchedCtrl('mainPic')"
-                                                [innerText]="getErr('mainPic','required')?'Please provide Picture URL':
-                                                             getErr('mainPic','pattern')?'Picture URL invalid!':'unknown-Error'">
+                                            <input class="form-control" type="url" id="main-pic" formControlName="mainPicture" placeholder="Picture url..."
+                                                [ngClass]="getValClasses('mainPicture')">
+                                            <div class="invalid-feedback" *ngIf="invalidTouchedCtrl('mainPicture')"
+                                                [innerText]="getErr('mainPicture','required')?'Please provide Picture URL':
+                                                             getErr('mainPicture','pattern')?'Picture URL invalid!':'unknown-Error'">
                                             </div>
                                         </div>
                                     </div>
@@ -79,15 +79,15 @@
                         <div class="col-9">
                             <div class="row justify-content-between">
                                 <div class="col-5"> 
-                                    <label class="form-control-label"><span class="img-func text-success" (click)="addIngredient()"><i class="fas fa-plus-circle"></i></span>&nbsp; <span class="h5 pb-2">Ingridients:</span></label>
-                                    <div formArrayName="ingridients" *ngFor="let ing of formArrs.ingridients?.controls; index as i;" @slowShowHideY>
+                                    <label class="form-control-label"><span class="img-func text-success" (click)="addIngredient()"><i class="fas fa-plus-circle"></i></span>&nbsp; <span class="h5 pb-2">Ingredients:</span></label>
+                                    <div formArrayName="ingredients" *ngFor="let ing of formArrs.ingredients?.controls; index as i;" @slowShowHideY>
                                         <div [formGroupName]="i" class="row justify-content-between">
                                             <div class="col-6 pr-0">
                                                 <div class="form-group has-danger">
-                                                    <label class="form-control-label h6" [for]="'id'+i">Type:</label>
+                                                    <label class="form-control-label h6" [for]="'id'+i">Type*:</label>
                                                     <select class="custom-select" formControlName="id" [id]="'id'+i"
                                                         [ngClass]="{'is-invalid': ing.get('id').invalid && (ing.get('id').touched || ing.get('ammount').valid)}">
-                                                        <option value="0" disabled>Choose Ingredient*!</option>
+                                                        <option value="0" disabled>Choose!...</option>
                                                         <option *ngFor="let opt of availableIngredients(ing.value)" [value]="opt.id">{{opt.name}}</option>
                                                     </select>
                                                 </div>
@@ -111,8 +111,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="alert alert-danger" *ngIf="form?.errors && form.errors['noIngridient']">
-                                        <span>Please provide atleast one ingridient!</span>
+                                    <div class="alert alert-danger" *ngIf="form?.errors && form.errors['noIngredient']">
+                                        <span>Please provide atleast one ingredient!</span>
                                     </div>
                                 </div>
 
@@ -159,15 +159,26 @@
                             <div class="form-group">
                                 <div class="form-group  px-0">
                                     <label class="form-control-label pr-3" for="videoUrl"><i class="fab fa-youtube h5"></i>&nbsp; YouTube Video URL:</label>
-                                    <input formControlName="videoUrl" class="form-control" id="videoUrl" placeholder="Youtube video...optional">
+                                    <input formControlName="videoLink" class="form-control" id="videoUrl" placeholder="Youtube video...optional">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-end">
+                    <div class="row justify-content-between pl-4">
+                        <div class="col-10 ">
+                            <div class="form-group row has-danger has-success" formArrayName="tags">
+                                  <label class="control-label form-inline py-0" ><span class="img-func text-success" (click)="addTag()"><i class="fas fa-plus-circle"></i></span>&nbsp; Tags:</label>
+                                    <div *ngFor="let tagCtrl of getCtrl('tags')['controls']; index as i" class="col-2 input-group py-2">
+                                        <input class="form-control px-0 pl-1 lime-border" [formControl]="tagCtrl" type="text" placeholder="tag..." [ngClass]="getCtrlValClasses(tagCtrl)">             
+                                        <div class="input-group-append">
+                                            <span class="input-group-text lime lighten-2  px-2"  (click)="removeTag(i)" id="remTagBtn" ><i class="fas fa-minus-circle text-danger" aria-hidden="true"></i></span>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
                         <div class="col-2">
                             <button type="submit" class="btn btn-primary py-3 btn-sm" [disabled]="form.invalid">Post This Recipe</button>
-                            <button type="submit" class="btn btn-primary py-3 btn-sm" >Log</button>
+                            <!-- <button type="submit" class="btn btn-primary py-3 btn-sm" >Log</button> -->
                         </div>
                     </div>
                 </fieldset>
@@ -176,9 +187,9 @@
 
         <div class="col-3 media pt-4">
             <div class="row w-100 px-2">
-                <div *ngIf="form.get('mainPic').valid" class="col-12" @slowShowHideX>
+                <div *ngIf="form.get('mainPicture').valid" class="col-12" @slowShowHideX>
                     <h5>Main Picture:</h5>
-                    <img class="img-fluid rounded" [src]="form.value['mainPic']" alt="new recipe main pic">
+                    <img class="img-fluid rounded" [src]="form.value['mainPicture']" alt="new recipe main pic">
                 </div>
                 <div *ngIf="validPicturesOnly?.length" class="col-12 pt-3" @slowShowHideX>
                     <h5>Additional Pictures: {{validPicturesOnly.length}}</h5>

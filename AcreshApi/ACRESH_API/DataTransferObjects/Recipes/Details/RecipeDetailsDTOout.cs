@@ -16,7 +16,7 @@ namespace DataTransferObjects.Recipes.Details
         public string VideoLink { get; set; }
         public int Difficulty { get; set; }
         public ICollection<VoteRecipeDetailsDTOout> Votes { get; set; }
-        public ICollection<IngridientRecipeDetailsDTOout> Ingridients { get; set; }
+        public ICollection<IngredientRecipeDetailsDTOout> Ingredients { get; set; }
         public ICollection<string> Pictures { get; set; }
         public ICollection<string> Tags { get; set; }
         public ICollection<string> Favorizers { get; set; }

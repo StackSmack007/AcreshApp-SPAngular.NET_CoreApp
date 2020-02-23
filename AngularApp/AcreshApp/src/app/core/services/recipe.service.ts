@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { IRecipeMiniInfo } from '../interfaces/recipes/recipeMiniInfo';
 import { IRecipeDetails } from '../interfaces/recipeDetails';
 import { HelperService } from './helper.service';
+import { IRecipeCreate } from '../interfaces/IRecipeCreate';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,10 @@ export class RecipeService {
 
   nameTaken(name: string): Observable<boolean> {
     return this.http.get<boolean>(recipePaths.chkNameTaken(name))
+  }
+
+  //TODO
+  submitRecipe(recipe: IRecipeCreate): Observable<any> {
+    return this.http.post(recipePaths.base, recipe,{responseType: 'text'})
   }
 }
