@@ -165,6 +165,7 @@
                     <div class="row justify-content-end">
                         <div class="col-2">
                             <button type="submit" class="btn btn-primary py-3 btn-sm" [disabled]="form.invalid">Post This Recipe</button>
+                            <button type="submit" class="btn btn-primary py-3 btn-sm" >Log</button>
                         </div>
                     </div>
                 </fieldset>
@@ -173,18 +174,18 @@
 
         <div class="col-3 media pt-4">
             <div class="row w-100 px-2">
-                <div *ngIf="form.get('mainPic').valid" class="col-12">
+                <div *ngIf="form.get('mainPic').valid" class="col-12" @slowShowHide>
                     <h5>Main Picture:</h5>
                     <img class="img-fluid rounded" [src]="form.value['mainPic']" alt="new recipe main pic">
                 </div>
-                <div *ngIf="form.get('pictures').valid && form.value['pictures'].length>0" class="col-12 pt-3">
-                    <h5>Additional Pictures:</h5>
+                <div *ngIf="validPicturesOnly" class="col-12 pt-3" @slowShowHide>
+                    <h5>Additional Pictures: {{validPicturesOnly.length}}</h5>
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" *ngFor="let p of form.value['pictures']; let i=index;" [attr.data-slide-to]="i"></li>
+                            <li data-target="#carouselExampleIndicators" *ngFor="let p of validPicturesOnly; let i=index;" [attr.data-slide-to]="i"></li>
                         </ol>                  
                         <div class="carousel-inner">
-                        <div class="carousel-item" *ngFor="let picUrl of form.value['pictures']; let i=index;" [ngClass]="{'active': picUrl===form.value['pictures'][0]}">
+                        <div class="carousel-item" *ngFor="let picUrl of validPicturesOnly; let i=index;" [ngClass]="{'active': picUrl===form.value['pictures'][0]}">
                             <img  [src]="picUrl" class="d-block rounded" width="100%" [alt]="'recipe picture '+(i+1)">
                         </div>
                         </div>
@@ -198,9 +199,9 @@
                         </a>
                     </div>
                 </div>
-                <div *ngIf="videoLink" class="py-4 col-12">
-                <h5 width="90%">Additional Video:</h5>
-                    <div class="pt-4 mt-3 embed-responsive embed-responsive-16by9">
+                <div class="py-4 col-12" >
+                <h5 *ngIf="videoLink" width="90%">Additional Video:</h5>
+                    <div *ngIf="videoLink" class="pt-4 mt-3 embed-responsive embed-responsive-16by9" @slowShowHide>
                         <iframe class="embed-responsive-item" [attr.src]="videoLink | safe" allowfullscreen></iframe>
                     </div>
                 </div>

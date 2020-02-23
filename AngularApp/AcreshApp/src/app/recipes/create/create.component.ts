@@ -10,11 +10,17 @@ import { ICategoryMini } from 'src/app/core/interfaces/categories/ICategoryMini'
 import { IngridientService } from 'src/app/core/services/ingridient.service';
 import { IIngridientMini } from 'src/app/core/interfaces/categories/IIngridientMini';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-
+import { trigger, state, style, animate, transition, } from '@angular/animations';
 @Component({
   selector: 'acr-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css']
+  styleUrls: ['./create.component.css'],
+  animations: [
+    trigger('slowShowHide',[
+      transition('void=>*', [style({ opacity: '0', transform: 'translateX(-20rem) scale(0.1)'}),animate(2000)]),
+      transition('*=>void', [animate(2000),style({ opacity: '0', transform: 'translateX(20rem) scale(0.1)'})]),
+    ])
+  ]
 })
 export class CreateComponent implements OnDestroy {
   private takenRecipeNames: string[] = ["taken"];
@@ -85,6 +91,10 @@ export class CreateComponent implements OnDestroy {
     const usedIds = this.formArrs.ingridients.value.map(x => +x.id);
     return this.ingredients.filter(x => !usedIds.includes(x.id));
   }
+  get validPicturesOnly() {
+    if(!this.formArrs.pictures||this.formArrs.pictures.length===0) return null;
+    return this.formArrs.pictures.controls.filter(x=>x.valid).map(x=>x.value);
+  }
 
   buildForm() {
     this.form = this.fb.group({
@@ -124,7 +134,7 @@ export class CreateComponent implements OnDestroy {
 
   submitRecipe() {
     // console.log(this.form.value)
-    console.log(this.formArrs.ingridients.value.map(x => x.id));
+    console.log(this.formArrs.pictures.controls.filter(x=>x.valid).map(x=>x.value));
   }
 
   ngOnDestroy(): void {
