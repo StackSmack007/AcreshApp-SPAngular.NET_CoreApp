@@ -18,13 +18,12 @@ import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@ang
 })
 export class CreateComponent implements OnDestroy {
   private takenRecipeNames: string[] = ["taken"];
+  private ingredients: IIngridientMini[] = null// [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
   form: FormGroup
   categorie$: Observable<ICategoryMini> = null; //[{ name: "no category", id: -1 }, { name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
-
   subscription$: Subscription[] = [];
 
   diffGrades = Object.entries(RecipeDifficulty).filter((_, index, arr) => index < arr.length / 2);
-  ingredients: IIngridientMini[] = [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
   constructor(private fb: FormBuilder, private authService: AuthService, private recipeService: RecipeService, catService: CategoryService, ingridientService: IngridientService) {
     this.categorie$ = catService.getAllMini();
     this.subscription$.push(ingridientService.getAllMini().subscribe(x => {
@@ -42,10 +41,6 @@ export class CreateComponent implements OnDestroy {
   get myPersonality() {
     const { userName, cookRank } = this.authService.getUserInfo();
     return { userName, cookRank };
-  }
-
-  logForm() {
-    console.log(this.form, this.form.controls.pictures['controls'].map(x => x.value));
   }
 
   getCtrl(name: string) {
@@ -71,7 +66,6 @@ export class CreateComponent implements OnDestroy {
   }
 
   public formArrs: { pictures: FormArray, ingridients: FormArray } = { pictures: undefined, ingridients: undefined };
-
   addPicture() {
     this.formArrs.pictures = this.form.get('pictures') as FormArray;
     this.formArrs.pictures.push(this.fb.control("", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")]))
@@ -84,9 +78,12 @@ export class CreateComponent implements OnDestroy {
     this.formArrs.ingridients = this.form.get('ingridients') as FormArray;
     this.formArrs.ingridients.push(this.createIngredient());
   }
-
   removeIngredient(index: number = 0) {
     this.formArrs.ingridients.removeAt(index);
+  }
+  get ingridientsNotUsed() {
+    const usedIds = this.formArrs.ingridients.value.map(x => +x.id);
+    return this.ingredients.filter(x => !usedIds.includes(x.id));
   }
 
   buildForm() {
@@ -99,12 +96,10 @@ export class CreateComponent implements OnDestroy {
       difficulty: ["1", [Validators.required], []],
       pictures: this.fb.array([]),
       ingridients: this.fb.array([])
-    },
-      // { updateOn: "blur" }
+    },  // { updateOn: "blur" }
     )
 
     this.subscription$.push(this.getCtrl('name').valueChanges.subscribe(v => {
-      console.log("ch")
       if (this.getCtrl('name').invalid) { return; }
       if (!this.takenRecipeNames.includes(v) && this.takenRecipeNames.some(x => x.toLowerCase() === v.toLowerCase())) {
         this.takenRecipeNames.push(v);
@@ -112,7 +107,6 @@ export class CreateComponent implements OnDestroy {
         return;
       }
       this.subscription$.push(this.recipeService.nameTaken(v).subscribe((answ: boolean) => {
-        console.log("base")
         if (answ) {
           this.takenRecipeNames.push(v);
           this.getCtrl('name').updateValueAndValidity();
@@ -129,10 +123,11 @@ export class CreateComponent implements OnDestroy {
   }
 
   submitRecipe() {
-    console.log(this.form.value)
+    // console.log(this.form.value)
+    console.log(this.formArrs.ingridients.value.map(x => x.id));
   }
 
-  ngOnDestroy(): void { 
-    this.subscription$.filter(x=>!x.closed).forEach(x=>x.unsubscribe())
+  ngOnDestroy(): void {
+    this.subscription$.filter(x => !x.closed).forEach(x => x.unsubscribe())
   }
 }

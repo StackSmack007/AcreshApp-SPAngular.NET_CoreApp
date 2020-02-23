@@ -21,8 +21,5 @@ namespace ACRESH_API.Controllers
             var result = (await ingService.GetAllIngridientsMini()).ToArray();
             return result;
         }
-
-
-
     }
 }
