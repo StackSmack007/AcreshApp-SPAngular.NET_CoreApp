@@ -78,19 +78,17 @@
                     <div class="row justify-content-between pl-3">
                         <div class="col-9">
                             <div class="row justify-content-between">
-                                <div class="col-5"> <label class="form-control-label"><span
-                                            class="img-func text-success" (click)="addIngredient()"><i class="fas fa-plus-circle"></i></span>&nbsp; 
-                                            <span class="h5 pb-2">Ingridients:</span> </label>
-                                    <div formArrayName="ingridients"
-                                        *ngFor="let ing of formArrs.ingridients?.controls; index as i;">
+                                <div class="col-5"> 
+                                    <label class="form-control-label"><span class="img-func text-success" (click)="addIngredient()"><i class="fas fa-plus-circle"></i></span>&nbsp; <span class="h5 pb-2">Ingridients:</span></label>
+                                    <div formArrayName="ingridients" *ngFor="let ing of formArrs.ingridients?.controls; index as i;" @slowShowHideY>
                                         <div [formGroupName]="i" class="row justify-content-between">
                                             <div class="col-6 pr-0">
                                                 <div class="form-group has-danger">
-                                                    <label class="form-control-label h6" [for]="'id'+i"> Type:</label>
+                                                    <label class="form-control-label h6" [for]="'id'+i">Type:</label>
                                                     <select class="custom-select" formControlName="id" [id]="'id'+i"
-                                                        [ngClass]="{'is-invalid': ing.get('id').invalid && (ing.get('id').touched||ing.get('ammount').valid)}">
+                                                        [ngClass]="{'is-invalid': ing.get('id').invalid && (ing.get('id').touched || ing.get('ammount').valid)}">
                                                         <option value="0" disabled>Choose Ingredient*!</option>
-                                                        <option *ngFor="let opt of ingridientsNotUsed; index as j" [value]="opt.id">{{opt.name}}</option>
+                                                        <option *ngFor="let opt of availableIngredients(ing.value)" [value]="opt.id">{{opt.name}}</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -113,7 +111,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="alert alert-danger" *ngIf="form?.errors && form.errors['noIngridient']">
+                                        <span>Please provide atleast one ingridient!</span>
+                                    </div>
                                 </div>
+
                                 <div class="col-7">
                                     <div class="form-group">
                                         <label for="desc" class="h5">Description*:</label>
@@ -133,7 +135,7 @@
 
                         <div class="col-3 pl-0">
                             <div class="pl-3" formArrayName="pictures"
-                                *ngFor="let pic of formArrs.pictures?.controls; index as i;">
+                                *ngFor="let pic of formArrs.pictures?.controls; index as i;"  @slowShowHideY>
                                 <label class="form-control-label pr-3 h6" [for]="'pic'+i"> Picture {{i+1}}*:</label>
                                 <div class="row justify-content-between">
                                     <div class="col-10 px-0 ">
@@ -174,11 +176,11 @@
 
         <div class="col-3 media pt-4">
             <div class="row w-100 px-2">
-                <div *ngIf="form.get('mainPic').valid" class="col-12" @slowShowHide>
+                <div *ngIf="form.get('mainPic').valid" class="col-12" @slowShowHideX>
                     <h5>Main Picture:</h5>
                     <img class="img-fluid rounded" [src]="form.value['mainPic']" alt="new recipe main pic">
                 </div>
-                <div *ngIf="validPicturesOnly" class="col-12 pt-3" @slowShowHide>
+                <div *ngIf="validPicturesOnly?.length" class="col-12 pt-3" @slowShowHideX>
                     <h5>Additional Pictures: {{validPicturesOnly.length}}</h5>
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -201,7 +203,7 @@
                 </div>
                 <div class="py-4 col-12" >
                 <h5 *ngIf="videoLink" width="90%">Additional Video:</h5>
-                    <div *ngIf="videoLink" class="pt-4 mt-3 embed-responsive embed-responsive-16by9" @slowShowHide>
+                    <div *ngIf="videoLink" class="pt-4 mt-3 embed-responsive embed-responsive-16by9" @slowShowHideX>
                         <iframe class="embed-responsive-item" [attr.src]="videoLink | safe" allowfullscreen></iframe>
                     </div>
                 </div>

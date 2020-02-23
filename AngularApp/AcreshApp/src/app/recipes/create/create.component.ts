@@ -1,5 +1,5 @@
 import { Observable, Subscription } from 'rxjs';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, DoCheck } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { takenValueValidator } from 'src/app/core/validators/takenName';
 import { RecipeService } from 'src/app/core/services/recipe.service';
@@ -10,19 +10,24 @@ import { ICategoryMini } from 'src/app/core/interfaces/categories/ICategoryMini'
 import { IngridientService } from 'src/app/core/services/ingridient.service';
 import { IIngridientMini } from 'src/app/core/interfaces/categories/IIngridientMini';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-import { trigger, state, style, animate, transition, } from '@angular/animations';
+import { trigger, style, animate, transition, } from '@angular/animations';
+
 @Component({
   selector: 'acr-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css'],
   animations: [
-    trigger('slowShowHide',[
-      transition('void=>*', [style({ opacity: '0', transform: 'translateX(-20rem) scale(0.1)'}),animate(2000)]),
-      transition('*=>void', [animate(2000),style({ opacity: '0', transform: 'translateX(20rem) scale(0.1)'})]),
+    trigger('slowShowHideX', [
+      transition('void=>*', [style({ opacity: '0', transform: 'translateX(-20rem) scale(0.1)' }), animate(2000)]),
+      transition('*=>void', [animate(2000), style({ opacity: '0', transform: 'translateX(20rem) scale(0.1)' })]),
+    ]),
+    trigger('slowShowHideY', [
+      transition('void=>*', [style({ opacity: '0.2', transform: 'translateY(-3rem)' }), animate(1000)]),
+      transition('*=>void', [animate(1000), style({ opacity: '0.2', transform: 'scale(0.1)' })]),
     ])
   ]
 })
-export class CreateComponent implements OnDestroy {
+export class CreateComponent implements OnDestroy, DoCheck {
   private takenRecipeNames: string[] = ["taken"];
   private ingredients: IIngridientMini[] = null// [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
   form: FormGroup
@@ -87,13 +92,16 @@ export class CreateComponent implements OnDestroy {
   removeIngredient(index: number = 0) {
     this.formArrs.ingridients.removeAt(index);
   }
-  get ingridientsNotUsed() {
-    const usedIds = this.formArrs.ingridients.value.map(x => +x.id);
-    return this.ingredients.filter(x => !usedIds.includes(x.id));
+
+  availableIngredients({ id }) {
+    if (!this.formArrs.ingridients) return [];
+    const usedIds = this.formArrs.ingridients.value?.map(x => +x.id);
+    return this.ingredients.filter(x => !usedIds.includes(x.id) || x.id === +id);
   }
+
   get validPicturesOnly() {
-    if(!this.formArrs.pictures||this.formArrs.pictures.length===0) return null;
-    return this.formArrs.pictures.controls.filter(x=>x.valid).map(x=>x.value);
+    if (!this.formArrs.pictures || this.formArrs.pictures.length === 0) return null;
+    return this.formArrs.pictures.controls.filter(x => x.valid).map(x => x.value);
   }
 
   buildForm() {
@@ -132,9 +140,18 @@ export class CreateComponent implements OnDestroy {
     })
   }
 
+  ngDoCheck() {
+    //Validates that we have atleast one ingridient chosen!
+     if (this.form.valid && (!this.form.value.ingridients || this.form.value.ingridients.length === 0)) {
+      this.form.setErrors({"noIngridient":true})    
+    } else if (this.form.hasError("noIngridient")) {
+      this.form.setErrors({"noIngridient":false})    
+    }
+  }
+
   submitRecipe() {
-    // console.log(this.form.value)
-    console.log(this.formArrs.pictures.controls.filter(x=>x.valid).map(x=>x.value));
+     console.log(this.form.value)
+    // console.log(this.formArrs.pictures.controls.filter(x => x.valid).map(x => x.value));
   }
 
   ngOnDestroy(): void {
