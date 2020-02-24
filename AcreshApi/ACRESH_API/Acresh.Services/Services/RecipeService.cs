@@ -117,6 +117,7 @@ namespace Acresh.Services.Services
             return result;
         }
 
+
         public async Task<bool> IsNameUsed(string name) => await this.recipeRepo.All().AnyAsync(x => x.Name.ToLower() == name.ToLower());
 
         public async Task<Recipe> RegisterAsync(RecipeCreateDTOin rec, string authorId)
@@ -179,6 +180,22 @@ namespace Acresh.Services.Services
                 RecipeId = recipeId
             });
             await recipeRepo.SaveChangesAsync();
+        }
+        public async Task<RecipeEditDTOout> GetRecipeEditInfoAsync(string recipeId, string userId, bool isAdmin)
+        {
+          
+            Recipe recipeFd = await this.recipeRepo.All()
+                                                   .Include(x => x.RecipeIngredients).ThenInclude(i => i.Ingredient)
+                                                   .Include(x => x.RecipeTags).ThenInclude(t => t.Tag)
+                                                   .Include(x => x.Pictures)
+                                                   .FirstOrDefaultAsync(x => x.Id == recipeId);
+            if (recipeFd is null) throw new NullReferenceException("Recipe not found!");
+
+            if (recipeFd.AuthorId != userId && !isAdmin) throw new InvalidOperationException("Not allowed to get edit info!");
+
+            return this.mapper.Map<RecipeEditDTOout>(recipeFd);
+
+
         }
     }
 }

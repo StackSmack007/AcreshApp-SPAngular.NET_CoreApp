@@ -11,7 +11,7 @@ import { IRecipeCreate } from '../interfaces/IRecipeCreate';
   providedIn: 'root'
 })
 export class RecipeService {
-
+  
   constructor(private http: HttpClient) { }
 
   getRecipes(pageNum: number, criteria: string, val: string, ): Observable<IRecipeMiniInfo[]> {
@@ -29,17 +29,24 @@ export class RecipeService {
   favUnfavRecipe(id: string): Observable<boolean> {
     return this.http.put<boolean>(recipePaths.favUnvaf, JSON.stringify(id), HelperService.appJsonHeader);
   }
-
+  
   rateRecipe(id: string, score: number): Observable<any> {
     return this.http.put(recipePaths.setRating, { id, score });
   }
-
+  
   nameTaken(name: string): Observable<boolean> {
     return this.http.get<boolean>(recipePaths.chkNameTaken(name))
   }
-
+  
   //TODO
   submitRecipe(recipe: IRecipeCreate): Observable<any> {
-    return this.http.post(recipePaths.base, recipe,{responseType: 'text'})
+    return this.http.post(recipePaths.base, recipe, { responseType: 'text' })
   }
+
+  getEditDetails(id: string): Observable<IRecipeCreate> {
+    return this.http.get<IRecipeCreate>(recipePaths.edit(id))
+  }
+              editRecipe(value: any):Observable<boolean> {
+              return null;
+              }
 }

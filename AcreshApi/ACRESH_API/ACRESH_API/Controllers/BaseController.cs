@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
 namespace ACRESH_API.Controllers
@@ -8,13 +7,23 @@ namespace ACRESH_API.Controllers
     [Route("[controller]")]
     public class BaseController : ControllerBase
     {
-
-        [Authorize]
-        public string getUserId()
+        protected string UserId
         {
-            var userId = this.User.Claims.FirstOrDefault(x => x.Type == "_id").Value;
-            return userId;
+            get
+            {
+                if (!User.Identity.IsAuthenticated) return null;
+                var userId = this.User.Claims.FirstOrDefault(x => x.Type == "_id").Value;
+                return userId;
+            }
         }
-
+        protected bool IsAdmin
+        {
+            get
+            {
+                if (!User.Identity.IsAuthenticated) return false;
+                var result = this.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value.Split("|").Contains("Admin");
+                return result;
+            }
+        }
     }
 }

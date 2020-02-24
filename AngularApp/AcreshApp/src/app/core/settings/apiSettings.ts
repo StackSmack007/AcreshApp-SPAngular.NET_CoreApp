@@ -52,6 +52,7 @@ export const recipePaths: IRecipePaths = {
     favUnvaf: basePath + "recipes/fav-unfav",
     setRating: basePath + "recipes/set-rating",
     chkNameTaken: (name) => basePath + `recipes/name-used?name=${name}`,
+    edit: (id) => basePath + `recipes/edit?id=${id}`,
 }
 
 export interface IRecipePaths {
@@ -61,6 +62,7 @@ export interface IRecipePaths {
     favUnvaf: string,
     setRating: string,
     chkNameTaken: (name: string) => string,
+    edit: (id: string) => string,
 }
 
 export const categoryPaths: ICategoryPath = {

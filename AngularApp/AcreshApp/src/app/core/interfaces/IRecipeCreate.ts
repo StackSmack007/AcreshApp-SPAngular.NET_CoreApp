@@ -8,5 +8,5 @@ export interface IRecipeCreate {
     videoLink: string;
     difficulty: number;
     tags: string[];
-    ingridients: IIngredientCreate[];
+    ingredients: IIngredientCreate[];
 }

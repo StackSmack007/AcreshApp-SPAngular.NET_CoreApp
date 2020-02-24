@@ -46,7 +46,7 @@ namespace ACRESH_API.Controllers
         [HttpGet("private")]
         public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetPrivateCards(string criteria, int pageNum)
         {
-            IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetPrivateRecipeCarts(criteria, getUserId());
+            IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetPrivateRecipeCarts(criteria, UserId);
             if (sqlReq is null) return BadRequest(new { reason = "Criteria is invalid!" });
 
             var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(REC_COUNT_PER_FETCH).ToArrayAsync();
@@ -59,7 +59,7 @@ namespace ACRESH_API.Controllers
         {
             try
             {
-                var result = await this.recipeService.FavUnfav(id, getUserId());
+                var result = await this.recipeService.FavUnfav(id, UserId);
                 return Ok(result);
             }
             catch (ArgumentException ex)
@@ -74,7 +74,7 @@ namespace ACRESH_API.Controllers
         {
             try
             {
-                await recipeService.VoteForRecipeAsync(recipeVote.Id, getUserId(), recipeVote.Score);
+                await recipeService.VoteForRecipeAsync(recipeVote.Id, UserId, recipeVote.Score);
                 return NoContent();
             }
             catch (ArgumentException ex)
@@ -97,10 +97,31 @@ namespace ACRESH_API.Controllers
         [HttpPost]
         public async Task<ActionResult<string>> Post(RecipeCreateDTOin recipe)
         {
-            Recipe newRecipe = await this.recipeService.RegisterAsync(recipe, this.getUserId());
+            Recipe newRecipe = await this.recipeService.RegisterAsync(recipe, this.UserId);
             if (newRecipe is null) return BadRequest();
             return newRecipe.Id;
         }
+
+        [HttpGet("edit")]
+        public async Task<ActionResult<RecipeEditDTOout>> GetInfoForEdit(string id)
+        {
+            RecipeEditDTOout result;
+            try
+            {
+                result = await this.recipeService.GetRecipeEditInfoAsync(id, UserId, IsAdmin);
+            }
+            catch (NullReferenceException err)
+            {
+                return BadRequest(new { reason = err.Message });
+            }
+            catch (InvalidOperationException err)
+            {
+                return Unauthorized(new { reason = err.Message });
+            }
+            return result;
+        }
+
+
 
         //// GET: api/Recipes/5
         //[HttpGet("{id}", Name = "Get")]

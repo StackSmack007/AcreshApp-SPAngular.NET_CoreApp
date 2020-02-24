@@ -59,12 +59,18 @@ namespace Common.AutomapperConfigurations
                  .ForMember(d => d.Vote, opt => opt.MapFrom(s => s.Score));
 
             CreateMap<RecipeIngredientDTOin, RecipeIngredient>()
-                 .ForMember(d => d.IngredientId, opt => opt.MapFrom(s => s.Id));
+                 .ForMember(d => d.IngredientId, opt => opt.MapFrom(s => s.Id))
+                 .ReverseMap();
 
             CreateMap<RecipeCreateDTOin, Recipe>()
                  .ForMember(d => d.Pictures, opt => opt.MapFrom(s => s.Pictures.Select(p=>new RecipePicture {UrlPath=p})))
                  .ForMember(d => d.RecipeIngredients, opt => opt.MapFrom(s => s.Ingredients))
                  .ForMember(d=>d.RecipeTags,opt=>opt.Ignore());
+
+            CreateMap<Recipe, RecipeEditDTOout>()
+                  .ForMember(d => d.Pictures, opt => opt.MapFrom(s => s.Pictures.Select(p => p.UrlPath)))
+                  .ForMember(d => d.Ingredients, opt => opt.MapFrom(s => s.RecipeIngredients))
+                  .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.RecipeTags.Select(t => t.Tag.Name)));
         }
 
         private void CreateMapToMappings(System.Collections.Generic.IEnumerable<Type> allTypes)

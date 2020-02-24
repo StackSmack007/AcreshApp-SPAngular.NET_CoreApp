@@ -16,5 +16,6 @@ namespace Acresh.Services.Services.Contracts
         Task VoteForRecipeAsync(string recipeId, string userId, RecipeRating score);
         Task<bool> IsNameUsed(string name);
         Task<Recipe> RegisterAsync(RecipeCreateDTOin recipe, string userId);
+        Task<RecipeEditDTOout> GetRecipeEditInfoAsync(string recipeId, string userId, bool isAdmin);
     }
 }

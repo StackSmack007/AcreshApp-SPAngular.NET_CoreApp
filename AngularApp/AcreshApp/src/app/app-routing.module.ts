@@ -13,6 +13,8 @@ import { ListRecipesComponent } from './recipes/list-recipes/list-recipes.compon
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
 import { RecipeDetailsResolver } from './core/respolvers/recipe-details-resolver';
 import { CreateRecipeComponent } from './recipes/create/create.component';
+import { RecipeEditDataResolver } from './core/respolvers/recipe-edit-data-resolver';
+import { EditRecipeComponent } from './recipes/edit/edit.component';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -35,7 +37,8 @@ const routes: Routes = [
 
   {
     path: "recipes",
-    children: [{
+    children: [
+      {
       path: "", pathMatch: "full",
       redirectTo: "/all"
     },
@@ -93,6 +96,12 @@ const routes: Routes = [
       path: "add-new",
       component: CreateRecipeComponent,
       canActivate: [AuthorizedOnlyGuard]
+    },
+    {
+      path: "edit/:id",
+      component: EditRecipeComponent,
+      canActivate: [AuthorizedOnlyGuard],
+      resolve: { data: RecipeEditDataResolver }
     },
   ]
   }

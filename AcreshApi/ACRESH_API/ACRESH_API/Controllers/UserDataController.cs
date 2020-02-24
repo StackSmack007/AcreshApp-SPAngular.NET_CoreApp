@@ -42,7 +42,7 @@ namespace ACRESH_API.Controllers
         [HttpGet("profile")]
         public async Task<ActionResult<ProfileDataForEditDTOout>> GetMyProfileDataForEdit()
         {
-            ProfileDataForEditDTOout result = await this.userDataService.GetProfileDataForEditAsync(getUserId());
+            ProfileDataForEditDTOout result = await this.userDataService.GetProfileDataForEditAsync(UserId);
             if (result is null) return BadRequest();
             return result;
         }
@@ -50,7 +50,7 @@ namespace ACRESH_API.Controllers
         [HttpGet("blocked")]
         public async Task<ActionResult<BlockedUserInfoDTOout[]>> GetBlocked()
         {
-            BlockedUserInfoDTOout[] result = await this.userDataService.GetBlockedUserInfos(getUserId()).ToArrayAsync();
+            BlockedUserInfoDTOout[] result = await this.userDataService.GetBlockedUserInfos(UserId).ToArrayAsync();
             if (result is null) return BadRequest();
             return result;
         }
@@ -58,7 +58,7 @@ namespace ACRESH_API.Controllers
         [HttpGet("my-blockers")]
         public async Task<ActionResult<BlockerUserInfoDTOout[]>> GetBlockers()
         {
-            BlockerUserInfoDTOout[] result = await this.userDataService.GetBlockerUserInfos(getUserId()).ToArrayAsync();
+            BlockerUserInfoDTOout[] result = await this.userDataService.GetBlockerUserInfos(UserId).ToArrayAsync();
             if (result is null) return BadRequest();
             return result;
         }

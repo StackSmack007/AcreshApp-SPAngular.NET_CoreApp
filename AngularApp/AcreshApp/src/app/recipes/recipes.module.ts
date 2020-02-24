@@ -7,9 +7,10 @@ import { ListRecipesComponent } from './list-recipes/list-recipes.component';
 import { CoreModule } from '../core/core.module';
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
 import { CreateRecipeComponent } from './create/create.component';
+import { EditRecipeComponent } from './edit/edit.component';
 
 @NgModule({
-  declarations: [RecipeCartComponent, RecipeSubInfoCardComponent, ListRecipesComponent, RecipeDetailsComponent, CreateRecipeComponent],
+  declarations: [RecipeCartComponent, RecipeSubInfoCardComponent, ListRecipesComponent, RecipeDetailsComponent, CreateRecipeComponent, EditRecipeComponent],
   imports: [
     CommonModule,AppRoutingModule,CoreModule
   ],

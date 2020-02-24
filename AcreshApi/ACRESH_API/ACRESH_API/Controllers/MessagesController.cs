@@ -51,14 +51,14 @@ namespace ACRESH_API.Controllers
         [HttpGet()]
         public async Task<ActionResult<ICollection<MessageDTOout>>> GetRecievedMessages()
         {
-            var result = await messageService.GetUserRecievedMessages(getUserId()).ToArrayAsync();
+            var result = await messageService.GetUserRecievedMessages(UserId).ToArrayAsync();
             return result;
         }
 
         [HttpGet("sent")]
         public async Task<ICollection<MessageDTOout>> GetSentMessages()
         {
-            var result = await messageService.GetSentMessages(getUserId()).ToArrayAsync();
+            var result = await messageService.GetSentMessages(UserId).ToArrayAsync();
             return result;
         }
     }

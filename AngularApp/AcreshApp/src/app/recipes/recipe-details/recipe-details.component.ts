@@ -2,7 +2,7 @@ import { Component, OnDestroy, } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HelperService, CustomDateFormats } from 'src/app/core/services/helper.service';
 import { IRecipeDetails } from 'src/app/core/interfaces/recipeDetails';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { SignalRRecipeDetailsService } from 'src/app/core/services/signal-r.recipe-details.service';
 import { CookRank } from 'src/app/core/enumerations/CookRank';
@@ -17,22 +17,24 @@ import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
 export class RecipeDetailsComponent implements OnDestroy {
   ratingNames = ["Distasteful", "Questionable", "Acceptable", "Recomendable", "Good", "Magnifique"]
 
-  constructor(route: ActivatedRoute, private authService: AuthService,
+  constructor(private router:Router,
+    route: ActivatedRoute, 
+    private authService: AuthService,
     private recipeService: RecipeService, private singalRService: SignalRRecipeDetailsService) {
     this.recipe = route.snapshot.data.data;
     singalRService.startConnection(this.recipe);
   }
 
-  get cookRank(){
+  get cookRank() {
     return CookRank[this.recipe.authorCookRank];
   }
 
-  get difficulty(){
+  get difficulty() {
     return RecipeDifficulty[this.recipe.difficulty];
   }
 
-  get tags(){
-      return this.recipe.tags.join(", ");
+  get tags() {
+    return this.recipe.tags.join(", ");
   }
   public recipe: IRecipeDetails = null;
   // {
@@ -57,6 +59,16 @@ export class RecipeDetailsComponent implements OnDestroy {
   //   ],
   //   favorizers: ["Aladin", "Sebaidin", "Maradin", "Martin"],
   // }
+
+  get isEditAuthorized() {
+    if(!this.authService.isAuthenticated()) return false;
+    const userInfo = this.authService.getUserInfo();
+    return userInfo.roles.includes("Admin") || this.myName === this.recipe.authorUserName;
+  }
+
+  goToEdit(){
+    this.router.navigate(["/recipes/edit",this.recipe.id]);
+  }
 
   get videoLink() {
     if (!this.recipe.videoLink) return null;
@@ -115,7 +127,7 @@ export class RecipeDetailsComponent implements OnDestroy {
       } else {
         this.recipe.votes.push({ name: this.myName, vote: choise });
       }
-      this.singalRService.patchRecipeData({votes:this.recipe.votes})
+      this.singalRService.patchRecipeData({ votes: this.recipe.votes })
     })
   }
 
@@ -136,6 +148,7 @@ export class RecipeDetailsComponent implements OnDestroy {
       this.singalRService.patchRecipeData({ favorizers: this.recipe.favorizers });
     })
   }
+
   ngOnDestroy(): void {
     this.singalRService.stopConnection();
   }
