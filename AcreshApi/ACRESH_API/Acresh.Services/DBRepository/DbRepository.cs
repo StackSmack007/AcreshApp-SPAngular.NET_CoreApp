@@ -1,8 +1,10 @@
 ﻿using Acresh.Services.DBRepository.Contracts;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Acresh.Services.DBRepository
@@ -53,10 +55,40 @@ namespace Acresh.Services.DBRepository
         {
             return context.SaveChanges();
         }
-        
         public void Dispose()
         {
             context.Dispose();
         }
+
+        public void UpdateEntity(TEntity reciever, TEntity source)
+        {
+            // context.Entry(reciever).CurrentValues.SetValues(source);
+            throw new NotImplementedException();
+
+        }
+        //private void UpdateEntity2<T>(T reciever, T source)
+        //{
+        //    IEnumerable<PropertyInfo> sourcePropInfos = source.GetType().GetProperties();
+        //    //.Where(x => typeof(ICollection<>).IsAssignableFrom(x.PropertyType));
+
+        //    foreach (var propInfo in sourcePropInfos)
+        //    {
+        //        propInfo.SetValue(reciever, propInfo.GetValue(source));
+
+        //        //if (typeof(ICollection<>).IsAssignableFrom(propInfo.PropertyType))
+        //        //{
+        //        //    var sourceVals = (ICollection<object>)propInfo.GetValue(source);
+        //        //    var recVals = propInfo.GetValue(reciever);
+
+        //        //    foreach (var item in sourceVals)
+        //        //    {
+        //        //        UpdateEntity2()
+        //        //    }
+        //        //}
+                                             
+
+        //    }
+
+        //}
     }
 }

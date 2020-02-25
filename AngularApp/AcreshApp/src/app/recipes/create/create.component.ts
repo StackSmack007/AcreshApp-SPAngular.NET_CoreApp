@@ -33,7 +33,7 @@ export class CreateRecipeComponent implements OnDestroy, DoCheck {
   private takenRecipeNames: string[] = ["taken"];
   private ingredients: IIngredientMini[] = null// [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
   form: FormGroup
-  categorie$: Observable<ICategoryMini> = null; //[{ name: "no category", id: -1 }, { name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
+  categorie$: Observable<ICategoryMini[]> = null; //[{ name: "no category", id: -1 }, { name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
   subscription$: Subscription[] = [];
 
   diffGrades = Object.entries(RecipeDifficulty).filter((_, index, arr) => index < arr.length / 2);
@@ -79,15 +79,19 @@ export class CreateRecipeComponent implements OnDestroy, DoCheck {
   }
 
   public formArrs: { pictures: FormArray, tags: FormArray, ingredients: FormArray } = { pictures: undefined, tags: undefined, ingredients: undefined };
-  addPicture() {
+   setFormArrs() {
     this.formArrs.pictures = this.form.get('pictures') as FormArray;
+    this.formArrs.tags = this.form.get('tags') as FormArray;
+    this.formArrs.ingredients = this.form.get('ingredients') as FormArray;
+  }
+  
+  addPicture() {
     this.formArrs.pictures.push(this.fb.control("", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")]))
   }
   removePicture(index: number = 0) {
     this.formArrs.pictures.removeAt(index);
   }
   addTag() {
-    this.formArrs.tags = this.form.get('tags') as FormArray;
     this.formArrs.tags.push(this.fb.control("", [Validators.required, Validators.pattern("[a-zA-Z]{3,10}")]))
   }
   removeTag(index: number = 0) {
@@ -95,7 +99,6 @@ export class CreateRecipeComponent implements OnDestroy, DoCheck {
   }
 
   addIngredient() {
-    this.formArrs.ingredients = this.form.get('ingredients') as FormArray;
     this.formArrs.ingredients.push(this.createIngredient());
   }
   removeIngredient(index: number = 0) {
@@ -126,7 +129,7 @@ export class CreateRecipeComponent implements OnDestroy, DoCheck {
       ingredients: this.fb.array([])
     },  // { updateOn: "blur" }
     )
-
+    this.setFormArrs();
     this.subscription$.push(this.getCtrl('name').valueChanges.subscribe(v => {
       if (this.getCtrl('name').invalid) { return; }
       if (!this.takenRecipeNames.includes(v) && this.takenRecipeNames.some(x => x.toLowerCase() === v.toLowerCase())) {

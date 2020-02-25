@@ -117,37 +117,13 @@ namespace Acresh.Services.Services
             return result;
         }
 
-
         public async Task<bool> IsNameUsed(string name) => await this.recipeRepo.All().AnyAsync(x => x.Name.ToLower() == name.ToLower());
 
         public async Task<Recipe> RegisterAsync(RecipeCreateDTOin rec, string authorId)
         {
-            var tagsU = rec.Tags.Select(x => x.ToUpper());
             try
             {
-                var result = mapper.Map<Recipe>(rec);
-                result.AuthorId = authorId;
-                var dbTags = await this.tagRepo.All().Where(x => tagsU.Contains(x.NormalizedName)).Select(x => new { x.Id, x.NormalizedName }).ToArrayAsync();
-                foreach (string tag in rec.Tags)
-                {
-                    var tagFd = dbTags.FirstOrDefault(x => x.NormalizedName == tag.ToUpper());
-                    if (tagFd != null)
-                    {
-                        result.RecipeTags.Add(new RecipeTag
-                        {
-                            TagId = tagFd.Id
-                        });
-                        continue;
-                    }
-                    result.RecipeTags.Add(new RecipeTag
-                    {
-                        Tag = new Tag
-                        {
-                            Name = tag,
-                            NormalizedName = tag.ToUpper(),
-                        }
-                    });
-                }
+                var result = await MakeRecipe(rec, authorId);
                 await this.recipeRepo.AddAssync(result);
                 await this.recipeRepo.SaveChangesAsync();
                 return result;
@@ -156,8 +132,8 @@ namespace Acresh.Services.Services
             {
                 return null;
             }
-
         }
+
 
         public async Task VoteForRecipeAsync(string recipeId, string userId, RecipeRating score)
         {
@@ -183,7 +159,7 @@ namespace Acresh.Services.Services
         }
         public async Task<RecipeEditDTOout> GetRecipeEditInfoAsync(string recipeId, string userId, bool isAdmin)
         {
-          
+
             Recipe recipeFd = await this.recipeRepo.All()
                                                    .Include(x => x.RecipeIngredients).ThenInclude(i => i.Ingredient)
                                                    .Include(x => x.RecipeTags).ThenInclude(t => t.Tag)
@@ -195,7 +171,66 @@ namespace Acresh.Services.Services
 
             return this.mapper.Map<RecipeEditDTOout>(recipeFd);
 
+        }
 
+        public async Task<Recipe> EditRecipeAsync(RecipeEditDTOin recipe, string userId, bool isAdmin)
+        {
+            Recipe recipeFd = await this.recipeRepo.All()
+                                                 .Include(x => x.RecipeIngredients).ThenInclude(i => i.Ingredient)
+                                                 .Include(x => x.RecipeTags).ThenInclude(t => t.Tag)
+                                                 .Include(x => x.Pictures)
+                                                 .FirstOrDefaultAsync(x => x.Id == recipe.Id);
+            if (recipeFd is null) throw new NullReferenceException("Recipe not found!");
+            if (recipeFd.AuthorId != userId && !isAdmin) throw new InvalidOperationException("Not allowed to get edit info!");
+
+            var editedRecipe = await MakeRecipe(recipe, userId);
+
+            recipeFd.RecipeIngredients.Clear();
+            recipeFd.Pictures.Clear();
+            recipeFd.RecipeTags.Clear();
+            await recipeRepo.SaveChangesAsync();
+
+            recipeFd.Name = editedRecipe.Name;
+            recipeFd.CategoryId = editedRecipe.CategoryId;
+            recipeFd.Description = editedRecipe.Description;
+            recipeFd.VideoLink = editedRecipe.VideoLink;
+            recipeFd.Difficulty = editedRecipe.Difficulty;
+            recipeFd.MainPicture = editedRecipe.MainPicture;
+
+            recipeFd.RecipeIngredients = editedRecipe.RecipeIngredients;
+            recipeFd.RecipeTags = editedRecipe.RecipeTags;
+            recipeFd.Pictures = editedRecipe.Pictures;
+
+            await this.recipeRepo.SaveChangesAsync();
+            return recipeFd;
+        }
+        private async Task<Recipe> MakeRecipe(RecipeCreateDTOin rec, string authorId)
+        {
+            var tagsU = rec.Tags.Select(x => x.ToUpper());
+            var result = mapper.Map<Recipe>(rec);
+            result.AuthorId = authorId;
+            var dbTags = await this.tagRepo.All().Where(x => tagsU.Contains(x.NormalizedName)).Select(x => new { x.Id, x.NormalizedName }).ToArrayAsync();
+            foreach (string tag in rec.Tags)
+            {
+                var tagFd = dbTags.FirstOrDefault(x => x.NormalizedName == tag.ToUpper());
+                if (tagFd != null)
+                {
+                    result.RecipeTags.Add(new RecipeTag
+                    {
+                        TagId = tagFd.Id
+                    });
+                    continue;
+                }
+                result.RecipeTags.Add(new RecipeTag
+                {
+                    Tag = new Tag
+                    {
+                        Name = tag,
+                        NormalizedName = tag.ToUpper(),
+                    }
+                });
+            }
+            return result;
         }
     }
 }

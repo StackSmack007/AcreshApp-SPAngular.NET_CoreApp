@@ -121,7 +121,25 @@ namespace ACRESH_API.Controllers
             return result;
         }
 
+        [HttpPut]
+        public async Task<ActionResult<string>> EditRecipe(RecipeEditDTOin recipe)
+        {
+            try
+            {
+                Recipe result = await this.recipeService.EditRecipeAsync(recipe, UserId, IsAdmin);
+                if (result != null) return recipe.Id;
+                return BadRequest(new { reason = "Something went wrong!" });
+            }
+            catch (NullReferenceException err)
+            {
+                return BadRequest(new { reason = err.Message });
+            }
+            catch (InvalidOperationException err)
+            {
+                return Unauthorized(new { reason = err.Message });
+            }
 
+        }
 
         //// GET: api/Recipes/5
         //[HttpGet("{id}", Name = "Get")]

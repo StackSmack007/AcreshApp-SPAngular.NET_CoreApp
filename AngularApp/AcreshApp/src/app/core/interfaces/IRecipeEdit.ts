@@ -1,8 +1,9 @@
 import { IIngredientCreate } from './categories/IIngredientCreate';
-export interface IRecipeCreate {
+export interface IRecipeEdit {
+    id: string;
     name: string;
     categoryId: number;
-    mainPicture:string;
+    mainPicture: string;
     description: string;
     pictures: string[];
     videoLink: string;
@@ -10,5 +11,3 @@ export interface IRecipeCreate {
     tags: string[];
     ingredients: IIngredientCreate[];
 }
-
-

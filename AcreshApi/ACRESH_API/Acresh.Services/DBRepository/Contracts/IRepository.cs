@@ -16,5 +16,6 @@
         IQueryable<TEntity> All();
         int SaveChanges();
         Task<int> SaveChangesAsync();
+        void UpdateEntity(TEntity target, TEntity newValue);
     }
 }

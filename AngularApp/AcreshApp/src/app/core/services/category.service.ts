@@ -11,8 +11,8 @@ export class CategoryService {
     constructor(private http: HttpClient) {
     }
 
-    getAllMini(): Observable<ICategoryMini> {
-        return this.http.get<ICategoryMini>(categoryPaths.getAllMini);
+    getAllMini(): Observable<ICategoryMini[]> {
+        return this.http.get<ICategoryMini[]>(categoryPaths.getAllMini);
     }
 }
 
