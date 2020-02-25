@@ -44,8 +44,8 @@ export class RecipeService {
     return this.http.post(recipePaths.base, recipe, { responseType: 'text' })
   }
 
-  getEditDetails(id: string): Observable<IRecipeCreate> {
-    return this.http.get<IRecipeCreate>(recipePaths.edit(id))
+  getEditDetails(id: string): Observable<IRecipeEdit> {
+    return this.http.get<IRecipeEdit>(recipePaths.edit(id))
   }
 
   editRecipe(recipe: IRecipeEdit): Observable<any> {
