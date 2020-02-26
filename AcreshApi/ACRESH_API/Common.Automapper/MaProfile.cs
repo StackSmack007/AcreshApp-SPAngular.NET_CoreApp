@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Common.Interfaces.Contracts.Automapper;
+using DataTransferObjects.Comments;
 using DataTransferObjects.Recipes;
 using DataTransferObjects.Recipes.Details;
 using DataTransferObjects.UserData;
 using Infrastructure.Models;
+using Infrastructure.Models.Enumerations;
 using System;
 using System.Linq;
 
@@ -14,9 +16,9 @@ namespace Common.AutomapperConfigurations
         public MaProfile()
         {
             var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes());
-                CreateMapToMappings(allTypes);
-                CreateMapFromMappings(allTypes);
-            
+            CreateMapToMappings(allTypes);
+            CreateMapFromMappings(allTypes);
+
             CreateMap<AcUser, ProfileDataForEditDTOout>()
                 .ForMember(d => d.Gender, opt => opt.MapFrom(s => s.Gender.ToString().ToLower()));
 
@@ -42,7 +44,7 @@ namespace Common.AutomapperConfigurations
 
 
             CreateMap<Recipe, RecipeDetailsDTOout>()
-                .ForMember(d => d.Ingredients, opt => opt.MapFrom(s => s.RecipeIngredients.Where(s=>!s.IsDeleted)))
+                .ForMember(d => d.Ingredients, opt => opt.MapFrom(s => s.RecipeIngredients.Where(s => !s.IsDeleted)))
                 .ForMember(d => d.Pictures, opt => opt.MapFrom(s => s.Pictures.Where(s => !s.IsDeleted).Select(p => p.UrlPath)))
                 .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.RecipeTags.Where(s => !s.IsDeleted && !s.Tag.IsDeleted).Select(t => t.Tag.Name.ToLower())))
                 .ForMember(d => d.Favorizers, opt => opt.MapFrom(s => s.RecipeFavorisers.Where(s => !s.IsDeleted).Select(f => f.User.UserName)));
@@ -63,14 +65,21 @@ namespace Common.AutomapperConfigurations
                  .ReverseMap();
 
             CreateMap<RecipeCreateDTOin, Recipe>()
-                 .ForMember(d => d.Pictures, opt => opt.MapFrom(s => s.Pictures.Select(p=>new RecipePicture {UrlPath=p})))
+                 .ForMember(d => d.Pictures, opt => opt.MapFrom(s => s.Pictures.Select(p => new RecipePicture { UrlPath = p })))
                  .ForMember(d => d.RecipeIngredients, opt => opt.MapFrom(s => s.Ingredients))
-                 .ForMember(d=>d.RecipeTags,opt=>opt.Ignore());
+                 .ForMember(d => d.RecipeTags, opt => opt.Ignore());
 
             CreateMap<Recipe, RecipeEditDTOout>()
                   .ForMember(d => d.Pictures, opt => opt.MapFrom(s => s.Pictures.Select(p => p.UrlPath)))
                   .ForMember(d => d.Ingredients, opt => opt.MapFrom(s => s.RecipeIngredients))
                   .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.RecipeTags.Select(t => t.Tag.Name)));
+
+            CreateMap<RecipeComment, CommentDTOout>()
+                  .ForMember(d => d.DateAdded, opt => opt.MapFrom(s => ConvertToUnixTimestamp(s.DateOfCreation)))
+                  .ForMember(d => d.DateModified, opt => opt.MapFrom(s => ConvertToUnixTimestamp(s.DateOfLastEdit)))
+                  .ForMember(d => d.Likers, opt => opt.MapFrom(s => s.UsersAttitudes.Where(a => a.Attitude == Attitude.Like && !a.IsDeleted).Select(a => a.ShitGiver.UserName)))
+                  .ForMember(d => d.DisLikers, opt => opt.MapFrom(s => s.UsersAttitudes.Where(a => a.Attitude == Attitude.Dislike && !a.IsDeleted).Select(a => a.ShitGiver.UserName)));
+
         }
 
         private void CreateMapToMappings(System.Collections.Generic.IEnumerable<Type> allTypes)
@@ -118,6 +127,14 @@ namespace Common.AutomapperConfigurations
                 TimeSpan span = date.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
                 return span.TotalSeconds.ToString();
             }
+        }
+
+
+        private static double ConvertToUnixTimestamp(DateTime date)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan diff = date.ToUniversalTime() - origin;
+            return Math.Floor(diff.TotalSeconds);
         }
     }
 }

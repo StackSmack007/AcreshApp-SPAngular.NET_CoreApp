@@ -24,7 +24,6 @@ namespace ACRESH_API.Controllers
             return result;
         }
 
-
         [HttpGet("recipe")]
         public async Task<ActionResult<IngredientRecipeDetailsDTOout[]>> GetRecipeIngridients(string id) => await ingService.GetRecipeIngridients(id).ToArrayAsync();
 

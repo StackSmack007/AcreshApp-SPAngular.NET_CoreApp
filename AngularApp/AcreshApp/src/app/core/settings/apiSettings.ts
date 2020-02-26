@@ -78,11 +78,21 @@ export interface ICategoryPath {
 export const ignredientPaths: IIgnredientPaths = {
     base: basePath + "ingredients/",
     getAllMini: basePath + "ingredients/all-mini",
-    getRecipeIngredients:(id) =>basePath + `ingredients/recipe?id=${id}`
+    getRecipeIngredients: (id) => basePath + `ingredients/recipe?id=${id}`
 }
 
 export interface IIgnredientPaths {
     base: string,
     getAllMini: string,
-    getRecipeIngredients:(id:string)=>string
+    getRecipeIngredients: (id: string) => string
+}
+
+export const commentsPaths: ICommentPaths = {
+    base: basePath + "comments/",
+    getAllForRecipe: (page, id) => basePath + `comments/for-recipe?page=${page}&recipeId=${id}`,
+}
+
+export interface ICommentPaths {
+    base: string,
+    getAllForRecipe: (page, id) => string,
 }

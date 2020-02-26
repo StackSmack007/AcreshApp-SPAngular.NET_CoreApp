@@ -1,0 +1,28 @@
+<div class="bootstrap snippets px-4">
+        <div class="comment-wrapper">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center py-2">
+                    <h4><i class="far fa-comments"></i> &nbsp; Comments For Recipe</h4>
+                </div>
+                <form *ngIf="isLoggedIn" class="px-4" #f="ngForm" (ngSubmit)="submitComment(f.value)">
+                    <div class="row justify-content-center">
+                       <div class="col-1"></div>    
+                        <div class="col-6">
+                            <textarea name="newComment" ngModel minlength="4" required class="form-control" placeholder="write a comment..." rows="2"></textarea>
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-info pull-right" [disabled]="f.invalid">Post</button>
+                        </div>
+                        <div class="col-1"></div>    
+                    </div>
+                    <br>
+                </form>
+                <div class="panel-body" (scroll)="onScroll($event)"> 
+                    <ul class="media-list">
+                        <acr-comment *ngFor="let comment of comments" [comment]="comment"> </acr-comment>            
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="botomizer"></div>

@@ -75,7 +75,6 @@ namespace ACRESH_API
 
             //Configuring OfJWTHappensHere
             ServiceJWT.ConfigureJWTAUth(services, jwtSettings.Secret, jwtSettings.Issuer);
-
             services.AddSingleton<Random>();
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
@@ -86,6 +85,7 @@ namespace ACRESH_API
             services.AddTransient<IRecipesService, RecipeService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IIngredientService, IngredientService>();
+            services.AddTransient<ICommentService, CommentService>();
             services.AddResponseCompression(opt => opt.EnableForHttps = true);
         }
 
