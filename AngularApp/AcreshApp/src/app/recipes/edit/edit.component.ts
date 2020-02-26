@@ -1,11 +1,12 @@
-import {  Subscription } from 'rxjs';
-import { Component, OnDestroy,  ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IRecipeEdit } from 'src/app/core/interfaces/IRecipeCreate';
 import { SignalRRecipeDetailsService } from 'src/app/core/services/signal-r.recipe-details.service';
 import { CreateEditFormComponent } from '../create-edit-form/create-edit-form.component';
+import { IngredientService } from 'src/app/core/services/ingredient.service';
 
 
 @Component({
@@ -25,13 +26,13 @@ export class EditRecipeComponent implements OnDestroy {
   constructor(
     private singalRService: SignalRRecipeDetailsService,
     private recipeService: RecipeService,
+    private ingredientService: IngredientService,
     route: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router) {
     this.recipe = route.snapshot.data.data;
     this.singalRService.startConnection({ id: this.recipe.id });
   }
-
 
   submitRecipe(value: IRecipeEdit) {
     this.subscriptions.push(this.recipeService.editRecipe(value).subscribe((r: string) => {
@@ -47,10 +48,13 @@ export class EditRecipeComponent implements OnDestroy {
         tags: value.tags,
       }
 
-    this.childForm.categorie$.subscribe(v => {
-      debugger;
+      this.childForm.categorie$.subscribe(v => {
+        debugger;
         patchValueForSignalR["categoryName"] = v.find(x => x.id === +value.categoryId).name
-        this.singalRService.patchRecipeData(patchValueForSignalR)
+        this.ingredientService.getRecipeIngredients(value.id).subscribe(ings=>{
+          patchValueForSignalR["ingredients"]=ings;
+          this.singalRService.patchRecipeData(patchValueForSignalR);
+        })
       })
     }, (e) => {
       this.toastr.error("Something went wrong please try again");

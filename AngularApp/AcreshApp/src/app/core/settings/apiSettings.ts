@@ -77,10 +77,12 @@ export interface ICategoryPath {
 
 export const ignredientPaths: IIgnredientPaths = {
     base: basePath + "ingredients/",
-    getAllMini: basePath + "ingredients/all-mini"
+    getAllMini: basePath + "ingredients/all-mini",
+    getRecipeIngredients:(id) =>basePath + `ingredients/recipe?id=${id}`
 }
 
 export interface IIgnredientPaths {
     base: string,
-    getAllMini: string
+    getAllMini: string,
+    getRecipeIngredients:(id:string)=>string
 }

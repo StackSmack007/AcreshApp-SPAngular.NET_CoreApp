@@ -33,7 +33,7 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
   subscriptions: Subscription[] = [];
   categorie$: Observable<ICategoryMini[]> = null; //[{ name: "no category", id: -1 }, { name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
   private takenRecipeNames: string[] = ["taken"];
-  private ingredients: IIngredientMini[] = null// [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
+  public ingredients: IIngredientMini[] = null// [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
   form: FormGroup
 
   get btnDisabled() {
