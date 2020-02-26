@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -9,12 +9,15 @@ import { CreateEditFormComponent } from '../create-edit-form/create-edit-form.co
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 
 
+const isSame = (el1, el2) => JSON.stringify(el1) === JSON.stringify(el2);
+
+
 @Component({
   selector: 'acr-edit-rec',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css'],
 })
-export class EditRecipeComponent implements OnDestroy {
+export class EditRecipeComponent {
   settings = { headline: "Edit Recipe", submitBtnTitle: "<i class='fas fa-wrench'></i> Edit This Recipe" };
 
   subscriptions: Subscription[] = [];
@@ -31,14 +34,13 @@ export class EditRecipeComponent implements OnDestroy {
     private toastr: ToastrService,
     private router: Router) {
     this.recipe = route.snapshot.data.data;
-    this.singalRService.startConnection({ id: this.recipe.id });
+    
   }
 
   submitRecipe(value: IRecipeEdit) {
     this.subscriptions.push(this.recipeService.editRecipe(value).subscribe((r: string) => {
       this.toastr.success("Successfully edited a recipe", "Congratulations!")
-      this.router.navigate(["/recipes/details", r]);
-
+    
       let patchValueForSignalR = {
         name: value.name,
         description: value.description,
@@ -47,21 +49,29 @@ export class EditRecipeComponent implements OnDestroy {
         videoLink: value.videoLink,
         tags: value.tags,
       }
+      
+      debugger;
+      if (isSame(value.ingredients, this.recipe.ingredients) && Number(value.categoryId) === this.recipe.categoryId) {
+        console.log("bez call!");  this.sendSignalRData(patchValueForSignalR); //If ingredients and category is no need to API call...
+      } else {
+        this.childForm.categorie$.subscribe(v => {
+         console.log("pravq Call do bazata!");
+         patchValueForSignalR["categoryName"] = v.find(x => x.id === +value.categoryId).name
+         this.ingredientService.getRecipeIngredients(value.id).subscribe(ings => {
+           patchValueForSignalR["ingredients"] = ings;
+           this.sendSignalRData(patchValueForSignalR); 
+          })
+        }).add(()=>this.closeStreams())
+      }
+      this.router.navigate(["/recipes/details", r]);      
+    }, (e) => { this.toastr.error("Something went wrong please try again"); console.log(e) }))
+  };
 
-      this.childForm.categorie$.subscribe(v => {
-        debugger;
-        patchValueForSignalR["categoryName"] = v.find(x => x.id === +value.categoryId).name
-        this.ingredientService.getRecipeIngredients(value.id).subscribe(ings=>{
-          patchValueForSignalR["ingredients"]=ings;
-          this.singalRService.patchRecipeData(patchValueForSignalR);
-        })
-      })
-    }, (e) => {
-      this.toastr.error("Something went wrong please try again");
-    }))
-  }
+private sendSignalRData(data:any){
+  this.singalRService.startConnection({ id: this.recipe.id }).then(()=> this.singalRService.patchRecipeData(data)).finally(()=>this.closeStreams());
+}
 
-  ngOnDestroy(): void {
+ private closeStreams(): void {
     this.subscriptions.filter(x => !x.closed).forEach(x => x.unsubscribe());
     this.singalRService.stopConnection();
   }

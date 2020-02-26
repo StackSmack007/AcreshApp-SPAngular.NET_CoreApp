@@ -135,8 +135,8 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
   }
   private createIngredient({ id, ammount }): FormGroup {
     return this.fb.group({
-      id: [id, [Validators.min(1)], []],
       ammount: [ammount, [Validators.required, Validators.minLength(4), Validators.maxLength(16), Validators.pattern("[\\d\\.\\,\\/\\-]+\\s?\\w+")], []],
+      id: [id, [Validators.min(1)], []],
     })
   }
 
