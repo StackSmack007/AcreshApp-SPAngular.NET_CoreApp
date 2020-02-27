@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { IComment } from '../../interfaces/comments/IComment';
+import { CookRank } from '../../enumerations/CookRank';
 
 @Component({
   selector: 'acr-comment',
@@ -13,6 +14,7 @@ export class CommentComponent implements OnInit {
   @Input()
   comment: IComment = {
     id: 1,
+    authorCookRank: 1,
     authorUserName: "Kuncho",
     authorAvatarPicture: "https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
     dateAdded: 3456789,
@@ -20,6 +22,10 @@ export class CommentComponent implements OnInit {
     content: "Lorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem LoremLorem Ipsum Lorem Lorem",
     likers: ["User12", "User2", "User3"],
     disLikers: ["User5", "User6", "User7"],
+  }
+
+  get cookRank(){
+    return CookRank[this.comment.authorCookRank];
   }
 
   get isLikeAble() {

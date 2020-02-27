@@ -2,10 +2,11 @@
     <img [src]="comment.authorAvatarPicture" alt="post_author_picture" class="img-circle pull-left">
     <div class="media-body ">
         <span class="label-info">
-            <span class="text-muted pull-right"><small class="text-muted">Last edited on: {{timeEdited}}</small></span>&nbsp;
+            <span>{{cookRank}}&nbsp; </span> 
             <a class="text-decoration-none text-success font-weight-bold" [routerLink]="['/user-data/profile/', comment.authorUserName]">{{comment.authorUserName}}</a> &nbsp; 
             <span [ngClass]="{'active-btn':isLikeAble}" (click)="giveLike()"> <i class="fas fa-thumbs-up"></i></span> {{comment.likers.length}}&nbsp; 
-            <span [ngClass]="{'active-btn':isDislikeAble}" (click)="giveDisLike()"> <i class="fas fa-thumbs-down"></i> {{comment.disLikers.length}}</span>
+            <span [ngClass]="{'active-btn':isDislikeAble}" (click)="giveDisLike()"> <i class="fas fa-thumbs-down"></i> {{comment.disLikers.length}} &nbsp; </span>
+            <span class="text-muted"><small class="text-muted">Last edited: {{timeEdited}}</small></span>
         </span>
         <p class="content .smooth-scroll"> {{comment.content}}</p>
     </div>

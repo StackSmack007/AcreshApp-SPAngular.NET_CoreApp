@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Infrastructure.Models.Enumerations;
+using System.Collections.Generic;
 
 namespace DataTransferObjects.Comments
 {
@@ -6,7 +7,7 @@ namespace DataTransferObjects.Comments
 
         public double DateAdded { get; set; }
         public double DateModified { get; set; }
-
+        public CookRank AuthorCookRank { get; set; }
         public ICollection<string> Likers { get; set; }//todo
         public ICollection<string> DisLikers { get; set; }//todo
 

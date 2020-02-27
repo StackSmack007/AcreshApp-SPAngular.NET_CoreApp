@@ -1,7 +1,9 @@
 ﻿using Acresh.Services.Services.Contracts;
 using DataTransferObjects.Comments;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,6 +28,20 @@ namespace ACRESH_API.Controllers
             return result;
         }
 
-
+        [Authorize]
+        [HttpPost()]
+        public async Task<ActionResult<int>> SubmitComment(CommentDTOin comment)
+        {
+            try
+            {
+                if (comment.AuthorId != UserId) throw new ArgumentOutOfRangeException("Invalid User Credentials!");
+                int newId = await this.commentService.SubmitComment(comment);
+                return newId;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+            }
+        }
     }
 }
