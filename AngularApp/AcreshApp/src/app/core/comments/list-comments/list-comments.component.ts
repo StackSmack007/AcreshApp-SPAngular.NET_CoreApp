@@ -3,6 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { CommentsService } from '../../services/comments.service';
 import { IComment } from '../../interfaces/comments/IComment';
 import { ToastrService } from 'ngx-toastr';
+import { SignalRRecipeDetailsService } from '../../services/signal-r.recipe-details.service';
+import { CommentLikeStatus } from '../../interfaces/comments/ILikesCommentStatus';
 
 @Component({
   selector: 'acr-list-comments',
@@ -14,6 +16,10 @@ export class ListCommentsComponent implements AfterViewInit {
   @Input()
   recipeId: string;
 
+  @Input()
+  signalR: SignalRRecipeDetailsService = null;
+
+
   public isLoading = false;
   public endReached = false;
   private page = 1;
@@ -24,6 +30,7 @@ export class ListCommentsComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.fetchComments();
+    this.signalR.monitorComments(this.comments);
   }
 
   get isLastCommentor(): boolean {
@@ -35,7 +42,7 @@ export class ListCommentsComponent implements AfterViewInit {
     this.isLoading = true;
     this.commentService.getCommentsForRecipe(this.page++, this.recipeId).subscribe(coms => {
       if (coms.length === 0) { this.endReached = true; return }
-      this.comments = this.comments.concat(coms);
+      this.comments.splice(this.comments.length, 0, ...coms);
     }).add(() => { this.isLoading = false; });
   }
 
@@ -58,18 +65,6 @@ export class ListCommentsComponent implements AfterViewInit {
     if (content.length < 4 || !this.isLoggedIn) return;
     const newComment = { content, authorId: this.authService.getUserInfo().id, recipeId: this.recipeId }
 
-    interface IComment {
-      id: number,
-      authorUserName: string,
-      authorCookRank: number,
-      authorAvatarPicture: string,
-      dateModified: number,
-      dateAdded: number,
-      content: string,
-      likers: string[],
-      disLikers: string[],
-    }
-
     this.commentService.postComment(newComment).subscribe((id) => {
       const timeNow = Date.now() / 1000;
       const newCommentForDisplay: IComment = {
@@ -83,12 +78,15 @@ export class ListCommentsComponent implements AfterViewInit {
         disLikers: [],
         content,
       }
-      this.comments.unshift(newCommentForDisplay);
+      this.signalR.addComment(newCommentForDisplay)
     }, (e) => {
       this.toastr.error("Unsuccessful comment post", "Misfortune!");
       console.error("Comment sending error", e);
-    }
-    )
+    })
     console.log(newComment);
+  }
+
+  changeLikes(status:CommentLikeStatus){
+    this.signalR.changeCommentVote(status);
   }
 }

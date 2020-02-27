@@ -21,7 +21,7 @@
             </form>
             <div class="panel-body" (scroll)="onScroll($event)">
                 <ul class="media-list">
-                    <acr-comment *ngFor="let comment of comments" [comment]="comment"> </acr-comment>
+                    <acr-comment *ngFor="let comment of comments" [comment]="comment" (changeLikesEvent)="changeLikes($event)"> </acr-comment>
                 </ul>
             </div>
         </div>

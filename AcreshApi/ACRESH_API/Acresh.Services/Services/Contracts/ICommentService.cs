@@ -7,6 +7,7 @@ namespace Acresh.Services.Services.Contracts
     public interface ICommentService
     {
         IQueryable<CommentDTOout> GetCommentsForRecipe(string recipeId, bool allComments = false);
-        Task<int> SubmitComment(CommentDTOin comment);
+        Task<int> SubmitCommentAsync(CommentDTOin comment);
+        Task<CommentLikeStatusDTOout> SetVoteAsync(CommentVoteDTOin commentVote, string userId);
     }
 }

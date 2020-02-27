@@ -80,6 +80,9 @@ namespace Common.AutomapperConfigurations
                   .ForMember(d => d.Likers, opt => opt.MapFrom(s => s.UsersAttitudes.Where(a => a.Attitude == Attitude.Like && !a.IsDeleted).Select(a => a.ShitGiver.UserName)))
                   .ForMember(d => d.DisLikers, opt => opt.MapFrom(s => s.UsersAttitudes.Where(a => a.Attitude == Attitude.Dislike && !a.IsDeleted).Select(a => a.ShitGiver.UserName)));
 
+            CreateMap<RecipeComment, CommentLikeStatusDTOout>()
+                       .ForMember(d => d.Likers, opt => opt.MapFrom(s => s.UsersAttitudes.Where(a => a.Attitude == Attitude.Like && !a.IsDeleted).Select(a => a.ShitGiver.UserName)))
+                       .ForMember(d => d.DisLikers, opt => opt.MapFrom(s => s.UsersAttitudes.Where(a => a.Attitude == Attitude.Dislike && !a.IsDeleted).Select(a => a.ShitGiver.UserName)));
         }
 
         private void CreateMapToMappings(System.Collections.Generic.IEnumerable<Type> allTypes)

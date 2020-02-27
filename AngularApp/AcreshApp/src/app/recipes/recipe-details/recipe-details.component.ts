@@ -17,10 +17,12 @@ import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
 export class RecipeDetailsComponent implements OnDestroy {
   ratingNames = ["Distasteful", "Questionable", "Acceptable", "Recomendable", "Good", "Magnifique"]
 
-  constructor(private router:Router,
+  constructor(
+    private router:Router,
     route: ActivatedRoute, 
     private authService: AuthService,
-    private recipeService: RecipeService, private singalRService: SignalRRecipeDetailsService) {
+    private recipeService: RecipeService, 
+    public singalRService: SignalRRecipeDetailsService) {
     this.recipe = route.snapshot.data.data;
     singalRService.startConnection(this.recipe);
   }

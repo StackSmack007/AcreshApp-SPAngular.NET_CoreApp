@@ -35,7 +35,7 @@ namespace ACRESH_API.Controllers
             try
             {
                 if (comment.AuthorId != UserId) throw new ArgumentOutOfRangeException("Invalid User Credentials!");
-                int newId = await this.commentService.SubmitComment(comment);
+                int newId = await this.commentService.SubmitCommentAsync(comment);
                 return newId;
             }
             catch (ArgumentOutOfRangeException ex)
@@ -43,5 +43,21 @@ namespace ACRESH_API.Controllers
                 return BadRequest(new { reason = ex.Message });
             }
         }
+
+        [Authorize]
+        [HttpPost("set-vote")]
+        public async Task<ActionResult<CommentLikeStatusDTOout>> ChangeVote(CommentVoteDTOin commentVote)
+        {
+            try
+            {
+                CommentLikeStatusDTOout newStatus = await this.commentService.SetVoteAsync(commentVote,UserId);
+                return newStatus;
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+            }
+        }
+
     }
 }

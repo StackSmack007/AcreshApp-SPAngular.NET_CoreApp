@@ -25,7 +25,7 @@ namespace ACRESH_API.Hubs
         {
             if (!RecipeDetailsViewerConections.ContainsKey(recId)) return;
             var recievers = RecipeDetailsViewerConections[recId].Where(x => x != ConId).ToArray();
-            await Clients.Clients(recievers).SendAsync("updateFavs", newFragment);
+            await Clients.Clients(recievers).SendAsync("updateRecipeData", newFragment);
         }
 
         public void RemoveUserConnection()
@@ -34,5 +34,20 @@ namespace ACRESH_API.Hubs
             if (key is null) return;//Nothing to remove...
             RecipeDetailsViewerConections[key].Remove(ConId);
         }
+
+        public async Task AddComment(string recId,object comment)
+        {
+            if (!RecipeDetailsViewerConections.ContainsKey(recId)) return;
+            var recievers = RecipeDetailsViewerConections[recId].Where(x => x != ConId).ToArray();
+            await Clients.Clients(recievers).SendAsync("addNewComment", comment);
+        }
+
+        public async Task ChangeCommentVote(string recId, object votes)
+        {
+            if (!RecipeDetailsViewerConections.ContainsKey(recId)) return;
+            var recievers = RecipeDetailsViewerConections[recId].Where(x => x != ConId).ToArray();
+            await Clients.Clients(recievers).SendAsync("updateCommentVotes", votes);
+        }
+
     }
 }
