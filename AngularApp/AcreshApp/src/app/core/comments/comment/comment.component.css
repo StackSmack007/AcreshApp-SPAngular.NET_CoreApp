@@ -4,10 +4,11 @@
 } */
      
 img.img-circle {
-border-radius: 50%;
+border-radius: 40%;
 min-height: 4em;
 max-height: 6em;
 margin:auto 0;
+padding-left: 1em;
 }
 
 li p.content{
@@ -15,6 +16,14 @@ li p.content{
     min-height:3em;
     max-height:5em;
     overflow:auto auto;
+}
+
+li.media {
+    border: 2px solid goldenrod;
+    border-radius: 3em 1.2em;;
+    margin-bottom:1em;
+    margin-right:1em;
+
 }
 
 li.media:nth-child(odd){
@@ -26,7 +35,7 @@ div.media-body{
   }
 
 span.label-info{
-    border-bottom: 3px solid magenta;
+    border-bottom: 3px solid rgba(119, 41, 83, 0.73);
     padding-bottom:0.3em;
     margin-bottom:0.5em;
 }
@@ -42,5 +51,10 @@ span.active-btn>i:hover{
     transform: scaleY(1.3);
     cursor: pointer;
     transition: 0.5s ease-in-out;
+}
 
+span.actions>span{
+    float:right; 
+    cursor: pointer;
+    margin-right: 1em;
 }

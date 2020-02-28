@@ -9,5 +9,6 @@ namespace Acresh.Services.Services.Contracts
         IQueryable<CommentDTOout> GetCommentsForRecipe(string recipeId, bool allComments = false);
         Task<int> SubmitCommentAsync(CommentDTOin comment);
         Task<CommentLikeStatusDTOout> SetVoteAsync(CommentVoteDTOin commentVote, string userId);
+        Task SetDeleteAsync(int comId, string userId, bool isAdmin);
     }
 }

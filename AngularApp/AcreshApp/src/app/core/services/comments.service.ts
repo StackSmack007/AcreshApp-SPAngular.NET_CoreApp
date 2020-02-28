@@ -23,4 +23,8 @@ export class CommentsService {
     setVote(id: number, like: boolean): Observable<CommentLikeStatus> {
         return this.http.post<CommentLikeStatus>(commentsPaths.setVote, { id, like })
     }
+
+    del(id: number): Observable<any> {
+        return this.http.delete(commentsPaths.delete(id));
+    }
 }

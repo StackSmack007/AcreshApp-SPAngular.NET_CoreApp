@@ -1,7 +1,8 @@
 div.card {
     border-radius: 15%;
+    border: 2px solid cornflowerblue;
 }
 
 #menuDiv {
-    border-bottom: 2px solid cornflowerblue;
+    border-bottom: 3px solid cornflowerblue;
 }

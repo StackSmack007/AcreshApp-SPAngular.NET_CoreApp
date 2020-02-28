@@ -49,5 +49,13 @@ namespace ACRESH_API.Hubs
             await Clients.Clients(recievers).SendAsync("updateCommentVotes", votes);
         }
 
+        public async Task DeleteComment(string recId, int commentId)
+        {
+            if (!RecipeDetailsViewerConections.ContainsKey(recId)) return;
+            var recievers = RecipeDetailsViewerConections[recId].Where(x => x != ConId).ToArray();
+            await Clients.Clients(recievers).SendAsync("deleteComment", commentId);
+        }
+
+
     }
 }

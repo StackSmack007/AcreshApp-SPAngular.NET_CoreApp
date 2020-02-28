@@ -17,6 +17,9 @@ export class CommentComponent implements OnInit {
   @Output()
   changeLikesEvent: EventEmitter<CommentLikeStatus> = new EventEmitter<CommentLikeStatus>();
 
+  @Output()
+  deleteCommentEvent: EventEmitter<number> = new EventEmitter<number>();
+
   @Input()
   comment: IComment = {
     id: 1,
@@ -29,6 +32,9 @@ export class CommentComponent implements OnInit {
     likers: ["User12", "User2", "User3"],
     disLikers: ["User5", "User6", "User7"],
   }
+
+  @Input()
+  recipeAuthorUserName: string;
 
   get cookRank() {
     return CookRank[this.comment.authorCookRank];
@@ -60,11 +66,27 @@ export class CommentComponent implements OnInit {
 
   giveLike() {
     if (!this.isLikeAble) return;
-      this.commentService.setVote(this.comment.id, true).subscribe(x => this.changeLikesEvent.emit(x));
+    this.commentService.setVote(this.comment.id, true).subscribe(x => this.changeLikesEvent.emit(x));
   }
 
   giveDisLike() {
     if (!this.isDislikeAble) return;
     this.commentService.setVote(this.comment.id, false).subscribe(x => this.changeLikesEvent.emit(x));
   }
+
+  get canDelete() {
+    return this.authService.isAuthenticated() &&
+      (this.authService.isAdmin || [this.comment.authorUserName, this.recipeAuthorUserName].includes(this.authService.getUserInfo().userName))
+  }
+  get canEdit() { return this.authService.isAuthenticated() && this.comment.authorUserName === this.authService.getUserInfo().userName }
+
+  del() {
+    this.deleteCommentEvent.emit(this.comment.id);
+  }
+
+  edit() {
+    console.log('edit');
+  }
+
+
 }

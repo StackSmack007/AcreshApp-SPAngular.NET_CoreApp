@@ -54,6 +54,10 @@ export class AuthService {
     return this.parseJwt(this.getToken())
   }
 
+  get isAdmin(): boolean {
+    return this.isAuthenticated() && this.getUserInfo().roles.includes("Admin");
+  }
+
   updateToken(): Observable<LoginResult> {
     return this.http.post<LoginResult>(authPaths.updateToken, {}).pipe(
       tap(lr => {

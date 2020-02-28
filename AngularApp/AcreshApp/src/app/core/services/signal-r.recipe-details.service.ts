@@ -40,7 +40,7 @@ export class SignalRRecipeDetailsService {
 
     private startListening() {
         this.hubConnection.on("updateRecipeData", (newPatch: {}) => {
-            console.log("Recieved details update...", newPatch);
+            //   console.log("Recieved details update...", newPatch);
             Object.entries(newPatch).forEach(([key, value]) => {
                 this.recipeMonitored[key] = value;
             })
@@ -48,6 +48,12 @@ export class SignalRRecipeDetailsService {
     }
 
     private enqueueComment(comment: IComment) { this.commentsMonitored.unshift(comment) }
+
+    private deleteCommentById(id: number) {
+        const commentIndex = this.commentsMonitored.findIndex(x => x.id === id);
+        if (commentIndex === -1) return;
+        this.commentsMonitored.splice(commentIndex, 1);
+    }
 
     private setCommentVotes(stat: CommentLikeStatus) {
         let commentFd = this.commentsMonitored.find(x => x.id === stat.id);
@@ -60,11 +66,16 @@ export class SignalRRecipeDetailsService {
         console.log("registered set of comments for monitoring...");
         this.commentsMonitored = comments;
         this.hubConnection.on("addNewComment", (comment: IComment) => {
-            console.log("recieved new comment...");
+            //  console.log("recieved new comment...");
             this.enqueueComment(comment);
         });
+        this.hubConnection.on("deleteComment", (id: number) => {
+            //  console.log("recieved new comment...");
+            this.deleteCommentById(id);
+        });
+
         this.hubConnection.on("updateCommentVotes", (st: CommentLikeStatus) => {
-            console.log("someone voted for comment...");
+            //  console.log("someone voted for comment...");
             this.setCommentVotes(st);
         });
     }
@@ -72,6 +83,11 @@ export class SignalRRecipeDetailsService {
     addComment(newCommentForDisplay: IComment) {
         this.enqueueComment(newCommentForDisplay);
         this.hubConnection.invoke("AddComment", this.recipeMonitored.id, newCommentForDisplay);
+    }
+
+    removeComment(id: number) {
+        this.deleteCommentById(id);
+        this.hubConnection.invoke("DeleteComment", this.recipeMonitored.id, id);
     }
 
     changeCommentVote(status: CommentLikeStatus) {

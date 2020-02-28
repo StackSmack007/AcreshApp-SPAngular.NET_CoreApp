@@ -63,9 +63,7 @@ export class RecipeDetailsComponent implements OnDestroy {
   // }
 
   get isEditAuthorized() {
-    if(!this.authService.isAuthenticated()) return false;
-    const userInfo = this.authService.getUserInfo();
-    return userInfo.roles.includes("Admin") || this.myName === this.recipe.authorUserName;
+    return this.authService.isAdmin || this.myName === this.recipe.authorUserName;
   }
 
   goToEdit(){

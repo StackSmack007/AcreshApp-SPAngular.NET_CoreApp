@@ -17,8 +17,10 @@ export class ListCommentsComponent implements AfterViewInit {
   recipeId: string;
 
   @Input()
-  signalR: SignalRRecipeDetailsService = null;
+  recipeAuthorUserName:string;
 
+  @Input()
+  signalR: SignalRRecipeDetailsService = null;
 
   public isLoading = false;
   public endReached = false;
@@ -83,10 +85,15 @@ export class ListCommentsComponent implements AfterViewInit {
       this.toastr.error("Unsuccessful comment post", "Misfortune!");
       console.error("Comment sending error", e);
     })
-    console.log(newComment);
   }
 
-  changeLikes(status:CommentLikeStatus){
+  changeLikes(status: CommentLikeStatus) {
     this.signalR.changeCommentVote(status);
   }
+
+  deleteComment(id: number) {
+    this.commentService.del(id).subscribe(() => this.signalR.removeComment(id))
+  }
+
+
 }

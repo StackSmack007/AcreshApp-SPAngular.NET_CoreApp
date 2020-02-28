@@ -5,6 +5,25 @@ img.meal-picture {
   }
 
   img {
-    width: 1.2rem;
     height: 1.2rem;
+    width:auto;
+  }
+
+  div.card:hover{
+    box-shadow: 20px 20px 25px -19px rgba(161,66,128,1);
+    transition: 0.4s ease-in-out;
+  }
+
+  div.card-header{
+    background-color: #e6dfd1;
+  }
+
+  div.card-body{
+    background-color: #f5f1e9;
+    margin-top: 0;
+  }
+
+  p.small-font{
+    padding-top: 0.2em ;
+    font-size: 0.7em;
   }

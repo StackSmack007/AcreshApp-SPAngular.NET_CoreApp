@@ -50,7 +50,7 @@ namespace ACRESH_API.Controllers
         {
             try
             {
-                CommentLikeStatusDTOout newStatus = await this.commentService.SetVoteAsync(commentVote,UserId);
+                CommentLikeStatusDTOout newStatus = await this.commentService.SetVoteAsync(commentVote, UserId);
                 return newStatus;
             }
             catch (ArgumentException ex)
@@ -59,5 +59,20 @@ namespace ACRESH_API.Controllers
             }
         }
 
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteComment(int id)
+        {
+            try
+            {
+                await this.commentService.SetDeleteAsync(id, UserId, IsAdmin);
+                return Ok();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+            }
+        }
     }
 }

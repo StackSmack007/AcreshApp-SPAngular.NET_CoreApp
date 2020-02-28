@@ -89,6 +89,7 @@ export interface IIgnredientPaths {
 
 export const commentsPaths: ICommentPaths = {
     base: basePath + "comments/",
+    delete:(id)=>basePath+`comments/${id}`,
     getAllForRecipe: (page, id) => basePath + `comments/for-recipe?page=${page}&recipeId=${id}`,
     setVote: basePath + "comments/set-vote",
 }
@@ -96,5 +97,6 @@ export const commentsPaths: ICommentPaths = {
 export interface ICommentPaths {
     setVote: string;
     base: string,
+    delete:(id:number)=> string,
     getAllForRecipe: (page, id) => string,
 }

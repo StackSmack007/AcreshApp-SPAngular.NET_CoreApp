@@ -37,9 +37,7 @@ namespace ACRESH_API.Controllers
         {
             IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetRecipeCarts(criteria, val);
             if (sqlReq is null) return BadRequest(new { reason = "Criteria is invalid!" });
-
-            var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(REC_COUNT_PER_FETCH).ToArrayAsync();
-            //if (result.Length == 0) return NoContent();
+            var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(pageNum == 1 ? REC_COUNT_PER_FETCH + 1 : REC_COUNT_PER_FETCH).ToArrayAsync();
             return result;
         }
 
@@ -49,8 +47,7 @@ namespace ACRESH_API.Controllers
             IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetPrivateRecipeCarts(criteria, UserId);
             if (sqlReq is null) return BadRequest(new { reason = "Criteria is invalid!" });
 
-            var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(REC_COUNT_PER_FETCH).ToArrayAsync();
-            //if (result.Length == 0) return NoContent();
+            var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(pageNum == 1 ? REC_COUNT_PER_FETCH + 1 : REC_COUNT_PER_FETCH).ToArrayAsync();
             return result;
         }
 

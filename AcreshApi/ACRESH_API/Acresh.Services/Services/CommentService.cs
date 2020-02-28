@@ -67,5 +67,17 @@ namespace Acresh.Services.Services
             await atttitudeRepo.SaveChangesAsync();
             return await this.commentRepo.All().Where(x => x.Id == commentVote.Id && !x.IsDeleted).To<CommentLikeStatusDTOout>().FirstOrDefaultAsync();
         }
+
+        public async Task SetDeleteAsync(int comId, string userId, bool isAdmin)
+        {
+            var commentFd = await this.commentRepo.All().Include(x => x.Recipe).FirstOrDefaultAsync(x => x.Id == comId && !x.IsDeleted);
+            if (commentFd is null) throw new InvalidOperationException("comment not found or is already deleted");
+            if (!isAdmin && commentFd.AuthorId != userId && commentFd.Recipe.AuthorId != userId)
+            {
+                throw new InvalidOperationException("Not authorized! You must be admin, recipe author or comment-author to delete comment.");
+            }
+            commentFd.IsDeleted = true;
+            await this.commentRepo.SaveChangesAsync();
+        }
     }
 }

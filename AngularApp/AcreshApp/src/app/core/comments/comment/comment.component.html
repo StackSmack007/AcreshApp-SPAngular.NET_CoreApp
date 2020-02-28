@@ -8,6 +8,11 @@
             <span [ngClass]="{'active-btn':isDislikeAble}" (click)="giveDisLike()"> <i class="fas fa-thumbs-down"></i> {{comment.disLikers.length}} &nbsp; </span>
             <span class="text-muted"><small class="text-muted">Last edited: {{timeEdited}}</small></span>
         </span>
+      
+        <span class="actions" *ngIf="canDelete || canEdit"> 
+            <span *ngIf="canEdit" class="active-btn" (click)="edit()"><i class="far fa-edit"></i> Edit</span>  
+            <span class="active-btn" (click)="del()"><i class="far fa-trash-alt"></i> Delete</span>
+        </span>
         <p class="content .smooth-scroll"> {{comment.content}}</p>
     </div>
 </li>
