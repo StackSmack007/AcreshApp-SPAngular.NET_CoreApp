@@ -1,21 +1,31 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { IComment } from '../../interfaces/comments/IComment';
 import { CookRank } from '../../enumerations/CookRank';
-import { CommentLikeStatus } from '../../interfaces/comments/ILikesCommentStatus';
+import { ICommentLikeStatus } from '../../interfaces/comments/ILikesCommentStatus';
 import { CommentsService } from '../../services/comments.service';
+import { NgForm } from '@angular/forms';
+import { ICommentContentStatus } from '../../interfaces/comments/ICommentContentStatus';
 
 @Component({
   selector: 'acr-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.css']
 })
-export class CommentComponent implements OnInit {
+export class CommentComponent implements AfterViewInit {
+
+  editModeOn: boolean = false;
+  editModeSwitch() { this.editModeOn = !this.editModeOn }
+  private originalContent: string = null;
+  ngAfterViewInit(): void { this.originalContent = this.comment.content; }
 
   constructor(private authService: AuthService, private commentService: CommentsService) { }
 
   @Output()
-  changeLikesEvent: EventEmitter<CommentLikeStatus> = new EventEmitter<CommentLikeStatus>();
+  changeLikesEvent: EventEmitter<ICommentLikeStatus> = new EventEmitter<ICommentLikeStatus>();
+
+  @Output()
+  changeContentEvent: EventEmitter<ICommentContentStatus> = new EventEmitter<ICommentContentStatus>();
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter<number>();
@@ -61,9 +71,6 @@ export class CommentComponent implements OnInit {
     // return `${d.getDate}`
   }
 
-  ngOnInit(): void {
-  }
-
   giveLike() {
     if (!this.isLikeAble) return;
     this.commentService.setVote(this.comment.id, true).subscribe(x => this.changeLikesEvent.emit(x));
@@ -84,8 +91,20 @@ export class CommentComponent implements OnInit {
     this.deleteCommentEvent.emit(this.comment.id);
   }
 
-  edit() {
-    console.log('edit');
+  editComment(form: NgForm) {
+    const { editedContent } = form.value;
+    if (form.invalid || editedContent === this.originalContent) return;
+    const dateModified = Date.now() / 1000;
+    const commentStatus: ICommentContentStatus = { id: this.comment.id, content: editedContent, dateModified };
+    this.commentService.editContent(commentStatus).subscribe(() => {
+      this.changeContentEvent.emit(commentStatus);
+      return this.editModeSwitch();
+    });
+    console.log('contentChanged');
+  }
+
+  abortEdit() {
+    this.comment.content = this.originalContent;
   }
 
 

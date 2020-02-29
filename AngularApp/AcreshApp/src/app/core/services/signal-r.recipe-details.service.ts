@@ -2,7 +2,8 @@
 import * as signalR from "@aspnet/signalr";
 import { Injectable } from '@angular/core';
 import { IComment } from '../interfaces/comments/IComment';
-import { CommentLikeStatus } from '../interfaces/comments/ILikesCommentStatus';
+import { ICommentLikeStatus } from '../interfaces/comments/ILikesCommentStatus';
+import { ICommentContentStatus } from '../interfaces/comments/ICommentContentStatus';
 
 @Injectable({ providedIn: "root" })
 export class SignalRRecipeDetailsService {
@@ -55,11 +56,18 @@ export class SignalRRecipeDetailsService {
         this.commentsMonitored.splice(commentIndex, 1);
     }
 
-    private setCommentVotes(stat: CommentLikeStatus) {
+    private setCommentVotes(stat: ICommentLikeStatus) {
         let commentFd = this.commentsMonitored.find(x => x.id === stat.id);
         if (!commentFd) return; //this comment is not yet displayed so no need of updating.
         commentFd.likers = stat.likers;
         commentFd.disLikers = stat.disLikers;
+    }
+
+    private setCommentContent(stat: ICommentContentStatus) {
+        let commentFd = this.commentsMonitored.find(x => x.id === stat.id);
+        if (!commentFd) return; //this comment is not yet displayed so no need of updating.
+        commentFd.dateModified = stat.dateModified;
+        commentFd.content = stat.content;
     }
 
     monitorComments(comments: IComment[]) {
@@ -74,9 +82,14 @@ export class SignalRRecipeDetailsService {
             this.deleteCommentById(id);
         });
 
-        this.hubConnection.on("updateCommentVotes", (st: CommentLikeStatus) => {
+        this.hubConnection.on("updateCommentVotes", (st: ICommentLikeStatus) => {
             //  console.log("someone voted for comment...");
             this.setCommentVotes(st);
+        });
+        
+        this.hubConnection.on("updateCommentContent", (st: ICommentContentStatus) => {
+            //  console.log("someone voted for comment...");
+            this.setCommentContent(st);
         });
     }
 
@@ -90,8 +103,13 @@ export class SignalRRecipeDetailsService {
         this.hubConnection.invoke("DeleteComment", this.recipeMonitored.id, id);
     }
 
-    changeCommentVote(status: CommentLikeStatus) {
+    changeCommentVote(status: ICommentLikeStatus) {
         this.setCommentVotes(status);
         this.hubConnection.invoke("ChangeCommentVote", this.recipeMonitored.id, status)
+    }
+
+    changeCommentContent(status: import("../interfaces/comments/ICommentContentStatus").ICommentContentStatus) {
+        this.setCommentContent(status);
+        this.hubConnection.invoke("ChangeCommentContent", this.recipeMonitored.id, status)
     }
 }

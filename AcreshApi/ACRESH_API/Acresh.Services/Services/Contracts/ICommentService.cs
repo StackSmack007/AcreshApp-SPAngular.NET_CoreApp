@@ -10,5 +10,6 @@ namespace Acresh.Services.Services.Contracts
         Task<int> SubmitCommentAsync(CommentDTOin comment);
         Task<CommentLikeStatusDTOout> SetVoteAsync(CommentVoteDTOin commentVote, string userId);
         Task SetDeleteAsync(int comId, string userId, bool isAdmin);
+        Task ChangeContentAsync(CommentContentDTOin commentContent, string userId);
     }
 }

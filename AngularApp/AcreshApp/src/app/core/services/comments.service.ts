@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { commentsPaths } from '../settings/apiSettings';
 import { IComment } from '../interfaces/comments/IComment';
-import { CommentLikeStatus } from '../interfaces/comments/ILikesCommentStatus';
+import { ICommentLikeStatus } from '../interfaces/comments/ILikesCommentStatus';
+import { ICommentContentStatus } from '../interfaces/comments/ICommentContentStatus';
 
 @Injectable({
     providedIn: 'root'
@@ -20,11 +21,15 @@ export class CommentsService {
         return this.http.post<number>(commentsPaths.base, comment);
     }
 
-    setVote(id: number, like: boolean): Observable<CommentLikeStatus> {
-        return this.http.post<CommentLikeStatus>(commentsPaths.setVote, { id, like })
+    setVote(id: number, like: boolean): Observable<ICommentLikeStatus> {
+        return this.http.put<ICommentLikeStatus>(commentsPaths.setVote, { id, like })
     }
 
     del(id: number): Observable<any> {
         return this.http.delete(commentsPaths.delete(id));
+    }
+
+    editContent(contentStatus: ICommentContentStatus): Observable<any> {
+        return this.http.patch(commentsPaths.base,contentStatus);
     }
 }

@@ -10,9 +10,29 @@
         </span>
       
         <span class="actions" *ngIf="canDelete || canEdit"> 
-            <span *ngIf="canEdit" class="active-btn" (click)="edit()"><i class="far fa-edit"></i> Edit</span>  
+            <span *ngIf="canEdit" class="active-btn" (click)="editModeSwitch()">
+              <span *ngIf="!editModeOn"> <i class="far fa-edit"></i> Edit</span> 
+              <span *ngIf="editModeOn" class="text-danger" (click)="abortEdit()"><i class="fas fa-ban"></i> Abort Edit</span>     
+            </span>  
             <span class="active-btn" (click)="del()"><i class="far fa-trash-alt"></i> Delete</span>
         </span>
-        <p class="content .smooth-scroll"> {{comment.content}}</p>
+        <div *ngIf="!editModeOn;else editF">
+            <p class="content .smooth-scroll"> {{comment.content}}</p>
+        </div>
     </div>
 </li>
+
+<ng-template #editF>
+    <form #editForm="ngForm" (ngSubmit)="editComment(editForm)">
+        <div class="row jusify-content-start mt-3">
+            <div class="col-10 form-group">  
+                <textarea rows="2" cols="100%" name="editedContent" [(ngModel)]="comment.content" class="form-control" placeholder="Type edited content..." minlength="4" maxlength="1024" required></textarea>      
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid||editForm.pristine"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </form>
+
+
+</ng-template>

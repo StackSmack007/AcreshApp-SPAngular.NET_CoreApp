@@ -1,5 +1,6 @@
-export interface CommentLikeStatus {
+export interface ICommentLikeStatus {
     id:number,
     likers: string[], 
     disLikers: string[]
   }
+

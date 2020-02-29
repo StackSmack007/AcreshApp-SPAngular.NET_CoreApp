@@ -4,7 +4,8 @@ import { CommentsService } from '../../services/comments.service';
 import { IComment } from '../../interfaces/comments/IComment';
 import { ToastrService } from 'ngx-toastr';
 import { SignalRRecipeDetailsService } from '../../services/signal-r.recipe-details.service';
-import { CommentLikeStatus } from '../../interfaces/comments/ILikesCommentStatus';
+import { ICommentLikeStatus } from '../../interfaces/comments/ILikesCommentStatus';
+import { ICommentContentStatus } from '../../interfaces/comments/ICommentContentStatus';
 
 @Component({
   selector: 'acr-list-comments',
@@ -17,7 +18,7 @@ export class ListCommentsComponent implements AfterViewInit {
   recipeId: string;
 
   @Input()
-  recipeAuthorUserName:string;
+  recipeAuthorUserName: string;
 
   @Input()
   signalR: SignalRRecipeDetailsService = null;
@@ -87,13 +88,15 @@ export class ListCommentsComponent implements AfterViewInit {
     })
   }
 
-  changeLikes(status: CommentLikeStatus) {
+  changeLikes(status: ICommentLikeStatus) {
     this.signalR.changeCommentVote(status);
+  }
+
+  changeContent(status: ICommentContentStatus) {
+    this.signalR.changeCommentContent(status);
   }
 
   deleteComment(id: number) {
     this.commentService.del(id).subscribe(() => this.signalR.removeComment(id))
   }
-
-
 }

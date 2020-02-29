@@ -79,5 +79,15 @@ namespace Acresh.Services.Services
             commentFd.IsDeleted = true;
             await this.commentRepo.SaveChangesAsync();
         }
+
+        public async Task ChangeContentAsync(CommentContentDTOin commentContent, string userId)
+        {
+            var commentFd = await this.commentRepo.All().FirstOrDefaultAsync(x => !x.IsDeleted && x.Id == commentContent.Id);
+            if (commentFd is null) throw new ArgumentException($"Comment with id {commentContent.Id} was not found!");
+            if (commentFd.AuthorId != userId) throw new ArgumentException("Not authorized!, Only author of comment can modify it's content!");
+            commentFd.Content = commentContent.Content;
+            commentFd.DateOfLastEdit = (new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).AddSeconds(commentContent.DateModified);
+            await commentRepo.SaveChangesAsync();
+        }
     }
 }

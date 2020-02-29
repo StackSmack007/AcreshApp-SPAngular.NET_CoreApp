@@ -23,12 +23,12 @@ li.media {
     border-radius: 3em 1.2em;;
     margin-bottom:1em;
     margin-right:1em;
-
 }
 
 li.media:nth-child(odd){
     padding: 1em 0;
 }
+
 div.media-body{
   padding-left:2em;
   padding-right:3em;
@@ -40,12 +40,11 @@ span.label-info{
     margin-bottom:0.5em;
 }
 
-
 span.active-btn>i{
     color:darkorange;
 }
 
-span.active-btn>i:hover{
+span.active-btn i:hover{
     display:inline-block;
     color:blue;
     transform: scaleY(1.3);

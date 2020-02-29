@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ACRESH_API.Controllers
 {
+    [Authorize]
     public class CommentsController : BaseController
     {
 
@@ -21,14 +22,14 @@ namespace ACRESH_API.Controllers
             this.commentService = commentService;
         }
 
+        [AllowAnonymous]
         [HttpGet("for-recipe")]
         public async Task<ActionResult<CommentDTOout[]>> GetCommentsForRecipe(int page, string recipeId)
         {
             var result = await this.commentService.GetCommentsForRecipe(recipeId).Skip((page - 1) * FETCH_PORTION).Take(FETCH_PORTION).ToArrayAsync();
             return result;
         }
-
-        [Authorize]
+    
         [HttpPost()]
         public async Task<ActionResult<int>> SubmitComment(CommentDTOin comment)
         {
@@ -44,8 +45,7 @@ namespace ACRESH_API.Controllers
             }
         }
 
-        [Authorize]
-        [HttpPost("set-vote")]
+        [HttpPut("set-vote")]
         public async Task<ActionResult<CommentLikeStatusDTOout>> ChangeVote(CommentVoteDTOin commentVote)
         {
             try
@@ -58,9 +58,21 @@ namespace ACRESH_API.Controllers
                 return BadRequest(new { reason = ex.Message });
             }
         }
-
-
         [Authorize]
+         [HttpPatch]
+        public async Task<ActionResult<CommentLikeStatusDTOout>> ChangeContent(CommentContentDTOin commentContent)
+        {
+            try
+            {
+                await this.commentService.ChangeContentAsync(commentContent, UserId);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteComment(int id)
         {
