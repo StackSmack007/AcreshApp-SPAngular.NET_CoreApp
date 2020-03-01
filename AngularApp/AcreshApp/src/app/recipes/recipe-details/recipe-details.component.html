@@ -45,13 +45,26 @@
                     <h5>Ingredients: </h5> 
                     <table>
                         <tbody>
-                            <tr *ngFor="let ing of recipe.ingredients">
+                            <tr *ngFor="let ing of recipe.ingredients;index as i">
                                 <td><a href="#">{{ing.name}}</a></td>
                                 <td>{{ing.ammount}}</td>
                                 <td>{{ing.isVegan?"Vegan":"Non-Vegan"}}</td>
-                                <span *ngIf="!ing.isEssential"><i class="fas fa-question-circle"></i></span>
-                                <span *ngIf="ing.isEssential"><i class="fas fa-check-circle"></i></span>
-                            </tr>
+                                <td>
+                                    <button class="btn btn-link text-info" [popover]="ingInfo" popoverOnHover="true" popoverPlacement="top right">
+                                        <span *ngIf="!ing.isEssential"><i class="fas fa-question-circle"></i></span>
+                                        <span *ngIf="ing.isEssential"><i class="fas fa-check-circle"></i></span>
+                                    </button>
+                                    <popover-content #ingInfo 
+                                        [title]="ing.name"                        
+                                        [animation]="true" 
+                                        closeOnClickOutside="true">
+                                        <div class="ing-cart">
+                                            <img [src]="ing.picURL" [alt]="ing.name+'-picture'">
+                                            <p>{{ trimAppropriate(ing.description,110)}}</p>
+                                        </div>
+                                 </popover-content>
+                                </td>
+                             </tr>
                         </tbody>
                     </table>
                 </div>
@@ -106,3 +119,5 @@
 <section class="main">
     <acr-list-comments [recipeId]="recipe.id" [recipeAuthorUserName]="recipe.authorUserName" [signalR]="singalRService"></acr-list-comments>
 </section>
+
+

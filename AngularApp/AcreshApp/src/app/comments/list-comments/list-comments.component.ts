@@ -1,11 +1,12 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { CommentsService } from '../../services/comments.service';
-import { IComment } from '../../interfaces/comments/IComment';
+import { AuthService } from '../../core/services/auth.service';
+import { CommentsService } from '../../core/services/comments.service';
+import { IComment } from '../../core/interfaces/comments/IComment';
 import { ToastrService } from 'ngx-toastr';
-import { SignalRRecipeDetailsService } from '../../services/signal-r.recipe-details.service';
-import { ICommentLikeStatus } from '../../interfaces/comments/ILikesCommentStatus';
-import { ICommentContentStatus } from '../../interfaces/comments/ICommentContentStatus';
+import { SignalRRecipeDetailsService } from '../../core/services/signal-r.recipe-details.service';
+import { ICommentLikeStatus } from '../../core/interfaces/comments/ILikesCommentStatus';
+import { ICommentContentStatus } from '../../core/interfaces/comments/ICommentContentStatus';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'acr-list-comments',
@@ -28,12 +29,14 @@ export class ListCommentsComponent implements AfterViewInit {
   private page = 1;
 
   comments: IComment[] = [];
-  constructor(private authService: AuthService, private commentService: CommentsService, private toastr: ToastrService) {
+  constructor(private authService: AuthService, private commentService: CommentsService, private toastr: ToastrService, private spinner: NgxSpinnerService) {
   }
 
   ngAfterViewInit(): void {
-    this.fetchComments();
-    this.signalR.monitorComments(this.comments);
+    setTimeout(() => {
+      this.fetchComments();
+      this.signalR.monitorComments(this.comments);
+    })
   }
 
   get isLastCommentor(): boolean {
@@ -43,10 +46,11 @@ export class ListCommentsComponent implements AfterViewInit {
   fetchComments() {
     if (this.endReached || this.isLoading) return;
     this.isLoading = true;
+    this.spinner.show();
     this.commentService.getCommentsForRecipe(this.page++, this.recipeId).subscribe(coms => {
       if (coms.length === 0) { this.endReached = true; return }
       this.comments.splice(this.comments.length, 0, ...coms);
-    }).add(() => { this.isLoading = false; });
+    }).add(() => { this.isLoading = false; this.spinner.hide(); });
   }
 
   onScroll({ target }) {

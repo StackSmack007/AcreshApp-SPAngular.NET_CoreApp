@@ -9,7 +9,8 @@ import { RecipeDetailsComponent } from './recipe-details/recipe-details.componen
 import { CreateRecipeComponent } from './create/create.component';
 import { EditRecipeComponent } from './edit/edit.component';
 import { CreateEditFormComponent } from './create-edit-form/create-edit-form.component';
-import { CommentsModule } from '../core/comments/comments.module';
+import { CommentsModule } from '../comments/comments.module';
+
 
 
 @NgModule({

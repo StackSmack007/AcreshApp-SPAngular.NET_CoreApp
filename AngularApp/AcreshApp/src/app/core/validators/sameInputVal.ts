@@ -1,4 +1,3 @@
-import { ElementRef } from '@angular/core';
 import { ValidatorFn, AbstractControl } from '@angular/forms';
 
 export function sameFieldsValidator(valueFunc: ()=>any): ValidatorFn {

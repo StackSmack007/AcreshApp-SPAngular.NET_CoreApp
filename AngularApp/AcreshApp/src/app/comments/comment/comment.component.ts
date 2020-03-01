@@ -1,11 +1,11 @@
-import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { IComment } from '../../interfaces/comments/IComment';
-import { CookRank } from '../../enumerations/CookRank';
-import { ICommentLikeStatus } from '../../interfaces/comments/ILikesCommentStatus';
-import { CommentsService } from '../../services/comments.service';
+import { Component, AfterViewInit, EventEmitter, Output, Input } from '@angular/core';
+import { CommentsService } from 'src/app/core/services/comments.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { ICommentLikeStatus } from 'src/app/core/interfaces/comments/ILikesCommentStatus';
+import { ICommentContentStatus } from 'src/app/core/interfaces/comments/ICommentContentStatus';
+import { IComment } from 'src/app/core/interfaces/comments/IComment';
 import { NgForm } from '@angular/forms';
-import { ICommentContentStatus } from '../../interfaces/comments/ICommentContentStatus';
+import { CookRank } from 'src/app/core/enumerations/CookRank';
 
 @Component({
   selector: 'acr-comment',

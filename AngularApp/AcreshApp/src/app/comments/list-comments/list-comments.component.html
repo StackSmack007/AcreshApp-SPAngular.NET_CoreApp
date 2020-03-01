@@ -19,16 +19,21 @@
                 </div>
                 <br>
             </form>
+            <div style="position:relative">
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="rgba(119, 41, 83, 0.73)" type="ball-scale-multiple" [fullScreen]="false">
+                   <div>
+                    <p style="font-size: 24px; color:rgba(119, 41, 83, 0.73); padding-left:12em; padding-top:1em;">Loading comments...</p>
+                </div>
+                </ngx-spinner>
+
+            </div>
             <div class="panel-body" (scroll)="onScroll($event)">
                 <ul class="media-list">
-                    <acr-comment *ngFor="let comment of comments"
-                     [comment]="comment" 
-                     [recipeAuthorUserName]="recipeAuthorUserName"
-                    (changeLikesEvent)="changeLikes($event)"
-                    (changeContentEvent)="changeContent($event)"
-                    (deleteCommentEvent)="deleteComment($event)"                    
-                    > </acr-comment>
-                </ul>
+                       <acr-comment *ngFor="let comment of comments" [comment]="comment"
+                    [recipeAuthorUserName]="recipeAuthorUserName" (changeLikesEvent)="changeLikes($event)"
+                    (changeContentEvent)="changeContent($event)" (deleteCommentEvent)="deleteComment($event)">
+                </acr-comment>
+            </ul>
             </div>
         </div>
     </div>

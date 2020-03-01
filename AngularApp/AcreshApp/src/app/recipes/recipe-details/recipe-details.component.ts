@@ -66,6 +66,12 @@ export class RecipeDetailsComponent implements OnDestroy {
     return this.authService.isAdmin || this.myName === this.recipe.authorUserName;
   }
 
+trimAppropriate(str:string,maxLength){
+  let res=str.slice(0,maxLength);
+  let lastSpace=res.lastIndexOf(' ');
+  return res.slice(0,lastSpace) + "...";
+}
+
   goToEdit(){
     this.router.navigate(["/recipes/edit",this.recipe.id]);
   }

@@ -52,6 +52,7 @@ namespace Common.AutomapperConfigurations
             CreateMap<RecipeIngredient, IngredientRecipeDetailsDTOout>()
                  .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Ingredient.Id))
                  .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Ingredient.Name))
+                 .ForMember(d=>d.Description,opt=>opt.MapFrom(s=>s.Ingredient.Description))
                  .ForMember(d => d.PicURL, opt => opt.MapFrom(s => s.Ingredient.PicUrl))
                  .ForMember(d => d.IsVegan, opt => opt.MapFrom(s => s.Ingredient.IsVegan))
                  .ForMember(d => d.IsEssential, opt => opt.MapFrom(s => s.Ingredient.IsEssential));

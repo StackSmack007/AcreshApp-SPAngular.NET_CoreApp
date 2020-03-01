@@ -10,6 +10,7 @@ namespace DataTransferObjects.Recipes.Details
         public string Ammount { get; set; }
         public string PicURL { get; set; }//ToDo
         public bool IsVegan { get; set; }
+        public string Description { get; set; }
         public bool IsEssential { get; set; }
     }
 }
