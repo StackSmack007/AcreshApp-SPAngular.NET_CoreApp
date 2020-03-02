@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { CommentsService } from '../../core/services/comments.service';
 import { IComment } from '../../core/interfaces/comments/IComment';
@@ -13,7 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './list-comments.component.html',
   styleUrls: ['./list-comments.component.css']
 })
-export class ListCommentsComponent implements AfterViewInit {
+export class ListCommentsComponent implements OnInit {
 
   @Input()
   recipeId: string;
@@ -32,11 +32,9 @@ export class ListCommentsComponent implements AfterViewInit {
   constructor(private authService: AuthService, private commentService: CommentsService, private toastr: ToastrService, private spinner: NgxSpinnerService) {
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.fetchComments();
-      this.signalR.monitorComments(this.comments);
-    })
+  ngOnInit(): void {
+    this.fetchComments();
+    this.signalR.monitorComments(this.comments);
   }
 
   get isLastCommentor(): boolean {

@@ -1,1 +1,15 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css");
+@import url("https://bootswatch.com/4/united/bootstrap.min.css");
+@import url("https://bootswatch.com/4/united/_variables.scss");
+@import url("https://fonts.googleapis.com/css?family=Lemonada:400,500&display=swap&text=ACRESH");
+@import "./assets/typography.css";
+@import "./assets/popper-settings.css";
+
+/* <link rel="stylesheet" href="" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
+<link rel="stylesheet" href="https://bootswatch.com/4/united/_variables.scss">
+<link href="https://fonts.googleapis.com/css?family=Lemonada:400,500&display=swap&text=ACRESH" rel="stylesheet"> 
+<link rel="stylesheet" href="./assets/typography.css">
+<!-- <link rel="stylesheet" href="./assets/popper-settings.css"> --> */
+
 /* You can add global styles to this file, and also import other style files */

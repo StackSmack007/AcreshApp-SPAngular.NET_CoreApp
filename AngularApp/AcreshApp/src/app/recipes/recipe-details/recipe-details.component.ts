@@ -8,7 +8,6 @@ import { SignalRRecipeDetailsService } from 'src/app/core/services/signal-r.reci
 import { CookRank } from 'src/app/core/enumerations/CookRank';
 import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
 
-
 @Component({
   selector: 'acr-rec-det',
   templateUrl: './recipe-details.component.html',
