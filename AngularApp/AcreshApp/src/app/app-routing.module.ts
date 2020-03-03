@@ -15,6 +15,7 @@ import { RecipeDetailsResolver } from './core/respolvers/recipe-details-resolver
 import { CreateRecipeComponent } from './recipes/create/create.component';
 import { RecipeEditDataResolver } from './core/respolvers/recipe-edit-data-resolver';
 import { EditRecipeComponent } from './recipes/edit/edit.component';
+import { ListIngredientsComponent } from './ingredients/list-ingredients/list-ingredients.component';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -104,7 +105,11 @@ const routes: Routes = [
       resolve: { data: RecipeEditDataResolver }
     },
   ]
-  }
+  },  
+    {
+      path: "ingredients",
+      component: ListIngredientsComponent,
+    },
 ];
 
 @NgModule({

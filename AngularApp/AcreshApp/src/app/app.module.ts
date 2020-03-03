@@ -1,5 +1,3 @@
-// import { ChartsModule } from 'ng2-charts';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,25 +13,24 @@ import { StoreModule } from '@ngrx/store'
 import { unreadMsgsReducer } from './store/reducers/unread.msg.reducer';
 import { MessagesModule } from './messages/messages.module';
 import { RecipesModule } from './recipes/recipes.module';
+import { IngredientsModule } from './ingredients/ingredients.module';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    // ChartsModule,
-    
-     BrowserModule,
+    BrowserModule,
     RecipesModule,
     AppRoutingModule,
     SharedModule,
     CoreModule,
     AuthModule,
     MessagesModule,
-
+    IngredientsModule,
     StoreModule.forRoot({
       userUnread: unreadMsgsReducer
-    }),//TODO!!!
+    }),
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],

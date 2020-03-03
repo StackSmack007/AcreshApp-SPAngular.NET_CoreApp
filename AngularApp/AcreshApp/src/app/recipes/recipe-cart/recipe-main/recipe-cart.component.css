@@ -1,8 +1,13 @@
 img.meal-picture {
     border-radius: 30%;
-    width: 100%;
+    width: auto;
     height: 10rem;
   }
+
+div.img-date {
+  display:block;
+  float:left;
+}
 
   img {
     height: 1.2rem;
@@ -23,7 +28,7 @@ img.meal-picture {
     margin-top: 0;
   }
 
-  p.small-font{
+  span.small-font{
     padding-top: 0.2em ;
-    font-size: 0.7em;
+    font-size: 1em;
   }

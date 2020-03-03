@@ -1,0 +1,113 @@
+div.allContent {
+    max-width:100em;
+    margin:0 auto;
+    height: 92vh;
+    background: rgb(241, 241, 241);
+}
+
+div.center {
+    margin:0 auto;
+}
+
+input.s-field {
+    width:10em;
+}
+
+div.right-section{
+    position:relative;
+    display:inline-block;
+    width: 54%;
+    min-width:25em;
+    height:40em;
+    margin: 0 2%;
+    padding: 0 1em;
+}
+
+div.det-inf {
+    display:block;
+    height:36em;
+    border:2px solid purple;
+    border-radius: 2em;
+    overflow: auto hidden;
+    padding:1em;
+}
+
+div.ing-types {
+    display:inline-block;
+    width:40%;
+    min-width:25em;
+    height:40em;
+    margin-left:2%;
+}
+
+div.ing-container{
+    display:block;
+    width:100%;
+    height:19em;
+    border:2px solid purple;
+    padding: 0 1em;
+    border-radius: 2em;
+    /* overflow: auto auto;
+    margin-right:3em; */
+}
+
+div.ing-container:first-child{
+margin-bottom:2em;
+}
+
+div.ing-container:nth-of-type(2){
+margin-top:2em;
+}
+
+div.ing-types-header{ display:block;}
+
+div.ing-types-header>h5 span {
+    display:inline-block;
+    padding-bottom: 0.25em;
+    margin-top:0.5em;
+    border-bottom: 2px solid orangered;
+}
+div.ing-types-header>h5 {
+     padding-left:0.4em; 
+    display:inline-block;
+}
+
+div.ing-types-header>span{
+    /* padding-right:1em; */
+    float: right;
+    padding-top: 1.2em;  
+}
+
+div.filter-box{
+    width:100%;
+    min-width:35em;
+    padding-left:2em;
+}
+div.filter-box>form {display:block}
+
+div.filter-box>form>*{
+   padding-right:1em;
+}
+form>div.checks {
+    float:right;
+    min-width: 21em;
+}
+
+input.big-checkbox {
+    width: 1em;
+    height: 1em;
+    color:green;
+}
+
+div.ings-box{
+    overflow: auto auto;
+    height: 14.5em;
+    padding-left:0.5em;
+}
+
+div.actionBtns {
+    margin-left:20%;
+    width:80%;
+    position: absolute;
+    bottom:0.5em;
+}

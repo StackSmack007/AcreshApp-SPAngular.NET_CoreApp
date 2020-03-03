@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^9.0.0",
+    "@angular/cdk": "^9.1.0",
     "@angular/common": "~9.0.0",
     "@angular/compiler": "~9.0.0",
     "@angular/core": "~9.0.0",
@@ -22,6 +23,7 @@
     "@angular/router": "~9.0.0",
     "@aspnet/signalr": "^1.1.4",
     "@ngrx/store": "^8.6.0",
+    "angular-tooltips": "^1.2.2",
     "chart.js": "^2.9.3",
     "ng2-charts": "^2.3.0",
     "ngx-smart-popover": "^1.1.0",

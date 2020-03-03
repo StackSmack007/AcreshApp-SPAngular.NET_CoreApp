@@ -1,4 +1,5 @@
 div.card {
+    position:absolute;
     border-radius: 15%;
     border: 2px solid cornflowerblue;
 }

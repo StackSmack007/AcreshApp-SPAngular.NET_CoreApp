@@ -1,0 +1,122 @@
+<div class="container-fluid allContent pt-4">
+    <h2 class="text-center py-2"><i class="fas fa-puzzle-piece"></i>&nbsp; All Ingredients</h2>
+    {{filterForm.value |json}}
+    <div class="row justify-content-between">
+        <div class="col-12 pb-4">
+            <div class="row justify-content-between">
+                <div class="filter-box">
+                    <form class="form-inline my-2 my-lg-0" [formGroup]="filterForm">
+                        <div class="form-group float-left pr-4 mr-4">
+                            <label for="index" class="pr-2 h4">&nbsp; <i class="fas fa-sort-alpha-down"></i> &nbsp;
+                                Index:</label>
+                            <select formControlName="index" id="index" class="form-control">
+                                <option value="AZ">A-Z</option>
+                                <option *ngFor="let letter of indexLetters" [value]="letter">{{letter}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group float-left pl-4">
+                            <label for="s-field" class="pl-2 h4"><i class="fas fa-search"></i>&nbsp; Search:&nbsp;
+                            </label>
+                            <input id="s-field" class="form-control s-field" type="text" formControlName="phrase"
+                                placeholder="Search phrase...">
+                        </div>
+
+                        <div class="checks">
+                            <div class="form-check float-left mr-4" (mousemove)="setLocks()">
+                                <label class="form-check-label  h4">
+                                    <input type="checkbox" class="form-check-input pr-3 big-checkbox"
+                                        formControlName="non-essentials">
+                                    Non Essentials
+                                </label>
+                            </div>
+                            <div class="form-check float-right  mr-4" (mousemove)="setLocks()">
+                                <label class="form-check-label h4">
+                                    <input type="checkbox" class="form-check-input pr-3 big-checkbox"
+                                        formControlName="essentials">
+                                    Essentials
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="ing-types">
+            <div class="ing-container" *ngIf="essentials.value">
+                <div class="ing-types-header">
+                    <h5 class="text-center" mat-raised-button matTooltipPosition="below"
+                        matTooltip="Ingredients you are likely to have (spices, oils and such...)"
+                        aria-label="Section description">
+                        <span>Essential Ingredients</span>
+                    </h5>
+                    <span class="font-italic text-muted">Found 310 ingredients. Displayed 10</span>
+                </div>
+                <div class="ings-box">
+
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    aaa
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-cart></acr-ingredient-cart>
+      
+                </div>
+            </div>
+
+            <div class=" ing-container" *ngIf="nonEssentials.value">
+                <div class="ing-types-header">
+                    <h5 mat-raised-button matTooltipPosition="below" matTooltip="Ingredients you might have..."
+                        aria-label="Section description">
+                        <span>Non Essential Ingredients</span>
+                    </h5>
+                    <span class="font-italic text-muted">Found 310 ingredients. Displayed 10</span>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="right-section">
+        <div class="det-inf" style="background:  greenyellow;">
+            <div> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui optio officiis quam recusandae
+                voluptatem odit
+                fuga inventore dolorum non consectetur iste magni ex commodi, ea doloribus quas accusantium natus aut.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui optio officiis quam recusandae voluptatem
+                odit
+                fuga inventore dolorum non consectetur iste magni ex commodi, ea doloribus quas accusantium natus aut.
+            </div>
+        </div>
+                <div class="actionBtns row justify-content-between">
+                    <div class="col-3"><a class="center btn btn-info"><i class="fas fa-plus-circle"></i> &nbsp; Create</a></div>
+                    <div class="col-3"><a class="center btn btn-primary"><i class="fas fa-edit"></i> &nbsp; Edit</a></div>
+                    <div class="col-3"><a class="center btn btn-danger"><i class="far fa-trash-alt"></i> &nbsp; Delete</a></div>
+                </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
