@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RecipeCartComponent } from './recipe-cart/recipe-main/recipe-cart.component';
+import { RecipeCartComponent } from './recipe-cart/recipe-main/recipe-card.component';
 import { RecipeSubInfoCardComponent } from './recipe-cart/recipe-sub-info-card/recipe-sub-info-card.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { ListRecipesComponent } from './list-recipes/list-recipes.component';

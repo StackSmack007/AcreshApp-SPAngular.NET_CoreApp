@@ -9,7 +9,7 @@
                         <div class="form-group float-left pr-4 mr-4">
                             <label for="index" class="pr-2 h4">&nbsp; <i class="fas fa-sort-alpha-down"></i> &nbsp; Index:</label>
                             <select formControlName="index" id="index" class="form-control">
-                                <option value="AZ">A-Z</option>
+                                <option value="-">A-Z</option>
                                 <option *ngFor="let letter of indexLetters" [value]="letter">{{letter}}</option>
                             </select>
                         </div>
@@ -45,25 +45,25 @@
                         aria-label="Section description">
                         <span>Essential Ingredients</span>
                     </h5>
-                    <span class="font-italic text-muted">Found 310 ingredients. Displayed 10</span>
+                    <span class="font-italic text-muted">Found {{resultsFd.essentials}} ingredients. Displayed {{cards.essentials.cards.length}}</span>
                 </div>
                 <div class="ings-box">
 
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
-                    <acr-ingredient-cart></acr-ingredient-cart>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
+                    <acr-ingredient-card></acr-ingredient-card>
       
                 </div>
             </div>
@@ -74,7 +74,7 @@
                         aria-label="Section description">
                         <span>Non Essential Ingredients</span>
                     </h5>
-                    <span class="font-italic text-muted">Found 310 ingredients. Displayed 10</span>
+                    <span class="font-italic text-muted">Found {{resultsFd.nonEssentials}} ingredients. Displayed {{cards.nonEssentials.cards.length}}</span>
                 </div>
             </div>
 

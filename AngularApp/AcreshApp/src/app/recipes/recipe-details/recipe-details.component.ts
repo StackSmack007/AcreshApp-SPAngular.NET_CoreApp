@@ -1,12 +1,12 @@
 import { Component, OnDestroy, } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HelperService, CustomDateFormats } from 'src/app/core/services/helper.service';
-import { IRecipeDetails } from 'src/app/core/interfaces/recipeDetails';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { SignalRRecipeDetailsService } from 'src/app/core/services/signal-r.recipe-details.service';
 import { CookRank } from 'src/app/core/enumerations/CookRank';
 import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
+import { IRecipeDetails } from 'src/app/core/interfaces/recipes/RecipeDetails';
 
 @Component({
   selector: 'acr-rec-det',

@@ -6,9 +6,9 @@ import { CookRank } from 'src/app/core/enumerations/CookRank';
 
 
 @Component({
-  selector: 'acr-recipe-cart',
-  templateUrl: './recipe-cart.component.html',
-  styleUrls: ['./recipe-cart.component.css'],
+  selector: 'acr-recipe-card',
+  templateUrl: './recipe-card.component.html',
+  styleUrls: ['./recipe-card.component.css'],
   animations: [
     trigger('fade', [
       transition('void=>*', [style({ opacity: '0', transform: 'translateX(-15rem) scaleX(0.1)' }), animate(1500, style({ opacity: '1', transform: 'translateX(0) scaleX(1)' }))]),

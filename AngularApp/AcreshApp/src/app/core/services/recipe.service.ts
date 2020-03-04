@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { recipePaths } from '../settings/apiSettings';
 import { Observable } from 'rxjs';
 import { IRecipeMiniInfo } from '../interfaces/recipes/recipeMiniInfo';
-import { IRecipeDetails } from '../interfaces/recipeDetails';
 import { HelperService } from './helper.service';
 import { IRecipeCreate } from '../interfaces/IRecipeCreate';
 import { IRecipeEdit } from '../interfaces/IRecipeEdit';
+import { IRecipeDetails } from '../interfaces/recipes/RecipeDetails';
 
 @Injectable({
   providedIn: 'root'
