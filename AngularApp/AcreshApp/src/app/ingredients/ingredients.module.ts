@@ -4,9 +4,10 @@ import { ListIngredientsComponent } from './list-ingredients/list-ingredients.co
 import { CreateIngredientComponent } from './create-ingredient/create-ingredient.component';
 import { IngredientCartComponent } from './ingredient-cart/ingredient-cart.component';
 import { CoreModule } from '../core/core.module';
+import { IngredientDetailsComponent } from './ingredient-details/ingredient-details.component';
 
 @NgModule({
-  declarations: [ListIngredientsComponent, CreateIngredientComponent, IngredientCartComponent],
+  declarations: [ListIngredientsComponent, CreateIngredientComponent, IngredientCartComponent, IngredientDetailsComponent],
   imports: [
     CommonModule,CoreModule
   ],

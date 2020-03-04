@@ -1,0 +1,39 @@
+  
+        div.main-pic {
+            float: left;
+            display: block;
+            max-width: 60%;
+        }
+
+        div.main-pic>img {
+            height: 18em;
+            width: auto;
+            max-width: 100%;
+            border-radius: 1em;
+        }
+
+        div.info {
+            display: block;
+            float: right;
+            padding-right: 5%;
+            max-width: 37.5%;
+            
+            /* background: lemonchiffon; */
+        }
+
+       table.stats>tbody>tr>td {
+            font-size: 1.1em;
+            line-height: 1.1em;
+            padding:.6em .3em;   
+        }
+
+        div.desc {
+            clear:both;
+            height: 13.5em;
+            padding-top:.2em;
+            margin-bottom:0.2em;
+        }
+        div.desc>p { 
+            overflow-y: auto;
+            height:10em;
+        }

@@ -30,6 +30,7 @@ div.det-inf {
     border-radius: 2em;
     overflow: auto hidden;
     padding:1em;
+    background: #f5f1e9;
 }
 
 div.ing-types {
@@ -45,10 +46,9 @@ div.ing-container{
     width:100%;
     height:19em;
     border:2px solid purple;
-    padding: 0 1em;
+    padding-right:.9em;   
     border-radius: 2em;
-    /* overflow: auto auto;
-    margin-right:3em; */
+    background: #f5f1e9;
 }
 
 div.ing-container:first-child{
@@ -97,12 +97,14 @@ input.big-checkbox {
     width: 1em;
     height: 1em;
     color:green;
+    margin-right: 0.5rem;
 }
 
 div.ings-box{
     overflow: auto auto;
     height: 14.5em;
-    padding-left:0.5em;
+    padding: .9em;
+    padding-right: 0;
 }
 
 div.actionBtns {

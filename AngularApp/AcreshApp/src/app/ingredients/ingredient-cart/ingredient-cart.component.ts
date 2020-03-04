@@ -9,6 +9,13 @@ export class IngredientCartComponent implements OnInit {
 
 @Output()
 loadIngrEvent: EventEmitter<number>=new EventEmitter<number>();
+
+@Input()
+selectedId:number;
+
+get isChosen(){return this.selectedId===this.ingredient.id;}
+
+
 @Input()
 ingredient ={
   id:12,
@@ -21,7 +28,6 @@ ingredient ={
   authorUserName:"User1215"
 }
 
-
   constructor() { }
 
   ngOnInit(): void {
@@ -29,6 +35,7 @@ ingredient ={
 
 loadIngredientInfo(){
   console.log("ing123");
+  if(this.isChosen) return;
   this.loadIngrEvent.emit(this.ingredient.id);
 }
 

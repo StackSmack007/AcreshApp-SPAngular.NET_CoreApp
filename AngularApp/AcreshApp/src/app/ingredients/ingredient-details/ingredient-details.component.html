@@ -1,0 +1,52 @@
+<section class="det-container">
+    <div class="main-pic">
+        <img src="https://openimagedenoise.github.io/images/moana_16spp_oidn.jpg" alt="">
+    </div>
+    <div class="info">
+        <!-- <h3>Cinamon</h3> -->
+        <table class="stats">
+            <tbody>
+                <tr>
+                    <th class="h3 font-style-bold text-center pb-3" colspan="2"><i class="fas fa-puzzle-piece"></i>&nbsp;   {{ingredient.name}}</th>
+                </tr>
+                <tr class="pb-2">
+                    <td>Used in:</td>
+                    <td>{{ingredient.usageCount}} Recipes</td>
+                </tr>
+                <tr>
+                    <td>Vegan:</td>
+                    <td><span *ngIf="ingredient.isVegan"><i class="fas fa-check text-success"></i></span><span *ngIf="!ingredient.isVegan"><i class="fas fa-times text-danger"></i></span></td>
+                </tr>
+                <tr>
+                    <td>Origin:</td>
+                    <td>{{ingredient.origin}}</td>
+                </tr>
+                <tr>
+                    <td>Measure type:</td>
+                    <td>{{ingredient.measureType.replace('_',' ')}}</td>
+                </tr>
+                <tr>
+                    <td>Added By:</td>
+                    <td>{{ingredient.authorUserName}}</td>
+                </tr>
+                <tr>
+                    <td>Last Edit:</td>
+                    <td>{{modificationDate}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="desc">
+        <h3>Description:</h3>
+        <p>{{ingredient.description}}</p>
+    </div>
+
+    <div class="actionBtns row justify-content-between">
+        <div class="col-3 text-right"><a class="center btn btn-danger" *ngIf="isDeleteAuthorised"><i class="far fa-trash-alt"></i> &nbsp; Delete</a>
+        </div>
+        <div class="col-6"></div>
+        <div class="col-3 text-left"><a class="center btn btn-primary" *ngIf="isEditAuthorised"><i class="fas fa-edit"></i> &nbsp; Edit</a>
+        </div>
+    </div>
+
+</section>

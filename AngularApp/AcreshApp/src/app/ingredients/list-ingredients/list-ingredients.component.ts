@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'acr-list-ingredients',
@@ -16,31 +16,23 @@ export class ListIngredientsComponent implements OnInit {
     this.buildForm();
   }
 
-  public get checkLocks() {
-    return {
-      essentialsMustLock: this.essentials.value && !this.nonEssentials.value,
-      nonEssentialsMustLock: this.nonEssentials.value && !this.essentials.value,
-    }
-  }
-
-   get essentials() { return this.filterForm.get('essentials'); }
-   get nonEssentials() { return this.filterForm.get('non-essentials'); }
+  get essentials() { return this.filterForm.get('essentials') as FormControl; }
+  get nonEssentials() { return this.filterForm.get('non-essentials') as FormControl; }
 
   setLocks() {
-    // if(this.essentials.value && this.nonEssentials.value) return;
     this.essentials.enable();
     this.nonEssentials.enable();
-    this.checkLocks.essentialsMustLock ? this.essentials.disable() : this.essentials.enable();
-    this.checkLocks.nonEssentialsMustLock ? this.nonEssentials.disable() : this.nonEssentials.enable();
+    (this.essentials.value && !this.nonEssentials.value) ? this.essentials.disable() : this.essentials.enable();
+    (this.nonEssentials.value && !this.essentials.value) ? this.nonEssentials.disable() : this.nonEssentials.enable();
   }
 
   private buildForm() {
     this.filterForm = this.fb.group({
       "index": "AZ",
-      "phrase": "",
+      "phrase":  ["", {updateOn: "blur"}],
       "essentials": true,
       "non-essentials": true,
-    })
+    },)
   }
 
   ngOnInit(): void {

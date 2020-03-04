@@ -80,7 +80,7 @@
                 new Ingredient(
                     name:"Chease",
                     origin:OriginType.Animal,
-                    mType:UnitMeasurmentType.WeightUnits,
+                    mType:UnitMeasurmentType.Weight_Units,
                     isEssential:false,
                     desc:"A food made from milk, that can be either firm or soft and is usually yellow or white in colour",
                     picUrl:"https://d2ebzu6go672f3.cloudfront.net/media/content/images/p8_ML0818_gi476879984.jpg",
@@ -88,7 +88,7 @@
                 new Ingredient(
                     name:"Water",
                     origin:OriginType.NonOrganic,
-                    mType:UnitMeasurmentType.VolumeUnits,
+                    mType:UnitMeasurmentType.Volume_Units,
                     isEssential:true,
                     desc:"A clear liquid, without colour or taste, that falls from the sky as rain and is necessary for animal and plant life",
                     picUrl:"https://images.agoramedia.com/everydayhealth/gcms/The-Health-Benefits-of-Water-722x406.jpg?width=722",
@@ -96,7 +96,7 @@
                 new Ingredient(
                     name:"Pepper",
                     origin:OriginType.Plant,
-                    mType:UnitMeasurmentType.VolumeUnits,
+                    mType:UnitMeasurmentType.Volume_Units,
                     isEssential:true,
                     desc:"A grey or white powder produced by crushing dry peppercorns, used to give a spicy, hot taste to food",
                     picUrl:"https://dictionary.cambridge.org/images/full/pepper_noun_002_27125.jpg?version=5.0.69",
@@ -104,7 +104,7 @@
                 new Ingredient(
                     name:"Milk",
                     origin:OriginType.Animal,
-                    mType:UnitMeasurmentType.VolumeUnits,
+                    mType:UnitMeasurmentType.Volume_Units,
                     isEssential:false,
                     desc:"The white liquid produced by cows, goats, and sheep and used by humans as a drink or for making butter, cheese, etc",
                     picUrl:"https://dictionary.cambridge.org/images/full/milk_noun_002_23322.jpg?version=5.0.69",
@@ -112,7 +112,7 @@
                 new Ingredient(
                     name:"Musthache",
                     origin:OriginType.Animal,
-                    mType:UnitMeasurmentType.VolumeUnits,
+                    mType:UnitMeasurmentType.Volume_Units,
                     isEssential:false,
                     desc:"Not good for any recipe",
                     picUrl:"https://dictionary.cambridge.org/images/full/mousta_noun_002_24080.jpg?version=5.0.69",
@@ -120,7 +120,7 @@
                  new Ingredient(
                     name:"SunflowerOil",
                     origin:OriginType.Plant,
-                    mType:UnitMeasurmentType.VolumeUnits,
+                    mType:UnitMeasurmentType.Volume_Units,
                     isEssential:true,
                     desc:"Oil from seeds of a plant, usually having a very tall stem and a single large, round, flat, yellow flower, with many long, thin, narrow petals close together",
                     picUrl:"https://dictionary.cambridge.org/images/full/sunflo_noun_002_36645.jpg?version=5.0.69",
@@ -128,7 +128,7 @@
                 new Ingredient(
                     name:"Butter",
                     origin:OriginType.Animal,
-                    mType:UnitMeasurmentType.VolumeUnits,
+                    mType:UnitMeasurmentType.Volume_Units,
                     isEssential:false,
                     desc:"A pale yellow solid food containing a lot of fat that is made from cream and is spread on bread or used in cooking",
                     picUrl:"https://dictionary.cambridge.org/images/full/butter_noun_002_05056.jpg?version=5.0.69",
