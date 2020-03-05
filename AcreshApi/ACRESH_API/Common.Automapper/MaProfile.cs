@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.Interfaces.Contracts.Automapper;
 using DataTransferObjects.Comments;
+using DataTransferObjects.Ingredients;
 using DataTransferObjects.Recipes;
 using DataTransferObjects.Recipes.Details;
 using DataTransferObjects.UserData;
@@ -84,6 +85,14 @@ namespace Common.AutomapperConfigurations
             CreateMap<RecipeComment, CommentLikeStatusDTOout>()
                        .ForMember(d => d.Likers, opt => opt.MapFrom(s => s.UsersAttitudes.Where(a => a.Attitude == Attitude.Like && !a.IsDeleted).Select(a => a.ShitGiver.UserName)))
                        .ForMember(d => d.DisLikers, opt => opt.MapFrom(s => s.UsersAttitudes.Where(a => a.Attitude == Attitude.Dislike && !a.IsDeleted).Select(a => a.ShitGiver.UserName)));
+
+            CreateMap<Ingredient, IngredientCardDTOout>()
+                    .ForMember(d => d.UsageCount, opt => opt.MapFrom(s => s.IngredientRecipes.Count(ir => !ir.IsDeleted && !ir.Ingredient.IsDeleted)));
+
+            CreateMap<Ingredient, IngredientDetailsDTOout>()
+                    .ForMember(d => d.UsageCount, opt => opt.MapFrom(s => s.IngredientRecipes.Count(ir => !ir.IsDeleted && !ir.Ingredient.IsDeleted)))
+                    .ForMember(d => d.LastModified, opt => opt.MapFrom(s => ConvertToUnixTimestamp(s.DateOfLastEdit)))
+                    .ForMember(d => d.MeasureType, opt => opt.MapFrom(s => s.MeasureType.ToString().Replace("_"," ")));
         }
 
         private void CreateMapToMappings(System.Collections.Generic.IEnumerable<Type> allTypes)

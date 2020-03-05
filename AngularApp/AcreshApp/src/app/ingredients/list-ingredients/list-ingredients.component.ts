@@ -1,31 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { IIngredeintMatches } from 'src/app/core/interfaces/ingredients/IIngredeintMatches';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'acr-list-ingredients',
   templateUrl: './list-ingredients.component.html',
   styleUrls: ['./list-ingredients.component.css']
 })
-export class ListIngredientsComponent implements OnInit {
+export class ListIngredientsComponent {
 
   cards = {
-    essentials: { page: 1, cards: [] },
-    nonEssentials: { page: 1, cards: [] }
+    essentials: { page: 1, cards: [], loading: false },
+    nonEssentials: { page: 1, cards: [], loading: false }
   }
 
-  resultsFd: IIngredeintMatches = { essentials: 0, nonEssentials: 0 }
 
+  resultsFd: IIngredeintMatches = { essentials: 0, nonEssentials: 0, pageCappacity: 0 }
   indexLetters: string[] = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
-
   filterForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private ingService: IngredientService) {
+  constructor(private fb: FormBuilder, private ingService: IngredientService,private spinner: NgxSpinnerService) {
     this.buildForm();
     this.monitorForm();
   }
+
+  ingrIdSelected=new BehaviorSubject<number>(null);
+
+  // selectedId: number=-1;
 
   get essentials() { return this.filterForm.get('essentials') as FormControl; }
   get nonEssentials() { return this.filterForm.get('non-essentials') as FormControl; }
@@ -55,13 +59,13 @@ export class ListIngredientsComponent implements OnInit {
     let trackerSubj = new Subject();
     trackerSubj.subscribe(() => {
       this.filterForm.updateValueAndValidity();
-      console.log("fetchvam",this.formData);
       this.ingService.getCardsMaxCount(this.formData).subscribe(res => {
         this.resultsFd = res;
-        this.cards = {
-          essentials: { page: 1, cards: [] },
-          nonEssentials: { page: 1, cards: [] }
-        }
+        this.cards.essentials = { page: 1, cards: [], loading: false },
+          this.cards.nonEssentials = { page: 1, cards: [], loading: false }
+
+        this.fetchNonEssentials();
+        this.fetchEssentials();
       })
     })
     trackerSubj.next();
@@ -69,10 +73,40 @@ export class ListIngredientsComponent implements OnInit {
     this.filterForm.get("phrase").valueChanges.subscribe(trackerSubj);
   }
 
-
-
-
-  ngOnInit(): void {
+  fetchEssentials() {
+    if (this.cards.essentials.cards.length === this.resultsFd.essentials || this.cards.essentials.loading) return;
+    this.cards.essentials.loading = true;
+    this.spinner.show();
+    this.ingService.getEssentialIngCards(this.cards.essentials.page++, this.formData.index, this.formData.phrase)
+      .subscribe(r => {
+        this.cards.essentials.cards.splice(this.cards.essentials.cards.length, 0, ...r);
+        this.cards.essentials.loading = false;
+      }).add(()=>this.spinner.hide())
   }
+
+  fetchNonEssentials() {
+    if (this.cards.nonEssentials.cards.length === this.resultsFd.nonEssentials || this.cards.nonEssentials.loading) return;
+    this.cards.nonEssentials.loading = true;
+    this.spinner.show();
+    this.ingService.getNonEssentialIngsCards(this.cards.nonEssentials.page++, this.formData.index, this.formData.phrase)
+      .subscribe(r => {
+        this.cards.nonEssentials.cards.splice(this.cards.nonEssentials.cards.length, 0, ...r);
+        this.cards.nonEssentials.loading = false;
+      }).add(()=>this.spinner.hide())
+  }
+
+  onScrollEsts({ target }) {
+    if (!this.scrolSayLoad(target)) { return }
+    console.log("sroll Ess")
+    this.fetchEssentials();
+  }
+
+  onScrollNonEsts({ target }) {
+    if (!this.scrolSayLoad(target)) { return }
+    console.log("sroll nonEss")
+      this.fetchNonEssentials();
+  }
+
+  private scrolSayLoad = (target) => target.scrollHeight - (target.scrollTop + target.clientHeight) < 10
 
 }

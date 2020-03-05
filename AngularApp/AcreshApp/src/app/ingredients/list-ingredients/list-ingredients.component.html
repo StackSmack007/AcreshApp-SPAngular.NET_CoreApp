@@ -1,6 +1,6 @@
 <div class="container-fluid allContent pt-4">
     <h2 class="text-center py-2"><i class="fas fa-puzzle-piece"></i>&nbsp; All Ingredients</h2>
-    {{filterForm.value |json}}
+    <!-- {{filterForm.value |json}} -->
     <div class="row justify-content-between">
         <div class="col-12 pb-4">
             <div class="row justify-content-between">
@@ -47,28 +47,20 @@
                     </h5>
                     <span class="font-italic text-muted">Found {{resultsFd.essentials}} ingredients. Displayed {{cards.essentials.cards.length}}</span>
                 </div>
-                <div class="ings-box">
-
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-                    <acr-ingredient-card></acr-ingredient-card>
-      
+                <div class="ings-box" (scroll)="onScrollEsts($event)">
+                    <div *ngIf="this.cards.essentials.loading" style="position:relative">
+                        <ngx-spinner style="position: absolute; top: 2em; right: 31%;" bdColor="rgba(51,51,51,0.8)" size="medium" color="rgba(119, 41, 83, 0.73)" type="ball-scale-multiple" [fullScreen]="false">
+                            <div>
+                                 <p style="font-size: 18px; color:rgba(119, 41, 83, 0.73); padding-left: 10em; padding-top: 2em;">Loading ingredients...</p>
+                             </div>
+                         </ngx-spinner>
+                     </div>
+                    <acr-ingredient-card *ngFor="let ingC of cards.essentials.cards" [ingredient]="ingC" [ingrIdSelected]="ingrIdSelected">
+                    </acr-ingredient-card>       
                 </div>
             </div>
 
-            <div class=" ing-container" *ngIf="nonEssentials.value">
+            <div class="ing-container" *ngIf="nonEssentials.value">
                 <div class="ing-types-header">
                     <h5 mat-raised-button matTooltipPosition="below" matTooltip="Ingredients you might have..."
                         aria-label="Section description">
@@ -76,13 +68,24 @@
                     </h5>
                     <span class="font-italic text-muted">Found {{resultsFd.nonEssentials}} ingredients. Displayed {{cards.nonEssentials.cards.length}}</span>
                 </div>
+                <div class="ings-box" (scroll)="onScrollNonEsts($event)">
+                    <div *ngIf="this.cards.nonEssentials.loading" style="position:relative">
+                        <ngx-spinner style="position: absolute; top: 2em; right: 31%;" bdColor="rgba(51,51,51,0.8)" size="medium" color="rgba(119, 41, 83, 0.73)" type="ball-scale-multiple" [fullScreen]="false">
+                           <div>
+                                <p style="font-size: 18px; color:rgba(119, 41, 83, 0.73); padding-left: 10em; padding-top: 2em;">Loading ingredients...</p>
+                            </div>
+                        </ngx-spinner>
+                    </div>
+                   <acr-ingredient-card *ngFor="let ingC of cards.nonEssentials.cards" [ingredient]="ingC" [ingrIdSelected]="ingrIdSelected">
+                   </acr-ingredient-card> 
+                </div>
             </div>
 
         </div>
         <div class="right-section">
         <div class="det-inf">
             <div> 
-                <acr-ingredient-details></acr-ingredient-details>
+                <acr-ingredient-details [chosenIngrId]="ingrIdSelected"></acr-ingredient-details>
             </div>
         </div>
                 <div class="actionBtns row justify-content-start">
@@ -92,18 +95,4 @@
         </div>
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </div>

@@ -1,9 +1,8 @@
-<section class="det-container">
+<section class="det-container" *ngIf="ingredient; else nothing">
     <div class="main-pic">
-        <img src="https://openimagedenoise.github.io/images/moana_16spp_oidn.jpg" alt="">
+        <img [src]="ingredient.picUrl" [alt]="ingredient.name+'main picture'">
     </div>
     <div class="info">
-        <!-- <h3>Cinamon</h3> -->
         <table class="stats">
             <tbody>
                 <tr>
@@ -48,5 +47,11 @@
         <div class="col-3 text-left"><a class="center btn btn-primary" *ngIf="isEditAuthorised"><i class="fas fa-edit"></i> &nbsp; Edit</a>
         </div>
     </div>
-
 </section>
+
+<ng-template #nothing>
+    <section  class="text-center pt-3">
+        <h2 class="text-info">No Ingredient Selected!</h2>
+        <img  class="no-content" src="https://image.freepik.com/free-photo/healthy-eating-food-with-empty-dish-copyspace-diet-plan-top-view_44943-853.jpg">
+    </section>
+</ng-template>

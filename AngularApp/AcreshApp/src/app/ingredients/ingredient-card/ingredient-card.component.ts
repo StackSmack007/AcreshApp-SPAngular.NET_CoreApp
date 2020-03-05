@@ -1,44 +1,38 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 import { IIngredientCard } from 'src/app/core/interfaces/ingredients/IIngredient-card';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'acr-ingredient-card',
   templateUrl: './ingredient-card.component.html',
   styleUrls: ['./ingredient-card.component.css']
 })
-export class IngredientCartComponent implements OnInit {
-
-  @Output()
-  loadIngrEvent: EventEmitter<number> = new EventEmitter<number>();
-
+export class IngredientCartComponent implements AfterViewInit {
   @Input()
-  selectedId: number;
+  ingrIdSelected: BehaviorSubject<number>;
 
-  get isChosen() { return this.selectedId === this.ingredient.id; }
-
+  isChosen = false;
 
   @Input()
   ingredient: IIngredientCard = {
     id: 12,
     name: "Kanela",
-    picURL: "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=200",
-    usage: 123,
+    picUrl: "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=200",
+    usageCount: 123,
     isVegan: false,
     origin: "Plant",
-    lastEdited: 234343,
-    authorUserName: "User1215"
+    authorUserName: "User1215",
   }
 
-  constructor() { }
+  constructor() {  }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.ingrIdSelected.subscribe(id => {
+      this.isChosen = id === this.ingredient.id;
+    })
   }
 
   loadIngredientInfo() {
-    console.log("ing123");
-    if (this.isChosen) return;
-    this.loadIngrEvent.emit(this.ingredient.id);
+    this.ingrIdSelected.next(this.ingredient.id);
   }
-
-
 }

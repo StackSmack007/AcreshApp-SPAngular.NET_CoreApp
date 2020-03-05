@@ -6,6 +6,7 @@ import { ICommentContentStatus } from 'src/app/core/interfaces/comments/IComment
 import { IComment } from 'src/app/core/interfaces/comments/IComment';
 import { NgForm } from '@angular/forms';
 import { CookRank } from 'src/app/core/enumerations/CookRank';
+import { HelperService } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'acr-comment',
@@ -57,19 +58,7 @@ export class CommentComponent implements AfterViewInit {
     return this.authService.isAuthenticated() && !this.comment.disLikers.includes(this.authService.getUserInfo().userName)
   }
 
-  get timeEdited() {
-    const timeDifference = Date.now() / 1000 - this.comment.dateModified; // Unix timestamp in milliseconds
-    if (timeDifference < 3600) return `${Math.floor((timeDifference) / 60)} mins ago`
-    if (timeDifference < 3600 * 24) return `${Math.floor((timeDifference) / (60 * 60))} hours ago`
-    if (timeDifference < 3600 * 24 * 30) return `${Math.floor((timeDifference) / (24 * 60 * 60))} days ago`
-
-    return "no idea";
-    // var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-    // d.setUTCSeconds(this.comment.dateModified);
-    // debugger;
-
-    // return `${d.getDate}`
-  }
+  get timeEdited() { return HelperService.timeElapsed(this.comment.dateModified) }
 
   giveLike() {
     if (!this.isLikeAble) return;

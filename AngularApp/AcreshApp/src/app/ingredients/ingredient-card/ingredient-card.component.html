@@ -1,7 +1,7 @@
 <section class="ing-cart" [ngClass]="{'selected':isChosen}" (click)="loadIngredientInfo()">  
-            <img [src]="ingredient.picURL" [alt]="ingredient.name+'-picture'">
+            <img [src]="ingredient.picUrl" [alt]="ingredient.name+'-picture'">
             <p><strong>{{ingredient.name}}</strong></p> 
-            <p> Used in {{ingredient.usage}} recipes so far.</p>
+            <p> Used in {{ingredient.usageCount}} recipes so far.</p>
             <p> Origin-{{ingredient.origin}}. <span *ngIf="ingredient.isVegan">Vegan compatible!</span> <span *ngIf="!ingredient.isVegan">Non-Vegan!</span></p>       
-            <p> Last edited 32 hours ago. Author: {{ingredient.authorUserName}}</p>       
+            <p> Author: {{ingredient.authorUserName}}</p>       
 </section>

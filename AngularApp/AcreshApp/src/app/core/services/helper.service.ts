@@ -9,7 +9,13 @@ export enum CustomDateFormats {
   DefaultFormater = 1,
 }
 
-const DateTimeCStoJS = (date: string,symbol="T") => {
+function convertToCurrentDateTime(date: Date): Date {
+  const offsetHours = new Date().getTimezoneOffset() / -60;
+  date.setHours(date.getHours() + offsetHours);
+  return date;
+}
+
+const DateTimeCStoJS = (date: string, symbol = "T") => {
   let t = {};
   let csDate = date.split("-");
   t["year"] = +csDate.shift();
@@ -23,9 +29,10 @@ const DateTimeCStoJS = (date: string,symbol="T") => {
   csDate = csDate[0].split(".");
   t["seconds"] = +csDate.shift();
   t["ms"] = 1000 * +(`0.` + csDate.shift());
-  let result = new Date(t["year"], t["month"], t["date"], t["hours"], t["minutes"], t["seconds"], t["ms"]);
-  let offsetHours = new Date().getTimezoneOffset() / -60;
-  result.setHours(result.getHours() + offsetHours);
+  //let result = new Date(t["year"], t["month"], t["date"], t["hours"], t["minutes"], t["seconds"], t["ms"]);
+  const result = convertToCurrentDateTime(new Date(t["year"], t["month"], t["date"], t["hours"], t["minutes"], t["seconds"], t["ms"]));
+  // let offsetHours = new Date().getTimezoneOffset() / -60;
+  // result.setHours(result.getHours() + offsetHours);
   return new Date(result);
 }
 
@@ -51,24 +58,36 @@ export class HelperService {
   //   })
   //   return result;
   // }
+  public static timeElapsed(time: number, months = false):string {
+    const timeDifference = Date.now() / 1000 - time; // Unix timestamp in milliseconds
+    const hr = 3600;
+    if (timeDifference < hr) return `${Math.floor((timeDifference) / 60)} mins ago`
+    if (timeDifference < hr * 24) return `${Math.floor((timeDifference) / (hr))} hours ago`
+    if (timeDifference < hr * 24 * 31) return `${Math.floor((timeDifference) / (24 * hr))} days ago`
+    if (months && timeDifference < hr * 24 * 30 * 30.45) return `${Math.floor((timeDifference) / (24 * hr * 30.45))} months ago`
+    let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    d.setUTCSeconds(time);
+    d = convertToCurrentDateTime(d);
+    return `${pad2(d.getDay() + 1)}.${pad2(d.getMonth() + 1)}.${d.getFullYear()}`
+  }
 
-public static fixJsonNumbers(obj: any): any {
+  public static fixJsonNumbers(obj: any): any {
     let result = {};
     Object.keys(obj).forEach(key => {
-     let value = obj[key];
-      if(!isNaN(obj[key])){
+      let value = obj[key];
+      if (!isNaN(obj[key])) {
         result[key] = Number(value);
-      }else if(typeof(value)==="object"){
-        result[key]=this.fixJsonNumbers(value);
-      }else{
-        result[key]=value;
-      }   
+      } else if (typeof (value) === "object") {
+        result[key] = this.fixJsonNumbers(value);
+      } else {
+        result[key] = value;
+      }
     })
     return result;
   }
 
-  public static appJsonHeader={
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
+  public static appJsonHeader = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   private capitalize(str: string) {
@@ -93,7 +112,7 @@ public static fixJsonNumbers(obj: any): any {
     return arr[index]
   }
 
- static dateConvert(date: string, formatFn: CustomDateFormats): string {
+  static dateConvert(date: string, formatFn: CustomDateFormats): string {
     return dateFormats[CustomDateFormats[formatFn].toLowerCase()](DateTimeCStoJS(date));
   }
 }

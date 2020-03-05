@@ -1,11 +1,16 @@
 export interface IIngredientCard {
     id: number,
     name: string,
-    picURL: string,
-    usage:number,
+    picUrl: string,
+    usageCount:number,
     isVegan: boolean,
     origin:string,
-    lastEdited:number
-    authorUserName: string
+    authorUserName: string,
 }
 
+export interface IIngredientDetails extends IIngredientCard {
+    measureType:string,
+    description:string,
+    lastModified:number,
+
+}
