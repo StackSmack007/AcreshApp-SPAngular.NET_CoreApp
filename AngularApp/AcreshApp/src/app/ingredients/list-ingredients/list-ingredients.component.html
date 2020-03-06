@@ -85,7 +85,8 @@
         <div class="right-section">
         <div class="det-inf">
             <div> 
-                <acr-ingredient-details [chosenIngrId]="ingrIdSelected"></acr-ingredient-details>
+                   <!-- <a [routerLink]="[{outlets: {ing:['test2',3]}}]"> show test2</a> -->
+                <router-outlet name="ing-outlet"></router-outlet>    
             </div>
         </div>
                 <div class="actionBtns row justify-content-start">

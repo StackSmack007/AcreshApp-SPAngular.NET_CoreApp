@@ -1,16 +1,17 @@
-import { Component, Input, AfterViewInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { IIngredientDetails } from 'src/app/core/interfaces/ingredients/IIngredient-card';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { BehaviorSubject } from 'rxjs';
 import { HelperService } from 'src/app/core/services/helper.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'acr-ingredient-details',
   templateUrl: './ingredient-details.component.html',
   styleUrls: ['./ingredient-details.component.css']
 })
-export class IngredientDetailsComponent implements AfterViewInit {
+export class IngredientDetailsComponent  {
 
   ingredient: IIngredientDetails = null;
   // {
@@ -29,19 +30,18 @@ export class IngredientDetailsComponent implements AfterViewInit {
   @Input()
   chosenIngrId: BehaviorSubject<number>
 
-  constructor(private authService: AuthService, private ingService: IngredientService) {}
+  constructor(route: ActivatedRoute, private authService: AuthService, private ingService: IngredientService) {
+    route.params.subscribe(({ id }) => {
+      if (!id || isNaN(id)) return;
+      if (this.ingredient && this.ingredient.id === id) return;
+      this.ingService.getIngredientDetails(+id).subscribe(det => this.ingredient = det)
+    })
+  }
 
   private get myInfo() { return this.authService.getUserInfo(); }
 
   get isEditAuthorised() { return this.myInfo.userName === this.ingredient.authorUserName || this.authService.isAdmin; }
   get isDeleteAuthorised() { return this.ingredient.usageCount === 0 && this.isEditAuthorised }
 
-  ngAfterViewInit(): void {
-    this.chosenIngrId.subscribe(id => {
-      if(!id) return;
-      this.ingService.getIngredientDetails(id).subscribe(det => this.ingredient = det)
-    })
-  }
-
-  get modificationDate() { return HelperService.timeElapsed(this.ingredient.lastModified)}
+  get modificationDate() { return HelperService.timeElapsed(this.ingredient.lastModified) }
 }

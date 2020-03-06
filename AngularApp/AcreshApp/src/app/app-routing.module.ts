@@ -16,6 +16,9 @@ import { CreateRecipeComponent } from './recipes/create/create.component';
 import { RecipeEditDataResolver } from './core/respolvers/recipe-edit-data-resolver';
 import { EditRecipeComponent } from './recipes/edit/edit.component';
 import { ListIngredientsComponent } from './ingredients/list-ingredients/list-ingredients.component';
+import { TestOneComponent } from './ingredients/test-one/test-one.component';
+import { TestTwoComponent } from './ingredients/test-two/test-two.component';
+import { IngredientDetailsComponent } from './ingredients/ingredient-details/ingredient-details.component';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -40,76 +43,101 @@ const routes: Routes = [
     path: "recipes",
     children: [
       {
-      path: "", pathMatch: "full",
-      redirectTo: "/all"
-    },
-    {
-      path: "all",
-      component: ListRecipesComponent,
-    },
-    {
-      path: "recent",
-      component: ListRecipesComponent
-    },
-    {
-      path: "commented",
-      component: ListRecipesComponent
-    },
-    {
-      path: "commented-recently",
-      component: ListRecipesComponent
-    },
-    {
-      path: "highly-rated",
-      component: ListRecipesComponent
-    },
-    {
-      path: "most-rated",
-      component: ListRecipesComponent
-    },
-    {
-      path: "favourized",
-      component: ListRecipesComponent
-    },
-    {
-      path: "search/:phrase",
-      component: ListRecipesComponent
-    },
-    {
-      path: "user/:username",
-      component: ListRecipesComponent
-    },
-    {
-      path: "my-favourite",
-      component: ListRecipesComponent,
-      canActivate: [AuthorizedOnlyGuard]
-    },
-    {
-      path: "my-commented",
-      component: ListRecipesComponent,
-      canActivate: [AuthorizedOnlyGuard]
-    },
-    {
-      path: "details/:id",
-      component: RecipeDetailsComponent,
-      resolve: { data: RecipeDetailsResolver }
-    },    {
-      path: "add-new",
-      component: CreateRecipeComponent,
-      canActivate: [AuthorizedOnlyGuard]
-    },
-    {
-      path: "edit/:id",
-      component: EditRecipeComponent,
-      canActivate: [AuthorizedOnlyGuard],
-      resolve: { data: RecipeEditDataResolver }
-    },
-  ]
-  },  
-    {
-      path: "ingredients",
-      component: ListIngredientsComponent,
-    },
+        path: "", pathMatch: "full",
+        redirectTo: "/all"
+      },
+      {
+        path: "all",
+        component: ListRecipesComponent,
+      },
+      {
+        path: "recent",
+        component: ListRecipesComponent
+      },
+      {
+        path: "commented",
+        component: ListRecipesComponent
+      },
+      {
+        path: "commented-recently",
+        component: ListRecipesComponent
+      },
+      {
+        path: "highly-rated",
+        component: ListRecipesComponent
+      },
+      {
+        path: "most-rated",
+        component: ListRecipesComponent
+      },
+      {
+        path: "favourized",
+        component: ListRecipesComponent
+      },
+      {
+        path: "search/:phrase",
+        component: ListRecipesComponent
+      },
+      {
+        path: "user/:username",
+        component: ListRecipesComponent
+      },
+      {
+        path: "my-favourite",
+        component: ListRecipesComponent,
+        canActivate: [AuthorizedOnlyGuard]
+      },
+      {
+        path: "my-commented",
+        component: ListRecipesComponent,
+        canActivate: [AuthorizedOnlyGuard]
+      },
+      {
+        path: "details/:id",
+        component: RecipeDetailsComponent,
+        resolve: { data: RecipeDetailsResolver }
+      }, {
+        path: "add-new",
+        component: CreateRecipeComponent,
+        canActivate: [AuthorizedOnlyGuard]
+      },
+      {
+        path: "edit/:id",
+        component: EditRecipeComponent,
+        canActivate: [AuthorizedOnlyGuard],
+        resolve: { data: RecipeEditDataResolver }
+      },
+    ]
+  },
+  {
+    path: "ingredients",
+    component: ListIngredientsComponent,
+    children: [
+      {
+        path: "details/:id",
+        component: IngredientDetailsComponent,
+        outlet: "ing-outlet"
+      },
+      {
+        path: "test2/:id",
+        component: IngredientDetailsComponent,
+        outlet: "ing-outlet"
+      },
+    //   {
+    //     path: 'list/:param1/:param2',
+    //     component: TestOneComponent,
+    //     outlet: 'ing'
+    // }
+    ]
+  },
+
+  // {path:"",
+  // component:TestOneComponent,
+  // outlet:"ing"
+  // },
+
+
+
 ];
 
 @NgModule({

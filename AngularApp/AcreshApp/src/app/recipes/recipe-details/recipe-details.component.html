@@ -45,8 +45,8 @@
                     <h5>Ingredients: </h5> 
                     <table>
                         <tbody>
-                            <tr  class="ings" *ngFor="let ing of recipe.ingredients;index as i">
-                                <td><a href="#">{{ing.name}}</a></td>
+                            <tr  class="ings" *ngFor="let ing of recipe.ingredients;index as i">                           
+                                <td><a [routerLink]="['/ingredients',{outlets: {'ing-outlet':['details',ing.id]}}]">{{ing.name}}</a></td>
                                 <td>{{ing.ammount}}</td>
                                 <td>{{ing.isVegan?"Vegan":"Non-Vegan"}}</td>
                                 <td class="ing-info">

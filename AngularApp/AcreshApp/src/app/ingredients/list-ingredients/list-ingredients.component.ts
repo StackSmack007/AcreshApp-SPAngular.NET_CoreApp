@@ -4,6 +4,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { IIngredeintMatches } from 'src/app/core/interfaces/ingredients/IIngredeintMatches';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router, ɵangular_packages_router_router_a } from '@angular/router';
 
 @Component({
   selector: 'acr-list-ingredients',
@@ -22,12 +23,19 @@ export class ListIngredientsComponent {
   indexLetters: string[] = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
   filterForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private ingService: IngredientService,private spinner: NgxSpinnerService) {
+  ingrIdSelected = new BehaviorSubject<number>(0);
+
+  constructor(private fb: FormBuilder, private ingService: IngredientService, private spinner: NgxSpinnerService, router: Router) {
     this.buildForm();
     this.monitorForm();
+
+    this.ingrIdSelected.subscribe(id => {
+ 
+      console.log(id);
+       router.navigate(['/ingredients', { outlets: { 'ing-outlet': ['details', id]} }]);
+    })
   }
 
-  ingrIdSelected=new BehaviorSubject<number>(null);
 
   // selectedId: number=-1;
 
@@ -81,7 +89,7 @@ export class ListIngredientsComponent {
       .subscribe(r => {
         this.cards.essentials.cards.splice(this.cards.essentials.cards.length, 0, ...r);
         this.cards.essentials.loading = false;
-      }).add(()=>this.spinner.hide())
+      }).add(() => this.spinner.hide())
   }
 
   fetchNonEssentials() {
@@ -92,7 +100,7 @@ export class ListIngredientsComponent {
       .subscribe(r => {
         this.cards.nonEssentials.cards.splice(this.cards.nonEssentials.cards.length, 0, ...r);
         this.cards.nonEssentials.loading = false;
-      }).add(()=>this.spinner.hide())
+      }).add(() => this.spinner.hide())
   }
 
   onScrollEsts({ target }) {
@@ -104,7 +112,7 @@ export class ListIngredientsComponent {
   onScrollNonEsts({ target }) {
     if (!this.scrolSayLoad(target)) { return }
     console.log("sroll nonEss")
-      this.fetchNonEssentials();
+    this.fetchNonEssentials();
   }
 
   private scrolSayLoad = (target) => target.scrollHeight - (target.scrollTop + target.clientHeight) < 10
