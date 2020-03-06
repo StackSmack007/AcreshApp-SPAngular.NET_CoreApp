@@ -4,9 +4,9 @@ import { recipePaths } from '../settings/apiSettings';
 import { Observable } from 'rxjs';
 import { IRecipeMiniInfo } from '../interfaces/recipes/recipeMiniInfo';
 import { HelperService } from './helper.service';
-import { IRecipeCreate } from '../interfaces/IRecipeCreate';
-import { IRecipeEdit } from '../interfaces/IRecipeEdit';
 import { IRecipeDetails } from '../interfaces/recipes/RecipeDetails';
+import { IRecipeCreate } from '../interfaces/recipes/IRecipeCreate';
+import { IRecipeEdit } from '../interfaces/recipes/IRecipeEdit';
 
 @Injectable({
   providedIn: 'root'

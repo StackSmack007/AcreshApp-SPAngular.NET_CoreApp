@@ -30,9 +30,9 @@ export class IngredientDetailsComponent  {
   @Input()
   chosenIngrId: BehaviorSubject<number>
 
-  constructor(route: ActivatedRoute, private authService: AuthService, private ingService: IngredientService) {
+ constructor(route: ActivatedRoute, private authService: AuthService, private ingService: IngredientService) {
     route.params.subscribe(({ id }) => {
-      if (!id || isNaN(id)) return;
+      if (!id || isNaN(id)||+id===0) return;
       if (this.ingredient && this.ingredient.id === id) return;
       this.ingService.getIngredientDetails(+id).subscribe(det => this.ingredient = det)
     })

@@ -91,7 +91,8 @@
         </div>
                 <div class="actionBtns row justify-content-start">
                    <div class="col-9"></div>
-                    <div class="col-3"><a class="center btn btn-info"><i class="fas fa-plus-circle"></i> &nbsp; Create</a></div>
+                    <div class="col-3"><a class="center btn btn-info" [ngClass]="{'disabled':!isLoggedIn}" [routerLink]="['/ingredients',{outlets: {'ing-outlet':['create']}}]">
+                        <i class="fas fa-plus-circle"></i> &nbsp; Create</a></div>
                 </div>
         </div>
 

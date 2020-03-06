@@ -16,9 +16,8 @@ import { CreateRecipeComponent } from './recipes/create/create.component';
 import { RecipeEditDataResolver } from './core/respolvers/recipe-edit-data-resolver';
 import { EditRecipeComponent } from './recipes/edit/edit.component';
 import { ListIngredientsComponent } from './ingredients/list-ingredients/list-ingredients.component';
-import { TestOneComponent } from './ingredients/test-one/test-one.component';
-import { TestTwoComponent } from './ingredients/test-two/test-two.component';
 import { IngredientDetailsComponent } from './ingredients/ingredient-details/ingredient-details.component';
+import { CreateIngredientComponent } from './ingredients/create-ingredient/create-ingredient.component';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -121,6 +120,11 @@ const routes: Routes = [
       {
         path: "test2/:id",
         component: IngredientDetailsComponent,
+        outlet: "ing-outlet"
+      },
+      {
+        path: "create",
+        component: CreateIngredientComponent,
         outlet: "ing-outlet"
       },
     //   {

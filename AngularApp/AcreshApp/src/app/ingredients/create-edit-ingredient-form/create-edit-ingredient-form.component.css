@@ -1,0 +1,16 @@
+div.media{
+    height: 18em;
+}
+
+div.media>img{
+    border-radius: 2em;
+    height: 15.2em;
+    width: auto;
+    max-width: 92%;
+    position: absolute;
+    top: 2.2em;
+    bottom:0    
+}
+div.desc{
+    height: 18em;
+}

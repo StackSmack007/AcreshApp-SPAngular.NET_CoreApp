@@ -1,4 +1,5 @@
-import { IIngredientCreate } from './categories/IIngredientCreate';
+import { IIngredientCreate } from '../categories/IIngredientCreate';
+
 export interface IRecipeEdit {
     id: string;
     name: string;

@@ -5,13 +5,14 @@ import { IIngredientMini } from 'src/app/core/interfaces/categories/IIngredientM
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { ICategoryMini } from 'src/app/core/interfaces/categories/ICategoryMini';
 import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
-import { IRecipeCreate, IRecipeEdit } from 'src/app/core/interfaces/IRecipeCreate';
 import { HelperService } from 'src/app/core/services/helper.service';
 import { takenValueValidator } from 'src/app/core/validators/takenName';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
+import { IRecipeEdit } from 'src/app/core/interfaces/recipes/IRecipeEdit';
+import { IRecipeCreate } from 'src/app/core/interfaces/recipes/IRecipeCreate';
 
 
 @Component({

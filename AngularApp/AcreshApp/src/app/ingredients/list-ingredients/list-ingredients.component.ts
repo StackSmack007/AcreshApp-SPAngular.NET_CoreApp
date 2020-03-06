@@ -4,7 +4,8 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { IIngredeintMatches } from 'src/app/core/interfaces/ingredients/IIngredeintMatches';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router, ɵangular_packages_router_router_a } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'acr-list-ingredients',
@@ -17,7 +18,7 @@ export class ListIngredientsComponent {
     essentials: { page: 1, cards: [], loading: false },
     nonEssentials: { page: 1, cards: [], loading: false }
   }
-
+  get isLoggedIn() { return this.authService.isAuthenticated(); }
 
   resultsFd: IIngredeintMatches = { essentials: 0, nonEssentials: 0, pageCappacity: 0 }
   indexLetters: string[] = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
@@ -25,14 +26,14 @@ export class ListIngredientsComponent {
 
   ingrIdSelected = new BehaviorSubject<number>(0);
 
-  constructor(private fb: FormBuilder, private ingService: IngredientService, private spinner: NgxSpinnerService, router: Router) {
+  constructor(private fb: FormBuilder, private ingService: IngredientService, private spinner: NgxSpinnerService, router: Router, private authService: AuthService) {
     this.buildForm();
     this.monitorForm();
 
     this.ingrIdSelected.subscribe(id => {
- 
+
       console.log(id);
-       router.navigate(['/ingredients', { outlets: { 'ing-outlet': ['details', id]} }]);
+      router.navigate(['/ingredients', { outlets: { 'ing-outlet': ['details', id] } }]);
     })
   }
 

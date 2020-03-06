@@ -1,10 +1,10 @@
+import { Subscription } from 'rxjs';
 import { Component, OnDestroy } from '@angular/core';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { IRecipeCreate } from 'src/app/core/interfaces/IRecipeCreate';
-import { Subscription } from 'rxjs';
+import { IRecipeCreate } from 'src/app/core/interfaces/recipes/IRecipeCreate';
 
 @Component({
   selector: 'acr-create-rec',

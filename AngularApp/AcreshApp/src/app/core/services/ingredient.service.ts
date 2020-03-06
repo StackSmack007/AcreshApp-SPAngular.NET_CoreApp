@@ -17,7 +17,7 @@ export class IngredientService {
     getAllMini(): Observable<IIngredientMini[]> {
         return this.http.get<IIngredientMini[]>(ignredientPaths.getAllMini);
     }П
-
+    
     getRecipeIngredients(recipeId: string): Observable<IRecipeIngredient[]> {
         return this.http.get<IRecipeIngredient[]>(ignredientPaths.getRecipeIngredients(recipeId));
     }
@@ -30,6 +30,12 @@ export class IngredientService {
         return this.http.get<IIngredeintMatches>(ignredientPaths.getCardsTotalCount(index, phrase))
     }
 
+    nameTaken(name:string):Observable<boolean> {
+//TODO implement in api...
+
+        return this.http.get<boolean>(ignredientPaths.chkNameTaken(name))
+    }
+    
     getEssentialIngCards(page: number, index: string, phrase: string): Observable<IIngredientCard[]> { return this.getCards(page, index, phrase, true) }
     getNonEssentialIngsCards(page: number, index: string, phrase: string): Observable<IIngredientCard[]> { return this.getCards(page, index, phrase) }
     private getCards(page: number, index: string, phrase: string, essential: boolean = false): Observable<IIngredientCard[]> {

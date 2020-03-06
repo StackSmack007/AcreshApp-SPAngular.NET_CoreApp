@@ -5,14 +5,13 @@ import { CreateIngredientComponent } from './create-ingredient/create-ingredient
 import { IngredientCartComponent } from './ingredient-card/ingredient-card.component';
 import { CoreModule } from '../core/core.module';
 import { IngredientDetailsComponent } from './ingredient-details/ingredient-details.component';
-import { TestOneComponent } from './test-one/test-one.component';
-import { TestTwoComponent } from './test-two/test-two.component';
+import { CreateEditIngredientFormComponent } from './create-edit-ingredient-form/create-edit-ingredient-form.component';
 
 @NgModule({
-  declarations: [ListIngredientsComponent, CreateIngredientComponent, IngredientCartComponent, IngredientDetailsComponent, TestOneComponent, TestTwoComponent],
+  declarations: [ListIngredientsComponent, CreateIngredientComponent, IngredientCartComponent, IngredientDetailsComponent, CreateEditIngredientFormComponent],
   imports: [
     CommonModule,CoreModule
   ],
-  exports: [ListIngredientsComponent,TestOneComponent,TestTwoComponent,IngredientDetailsComponent]
+  exports: [ListIngredientsComponent,IngredientDetailsComponent,CreateIngredientComponent]
 })
 export class IngredientsModule { }

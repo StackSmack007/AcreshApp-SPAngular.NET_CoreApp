@@ -3,10 +3,11 @@ import { Component, ViewChild } from '@angular/core';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IRecipeEdit } from 'src/app/core/interfaces/IRecipeCreate';
+
 import { SignalRRecipeDetailsService } from 'src/app/core/services/signal-r.recipe-details.service';
 import { CreateEditFormComponent } from '../create-edit-form/create-edit-form.component';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
+import { IRecipeEdit } from 'src/app/core/interfaces/recipes/IRecipeEdit';
 
 
 const isSame = (el1, el2) => JSON.stringify(el1) === JSON.stringify(el2);
