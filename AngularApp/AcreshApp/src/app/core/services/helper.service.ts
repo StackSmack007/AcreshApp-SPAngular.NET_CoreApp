@@ -58,7 +58,7 @@ export class HelperService {
   //   })
   //   return result;
   // }
-  public static timeElapsed(time: number, months = false):string {
+  public static timeElapsed(time: number, months = false): string {
     const timeDifference = Date.now() / 1000 - time; // Unix timestamp in milliseconds
     const hr = 3600;
     if (timeDifference < hr) return `${Math.floor((timeDifference) / 60)} mins ago`
@@ -82,6 +82,16 @@ export class HelperService {
       } else {
         result[key] = value;
       }
+    })
+    return result;
+  }
+
+  public static compareObjects = (obj1, obj2) => {
+    if(!obj1||!obj2) return false;
+    let result = true;
+    Object.entries(obj1).forEach(([key, value]) => {
+      if (value.toString() === obj2[key].toString()) { return; }
+      if (JSON.stringify(value) !== JSON.stringify(obj2[key])) { result = false; }
     })
     return result;
   }

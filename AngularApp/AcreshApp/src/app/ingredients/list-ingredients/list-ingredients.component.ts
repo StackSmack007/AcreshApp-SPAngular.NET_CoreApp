@@ -26,17 +26,13 @@ export class ListIngredientsComponent {
 
   ingrIdSelected = new BehaviorSubject<number>(0);
 
-  constructor(private route:ActivatedRoute,private fb: FormBuilder, private ingService: IngredientService, private spinner: NgxSpinnerService, router: Router, private authService: AuthService) {
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private ingService: IngredientService, private spinner: NgxSpinnerService, router: Router, private authService: AuthService) {
     this.buildForm();
     this.monitorForm();
 
-    this.ingrIdSelected.subscribe(id => {
-
-      console.log(id);
-      router.navigate(['/ingredients', { outlets: { 'ing-outlet': ['details', id] } }]);
-    })
+    this.ingrIdSelected.subscribe(id =>
+      router.navigate(['/ingredients', { outlets: { 'ing-outlet': ['details', id] } }]))
   }
-
 
   // selectedId: number=-1;
 
@@ -118,9 +114,9 @@ export class ListIngredientsComponent {
 
   private scrolSayLoad = (target) => target.scrollHeight - (target.scrollTop + target.clientHeight) < 10
 
-  isOnCreatePage(){
-    const urlChilds=this.route.snapshot.children;
-    return urlChilds.length>0&& urlChilds[0].url[0]["path"].toLowerCase()==="create"
+  isOnCreatePage() {
+    const urlChilds = this.route.snapshot.children;
+    return urlChilds.length > 0 && ["create","edit"].includes(urlChilds[0].url[0]["path"].toLowerCase())
   }
 
 }

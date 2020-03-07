@@ -18,3 +18,7 @@ div.desc{
 div.row.fields {
     height: 28.3em;
 }
+
+button.action-btn {
+    z-index: 2;
+}

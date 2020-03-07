@@ -1,6 +1,6 @@
 <div class="container-fluid px-2">
     <h3 class="text-center">{{settings.headline}}</h3>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
     <div class="row justify-content-between fields">
         <div class="col-5 pl-2">
                 <div class="form-group ">
@@ -11,35 +11,42 @@
                         <div class="invalid-feedback" *ngIf="invalidTouchedCtrl('name')"
                             [innerText]="getErr('name','required')?'Please provide Ingredient Name!':
                                                        getErr('name','minlength')?'Please provide name with length atleast '+getErr('name','minlength')['requiredLength']+' symbols long!':
+                                                       getErr('name','maxlength')?'Please provide name with length shorter than '+getErr('name','maxlength')['requiredLength']+' symbols long!':
                                                        getErr('name','valueTaken')?'The name ' + getErr('name','valueTaken') + ' is already in use!':
                                                        getErr('name','pattern')?'Please provide name consisting of one word, or two words with 1 space between them':'unknown-Error'">
                         </div>
                     </div>
                 </div>
-
+                
+                <!-- <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input mr-2 text-success" id="isVegan" [checked]="form.get('origin').value!='3'" readonly>
+                        <label class="custom-control-label h5" [ngClass]="{'text-success':form.get('origin').value!='3'}">Vegan Compatible</label>
+                    </div>
+                </div> -->
                 <div class="form-group">
                     <div class="custom-control custom-switch">
-                        <input formControlName="isVegan" type="checkbox" class="custom-control-input mr-2 text-success" id="isVegan" checked>
-                        <label class="custom-control-label h5" for="isVegan" [ngClass]="{'text-success':getCtrl('isVegan').value===true}">Vegan Compatible</label>
+                        <input formControlName="isEssential" type="checkbox" class="custom-control-input mr-2 text-success" id="isEssential">
+                        <label class="custom-control-label h5" for="isEssential" [ngClass]="{'text-success':form.get('isEssential').value}">{{form.get('isEssential').value?'Primary':'Additional'}} Ingredient</label>
                     </div>
-                </div>
-
+                </div>                
+                
                 <legend class="h5">Measure Units Type*:</legend>
                 <div class="form-check pb-2 pl-4" *ngFor="let type of measureTypes">
                     <label class="form-check-label" >
                         <input type="radio" name="measureType" class="form-check-input" formControlName="measureType"
-                            [value]="type[0]"> {{type[1]}}
+                        [value]="type[0]"> {{type[1]}}
                     </label>
                 </div>
-
+                
                 <legend class="h5">Origin Types*:</legend>
                 <div class="form-check pb-2 pl-4" *ngFor="let type of originTypes">
                     <label class="form-check-label" >
                         <input type="radio" name="origin" class="form-check-input" formControlName="origin"
-                            [value]="type[0]"> {{type[1]}}
+                        [value]="type[0]"> {{type[1]}}
                     </label>
                 </div>
-
+                
                 <div class="form-group ">
                     <div class="form-group has-danger has-success">
                         <label class="form-control-label h5" for="name"> Picture Url*:</label>
@@ -48,12 +55,18 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input mr-2 text-success" id="isVegan" [checked]="form.get('origin').value!='3'" readonly>
+                        <label class="custom-control-label h5" [ngClass]="{'text-success':form.get('origin').value!='3'}">{{form.get('origin').value!=3?'':'Non'}} Vegan Compatible</label>
+                    </div>
+                </div>
                
             </div>
             <div class="col-7">
                 <div class="media">
                    <h5> Ingredient Picture</h5>
-                      <!-- <img src="https://tinyjpg.com/images/social/website.jpg" alt=""> -->
                    <img @showHide *ngIf="picUrl" [src]="picUrl" alt="ingredient main picture">  
                 </div>
                 <div class="desc">
@@ -72,9 +85,9 @@
                 </div>  
             </div>
         </div>
+        <!-- {{form.value|json}} -->
         <div class="row justify-content-end px-3">
-                <button type="submit" class="center btn btn-success" [disabled]="form.invalid" > 
-                    <i class="fas fa-plus-circle"></i> &nbsp; Create</button>
+                <button type="submit" class="center btn btn-success action-btn" [disabled]="btnDisabled" [innerHTML]="settings.submitBtnTitle| htmlRaw"> </button>
         </div>
     </form>
 </div>

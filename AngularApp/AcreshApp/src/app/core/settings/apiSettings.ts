@@ -82,7 +82,8 @@ export const ignredientPaths: IIgnredientPaths = {
     chkNameTaken: (name) => basePath + `ingredients/name-used?name=${name}`,
     getRecipeIngredients: (id) => basePath + `ingredients/recipe?id=${id}`,
     getCardsTotalCount:(index,phrase)=>basePath + `ingredients/cards-count?index=${index}&phrase=${phrase}`,
-    getCards: (page,index,phrase,essential) => basePath + `ingredients/cards?page=${page}&index=${index}&phrase=${phrase}&essential=${essential}`
+    getCards: (page,index,phrase,essential) => basePath + `ingredients/cards?page=${page}&index=${index}&phrase=${phrase}&essential=${essential}`,
+    edit: (id) => basePath + `ingredients/edit?id=${id}`,
 }
 
 export interface IIgnredientPaths {
@@ -92,7 +93,8 @@ export interface IIgnredientPaths {
     chkNameTaken: (name: string) => string,
     getRecipeIngredients: (id: string) => string,
     getCardsTotalCount:(index:string,phrase:string)=>string,
-    getCards: (page:number,index:string,phrase:string,essential:boolean) => string
+    getCards: (page:number,index:string,phrase:string,essential:boolean) => string,
+    edit: (id: number) => string,
 }
 
 export const commentsPaths: ICommentPaths = {

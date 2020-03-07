@@ -4,20 +4,22 @@ import { RegisterComponent } from './auth/register/register.component';
 import { MainComponent } from './shared/components/main/main.component';
 import { LoginComponent } from './auth/login/login.component';
 import { ProfileInfoComponent } from './auth/profile-info/profile-info.component';
-import { UserDataResolver } from './core/respolvers/user-data.resolver';
+import { UserDataResolver } from './core/resolvers/user-data.resolver';
 import { ProfileEditComponent } from './auth/profile-edit/profile-edit.component';
-import { UserDataProfileEditResolver } from './core/respolvers/user-data-profile-edit.resolver';
+import { UserDataProfileEditResolver } from './core/resolvers/user-data-profile-edit.resolver';
 import { ListAllComponent } from './messages/list-all/list-all.component';
 import { AuthorizedOnlyGuard } from './core/guards/authorized.only';
 import { ListRecipesComponent } from './recipes/list-recipes/list-recipes.component';
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
-import { RecipeDetailsResolver } from './core/respolvers/recipe-details-resolver';
+import { RecipeDetailsResolver } from './core/resolvers/recipe-details-resolver';
 import { CreateRecipeComponent } from './recipes/create/create.component';
-import { RecipeEditDataResolver } from './core/respolvers/recipe-edit-data-resolver';
+import { RecipeEditDataResolver } from './core/resolvers/recipe-edit-data-resolver';
 import { EditRecipeComponent } from './recipes/edit/edit.component';
 import { ListIngredientsComponent } from './ingredients/list-ingredients/list-ingredients.component';
 import { IngredientDetailsComponent } from './ingredients/ingredient-details/ingredient-details.component';
 import { CreateIngredientComponent } from './ingredients/create-ingredient/create-ingredient.component';
+import { EditIngredientComponent } from './ingredients/edit-ingredient/edit-ingredient.component';
+import { IngredientEditResolver } from './core/resolvers/ingredient-edit-data-resolver';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -118,20 +120,28 @@ const routes: Routes = [
         outlet: "ing-outlet"
       },
       {
-        path: "test2/:id",
-        component: IngredientDetailsComponent,
+        path: "edit/:id",
+        component: EditIngredientComponent,
+        canActivate: [AuthorizedOnlyGuard],
+        resolve: { data: IngredientEditResolver },
         outlet: "ing-outlet"
       },
       {
         path: "create",
         component: CreateIngredientComponent,
+        canActivate: [AuthorizedOnlyGuard],
         outlet: "ing-outlet"
       },
-    //   {
-    //     path: 'list/:param1/:param2',
-    //     component: TestOneComponent,
-    //     outlet: 'ing'
-    // }
+      // {
+      //   path: "*",
+      //   redirectTo: "details/0",
+      //   outlet: "ing-outlet"
+      // },
+      //   {
+      //     path: 'list/:param1/:param2',
+      //     component: TestOneComponent,
+      //     outlet: 'ing'
+      // }
     ]
   },
 

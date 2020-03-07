@@ -1,19 +1,18 @@
 import { Observable, Subscription } from 'rxjs';
 import { Component, OnDestroy, DoCheck, Input, Output, EventEmitter } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { IIngredientMini } from 'src/app/core/interfaces/categories/IIngredientMini';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
-import { ICategoryMini } from 'src/app/core/interfaces/categories/ICategoryMini';
-import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
-import { HelperService } from 'src/app/core/services/helper.service';
-import { takenValueValidator } from 'src/app/core/validators/takenName';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { HelperService } from 'src/app/core/services/helper.service';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { CategoryService } from 'src/app/core/services/category.service';
-import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { IRecipeEdit } from 'src/app/core/interfaces/recipes/IRecipeEdit';
+import { IngredientService } from 'src/app/core/services/ingredient.service';
+import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
 import { IRecipeCreate } from 'src/app/core/interfaces/recipes/IRecipeCreate';
-
+import { ICategoryOption } from 'src/app/core/interfaces/categories/ICategoryOption';
+import { takenNameValidatorAsync } from "src/app/core/validators/takenNameValidatorAsync";
+import { IIngredientOption } from 'src/app/core/interfaces/ingredients/IIngredientOption';
 
 @Component({
   selector: 'acr-create-edit-form',
@@ -32,13 +31,12 @@ import { IRecipeCreate } from 'src/app/core/interfaces/recipes/IRecipeCreate';
 })
 export class CreateEditFormComponent implements OnDestroy, DoCheck {
   subscriptions: Subscription[] = [];
-  categorie$: Observable<ICategoryMini[]> = null; //[{ name: "no category", id: -1 }, { name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
-  private takenRecipeNames: string[] = ["taken"];
-  public ingredients: IIngredientMini[] = null// [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
+  categorie$: Observable<ICategoryOption[]> = null; //[{ name: "no category", id: -1 }, { name: "cat1111111111111111", id: 1 }, { name: "cat2", id: 2 }, { name: "cat3", id: 3 }]
+  public ingredients: IIngredientOption[] = null// [{ id: 1, name: "salati" }, { id: 2, name: "torshii" }];
   form: FormGroup
 
-  get btnDisabled() {
-    return this.form.pristine || this.form.invalid;
+  get btnDisabled() {   
+    return this.form.pristine || this.form.invalid || HelperService.compareObjects(this._recipe,this.form.value);
   }
 
   private _recipe: IRecipeEdit = null;
@@ -48,8 +46,10 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
   @Input()
   set recipe(value: IRecipeEdit) {
     this._recipe = value;
+    this.namesAllowed.push(value.name);
     this.loadData(value)
   }
+  private namesAllowed: string[] = [];
 
   @Output()
   SubmitEvent: EventEmitter<IRecipeCreate> = new EventEmitter<IRecipeCreate>();
@@ -155,7 +155,8 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
   buildForm() {
     this.form = this.fb.group({
       id: "",
-      name: ["", { validators: [Validators.required, Validators.minLength(4), takenValueValidator(this.takenRecipeNames), Validators.pattern("[a-zA-Z ]+")], updateOn: "blur" }],
+      authorId: this.authService.getUserInfo().id,
+      name: ["", { validators: [Validators.required, Validators.minLength(4), takenNameValidatorAsync(this.recipeService.nameTaken.bind(this.recipeService), this.namesAllowed), Validators.pattern("[a-zA-Z ]+")], updateOn: "blur" }],
       categoryId: ["-1", [Validators.min(1), Validators.required], []],
       description: ["", [Validators.required, Validators.minLength(100), Validators.maxLength(25600)], []],
       mainPicture: ["", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")], []],
@@ -167,21 +168,6 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
     },  // { updateOn: "blur" }
     )
     this.setFormArrs();
-
-    this.subscriptions.push(this.getCtrl('name').valueChanges.subscribe(v => {
-      if (this.getCtrl('name').invalid || (this._recipe && v.toLowerCase() === this._recipe.name.toLowerCase())) { return; }
-      if (!this.takenRecipeNames.includes(v) && this.takenRecipeNames.some(x => x.toLowerCase() === v.toLowerCase())) {
-        this.takenRecipeNames.push(v);
-        return this.getCtrl('name').updateValueAndValidity();
-      }
-
-      this.subscriptions.push(this.recipeService.nameTaken(v).subscribe((answ: boolean) => {
-        if (answ) {
-          this.takenRecipeNames.push(v);
-          return this.getCtrl('name').updateValueAndValidity();
-        }
-      }))
-    }))
   }
 
   ngDoCheck() {
@@ -192,6 +178,7 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
       this.form.setErrors({ "noIngredient": false })
     }
   }
+
 
   submitRecipe() {
     if (this.form.invalid || this.form.pristine) return;

@@ -1,7 +1,8 @@
-import { IIngredientCreate } from '../categories/IIngredientCreate';
+import { IRecipeIngredientAmmount } from './IRecipeIngredientAmmount';
 
 export interface IRecipeCreate {
     name: string;
+    authorId: string;
     categoryId: number;
     mainPicture: string;
     description: string;
@@ -9,7 +10,7 @@ export interface IRecipeCreate {
     videoLink: string;
     difficulty: number;
     tags: string[];
-    ingredients: IIngredientCreate[];
+    ingredients: IRecipeIngredientAmmount[];
 }
 
 

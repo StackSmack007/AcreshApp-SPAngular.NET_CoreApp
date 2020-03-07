@@ -39,7 +39,7 @@ namespace Infrastructure.Models
         [ForeignKey(nameof(AuthorId))]
         public virtual AcUser Author { get; set; }
 
-        [Required, MaxLength(128)]
+        [Required, MaxLength(32)]
         public string Name { get; set; }
 
 

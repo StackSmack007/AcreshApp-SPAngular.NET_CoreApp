@@ -92,10 +92,11 @@ namespace ACRESH_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Post(RecipeCreateDTOin recipe)
+        public async Task<ActionResult<string>> Create(RecipeCreateDTOin recipe)
         {
-            Recipe newRecipe = await this.recipeService.RegisterAsync(recipe, this.UserId);
-            if (newRecipe is null) return BadRequest();
+            if (this.UserId != recipe.AuthorId) return BadRequest("UserId and AuthorId missmatch!");
+            Recipe newRecipe = await this.recipeService.CreateAsync(recipe);
+            if (newRecipe is null) return BadRequest("Recipe was not created!");
             return newRecipe.Id;
         }
 

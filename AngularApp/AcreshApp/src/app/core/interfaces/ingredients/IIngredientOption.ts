@@ -1,4 +1,4 @@
-export interface IIngredientMini {
+export interface IIngredientOption {
     name: string;
     id: number;
 }

@@ -8,6 +8,8 @@ using DataTransferObjects.Ingredients;
 using DataTransferObjects.Recipes.Details;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System;
+using AutoMapper;
 
 namespace Acresh.Services.Services
 {
@@ -15,19 +17,19 @@ namespace Acresh.Services.Services
     {
         private readonly IRepository<Ingredient> ingRepo;
         private readonly IRepository<RecipeIngredient> ingRecipeRepo;
+        private readonly IMapper mapper;
 
-        public IngredientService(IRepository<Ingredient> ingRepo, IRepository<RecipeIngredient> ingRecipeRepo)
+        public IngredientService(IRepository<Ingredient> ingRepo, IRepository<RecipeIngredient> ingRecipeRepo, IMapper mapper)
         {
             this.ingRepo = ingRepo;
             this.ingRecipeRepo = ingRecipeRepo;
+            this.mapper = mapper;
         }
 
         public async Task<ICollection<IngredientOptionDTOout>> GetAllIngridientsMini() => await this.ingRepo.All().To<IngredientOptionDTOout>().ToArrayAsync();
 
-
         public IQueryable<IngredientRecipeDetailsDTOout> GetRecipeIngridients(string id) =>
             ingRecipeRepo.All().Where(x => x.RecipeId == id && !x.IsDeleted).To<IngredientRecipeDetailsDTOout>();
-
 
         public async Task<IngredientCountsDTOout> GetCardsCountAsync(string index, string phrase, int pageCappacity) =>
              new IngredientCountsDTOout
@@ -57,6 +59,31 @@ namespace Acresh.Services.Services
         {
             var result = await this.ingRepo.All().Where(x => x.Id == id).To<IngredientDetailsDTOout>().FirstOrDefaultAsync();
             return result;
+        }
+
+        public async Task<bool> IsNameUsedAsync(string name) => await ingRepo.All().AnyAsync(x => !x.IsDeleted && x.Name.ToLower() == name.ToLower());
+
+        public async Task<Ingredient> CreateAsync(IngredientCreateDTOin input)
+        {
+            try
+            {
+                Ingredient ing = this.mapper.Map<Ingredient>(input);
+
+                await this.ingRepo.AddAssync(ing);
+                await this.ingRepo.SaveChangesAsync();
+                return ing;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IngredientEditDTOout> GetIngredientEditDataAsync(int id)
+        {
+            var ingFd =await this.ingRepo.All().FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
+            if (ingFd is null) return null;
+            return this.mapper.Map<IngredientEditDTOout>(ingFd);
         }
 
         //public IQueryable<IngredientRecipeDetailsDTOout> GetRecipeIngridients(string id) => ingRecipeRepo.All().Where(x => x.RecipeId == id && !x.IsDeleted).To<IngredientRecipeDetailsDTOout>();

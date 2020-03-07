@@ -119,19 +119,12 @@ namespace Acresh.Services.Services
 
         public async Task<bool> IsNameUsed(string name) => await this.recipeRepo.All().AnyAsync(x => x.Name.ToLower() == name.ToLower());
 
-        public async Task<Recipe> RegisterAsync(RecipeCreateDTOin rec, string authorId)
+        public async Task<Recipe> CreateAsync(RecipeCreateDTOin rec)
         {
-            try
-            {
-                var result = await MakeRecipe(rec, authorId);
+                var result = await MakeRecipe(rec);
                 await this.recipeRepo.AddAssync(result);
                 await this.recipeRepo.SaveChangesAsync();
                 return result;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
         }
 
 
@@ -183,7 +176,7 @@ namespace Acresh.Services.Services
             if (recipeFd is null) throw new NullReferenceException("Recipe not found!");
             if (recipeFd.AuthorId != userId && !isAdmin) throw new InvalidOperationException("Not allowed to get edit info!");
 
-            var editedRecipe = await MakeRecipe(recipe, userId);
+            var editedRecipe = await MakeRecipe(recipe);
 
             recipeFd.RecipeIngredients.Clear();
             recipeFd.Pictures.Clear();
@@ -204,11 +197,11 @@ namespace Acresh.Services.Services
             await this.recipeRepo.SaveChangesAsync();
             return recipeFd;
         }
-        private async Task<Recipe> MakeRecipe(RecipeCreateDTOin rec, string authorId)
+        private async Task<Recipe> MakeRecipe(RecipeCreateDTOin rec)
         {
             var tagsU = rec.Tags.Select(x => x.ToUpper());
             var result = mapper.Map<Recipe>(rec);
-            result.AuthorId = authorId;
+         
             var dbTags = await this.tagRepo.All().Where(x => tagsU.Contains(x.NormalizedName)).Select(x => new { x.Id, x.NormalizedName }).ToArrayAsync();
             foreach (string tag in rec.Tags)
             {

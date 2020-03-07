@@ -7,6 +7,7 @@ namespace DataTransferObjects.Recipes.Details
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string AuthorId { get; set; }
         public string Description { get; set; }
         public ICollection<string> Pictures { get; set; }
         public string VideoLink { get; set; }
@@ -15,5 +16,5 @@ namespace DataTransferObjects.Recipes.Details
         public ICollection<RecipeIngredientDTOin> Ingredients { get; set; }
         public int CategoryId { get; set; }
         public RecipeDifficulty Difficulty { get; set; }
-            }
+    }
 }

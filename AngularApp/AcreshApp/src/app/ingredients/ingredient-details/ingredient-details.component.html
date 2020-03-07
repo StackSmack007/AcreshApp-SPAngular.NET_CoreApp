@@ -45,12 +45,12 @@
             <p>{{ingredient.description}}</p>
         </div>
     </section>
-    <div class="actionBtns row justify-content-between pb-3">
-        <div class="col-3 text-right"><a class="center btn btn-danger" *ngIf="isDeleteAuthorised">
+    <div class="actionBtns row justify-content-between">
+        <div class="col-3 text-center"><a class="center btn btn-danger" *ngIf="isDeleteAuthorised">
             <i class="far fa-trash-alt"></i> &nbsp; Delete</a>
         </div>
         <div class="col-6"></div>
-        <div class="col-3 text-right pl-1"><a class="center btn btn-primary" *ngIf="isEditAuthorised">
+        <div class="col-3 text-center pl-1"><a class="center btn btn-primary" *ngIf="isEditAuthorised"  [routerLink]="['/ingredients',{outlets: {'ing-outlet':['edit',ingredient.id]}}]">
             <i class="fas fa-edit"></i> &nbsp; Edit</a>
         </div>
     </div>

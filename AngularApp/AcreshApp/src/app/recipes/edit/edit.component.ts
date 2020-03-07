@@ -51,7 +51,6 @@ export class EditRecipeComponent {
         tags: value.tags,
       }
       
-      debugger;
       if (isSame(value.ingredients, this.recipe.ingredients) && Number(value.categoryId) === this.recipe.categoryId) {
         console.log("bez call!");  this.sendSignalRData(patchValueForSignalR); //If ingredients and category is no need to API call...
       } else {

@@ -89,10 +89,10 @@
             </div>
         </div>
                 <div class="actionBtns"> 
-                        <a class="center btn btn-info" [ngClass]="{'disabled':!isLoggedIn}" [routerLink]="['/ingredients',{outlets: {'ing-outlet':['create']}}]" *ngIf="!isOnCreatePage()" > 
+                        <a class="center btn btn-info" [ngClass]="{'disabled':!isLoggedIn}" [routerLink]="['/ingredients',{outlets: {'ing-outlet':['create']}}]" *ngIf="!isOnCreatePage()"> 
                         <i class="fas fa-plus-circle"></i> &nbsp; Add</a>
-                         <a class="center btn btn-danger" [ngClass]="{'disabled':!isLoggedIn}" [routerLink]="['/ingredients',{outlets: {'ing-outlet':['details',0]}}]" *ngIf="isOnCreatePage()" > 
-                            <i class="fas fa-ban"></i> &nbsp; Abort!</a>
+                        <a class="center btn btn-danger" [ngClass]="{'disabled':!isLoggedIn}" [routerLink]="['/ingredients',{outlets: {'ing-outlet':['details',0]}}]" *ngIf="isOnCreatePage()"> 
+                        <i class="fas fa-ban"></i> &nbsp; Abort!</a>
         </div>
 
     </div>

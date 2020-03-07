@@ -1,11 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { takenValueValidator } from 'src/app/core/validators/takenName';
 import { Subscription } from 'rxjs';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { MeasureTypes } from 'src/app/core/enumerations/MeasureTypes';
 import { OriginTypes } from 'src/app/core/enumerations/OriginTypes';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { takenNameValidatorAsync } from 'src/app/core/validators/takenNameValidatorAsync';
+import { IIngredientCreate } from 'src/app/core/interfaces/ingredients/IIngredientCreate';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { HelperService } from 'src/app/core/services/helper.service';
 
 @Component({
   selector: 'acr-create-edit-ingredient-form',
@@ -18,25 +21,31 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ])
   ]
 })
-export class CreateEditIngredientFormComponent implements OnInit {
+export class CreateEditIngredientFormComponent implements OnDestroy {
 
-  private _ingredient = null;
+  @Output()
+  btnClickEvent: EventEmitter<IIngredientCreate> = new EventEmitter<IIngredientCreate>();
+
+  get btnDisabled() {   
+    return this.form.pristine || this.form.invalid || HelperService.compareObjects(this._ingredient,this.form.value);
+  }
 
   @Input()
   settings: { headline: string, submitBtnTitle: string };
 
+  private _ingredient: IIngredientCreate = null;
+
   @Input()
-  set recipe(value) {
+  set ingredient(value: IIngredientCreate) {   
     this._ingredient = value;
+    this.namesAllowed.push(value.name);
     this.form.patchValue(value);
   }
-
+  private namesAllowed: string[] = [];
   subscriptions: Subscription[] = [];
 
-  takenNames: string[] = ["taken"];
-
   form: FormGroup;
-  constructor(private fb: FormBuilder, private ingService: IngredientService) {
+  constructor(private fb: FormBuilder, private ingService: IngredientService,private authService:AuthService) {
     this.buildForm();
   }
 
@@ -63,48 +72,37 @@ export class CreateEditIngredientFormComponent implements OnInit {
   }
 
   measureTypes = Object.entries(MeasureTypes).filter((_, index, arr) => index < arr.length / 2);
-  originTypes = Object.entries(OriginTypes).filter((_, index, arr) => index < arr.length / 2);
-
+  originTypes = (Object.entries(OriginTypes).filter((_, index, arr) => index < arr.length / 2)).sort((a, b) => {
+    const length1 = (a[1] as string).length;
+    const length2 = (b[1] as string).length;
+    return length1 - length2
+  });
+  
   picUrl = null;
-
-  ngOnInit(): void {
-  }
-
   buildForm() {
     this.form = this.fb.group({
-      name: ["", { validators: [Validators.required, takenValueValidator(this.takenNames), Validators.minLength(4), Validators.pattern('[a-zA-Z]+(\\s[a-zA-Z]{2,})?')], updateOn: "blur" }],
-      isVegan: [false, [Validators.required]],
+      authorId: this.authService.getUserInfo().id,
+      name: ["", { validators: [Validators.required, takenNameValidatorAsync(this.ingService.nameTaken.bind(this.ingService),this.namesAllowed), Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+(\\s[a-zA-Z]{2,})?')], updateOn: "blur" }],
+      isEssential: [false, [Validators.required]],
       measureType: ["1", [Validators.required]],
       origin: ["1", [Validators.required]],
       picUrl: ["", [Validators.required]],
-      description: ["", [Validators.required, Validators.minLength(30), Validators.maxLength(10240)]],
+      description: ["", [Validators.required, Validators.minLength(32), Validators.maxLength(10240)]],
     })
+
     const pic = this.form.get('picUrl');
     pic.valueChanges.subscribe(v => {
-     console.log("proba");
       if (pic.invalid) return;
-      console.log("deistvam");
       this.picUrl = null;
-      // this.picUrl=v;
-      setTimeout(()=>{this.picUrl = v;
-      console.log("da")},2000)      
+      setTimeout(() => this.picUrl = v, 2000)
     })
+  }
 
+  submitForm() {
+    if (this.form.valid) { this.btnClickEvent.emit(this.form.value) }
+  }
 
-    this.subscriptions.push(this.getCtrl('name').valueChanges.subscribe(v => {
-      if (this.getCtrl('name').invalid || (this._ingredient && v.toLowerCase() === this._ingredient.name.toLowerCase())) { return; }
-      if (!this.takenNames.includes(v) && this.takenNames.some(x => x.toLowerCase() === v.toLowerCase())) {
-        this.takenNames.push(v);
-        return this.getCtrl('name').updateValueAndValidity();
-      }
-      return this.getCtrl('name').updateValueAndValidity();//ToDo Remove after implementing api name check!
-      this.subscriptions.push(this.ingService.nameTaken(v).subscribe((answ: boolean) => {
-        if (answ) {
-          this.takenNames.push(v);
-          return this.getCtrl('name').updateValueAndValidity();
-        }
-      }))
-    }))
-
+  ngOnDestroy(): void {
+    this.subscriptions.filter(x => !x.closed).forEach(x => x.unsubscribe());
   }
 }

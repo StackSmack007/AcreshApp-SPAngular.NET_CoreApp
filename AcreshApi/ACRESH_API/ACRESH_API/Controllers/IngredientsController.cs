@@ -5,6 +5,9 @@ using DataTransferObjects.Ingredients;
 using Acresh.Services.Services.Contracts;
 using DataTransferObjects.Recipes.Details;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using System;
+using Infrastructure.Models;
 
 namespace ACRESH_API.Controllers
 {
@@ -25,6 +28,9 @@ namespace ACRESH_API.Controllers
             return result;
         }
 
+        [HttpGet("name-used")]
+        public async Task<ActionResult<bool>> IsNameUsed(string name) => await ingService.IsNameUsedAsync(name);
+
         [HttpGet("recipe")]
         public async Task<ActionResult<IngredientRecipeDetailsDTOout[]>> GetRecipeIngridients(string id) => await ingService.GetRecipeIngridients(id).ToArrayAsync();
 
@@ -35,10 +41,10 @@ namespace ACRESH_API.Controllers
         [HttpGet("cards")]
         public async Task<ActionResult<IngredientCardDTOout[]>> GetCards(int page, string index, string phrase, bool essential)
         {
-            var result=   await ingService.GetCards(index, phrase, essential).Skip((page-1) * CARDS_PER_FETCH).Take(CARDS_PER_FETCH).ToArrayAsync();
+            var result = await ingService.GetCards(index, phrase, essential).Skip((page - 1) * CARDS_PER_FETCH).Take(CARDS_PER_FETCH).ToArrayAsync();
             return result;
         }
-        
+
         [HttpGet("details/{id}")]
         public async Task<ActionResult<IngredientDetailsDTOout>> GetDetails(int id)
         {
@@ -47,5 +53,24 @@ namespace ACRESH_API.Controllers
             return result;
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult<int>> Create(IngredientCreateDTOin newIng)
+        {
+            if (await this.ingService.IsNameUsedAsync(newIng.Name)) return BadRequest("Ingredient Name is already in Use");
+            if (this.UserId != newIng.AuthorId) return BadRequest("UserId and AuthorId missmatch!");
+            Ingredient result = await this.ingService.CreateAsync(newIng);
+            if (result is null) return BadRequest("Ingredient was not created!");
+            return result.Id;
+        }
+
+        [Authorize]
+        [HttpGet("edit")]
+        public async Task<ActionResult<IngredientEditDTOout>> GetForEdit(int id)
+        {
+            IngredientEditDTOout result =await this.ingService.GetIngredientEditDataAsync(id);
+            if(result is null) return BadRequest("Recipe was not found!");
+            return result;
+        }
     }
 }

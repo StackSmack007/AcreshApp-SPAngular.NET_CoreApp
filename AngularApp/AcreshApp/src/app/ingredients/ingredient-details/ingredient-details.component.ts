@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { IIngredientDetails } from 'src/app/core/interfaces/ingredients/IIngredient-card';
+import { IIngredientDetails } from "src/app/core/interfaces/ingredients/IIngredientDetails";
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { BehaviorSubject } from 'rxjs';
 import { HelperService } from 'src/app/core/services/helper.service';

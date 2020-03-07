@@ -1,14 +1,5 @@
-import { IIngredientCreate } from '../categories/IIngredientCreate';
+import { IRecipeCreate } from './IRecipeCreate';
 
-export interface IRecipeEdit {
+export interface IRecipeEdit extends IRecipeCreate{
     id: string;
-    name: string;
-    categoryId: number;
-    mainPicture: string;
-    description: string;
-    pictures: string[];
-    videoLink: string;
-    difficulty: number;
-    tags: string[];
-    ingredients: IIngredientCreate[];
 }

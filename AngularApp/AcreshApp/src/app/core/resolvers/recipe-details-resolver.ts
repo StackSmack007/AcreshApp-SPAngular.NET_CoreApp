@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IRecipeDetails } from '../interfaces/recipes/RecipeDetails';
 import { RecipeService } from '../services/recipe.service';
 
+
 @Injectable({
     providedIn: 'root'
 })
@@ -14,3 +15,6 @@ export class RecipeDetailsResolver implements Resolve<IRecipeDetails> {
         return this.recipeService.getDetails(id);
     }
 }
+
+
+

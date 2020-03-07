@@ -28,6 +28,7 @@ namespace Infrastructure.Models
         public string Name { get; set; }
         [Required, MaxLength(25600)]
         public string Description { get; set; }
+        [Required]
         public string AuthorId { get; set; }
         [ForeignKey(nameof(AuthorId))]
         public virtual AcUser Author { get; set; }

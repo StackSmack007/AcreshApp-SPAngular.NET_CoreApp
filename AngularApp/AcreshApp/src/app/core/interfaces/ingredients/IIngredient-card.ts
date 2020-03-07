@@ -8,9 +8,4 @@ export interface IIngredientCard {
     authorUserName: string,
 }
 
-export interface IIngredientDetails extends IIngredientCard {
-    measureType:string,
-    description:string,
-    lastModified:number,
 
-}
