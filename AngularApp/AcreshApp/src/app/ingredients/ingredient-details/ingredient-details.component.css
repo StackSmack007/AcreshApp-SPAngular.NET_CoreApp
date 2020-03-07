@@ -1,5 +1,9 @@
   
-        div.main-pic {
+       section.det-container {
+        height: 31em;
+       }       
+       
+       div.main-pic {
             float: left;
             display: block;
             max-width: 60%;
@@ -14,17 +18,20 @@
 
         div.info {
             display: block;
-            float: right;
-            padding-right: 5%;
+            float: left;
+            padding-left:4%;
+
             max-width: 37.5%;
+            min-width:30%;
+            max-height: 18em;
             
             /* background: lemonchiffon; */
         }
 
        table.stats>tbody>tr>td {
-            font-size: 1.1em;
+            font-size: 1.15em;
             line-height: 1.1em;
-            padding:.6em .3em;   
+            padding:.4em .2em 0 0;   
         }
 
         div.desc {

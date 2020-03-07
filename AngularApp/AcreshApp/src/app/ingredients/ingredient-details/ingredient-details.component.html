@@ -1,57 +1,64 @@
-<section class="det-container" *ngIf="ingredient; else nothing">
-    <div class="main-pic">
-        <img [src]="ingredient.picUrl" [alt]="ingredient.name+'main picture'">
-    </div>
-    <div class="info">
-        <table class="stats">
-            <tbody>
-                <tr>
-                    <th class="h3 font-style-bold text-center pb-3" colspan="2"><i class="fas fa-puzzle-piece"></i>&nbsp;   {{ingredient.name}}</th>
-                </tr>
-                <tr class="pb-2">
-                    <td>Used in:</td>
-                    <td>{{ingredient.usageCount}} Recipes</td>
-                </tr>
-                <tr>
-                    <td>Vegan:</td>
-                    <td><span *ngIf="ingredient.isVegan"><i class="fas fa-check text-success"></i></span><span *ngIf="!ingredient.isVegan"><i class="fas fa-times text-danger"></i></span></td>
-                </tr>
-                <tr>
-                    <td>Origin:</td>
-                    <td>{{ingredient.origin}}</td>
-                </tr>
-                <tr>
-                    <td>Measure type:</td>
-                    <td>{{ingredient.measureType.replace('_',' ')}}</td>
-                </tr>
-                <tr>
-                    <td>Added By:</td>
-                    <td><a [routerLink]="['/user-data/profile/', ingredient.authorUserName]"></a>{{ingredient.authorUserName}}</td>
-                </tr>
-                <tr>
-                    <td>Last Edit:</td>
-                    <td>{{modificationDate}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="desc">
-        <h3>Description:</h3>
-        <p>{{ingredient.description}}</p>
-    </div>
-
-    <div class="actionBtns row justify-content-between">
-        <div class="col-3 text-right"><a class="center btn btn-danger" *ngIf="isDeleteAuthorised"><i class="far fa-trash-alt"></i> &nbsp; Delete</a>
+<div *ngIf="ingredient; else nothing">
+    <section class="det-container">
+        <div class="main-pic">
+            <img [src]="ingredient.picUrl" [alt]="ingredient.name+'main picture'">
+        </div>
+        <div class="info">
+            <table class="stats">
+                <tbody>
+                    <tr>
+                        <th class="h3 font-style-bold text-center pb-2" colspan="2"><i
+                                class="fas fa-puzzle-piece"></i>&nbsp; {{ingredient.name}}</th>
+                    </tr>
+                    <tr>
+                        <td>Used in:</td>
+                        <td>{{ingredient.usageCount}} Recipes</td>
+                    </tr>
+                    <tr>
+                        <td>Vegan:</td>
+                        <td><span *ngIf="ingredient.isVegan"><i class="fas fa-check text-success"></i></span><span
+                                *ngIf="!ingredient.isVegan"><i class="fas fa-times text-danger"></i></span></td>
+                    </tr>
+                    <tr>
+                        <td>Origin:</td>
+                        <td>{{ingredient.origin}}</td>
+                    </tr>
+                    <tr>
+                        <td>Measure type:</td>
+                        <td>{{ingredient.measureType.replace('_',' ')}}</td>
+                    </tr>
+                    <tr>
+                        <td>Added By:</td>
+                        <td><a
+                                [routerLink]="['/user-data/profile/', ingredient.authorUserName]"></a>{{ingredient.authorUserName}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Last Edit:</td>
+                        <td>{{modificationDate}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="desc">
+            <h3>Description:</h3>
+            <p>{{ingredient.description}}</p>
+        </div>
+    </section>
+    <div class="actionBtns row justify-content-between pb-3">
+        <div class="col-3 text-right"><a class="center btn btn-danger" *ngIf="isDeleteAuthorised">
+            <i class="far fa-trash-alt"></i> &nbsp; Delete</a>
         </div>
         <div class="col-6"></div>
-        <div class="col-3 text-left"><a class="center btn btn-primary" *ngIf="isEditAuthorised"><i class="fas fa-edit"></i> &nbsp; Edit</a>
+        <div class="col-3 text-right pl-1"><a class="center btn btn-primary" *ngIf="isEditAuthorised">
+            <i class="fas fa-edit"></i> &nbsp; Edit</a>
         </div>
     </div>
-</section>
-
+</div>
 <ng-template #nothing>
-    <section  class="text-center pt-3">
+    <section class="text-center pt-3">
         <h2 class="text-info">No Ingredient Selected!</h2>
-        <img  class="no-content" src="https://image.freepik.com/free-photo/healthy-eating-food-with-empty-dish-copyspace-diet-plan-top-view_44943-853.jpg">
+        <img class="no-content"
+            src="https://image.freepik.com/free-photo/healthy-eating-food-with-empty-dish-copyspace-diet-plan-top-view_44943-853.jpg">
     </section>
 </ng-template>

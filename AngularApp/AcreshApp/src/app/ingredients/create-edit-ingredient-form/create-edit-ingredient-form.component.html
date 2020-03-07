@@ -1,7 +1,7 @@
 <div class="container-fluid px-2">
     <h3 class="text-center">{{settings.headline}}</h3>
     <form [formGroup]="form">
-    <div class="row justify-content-between">
+    <div class="row justify-content-between fields">
         <div class="col-5 pl-2">
                 <div class="form-group ">
                     <div class="form-group has-danger has-success">
@@ -72,11 +72,9 @@
                 </div>  
             </div>
         </div>
-        <div class="row">
-
-            <div class="col-12">
-                {{form.value| json}}
-            </div>
+        <div class="row justify-content-end px-3">
+                <button type="submit" class="center btn btn-success" [disabled]="form.invalid" > 
+                    <i class="fas fa-plus-circle"></i> &nbsp; Create</button>
         </div>
     </form>
 </div>

@@ -4,7 +4,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { IIngredeintMatches } from 'src/app/core/interfaces/ingredients/IIngredeintMatches';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class ListIngredientsComponent {
 
   ingrIdSelected = new BehaviorSubject<number>(0);
 
-  constructor(private fb: FormBuilder, private ingService: IngredientService, private spinner: NgxSpinnerService, router: Router, private authService: AuthService) {
+  constructor(private route:ActivatedRoute,private fb: FormBuilder, private ingService: IngredientService, private spinner: NgxSpinnerService, router: Router, private authService: AuthService) {
     this.buildForm();
     this.monitorForm();
 
@@ -117,5 +117,10 @@ export class ListIngredientsComponent {
   }
 
   private scrolSayLoad = (target) => target.scrollHeight - (target.scrollTop + target.clientHeight) < 10
+
+  isOnCreatePage(){
+    const urlChilds=this.route.snapshot.children;
+    return urlChilds.length>0&& urlChilds[0].url[0]["path"].toLowerCase()==="create"
+  }
 
 }

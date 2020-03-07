@@ -1,6 +1,6 @@
 <div class="container-fluid allContent pt-4">
     <h2 class="text-center py-2"><i class="fas fa-puzzle-piece"></i>&nbsp; All Ingredients</h2>
-    <!-- {{filterForm.value |json}} -->
+
     <div class="row justify-content-between">
         <div class="col-12 pb-4">
             <div class="row justify-content-between">
@@ -19,16 +19,16 @@
                         </div>
 
                         <div class="checks">
-                            <div class="form-check float-left mr-4">
+                            <div class="form-check float-left">
                                 <label class="form-check-label  h4">
                                     <input type="checkbox" class="form-check-input pr-3 big-checkbox"
-                                    formControlName="essentials" (change)="setLocks()">Essentials
+                                    formControlName="essentials" (change)="setLocks()">Primal
                                 </label>
                             </div>
                             <div class="form-check float-right  mr-4">
                                 <label class="form-check-label h4">
                                     <input type="checkbox" class="form-check-input pr-3 big-checkbox"
-                                    formControlName="non-essentials" (change)="setLocks()">Non Essentials
+                                    formControlName="non-essentials" (change)="setLocks()">Additional
                                 </label>
                             </div>
                         </div>
@@ -43,9 +43,9 @@
                     <h5 class="text-center" mat-raised-button matTooltipPosition="below"
                         matTooltip="Ingredients you are likely to have (spices, oils and such...)"
                         aria-label="Section description">
-                        <span>Essential Ingredients</span>
+                        <span>Primal Ingredients</span>
                     </h5>
-                    <span class="font-italic text-muted">Found {{resultsFd.essentials}} ingredients. Displayed {{cards.essentials.cards.length}}</span>
+                    <span class="font-italic text-muted">Found {{resultsFd.essentials}}. Displayed {{cards.essentials.cards.length}}</span>
                 </div>
                 <div class="ings-box" (scroll)="onScrollEsts($event)">
                     <div *ngIf="this.cards.essentials.loading" style="position:relative">
@@ -64,9 +64,9 @@
                 <div class="ing-types-header">
                     <h5 mat-raised-button matTooltipPosition="below" matTooltip="Ingredients you might have..."
                         aria-label="Section description">
-                        <span>Non Essential Ingredients</span>
+                        <span>Additional Ingredients</span>
                     </h5>
-                    <span class="font-italic text-muted">Found {{resultsFd.nonEssentials}} ingredients. Displayed {{cards.nonEssentials.cards.length}}</span>
+                    <span class="font-italic text-muted">Found {{resultsFd.nonEssentials}}. Displayed {{cards.nonEssentials.cards.length}}</span>
                 </div>
                 <div class="ings-box" (scroll)="onScrollNonEsts($event)">
                     <div *ngIf="this.cards.nonEssentials.loading" style="position:relative">
@@ -85,15 +85,14 @@
         <div class="right-section">
         <div class="det-inf">
             <div> 
-                   <!-- <a [routerLink]="[{outlets: {ing:['test2',3]}}]"> show test2</a> -->
                 <router-outlet name="ing-outlet"></router-outlet>    
             </div>
         </div>
-                <div class="actionBtns row justify-content-start">
-                   <div class="col-9"></div>
-                    <div class="col-3"><a class="center btn btn-info" [ngClass]="{'disabled':!isLoggedIn}" [routerLink]="['/ingredients',{outlets: {'ing-outlet':['create']}}]">
-                        <i class="fas fa-plus-circle"></i> &nbsp; Create</a></div>
-                </div>
+                <div class="actionBtns"> 
+                        <a class="center btn btn-info" [ngClass]="{'disabled':!isLoggedIn}" [routerLink]="['/ingredients',{outlets: {'ing-outlet':['create']}}]" *ngIf="!isOnCreatePage()" > 
+                        <i class="fas fa-plus-circle"></i> &nbsp; Add</a>
+                         <a class="center btn btn-danger" [ngClass]="{'disabled':!isLoggedIn}" [routerLink]="['/ingredients',{outlets: {'ing-outlet':['details',0]}}]" *ngIf="isOnCreatePage()" > 
+                            <i class="fas fa-ban"></i> &nbsp; Abort!</a>
         </div>
 
     </div>

@@ -6,3 +6,8 @@
     background-color:blanchedalmond;
     color: rgb(80, 15, 153);
 }
+@media  screen and (max-width: 1455px) {
+    ul.main-logo {
+     display: none;
+    }
+  }
