@@ -78,28 +78,30 @@ export interface ICategoryPath {
 export const ignredientPaths: IIgnredientPaths = {
     base: basePath + "ingredients/",
     getAllMini: basePath + "ingredients/all-mini",
-    getDetails:(id:number)=> basePath + "ingredients/details/"+id,
+    getDetails: (id: number) => basePath + "ingredients/details/" + id,
     chkNameTaken: (name) => basePath + `ingredients/name-used?name=${name}`,
     getRecipeIngredients: (id) => basePath + `ingredients/recipe?id=${id}`,
-    getCardsTotalCount:(index,phrase)=>basePath + `ingredients/cards-count?index=${index}&phrase=${phrase}`,
-    getCards: (page,index,phrase,essential) => basePath + `ingredients/cards?page=${page}&index=${index}&phrase=${phrase}&essential=${essential}`,
+    getCardsTotalCount: (index, phrase) => basePath + `ingredients/cards-count?index=${index}&phrase=${phrase}`,
+    getCards: (page, index, phrase, essential) => basePath + `ingredients/cards?page=${page}&index=${index}&phrase=${phrase}&essential=${essential}`,
     edit: (id) => basePath + `ingredients/edit?id=${id}`,
+    getNamesByIds: (ids) => basePath + `ingredients/get-names?ids=${ids}`,
 }
 
 export interface IIgnredientPaths {
     base: string,
     getAllMini: string,
-    getDetails:(id:number)=> string,
+    getDetails: (id: number) => string,
     chkNameTaken: (name: string) => string,
     getRecipeIngredients: (id: string) => string,
-    getCardsTotalCount:(index:string,phrase:string)=>string,
-    getCards: (page:number,index:string,phrase:string,essential:boolean) => string,
+    getCardsTotalCount: (index: string, phrase: string) => string,
+    getCards: (page: number, index: string, phrase: string, essential: boolean) => string,
     edit: (id: number) => string,
+    getNamesByIds: (ids: string) => string;
 }
 
 export const commentsPaths: ICommentPaths = {
     base: basePath + "comments/",
-    delete:(id)=>basePath+`comments/${id}`,
+    delete: (id) => basePath + `comments/${id}`,
     getAllForRecipe: (page, id) => basePath + `comments/for-recipe?page=${page}&recipeId=${id}`,
     setVote: basePath + "comments/set-vote",
 }
@@ -107,6 +109,6 @@ export const commentsPaths: ICommentPaths = {
 export interface ICommentPaths {
     setVote: string;
     base: string,
-    delete:(id:number)=> string,
+    delete: (id: number) => string,
     getAllForRecipe: (page, id) => string,
 }

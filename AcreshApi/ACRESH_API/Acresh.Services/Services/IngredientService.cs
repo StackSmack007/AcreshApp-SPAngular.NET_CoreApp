@@ -65,18 +65,10 @@ namespace Acresh.Services.Services
 
         public async Task<Ingredient> CreateAsync(IngredientCreateDTOin input)
         {
-            try
-            {
                 Ingredient ing = this.mapper.Map<Ingredient>(input);
-
                 await this.ingRepo.AddAssync(ing);
                 await this.ingRepo.SaveChangesAsync();
                 return ing;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
         }
 
         public async Task<IngredientEditDTO> GetIngredientEditDataAsync(int id)
@@ -99,6 +91,12 @@ namespace Acresh.Services.Services
             ingFd.DateOfLastEdit = DateTime.UtcNow;
             await this.ingRepo.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<string[]> GetNamesByIdsAsync(string ids)
+        {
+            var ingIds = ids.Split("|", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+            return await this.ingRepo.All().Where(x => !x.IsDeleted && ingIds.Contains(x.Id)).Select(x => x.Name).ToArrayAsync();
         }
 
         //public IQueryable<IngredientRecipeDetailsDTOout> GetRecipeIngridients(string id) => ingRecipeRepo.All().Where(x => x.RecipeId == id && !x.IsDeleted).To<IngredientRecipeDetailsDTOout>();

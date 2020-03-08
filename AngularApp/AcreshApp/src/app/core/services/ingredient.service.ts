@@ -16,7 +16,7 @@ import { IIngredientEdit } from '../interfaces/ingredients/IIngredientEdit';
 export class IngredientService {
     constructor(private http: HttpClient) {
     }
-    
+
     getAllMini(): Observable<IIngredientOption[]> {
         return this.http.get<IIngredientOption[]>(ignredientPaths.getAllMini);
     }
@@ -28,7 +28,7 @@ export class IngredientService {
     getIngredientDetails(id: number): Observable<IIngredientDetails> {
         return this.http.get<IIngredientDetails>(ignredientPaths.getDetails(id))
     }
-    
+
     getCardsMaxCount({ index, phrase }): Observable<IIngredeintMatches> {
         return this.http.get<IIngredeintMatches>(ignredientPaths.getCardsTotalCount(index, phrase))
     }
@@ -36,23 +36,26 @@ export class IngredientService {
     nameTaken(name: string): Observable<boolean> {
         return this.http.get<boolean>(ignredientPaths.chkNameTaken(name))
     }
-    
+
     getEssentialIngCards(page: number, index: string, phrase: string): Observable<IIngredientCard[]> { return this.getCards(page, index, phrase, true) }
     getNonEssentialIngsCards(page: number, index: string, phrase: string): Observable<IIngredientCard[]> { return this.getCards(page, index, phrase) }
     private getCards(page: number, index: string, phrase: string, essential: boolean = false): Observable<IIngredientCard[]> {
         return this.http.get<IIngredientCard[]>(ignredientPaths.getCards(page, index, phrase, essential));
     }
-    
+
     getEditData(id: number): Observable<IIngredientEdit> {
-      return  this.http.get<IIngredientEdit>(ignredientPaths.edit(id))
+        return this.http.get<IIngredientEdit>(ignredientPaths.edit(id))
     }
 
     createIngredient(value: IIngredientCreate): Observable<number> {
         return this.http.post<number>(ignredientPaths.base, value)
     }
-    
+
     editIngredient(editValue: IIngredientEdit): Observable<number> {
         return this.http.put<number>(ignredientPaths.base, editValue);
     }
-    
+
+    getIngredientNames(ids: string): Observable<string[]> {
+        return this.http.get<string[]>(ignredientPaths.getNamesByIds(ids));
+    }
 }

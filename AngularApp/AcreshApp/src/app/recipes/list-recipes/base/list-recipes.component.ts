@@ -1,6 +1,6 @@
+import { NgxSpinnerService } from "ngx-spinner";
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { NgxSpinnerService } from "ngx-spinner";
 import { IRecipeMiniInfo } from 'src/app/core/interfaces/recipes/recipeMiniInfo';
 
 @Component({
@@ -11,12 +11,10 @@ import { IRecipeMiniInfo } from 'src/app/core/interfaces/recipes/recipeMiniInfo'
 
 export class ListRecipesComponent implements OnInit {
 
-  public recipesContainer: { fetched: IRecipeMiniInfo[], page: number } = { fetched: [], page: 1 }
+  public recipesContainer: { fetched: IRecipeMiniInfo[], page: number, endReached: boolean } = { fetched: [], page: 1, endReached: false };
 
   public isLoading: boolean = false;
   public notFound: boolean = false;
-  private endReached: boolean = false;
-
   constructor(private spinner: NgxSpinnerService) { }
 
   @Input()
@@ -26,9 +24,8 @@ export class ListRecipesComponent implements OnInit {
   loadingMethod: BehaviorSubject<(page: number) => Observable<IRecipeMiniInfo[]>>;
 
   ngOnInit(): void {
-    this.fetchRecipes();
     this.loadingMethod.subscribe(met => {
-      this.recipesContainer = { fetched: [], page: 1 };
+      this.recipesContainer = { fetched: [], page: 1, endReached: false };
       this.fetchRecipes();
     })
   }
@@ -39,7 +36,7 @@ export class ListRecipesComponent implements OnInit {
 
   @HostListener("window:scroll", [])
   handleKeyDown() {
-    if (this.endReached || !this.scrolSayLoad || this.isLoading) { return }
+    if (this.recipesContainer.endReached || !this.scrolSayLoad || this.isLoading) { return }
     this.fetchRecipes();
   }
 
@@ -48,7 +45,7 @@ export class ListRecipesComponent implements OnInit {
     this.loadingMethod.getValue()(this.recipesContainer.page++)
       .subscribe(x => {
         if (x.length === 0) {
-          this.endReached = true;
+          this.recipesContainer.endReached = true;
           this.stopLoadingInfo();
         }
         this.recipesContainer.fetched.splice(this.recipesContainer.fetched.length, 0, ...x);
@@ -63,7 +60,7 @@ export class ListRecipesComponent implements OnInit {
 
   private startLoadingInfo() {
     this.isLoading = true;
-    if (this.endReached) return;
+    if (this.recipesContainer.endReached) return;
     this.spinner.show();
   }
 

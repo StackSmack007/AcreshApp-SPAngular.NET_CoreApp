@@ -65,9 +65,9 @@ namespace Acresh.Services.Services
 
         public IQueryable<RecipeCardDTOout> GetRecipeCarts(string criteria, string val)
         {
-            var phrases = val.Split(new[] { ',', ' ', ';', '_', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             Func<IQueryable<Recipe>, IQueryable<Recipe>> tagNameMatches = (x) =>
             {
+                var phrases = val.Split(new[] { ',', ' ', ';', '_', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 HashSet<IQueryable<string>> ids = new HashSet<IQueryable<string>>();
                 foreach (var phrase in phrases)
                 {
@@ -76,8 +76,26 @@ namespace Acresh.Services.Services
                 var allowdIds = ids.SelectMany(x => x).Distinct();
                 return x.Where(x => allowdIds.Contains(x.Id));
             };
+
+            Func<IQueryable<Recipe>, IQueryable<Recipe>> ingsMatches = (x) =>
+            {
+                var ingIds = val.Split("|", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+                var idsChosen = x.Where(x => !x.IsDeleted).Select(x => new
+                {
+                    recId = x.Id,
+                    ingIds = x.RecipeIngredients.Where(ri => !ri.IsDeleted && !ri.Ingredient.IsDeleted).Select(ri => ri.IngredientId)
+                });
+                foreach (int id in ingIds)
+                {
+                    idsChosen = idsChosen.Where(x => x.ingIds.Contains(id));
+                }
+                return x.Where(x => idsChosen.Select(i => i.recId).Contains(x.Id));
+            };
+
             Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>> sortCriteria = new Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>>
             {
+                ["search"] = tagNameMatches,
+                ["ingredients"] = ingsMatches,
                 ["all"] = (x) => x,
                 ["recent"] = (x) => x.Where(x => x.DateOfCreation > DateTime.UtcNow.AddDays(-61)).OrderByDescending(x => x.DateOfCreation),
                 ["commented"] = (x) => x.OrderByDescending(x => x.Comments.Count(c => !c.IsDeleted)),
@@ -86,15 +104,10 @@ namespace Acresh.Services.Services
                 ["highly-rated"] = (x) => x.OrderByDescending(x => x.Votes.Sum(v => (int)v.Score) / x.Votes.Count()),
                 ["most-rated"] = (x) => x.OrderByDescending(x => x.Votes.Count()),
                 ["most-favoured"] = (x) => x.OrderByDescending(x => x.RecipeFavorisers.Count(rf => rf.IsDeleted)),
-                ["search"] = tagNameMatches,
-                ["user"] = (x) => x.Where(x => !x.IsDeleted && x.Author.UserName == val).OrderByDescending(x => x.DateOfCreation)
+                ["user"] = (x) => x.Where(x => !x.IsDeleted && x.Author.UserName == val).OrderByDescending(x => x.DateOfCreation),
             };
 
-            if (sortCriteria.ContainsKey(criteria))
-            {
-              
-                return sortCriteria[criteria](recipeRepo.All()).To<RecipeCardDTOout>(); ;
-            }
+            if (sortCriteria.ContainsKey(criteria))return sortCriteria[criteria](recipeRepo.All()).To<RecipeCardDTOout>();
             return null;
         }
 
@@ -122,10 +135,10 @@ namespace Acresh.Services.Services
 
         public async Task<Recipe> CreateAsync(RecipeCreateDTOin rec)
         {
-                var result = await MakeRecipe(rec);
-                await this.recipeRepo.AddAssync(result);
-                await this.recipeRepo.SaveChangesAsync();
-                return result;
+            var result = await MakeRecipe(rec);
+            await this.recipeRepo.AddAssync(result);
+            await this.recipeRepo.SaveChangesAsync();
+            return result;
         }
 
 
@@ -202,7 +215,7 @@ namespace Acresh.Services.Services
         {
             var tagsU = rec.Tags.Select(x => x.ToUpper());
             var result = mapper.Map<Recipe>(rec);
-         
+
             var dbTags = await this.tagRepo.All().Where(x => tagsU.Contains(x.NormalizedName)).Select(x => new { x.Id, x.NormalizedName }).ToArrayAsync();
             foreach (string tag in rec.Tags)
             {

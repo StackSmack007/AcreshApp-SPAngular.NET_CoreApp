@@ -19,7 +19,7 @@ import { IngredientDetailsComponent } from './ingredients/ingredient-details/ing
 import { CreateIngredientComponent } from './ingredients/create-ingredient/create-ingredient.component';
 import { EditIngredientComponent } from './ingredients/edit-ingredient/edit-ingredient.component';
 import { IngredientEditResolver } from './core/resolvers/ingredient-edit-data-resolver';
-import { ListAllRComponent, ListMostRecentRComponent, ListMostCommentedRComponent, ListCommentedRecentlyRComponent, ListHighlyRatedRComponent, ListMostRatedRComponent, ListMostFavouredRComponent, ListSearchedRComponent, ListUserSharedRComponent, ListMyFavouriteRComponent, ListMyCommentedRComponent } from './recipes/list-recipes/recipes-list-exporter';
+import { ListAllRComponent, ListMostRecentRComponent, ListMostCommentedRComponent, ListCommentedRecentlyRComponent, ListHighlyRatedRComponent, ListMostRatedRComponent, ListMostFavouredRComponent, ListSearchedRComponent, ListUserSharedRComponent, ListMyFavouriteRComponent, ListMyCommentedRComponent, ListIngredientsContainingRComponent } from './recipes/list-recipes/recipes-list-exporter';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -50,6 +50,11 @@ const routes: Routes = [
       {
         path: "all",
         component: ListAllRComponent,
+      },
+
+      {
+        path: "ing-contain/:ingids",
+        component: ListIngredientsContainingRComponent,
       },
       {
         path: "recent",

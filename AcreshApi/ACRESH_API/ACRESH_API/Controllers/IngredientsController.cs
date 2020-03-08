@@ -82,5 +82,14 @@ namespace ACRESH_API.Controllers
             if(result is null) return BadRequest("Recipe was not found!");
             return result;
         }
+
+        [HttpGet("get-names")]
+        public async Task<ActionResult<string[]>> GetNamesByIds(string ids)
+        {
+            string[] result = await this.ingService.GetNamesByIdsAsync(ids);
+            return result;
+        }
+
+
     }
 }

@@ -12,7 +12,7 @@
                     </tr>
                     <tr>
                         <td>Used in:</td>
-                        <td>{{ingredient.usageCount}} Recipes</td>
+                        <td><a [routerLink]="['/recipes/ing-contain',ingredient.id]"><i class="fas fa-scroll"></i> {{ingredient.usageCount}} Recipes</a></td>
                     </tr>
                     <tr>
                         <td>Vegan:</td>
