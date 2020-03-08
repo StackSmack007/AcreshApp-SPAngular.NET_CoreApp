@@ -47,8 +47,8 @@
                                 <div class="row justify-content-between px-3 pt-2">
                                     <div class="custom-control custom-radio col-3"
                                         *ngFor="let dif of diffGrades; let i=index;">
-                                        <input class="custom-control-input" type="radio" formControlName="difficulty" [value]="dif[0]" [id]="dif[1]|lowercase">
-                                        <label class="custom-control-label" [for]="dif[1]|lowercase">{{dif[1]}}</label>
+                                        <input class="custom-control-input" type="radio" formControlName="difficulty" [value]="dif[1]" [id]="dif[0]|lowercase">
+                                        <label class="custom-control-label" [for]="dif[0]|lowercase">{{dif[0]}}</label>
                                     </div>
                                 </div>
                             </div>

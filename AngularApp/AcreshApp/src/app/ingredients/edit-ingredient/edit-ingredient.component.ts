@@ -18,21 +18,21 @@ export class EditIngredientComponent {
   settings = { headline: "Edit Ingredient", submitBtnTitle: "<i class='fas fa-edit'></i> &nbsp; Edit" };
   constructor(private ingService: IngredientService, private router: Router, private toastr: ToastrService, route: ActivatedRoute) {
     this.ingredient = route.snapshot.data.data;
-    this.id=this.ingredient.id;
+    this.id = this.ingredient.id;
     delete this.ingredient.id;
   }
 
   editIngredient(value: IIngredientCreate) {
     debugger;
     let editValue: IIngredientEdit = { ...value, ...{ id: this.id } };
-    // this.ingService.editIngredient(editValue).subscribe(id => {
-    //   this.toastr.success("Edited ingredient :)", "Congratulations!");
-    //   this.router.navigate(['/ingredients', { outlets: { 'ing-outlet': ['details', id] } }])
-    // }, (e) => {
-    //   this.toastr.success("No igredient was eddited :(", "Failure!");
-    //   debugger;
-    //   console.error("Problem", e);
-    // })
+    this.ingService.editIngredient(editValue).subscribe(id => {
+      this.toastr.success("Edited ingredient :)", "Congratulations!");
+      this.router.navigate(['/ingredients', { outlets: { 'ing-outlet': ['details', id] } }])
+    }, (e) => {
+      this.toastr.success("No igredient was eddited :(", "Failure!");
+      debugger;
+      console.error("Problem", e);
+    })
   }
 
 }

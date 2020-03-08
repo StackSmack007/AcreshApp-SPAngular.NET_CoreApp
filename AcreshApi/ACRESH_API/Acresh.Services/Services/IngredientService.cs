@@ -61,7 +61,7 @@ namespace Acresh.Services.Services
             return result;
         }
 
-        public async Task<bool> IsNameUsedAsync(string name) => await ingRepo.All().AnyAsync(x => !x.IsDeleted && x.Name.ToLower() == name.ToLower());
+        public async Task<bool> IsNameUsedAsync(string name, int ingId = -1)  => await ingRepo.All().AnyAsync(x => !x.IsDeleted && x.Name.ToLower() == name.ToLower() && x.Id!= ingId);
 
         public async Task<Ingredient> CreateAsync(IngredientCreateDTOin input)
         {
@@ -79,11 +79,26 @@ namespace Acresh.Services.Services
             }
         }
 
-        public async Task<IngredientEditDTOout> GetIngredientEditDataAsync(int id)
+        public async Task<IngredientEditDTO> GetIngredientEditDataAsync(int id)
         {
-            var ingFd =await this.ingRepo.All().FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
+            var ingFd = await this.ingRepo.All().FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
             if (ingFd is null) return null;
-            return this.mapper.Map<IngredientEditDTOout>(ingFd);
+            return this.mapper.Map<IngredientEditDTO>(ingFd);
+        }
+
+        public async Task<bool> UpdateAsync(IngredientEditDTO editIng)
+        {
+            var ingFd = await this.ingRepo.All().FirstOrDefaultAsync(x => x.Id == editIng.Id && !x.IsDeleted);
+            if (ingFd is null) return false;
+            ingFd.Name = editIng.Name;
+            ingFd.IsEssential = editIng.IsEssential;
+            ingFd.MeasureType = editIng.MeasureType;
+            ingFd.Origin = editIng.Origin;
+            ingFd.PicUrl = editIng.PicUrl;
+            ingFd.Description = editIng.Description;
+            ingFd.DateOfLastEdit = DateTime.UtcNow;
+            await this.ingRepo.SaveChangesAsync();
+            return true;
         }
 
         //public IQueryable<IngredientRecipeDetailsDTOout> GetRecipeIngridients(string id) => ingRecipeRepo.All().Where(x => x.RecipeId == id && !x.IsDeleted).To<IngredientRecipeDetailsDTOout>();

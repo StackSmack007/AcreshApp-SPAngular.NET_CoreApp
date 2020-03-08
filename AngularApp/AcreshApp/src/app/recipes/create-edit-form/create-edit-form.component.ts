@@ -54,7 +54,7 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
   @Output()
   SubmitEvent: EventEmitter<IRecipeCreate> = new EventEmitter<IRecipeCreate>();
 
-  diffGrades = Object.entries(RecipeDifficulty).filter((_, index, arr) => index < arr.length / 2);
+  diffGrades = HelperService.getEnumOptions(RecipeDifficulty);
 
   constructor(
     private fb: FormBuilder,
@@ -73,7 +73,6 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
     data.pictures.forEach(x => this.addPicture(x));
     data.tags.forEach(x => this.addTag(x));
     this.form.patchValue(data);
-    this.getCtrl("difficulty").setValue(data.difficulty.toString());
   }
 
   get videoLink() {
@@ -161,7 +160,7 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
       description: ["", [Validators.required, Validators.minLength(100), Validators.maxLength(25600)], []],
       mainPicture: ["", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")], []],
       videoLink: ["", [], []],
-      difficulty: ["1", [Validators.required], []],
+      difficulty: [1, [Validators.required], []],
       pictures: this.fb.array([]),
       tags: this.fb.array([]),
       ingredients: this.fb.array([])

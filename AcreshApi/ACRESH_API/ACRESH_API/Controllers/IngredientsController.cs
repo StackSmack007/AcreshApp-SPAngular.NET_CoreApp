@@ -6,7 +6,6 @@ using Acresh.Services.Services.Contracts;
 using DataTransferObjects.Recipes.Details;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using System;
 using Infrastructure.Models;
 
 namespace ACRESH_API.Controllers
@@ -64,11 +63,22 @@ namespace ACRESH_API.Controllers
             return result.Id;
         }
 
+
+        [Authorize]
+        [HttpPut]
+        public async Task<ActionResult<int>> Edit(IngredientEditDTO editIng)
+        {
+           if(editIng.AuthorId!=UserId && !IsAdmin) return BadRequest("Not authorized to edit this ingredient!");
+            if (await this.ingService.IsNameUsedAsync(editIng.Name,editIng.Id)) return BadRequest("Ingredient Name is already in Use");
+            if (!await this.ingService.UpdateAsync(editIng)) return BadRequest("Ingredient with given Id was not found!");
+            return editIng.Id;
+        }
+
         [Authorize]
         [HttpGet("edit")]
-        public async Task<ActionResult<IngredientEditDTOout>> GetForEdit(int id)
+        public async Task<ActionResult<IngredientEditDTO>> GetForEdit(int id)
         {
-            IngredientEditDTOout result =await this.ingService.GetIngredientEditDataAsync(id);
+            IngredientEditDTO result =await this.ingService.GetIngredientEditDataAsync(id);
             if(result is null) return BadRequest("Recipe was not found!");
             return result;
         }

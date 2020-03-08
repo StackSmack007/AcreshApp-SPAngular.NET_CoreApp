@@ -1,14 +1,14 @@
-import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { IngredientService } from 'src/app/core/services/ingredient.service';
-import { MeasureTypes } from 'src/app/core/enumerations/MeasureTypes';
-import { OriginTypes } from 'src/app/core/enumerations/OriginTypes';
-import { trigger, transition, style, animate } from '@angular/animations';
-import { takenNameValidatorAsync } from 'src/app/core/validators/takenNameValidatorAsync';
-import { IIngredientCreate } from 'src/app/core/interfaces/ingredients/IIngredientCreate';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { OriginTypes } from 'src/app/core/enumerations/OriginTypes';
 import { HelperService } from 'src/app/core/services/helper.service';
+import { MeasureTypes } from 'src/app/core/enumerations/MeasureTypes';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { IngredientService } from 'src/app/core/services/ingredient.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { IIngredientCreate } from 'src/app/core/interfaces/ingredients/IIngredientCreate';
+import { takenNameValidatorAsync } from 'src/app/core/validators/takenNameValidatorAsync';
 
 @Component({
   selector: 'acr-create-edit-ingredient-form',
@@ -26,8 +26,8 @@ export class CreateEditIngredientFormComponent implements OnDestroy {
   @Output()
   btnClickEvent: EventEmitter<IIngredientCreate> = new EventEmitter<IIngredientCreate>();
 
-  get btnDisabled() {   
-    return this.form.pristine || this.form.invalid || HelperService.compareObjects(this._ingredient,this.form.value);
+  get btnDisabled() {
+    return this.form.pristine || this.form.invalid || HelperService.compareObjects(this._ingredient, this.form.value);
   }
 
   @Input()
@@ -36,7 +36,7 @@ export class CreateEditIngredientFormComponent implements OnDestroy {
   private _ingredient: IIngredientCreate = null;
 
   @Input()
-  set ingredient(value: IIngredientCreate) {   
+  set ingredient(value: IIngredientCreate) {
     this._ingredient = value;
     this.namesAllowed.push(value.name);
     this.form.patchValue(value);
@@ -45,7 +45,7 @@ export class CreateEditIngredientFormComponent implements OnDestroy {
   subscriptions: Subscription[] = [];
 
   form: FormGroup;
-  constructor(private fb: FormBuilder, private ingService: IngredientService,private authService:AuthService) {
+  constructor(private fb: FormBuilder, private ingService: IngredientService, private authService: AuthService) {
     this.buildForm();
   }
 
@@ -71,21 +71,18 @@ export class CreateEditIngredientFormComponent implements OnDestroy {
     return this.getCtrl(name).invalid && this.getCtrl(name).touched;
   }
 
-  measureTypes = Object.entries(MeasureTypes).filter((_, index, arr) => index < arr.length / 2);
-  originTypes = (Object.entries(OriginTypes).filter((_, index, arr) => index < arr.length / 2)).sort((a, b) => {
-    const length1 = (a[1] as string).length;
-    const length2 = (b[1] as string).length;
-    return length1 - length2
-  });
-  
+  measureTypes = HelperService.getEnumOptions(MeasureTypes);
+  originTypes = HelperService.getEnumOptions(OriginTypes)
+                             .sort((a, b) =>a[0].length-b[0].length);
+
   picUrl = null;
   buildForm() {
     this.form = this.fb.group({
       authorId: this.authService.getUserInfo().id,
-      name: ["", { validators: [Validators.required, takenNameValidatorAsync(this.ingService.nameTaken.bind(this.ingService),this.namesAllowed), Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+(\\s[a-zA-Z]{2,})?')], updateOn: "blur" }],
+      name: ["", { validators: [Validators.required, takenNameValidatorAsync(this.ingService.nameTaken.bind(this.ingService), this.namesAllowed), Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+(\\s[a-zA-Z]{2,})?')], updateOn: "blur" }],
       isEssential: [false, [Validators.required]],
-      measureType: ["1", [Validators.required]],
-      origin: ["1", [Validators.required]],
+      measureType: [1, [Validators.required]],
+      origin: [1, [Validators.required]],
       picUrl: ["", [Validators.required]],
       description: ["", [Validators.required, Validators.minLength(32), Validators.maxLength(10240)]],
     })

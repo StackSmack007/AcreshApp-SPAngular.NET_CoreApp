@@ -10,12 +10,13 @@ import { CreateRecipeComponent } from './create/create.component';
 import { EditRecipeComponent } from './edit/edit.component';
 import { CreateEditFormComponent } from './create-edit-form/create-edit-form.component';
 import { CommentsModule } from '../comments/comments.module';
+import { ListAllComponent } from './list-recipes/filters/list-all/list-all.component';
 
 
 
 @NgModule({
   declarations: [RecipeCartComponent, RecipeSubInfoCardComponent, ListRecipesComponent, RecipeDetailsComponent,
-     CreateRecipeComponent, EditRecipeComponent,CreateEditFormComponent ],
+     CreateRecipeComponent, EditRecipeComponent,CreateEditFormComponent, ListAllComponent ],
   imports: [
     CommonModule,AppRoutingModule,CoreModule,CommentsModule
   ],

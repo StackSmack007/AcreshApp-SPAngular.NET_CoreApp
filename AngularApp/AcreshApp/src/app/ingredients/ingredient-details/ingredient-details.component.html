@@ -16,8 +16,10 @@
                     </tr>
                     <tr>
                         <td>Vegan:</td>
-                        <td><span *ngIf="ingredient.isVegan"><i class="fas fa-check text-success"></i></span><span
-                                *ngIf="!ingredient.isVegan"><i class="fas fa-times text-danger"></i></span></td>
+                        <td>
+                            <span *ngIf="ingredient.isVegan"><i class="fas fa-check text-success"></i> Yes</span>
+                            <span *ngIf="!ingredient.isVegan"><i class="fas fa-times text-danger"></i> No</span>
+                        </td>
                     </tr>
                     <tr>
                         <td>Origin:</td>
@@ -29,8 +31,8 @@
                     </tr>
                     <tr>
                         <td>Added By:</td>
-                        <td><a
-                                [routerLink]="['/user-data/profile/', ingredient.authorUserName]"></a>{{ingredient.authorUserName}}
+                        <td>
+                            <i class="fas fa-user"></i><a [routerLink]="['/user-data/profile/', ingredient.authorUserName]">{{ingredient.authorUserName}}</a>
                         </td>
                     </tr>
                     <tr>

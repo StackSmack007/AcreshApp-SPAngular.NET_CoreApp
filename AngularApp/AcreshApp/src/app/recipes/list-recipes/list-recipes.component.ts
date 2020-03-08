@@ -6,11 +6,10 @@ import { Observable } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AuthService } from 'src/app/core/services/auth.service';
 
-
 @Component({
   selector: 'acr-list-recipes',
   templateUrl: './list-recipes.component.html',
-  styleUrls: ['./list-recipes.component.css']
+  styleUrls: []
 })
 
 export class ListRecipesComponent {

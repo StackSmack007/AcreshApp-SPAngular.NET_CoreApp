@@ -17,13 +17,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- <div class="form-group">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input mr-2 text-success" id="isVegan" [checked]="form.get('origin').value!='3'" readonly>
-                        <label class="custom-control-label h5" [ngClass]="{'text-success':form.get('origin').value!='3'}">Vegan Compatible</label>
-                    </div>
-                </div> -->
+
                 <div class="form-group">
                     <div class="custom-control custom-switch">
                         <input formControlName="isEssential" type="checkbox" class="custom-control-input mr-2 text-success" id="isEssential">
@@ -35,7 +29,7 @@
                 <div class="form-check pb-2 pl-4" *ngFor="let type of measureTypes">
                     <label class="form-check-label" >
                         <input type="radio" name="measureType" class="form-check-input" formControlName="measureType"
-                        [value]="type[0]"> {{type[1]}}
+                        [value]="type[1]"> {{type[0]}}
                     </label>
                 </div>
                 
@@ -43,7 +37,7 @@
                 <div class="form-check pb-2 pl-4" *ngFor="let type of originTypes">
                     <label class="form-check-label" >
                         <input type="radio" name="origin" class="form-check-input" formControlName="origin"
-                        [value]="type[0]"> {{type[1]}}
+                        [value]="type[1]"> {{type[0]}}
                     </label>
                 </div>
                 
@@ -77,7 +71,7 @@
                     </div>
                     <div *ngIf="getCtrl('description').touched && getCtrl('description').invalid">
                         <div class="alert alert-danger">
-                            <span *ngIf="getCtrl('description').errors['required']"> Please provide description!</span>
+                            <span *ngIf="getCtrl('description').errors['required']">  Please provide description!</span>
                             <span *ngIf="getCtrl('description').errors['minlength']"> Please provide description with length atleast {{getCtrl('description').errors['minlength']['requiredLength']}} symbols long!</span>
                             <span *ngIf="getCtrl('description').errors['maxlength']"> Please provide description with length lesser than {{getCtrl('description').errors['maxlength']['requiredLength']}} symbols long!</span>
                         </div>

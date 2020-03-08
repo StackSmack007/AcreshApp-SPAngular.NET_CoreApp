@@ -14,8 +14,9 @@ namespace Acresh.Services.Services.Contracts
         Task<IngredientCountsDTOout> GetCardsCountAsync(string index, string phrase, int pageCappacity);
         IQueryable<IngredientCardDTOout> GetCards(string index, string phrase, bool essential);
         Task<IngredientDetailsDTOout> GetDetailsAsync(int id);
-        Task<bool> IsNameUsedAsync(string name);
+        Task<bool> IsNameUsedAsync(string name, int ingId = -1);
         Task<Ingredient> CreateAsync(IngredientCreateDTOin newIng);
-        Task<IngredientEditDTOout> GetIngredientEditDataAsync(int id);
+        Task<IngredientEditDTO> GetIngredientEditDataAsync(int id);
+        Task<bool> UpdateAsync(IngredientEditDTO editIng);
     }
 }

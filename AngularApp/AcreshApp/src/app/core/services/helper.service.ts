@@ -29,10 +29,7 @@ const DateTimeCStoJS = (date: string, symbol = "T") => {
   csDate = csDate[0].split(".");
   t["seconds"] = +csDate.shift();
   t["ms"] = 1000 * +(`0.` + csDate.shift());
-  //let result = new Date(t["year"], t["month"], t["date"], t["hours"], t["minutes"], t["seconds"], t["ms"]);
   const result = convertToCurrentDateTime(new Date(t["year"], t["month"], t["date"], t["hours"], t["minutes"], t["seconds"], t["ms"]));
-  // let offsetHours = new Date().getTimezoneOffset() / -60;
-  // result.setHours(result.getHours() + offsetHours);
   return new Date(result);
 }
 
@@ -42,6 +39,12 @@ const DateTimeCStoJS = (date: string, symbol = "T") => {
 export class HelperService {
 
   constructor() { }
+
+
+ static getEnumOptions(enumeration):[string, number][] {
+    const ent = Object.entries(enumeration);
+    return ent.slice(-ent.length/2) as [string, number][];
+  }
 
   // toCS_keys(cam_obj: any): any {
   //   let result = {};
