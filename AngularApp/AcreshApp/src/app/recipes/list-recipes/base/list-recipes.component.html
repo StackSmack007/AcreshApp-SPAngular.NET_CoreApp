@@ -3,7 +3,7 @@
 
     <div class="col-2"></div>
     <div class="col-10">
-        <acr-recipe-card *ngFor="let item of recipesFetched" [recipe]="item"></acr-recipe-card>
+        <acr-recipe-card *ngFor="let item of recipesContainer.fetched" [recipe]="item"></acr-recipe-card>
     </div>
     <div class="col-2"></div>
 </div>
@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<div class="row" *ngIf="phrase && !isLoading && recipesFetched.length===0">
+<div class="row" *ngIf=" !isLoading && recipesContainer.fetched.length===0">
     <div class="col-4"></div>
     <div class="col-4">
         <h3 class="text-center py-4"> Sorry No results for your search... </h3>

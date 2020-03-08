@@ -35,9 +35,9 @@ namespace Common.AutomapperConfigurations
 
             CreateMap<Recipe, RecipeSubInfoDTOout>()
                 .ForMember(d => d.Category, opt => opt.MapFrom(x => x.Category.Name))
-                .ForMember(d => d.Fans, opt => opt.MapFrom(x => x.RecipeFavorisers.Count()))
-                .ForMember(d => d.IngredientsCount, opt => opt.MapFrom(x => x.RecipeIngredients.Count()))
-                .ForMember(d => d.Rating, opt => opt.MapFrom(x => x.Votes.Sum(v => (int)v.Score) / x.Votes.Count()));
+                .ForMember(d => d.Fans, opt => opt.MapFrom(x => x.RecipeFavorisers.Count(x=>!x.IsDeleted)))
+                .ForMember(d => d.IngredientsCount, opt => opt.MapFrom(x => x.RecipeIngredients.Count(x => !x.IsDeleted)))
+                .ForMember(d => d.Rating, opt => opt.MapFrom(x => x.Votes.Where(x=>!x.IsDeleted).Sum(v => (int)v.Score) / x.Votes.Count(x => !x.IsDeleted)));
 
             CreateMap<Recipe, RecipeCardDTOout>()
                 .ForMember(d => d.SubInfo, opt => opt.MapFrom(x => x))

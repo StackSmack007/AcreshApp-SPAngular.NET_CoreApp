@@ -9,7 +9,6 @@ import { ProfileEditComponent } from './auth/profile-edit/profile-edit.component
 import { UserDataProfileEditResolver } from './core/resolvers/user-data-profile-edit.resolver';
 import { ListAllComponent } from './messages/list-all/list-all.component';
 import { AuthorizedOnlyGuard } from './core/guards/authorized.only';
-import { ListRecipesComponent } from './recipes/list-recipes/list-recipes.component';
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
 import { RecipeDetailsResolver } from './core/resolvers/recipe-details-resolver';
 import { CreateRecipeComponent } from './recipes/create/create.component';
@@ -20,6 +19,7 @@ import { IngredientDetailsComponent } from './ingredients/ingredient-details/ing
 import { CreateIngredientComponent } from './ingredients/create-ingredient/create-ingredient.component';
 import { EditIngredientComponent } from './ingredients/edit-ingredient/edit-ingredient.component';
 import { IngredientEditResolver } from './core/resolvers/ingredient-edit-data-resolver';
+import { ListAllRComponent, ListMostRecentRComponent, ListMostCommentedRComponent, ListCommentedRecentlyRComponent, ListHighlyRatedRComponent, ListMostRatedRComponent, ListMostFavouredRComponent, ListSearchedRComponent, ListUserSharedRComponent, ListMyFavouriteRComponent, ListMyCommentedRComponent } from './recipes/list-recipes/recipes-list-exporter';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -49,50 +49,52 @@ const routes: Routes = [
       },
       {
         path: "all",
-        component: ListRecipesComponent,
+        component: ListAllRComponent,
       },
       {
         path: "recent",
-        component: ListRecipesComponent
+        component: ListMostRecentRComponent
       },
       {
         path: "commented",
-        component: ListRecipesComponent
+        component: ListMostCommentedRComponent
       },
       {
         path: "commented-recently",
-        component: ListRecipesComponent
+        component: ListCommentedRecentlyRComponent
       },
       {
         path: "highly-rated",
-        component: ListRecipesComponent
+        component: ListHighlyRatedRComponent
       },
       {
         path: "most-rated",
-        component: ListRecipesComponent
+        component: ListMostRatedRComponent
       },
       {
-        path: "favourized",
-        component: ListRecipesComponent
+        path: "most-favoured",
+        component: ListMostFavouredRComponent
       },
       {
         path: "search/:phrase",
-        component: ListRecipesComponent
+        component: ListSearchedRComponent
       },
       {
         path: "user/:username",
-        component: ListRecipesComponent
+        component: ListUserSharedRComponent
       },
       {
         path: "my-favourite",
-        component: ListRecipesComponent,
+        component: ListMyFavouriteRComponent,
         canActivate: [AuthorizedOnlyGuard]
       },
       {
         path: "my-commented",
-        component: ListRecipesComponent,
+        component: ListMyCommentedRComponent,
         canActivate: [AuthorizedOnlyGuard]
       },
+
+
       {
         path: "details/:id",
         component: RecipeDetailsComponent,

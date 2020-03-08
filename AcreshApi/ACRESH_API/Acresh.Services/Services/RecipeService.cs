@@ -85,13 +85,14 @@ namespace Acresh.Services.Services
                 .OrderByDescending(r => r.Comments.Where(c => !c.IsDeleted).Select(c => c.DateOfCreation).OrderByDescending(d => d).First()),
                 ["highly-rated"] = (x) => x.OrderByDescending(x => x.Votes.Sum(v => (int)v.Score) / x.Votes.Count()),
                 ["most-rated"] = (x) => x.OrderByDescending(x => x.Votes.Count()),
-                ["favourized"] = (x) => x.OrderByDescending(x => x.RecipeFavorisers.Count(rf => rf.IsDeleted)),
+                ["most-favoured"] = (x) => x.OrderByDescending(x => x.RecipeFavorisers.Count(rf => rf.IsDeleted)),
                 ["search"] = tagNameMatches,
                 ["user"] = (x) => x.Where(x => !x.IsDeleted && x.Author.UserName == val).OrderByDescending(x => x.DateOfCreation)
             };
 
             if (sortCriteria.ContainsKey(criteria))
             {
+              
                 return sortCriteria[criteria](recipeRepo.All()).To<RecipeCardDTOout>(); ;
             }
             return null;
