@@ -19,8 +19,7 @@ export class CreateIngredientComponent {
       this.toastr.success("Created new Ingredient", "Congratulations!");
       this.router.navigate(['/ingredients', { outlets: { 'ing-outlet': ['details', id] } }])
     }, (e) => {
-      this.toastr.success("No igredient was created", "Failure!");
-      debugger;
+      this.toastr.error("No igredient was created", "Failure!");
       console.error("Problem",e);
     })
   }

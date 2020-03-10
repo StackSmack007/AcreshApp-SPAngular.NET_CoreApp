@@ -44,7 +44,7 @@
                 <div class="form-group ">
                     <div class="form-group has-danger has-success">
                         <label class="form-control-label h5" for="name"> Picture Url*:</label>
-                        <input formControlName="picUrl" class="form-control" id="picUrl" [ngClass]="getValClasses('name')" placeholder="Picture url...">
+                        <input formControlName="picUrl" class="form-control" id="picUrl" [ngClass]="getValClasses('picUrl')" placeholder="Picture url...">
                         <div class="invalid-feedback" *ngIf="invalidTouchedCtrl('picUrl')" [innerText]="getErr('picUrl','required')?'Please provide Picture Url!':'unknown-Error'">
                         </div>
                     </div>

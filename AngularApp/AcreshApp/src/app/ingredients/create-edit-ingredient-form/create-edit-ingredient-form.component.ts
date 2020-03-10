@@ -59,12 +59,7 @@ export class CreateEditIngredientFormComponent implements OnDestroy {
   //Used to clasify input field as valid or not
   getValClasses(name: string): { 'is-invalid': boolean, 'is-valid': boolean } {
     const ctrl = this.getCtrl(name);
-    // if (this.getCtrl(name).pristine) return { 'is-invalid': false, 'is-valid': false };
     return { 'is-invalid': (ctrl.invalid && ctrl.touched), 'is-valid': ctrl.valid }
-  }
-  //Used to clasify input field as valid or not
-  getCtrlValClasses(ctr: FormControl): { 'is-invalid': boolean, 'is-valid': boolean } {
-    return { 'is-invalid': (ctr.invalid && ctr.touched), 'is-valid': ctr.valid }
   }
 
   invalidTouchedCtrl(name: string) {

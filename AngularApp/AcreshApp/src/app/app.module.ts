@@ -32,7 +32,12 @@ import { IngredientsModule } from './ingredients/ingredients.module';
       userUnread: unreadMsgsReducer
     }),
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(
+      {
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      }
+    )
   ],
   providers: [
     {

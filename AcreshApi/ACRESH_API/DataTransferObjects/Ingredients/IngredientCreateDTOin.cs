@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataTransferObjects.Ingredients
 {
-    public class IngredientCreateDTOin : IMapTo<Ingredient>,IMapFrom<Ingredient>
+    public class IngredientCreateDTOin : IMapTo<Ingredient>//,IMapFrom<Ingredient>
     {
         [Required, MaxLength(32)]
         public string Name { get; set; }
