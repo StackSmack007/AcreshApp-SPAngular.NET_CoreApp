@@ -10,7 +10,8 @@
                     <h3 class="text-right py-3"> {{myPersonality.cookRank}}: {{myPersonality.userName}}</h3>
                 </div>
             </div>
-            <!-- {{form.value|json}} -->
+            <!-- {{form.value|json}} 
+            [nshClassIfClass]="[['is-valid','ng-valid'],['is-invalid','ng-invalid ng-touched']]"   [ngClass]="getValClasses('name')"-->
             <form [formGroup]="form" (ngSubmit)="submitRecipe()">
                 <fieldset>
                     <legend class="text-center pb-3">Please Provide Recipe Info</legend>
@@ -19,7 +20,8 @@
                             <div class="form-group ">
                                 <div class="form-group has-danger has-success">
                                     <label class="form-control-label h5" for="name"> Recipe Name*:</label>
-                                    <input formControlName="name" class="form-control" id="name" [ngClass]="getValClasses('name')" placeholder="Name...">
+                                    <input formControlName="name" class="form-control" id="name"  placeholder="Name..." [ngClass]="getValClasses('name')"
+                                    [nshClassIfClass]="[['is-valid','ng-valid'],['is-invalid','ng-invalid ng-touched']]">
                                     <div class="invalid-feedback" *ngIf="invalidTouchedCtrl('name')"
                                         [innerText]="getErr('name','required')?'Please provide Recipe Name!':
                                                                                getErr('name','minlength')?'Please provide name with length atleast '+getErr('name','minlength')['requiredLength']+' symbols long!':

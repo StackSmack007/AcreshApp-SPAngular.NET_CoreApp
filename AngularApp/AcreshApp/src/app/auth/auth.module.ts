@@ -7,12 +7,13 @@ import { AppRoutingModule } from '../app-routing.module';
 import { ProfileInfoComponent } from './profile-info/profile-info.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { UserSmallInfoComponent } from './user-small-info/user-small-info.component';
+import { CoreModule } from '../core/core.module';
 
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent, ProfileInfoComponent, ProfileEditComponent, UserSmallInfoComponent],
   imports: [
-    CommonModule, ReactiveFormsModule,AppRoutingModule,FormsModule
+    CommonModule, ReactiveFormsModule,AppRoutingModule,FormsModule,CoreModule
   ],
   exports: [UserSmallInfoComponent]
 })

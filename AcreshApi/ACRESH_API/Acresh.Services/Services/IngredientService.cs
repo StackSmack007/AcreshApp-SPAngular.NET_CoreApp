@@ -56,7 +56,7 @@ namespace Acresh.Services.Services
         }
 
         public async Task<IngredientDetailsDTOout> GetDetailsAsync(int id)
-        {
+        {//deleted are displayed also
             var result = await this.ingRepo.All().Where(x => x.Id == id).To<IngredientDetailsDTOout>().FirstOrDefaultAsync();
             return result;
         }
@@ -97,6 +97,15 @@ namespace Acresh.Services.Services
         {
             var ingIds = ids.Split("|", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
             return await this.ingRepo.All().Where(x => !x.IsDeleted && ingIds.Contains(x.Id)).Select(x => x.Name).ToArrayAsync();
+        }
+
+        public async Task DeleteAsync(int id, string userId, bool isAdmin)
+        {
+            var ingFd = await ingRepo.All().FirstOrDefaultAsync(x => x.Id == id);
+            if (ingFd.AuthorId != userId && !isAdmin) throw new InvalidOperationException("User is not authorized to delete ingredient!");
+            if (ingFd.IsDeleted) throw new InvalidOperationException("Ingredient is already deleted!");
+            ingFd.IsDeleted = true;
+            await ingRepo.SaveChangesAsync();
         }
 
         //public IQueryable<IngredientRecipeDetailsDTOout> GetRecipeIngridients(string id) => ingRecipeRepo.All().Where(x => x.RecipeId == id && !x.IsDeleted).To<IngredientRecipeDetailsDTOout>();

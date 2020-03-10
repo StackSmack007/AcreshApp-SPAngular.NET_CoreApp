@@ -11,6 +11,6 @@ export class IngredientEditResolver implements Resolve<IIngredientEdit> {
     constructor(private ingredientService: IngredientService) { }
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IIngredientEdit> {
         const id = +route.url[1].path;
-        return this.ingredientService.getEditData(id);
+        return this.ingredientService.getEditDataById(id);
     }
 }

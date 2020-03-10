@@ -14,7 +14,8 @@ export interface IRecipeDetails {
     difficulty: number,
     tags: string[],
     ingredients: IRecipeIngredient[],
-    favorizers: string[]
+    favorizers: string[],
+    mainPicture:string,
 }
 
 

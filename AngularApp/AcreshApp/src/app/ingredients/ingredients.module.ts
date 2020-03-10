@@ -8,6 +8,7 @@ import { IngredientDetailsComponent } from './ingredient-details/ingredient-deta
 import { CreateEditIngredientFormComponent } from './create-edit-ingredient-form/create-edit-ingredient-form.component';
 import { EditIngredientComponent } from './edit-ingredient/edit-ingredient.component';
 
+
 @NgModule({
   declarations: [ListIngredientsComponent, CreateIngredientComponent, IngredientCartComponent, IngredientDetailsComponent, CreateEditIngredientFormComponent, EditIngredientComponent],
   imports: [

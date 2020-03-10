@@ -20,5 +20,8 @@ namespace DataTransferObjects.Recipes.Details
         public ICollection<string> Pictures { get; set; }
         public ICollection<string> Tags { get; set; }
         public ICollection<string> Favorizers { get; set; }
+        //public bool IsDeleted { get; set; }
+
+        public string MainPicture { get; set; }
     }
 }

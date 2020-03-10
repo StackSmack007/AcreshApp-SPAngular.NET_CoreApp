@@ -7,6 +7,7 @@ using DataTransferObjects.Recipes.Details;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Infrastructure.Models;
+using System;
 
 namespace ACRESH_API.Controllers
 {
@@ -63,24 +64,23 @@ namespace ACRESH_API.Controllers
             return result.Id;
         }
 
+        [Authorize]
+        [HttpGet("edit")]
+        public async Task<ActionResult<IngredientEditDTO>> GetForEdit(int id)
+        {
+            IngredientEditDTO result = await this.ingService.GetIngredientEditDataAsync(id);
+            if (result is null) return BadRequest("Recipe was not found!");
+            return result;
+        }
 
         [Authorize]
         [HttpPut]
         public async Task<ActionResult<int>> Edit(IngredientEditDTO editIng)
         {
-           if(editIng.AuthorId!=UserId && !IsAdmin) return BadRequest("Not authorized to edit this ingredient!");
-            if (await this.ingService.IsNameUsedAsync(editIng.Name,editIng.Id)) return BadRequest("Ingredient Name is already in Use");
+            if (editIng.AuthorId != UserId && !IsAdmin) return BadRequest("Not authorized to edit this ingredient!");
+            if (await this.ingService.IsNameUsedAsync(editIng.Name, editIng.Id)) return BadRequest("Ingredient Name is already in Use");
             if (!await this.ingService.UpdateAsync(editIng)) return BadRequest("Ingredient with given Id was not found!");
             return editIng.Id;
-        }
-
-        [Authorize]
-        [HttpGet("edit")]
-        public async Task<ActionResult<IngredientEditDTO>> GetForEdit(int id)
-        {
-            IngredientEditDTO result =await this.ingService.GetIngredientEditDataAsync(id);
-            if(result is null) return BadRequest("Recipe was not found!");
-            return result;
         }
 
         [HttpGet("get-names")]
@@ -89,7 +89,19 @@ namespace ACRESH_API.Controllers
             string[] result = await this.ingService.GetNamesByIdsAsync(ids);
             return result;
         }
-
-
+        [Authorize]
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await this.ingService.DeleteAsync(id, UserId, IsAdmin);
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+            }
+        }
     }
 }

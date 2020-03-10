@@ -53,3 +53,13 @@
             max-height: 26.5em;
             border-radius: 3em;
         }
+
+        div.alert.deleted{
+            position: absolute;
+            bottom: 10%;
+            z-index: 3;
+            left: 2em;
+            right: 1.2em;
+            border-radius: .75em;
+        }
+        div.alert.deleted>p { padding:0;}

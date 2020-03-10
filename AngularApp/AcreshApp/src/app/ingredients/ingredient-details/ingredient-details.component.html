@@ -47,15 +47,28 @@
             <p>{{ingredient.description}}</p>
         </div>
     </section>
-    <div class="actionBtns row justify-content-between">
-        <div class="col-3 text-center"><a class="center btn btn-danger" *ngIf="isDeleteAuthorised">
-            <i class="far fa-trash-alt"></i> &nbsp; Delete</a>
+    <div class="actionBtns row justify-content-between" *ngIf="!ingredient.isDeleted else deletedMessage">
+        <div class="col-3 text-center"><button mat-raised-button class="center btn btn-danger" *ngIf="isDeleteAuthorised" (click)="confirmDelete()">
+            <i class="far fa-trash-alt"></i> &nbsp; Delete</button>
         </div>
+
         <div class="col-6"></div>
         <div class="col-3 text-center pl-1"><a class="center btn btn-primary" *ngIf="isEditAuthorised"  [routerLink]="['/ingredients',{outlets: {'ing-outlet':['edit',ingredient.id]}}]">
             <i class="fas fa-edit"></i> &nbsp; Edit</a>
         </div>
     </div>
+
+<ng-template #deletedMessage>
+    <div class="alert alert-dismissible alert-danger deleted">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+       <p> <strong>Deleted</strong>  This ingredient was deleted by <b>admin/creator</b> and it is no longer available.</p>
+       <p><em> You can create it anew, if you wish to use it in recipe!</em></p>
+      </div>
+</ng-template>
+
+
+
+
 </div>
 <ng-template #nothing>
     <section class="text-center pt-3">

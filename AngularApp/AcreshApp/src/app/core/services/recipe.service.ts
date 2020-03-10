@@ -15,7 +15,7 @@ export class RecipeService {
 
   constructor(private http: HttpClient) { }
 
-  getRecipes(criteria: string, val: string,pageNum: number ): Observable<IRecipeMiniInfo[]> {
+  getRecipes(criteria: string, val: string, pageNum: number): Observable<IRecipeMiniInfo[]> {
     return this.http.get<IRecipeMiniInfo[]>(recipePaths.getMinified(pageNum, criteria, val))
   }
 
@@ -50,5 +50,9 @@ export class RecipeService {
 
   editRecipe(recipe: IRecipeEdit): Observable<any> {
     return this.http.put(recipePaths.base, recipe, { responseType: 'text' })
+  }
+
+  deleteIngredientById(id: string): Observable<any> {
+    return this.http.delete(recipePaths.delete(id))
   }
 }

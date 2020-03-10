@@ -239,5 +239,14 @@ namespace Acresh.Services.Services
             }
             return result;
         }
+
+        public async Task DeleteAsync(string id, string userId, bool isAdmin)
+        {
+            var recipeFd = await recipeRepo.All().FirstOrDefaultAsync(x => x.Id == id);
+            if (recipeFd.AuthorId != userId && !isAdmin) throw new InvalidOperationException("User is not authorized to delete recipe!");
+            if (recipeFd.IsDeleted) throw new InvalidOperationException("Recipe is already deleted!");
+            recipeFd.IsDeleted = true;
+            await recipeRepo.SaveChangesAsync();
+        }
     }
 }

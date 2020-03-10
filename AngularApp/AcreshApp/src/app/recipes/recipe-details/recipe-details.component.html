@@ -25,8 +25,11 @@
         </div>
         <div class="col-9">
             <div class="row justify-content-between pr-4 pl-2">
-                <div class="col-4 text-left"><h3><i class="fas fa-scroll"></i> &nbsp; {{recipe.name}} <span class=" btn btn-sm btn-danger" *ngIf="isEditAuthorized" (click)="goToEdit()"><i class="fas fa-tools"></i> Edit</span></h3></div>
-                <div class="col-5 pl-2">
+                <div class="col-5 text-left"><h3><i class="fas fa-scroll"></i>&nbsp;{{recipe.name}} <span *ngIf="isUDAuthorized">
+                    <span class=" btn btn-sm btn-primary" (click)="goToEdit()"><i class="fas fa-tools"></i> Edit</span>
+                    <span class=" btn btn-sm btn-danger ml-2" (click)="confirmDelete()"><i class="far fa-trash-alt"></i> Delete</span></span>
+                </h3></div>
+                <div class="col-4 pl-2">
                     <h4 class="pt-2 text-center"><span *ngIf="ratingProperties.voterCount"><i *ngFor="let star of ratingProperties.positive" class="fas fa-star pr-1"></i><i *ngIf="ratingProperties.halfStar" class="fas fa-star-half-alt pr-1"></i><i *ngFor="let star of ratingProperties.lacking" class="far fa-star pr-1"></i>  &nbsp;</span>{{ratingProperties.ratingName}}</h4>
                 </div>
                 <div class="col-3">

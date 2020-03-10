@@ -138,6 +138,20 @@ namespace ACRESH_API.Controllers
             }
         }
 
+                [HttpDelete]
+        public async Task<ActionResult> DeleteRecipe(string id)
+        {
+            try
+            {
+                await this.recipeService.DeleteAsync(id, UserId, IsAdmin);
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+            }
+        }
+
         //// GET: api/Recipes/5
         //[HttpGet("{id}", Name = "Get")]
         //public string Get(int id)

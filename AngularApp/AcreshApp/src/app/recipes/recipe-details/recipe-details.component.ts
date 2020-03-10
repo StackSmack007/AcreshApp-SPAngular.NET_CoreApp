@@ -7,6 +7,9 @@ import { SignalRRecipeDetailsService } from 'src/app/core/services/signal-r.reci
 import { CookRank } from 'src/app/core/enumerations/CookRank';
 import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
 import { IRecipeDetails } from 'src/app/core/interfaces/recipes/RecipeDetails';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { DialogQuestionComponent } from 'src/app/core/components/questionComponent/dialog-question.component';
 
 @Component({
   selector: 'acr-rec-det',
@@ -17,10 +20,12 @@ export class RecipeDetailsComponent implements OnDestroy {
   ratingNames = ["Distasteful", "Questionable", "Acceptable", "Recomendable", "Good", "Magnifique"]
 
   constructor(
-    private router:Router,
-    route: ActivatedRoute, 
+    private router: Router,
+    route: ActivatedRoute,
     private authService: AuthService,
-    private recipeService: RecipeService, 
+    private recipeService: RecipeService,
+    private dialog: MatDialog,
+    private toastr: ToastrService,
     public singalRService: SignalRRecipeDetailsService) {
     this.recipe = route.snapshot.data.data;
     singalRService.startConnection(this.recipe);
@@ -61,18 +66,18 @@ export class RecipeDetailsComponent implements OnDestroy {
   //   favorizers: ["Aladin", "Sebaidin", "Maradin", "Martin"],
   // }
 
-  get isEditAuthorized() {
+  get isUDAuthorized() {
     return this.authService.isAdmin || this.myName === this.recipe.authorUserName;
   }
 
-trimAppropriate(str:string,maxLength){
-  let res=str.slice(0,maxLength);
-  let lastSpace=res.lastIndexOf(' ');
-  return res.slice(0,lastSpace) + "...";
-}
+  trimAppropriate(str: string, maxLength) {
+    let res = str.slice(0, maxLength);
+    let lastSpace = res.lastIndexOf(' ');
+    return res.slice(0, lastSpace) + "...";
+  }
 
-  goToEdit(){
-    this.router.navigate(["/recipes/edit",this.recipe.id]);
+  goToEdit() {
+    this.router.navigate(["/recipes/edit", this.recipe.id]);
   }
 
   get videoLink() {
@@ -156,5 +161,30 @@ trimAppropriate(str:string,maxLength){
 
   ngOnDestroy(): void {
     this.singalRService.stopConnection();
+  }
+
+  confirmDelete() {
+    let dialogRef = this.dialog.open(DialogQuestionComponent,
+      {
+        width: "40em",
+        data: {
+          title: `Confirm Deletion Please:`,
+          question: `Are you sure you wish to delete ${this.recipe.name}?`,
+          picUrl: this.recipe.mainPicture,
+          positiveAnswerBtnName: '<i class="far fa-trash-alt"></i> Delete',
+          negativeAnswerBtnName: '<i class="fas fa-ban"></i> Abort'
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === "true") {
+          this.recipeService.deleteIngredientById(this.recipe.id).subscribe(() => {
+            this.toastr.success(`Removed recipe ${this.recipe.name}`, "Success!");
+            this.router.navigate(['/index']);
+          }, (err) => {
+            this.toastr.error(`Recipe ${this.recipe.name} was not removed`, "Failure");
+            console.log(err);
+          });
+        }
+      })
   }
 }

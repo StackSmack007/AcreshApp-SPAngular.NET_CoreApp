@@ -26,7 +26,7 @@ export class ListIngredientsComponent {
 
   ingrIdSelected = new BehaviorSubject<number>(0);
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private ingService: IngredientService, private spinner: NgxSpinnerService, router: Router, private authService: AuthService) {
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private ingService: IngredientService, private spinner: NgxSpinnerService, private router: Router, private authService: AuthService) {
     this.buildForm();
     this.monitorForm();
 
@@ -116,7 +116,7 @@ export class ListIngredientsComponent {
 
   isOnCreatePage() {
     const urlChilds = this.route.snapshot.children;
-    return urlChilds.length > 0 && ["create","edit"].includes(urlChilds[0].url[0]["path"].toLowerCase())
+    return urlChilds.length > 0 && ["create", "edit"].includes(urlChilds[0].url[0]["path"].toLowerCase())
   }
 
 }

@@ -19,5 +19,6 @@ namespace Acresh.Services.Services.Contracts
         Task<IngredientEditDTO> GetIngredientEditDataAsync(int id);
         Task<bool> UpdateAsync(IngredientEditDTO editIng);
         Task<string[]> GetNamesByIdsAsync(string ids);
+        Task DeleteAsync(int id, string userId, bool isAdmin);
     }
 }

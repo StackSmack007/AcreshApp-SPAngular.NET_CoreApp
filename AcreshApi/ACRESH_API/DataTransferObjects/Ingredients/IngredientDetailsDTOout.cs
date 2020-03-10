@@ -5,6 +5,8 @@
         public string MeasureType { get; set; }
         public string Description { get; set; }
         public double LastModified { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 
 }

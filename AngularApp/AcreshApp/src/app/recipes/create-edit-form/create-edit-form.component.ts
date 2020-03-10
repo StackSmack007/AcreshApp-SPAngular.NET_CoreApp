@@ -1,6 +1,7 @@
 import { Observable, Subscription } from 'rxjs';
-import { Component, OnDestroy, DoCheck, Input, Output, EventEmitter } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { takenNameValidatorAsync } from "src/app/core/validators/takenNameValidatorAsync";
+import { Component, OnDestroy, DoCheck, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HelperService } from 'src/app/core/services/helper.service';
@@ -11,7 +12,6 @@ import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { RecipeDifficulty } from 'src/app/core/enumerations/RecipeDifficulty';
 import { IRecipeCreate } from 'src/app/core/interfaces/recipes/IRecipeCreate';
 import { ICategoryOption } from 'src/app/core/interfaces/categories/ICategoryOption';
-import { takenNameValidatorAsync } from "src/app/core/validators/takenNameValidatorAsync";
 import { IIngredientOption } from 'src/app/core/interfaces/ingredients/IIngredientOption';
 
 @Component({
@@ -96,7 +96,6 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
   //Used to clasify input field as valid or not
   getValClasses(name: string): { 'is-invalid': boolean, 'is-valid': boolean } {
     const ctrl = this.getCtrl(name);
-    // if (this.getCtrl(name).pristine) return { 'is-invalid': false, 'is-valid': false };
     return { 'is-invalid': (ctrl.invalid && ctrl.touched), 'is-valid': ctrl.valid }
   }
   //Used to clasify input field as valid or not
@@ -177,7 +176,6 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
       this.form.setErrors({ "noIngredient": false })
     }
   }
-
 
   submitRecipe() {
     if (this.form.invalid || this.form.pristine) return;

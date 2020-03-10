@@ -53,6 +53,7 @@ export const recipePaths: IRecipePaths = {
     setRating: basePath + "recipes/set-rating",
     chkNameTaken: (name) => basePath + `recipes/name-used?name=${name}`,
     edit: (id) => basePath + `recipes/edit?id=${id}`,
+    delete: (id) => basePath + `recipes?id=${id}`
 }
 
 export interface IRecipePaths {
@@ -63,6 +64,7 @@ export interface IRecipePaths {
     setRating: string,
     chkNameTaken: (name: string) => string,
     edit: (id: string) => string,
+    delete(id: string): string;
 }
 
 export const categoryPaths: ICategoryPath = {
@@ -83,7 +85,8 @@ export const ignredientPaths: IIgnredientPaths = {
     getRecipeIngredients: (id) => basePath + `ingredients/recipe?id=${id}`,
     getCardsTotalCount: (index, phrase) => basePath + `ingredients/cards-count?index=${index}&phrase=${phrase}`,
     getCards: (page, index, phrase, essential) => basePath + `ingredients/cards?page=${page}&index=${index}&phrase=${phrase}&essential=${essential}`,
-    edit: (id) => basePath + `ingredients/edit?id=${id}`,
+    editGet: (id) => basePath + `ingredients/edit?id=${id}`,
+    delete: (id) => basePath + `ingredients?id=${id}`,
     getNamesByIds: (ids) => basePath + `ingredients/get-names?ids=${ids}`,
 }
 
@@ -95,7 +98,8 @@ export interface IIgnredientPaths {
     getRecipeIngredients: (id: string) => string,
     getCardsTotalCount: (index: string, phrase: string) => string,
     getCards: (page: number, index: string, phrase: string, essential: boolean) => string,
-    edit: (id: number) => string,
+    editGet: (id: number) => string,
+    delete: (id: number) => string,
     getNamesByIds: (ids: string) => string;
 }
 

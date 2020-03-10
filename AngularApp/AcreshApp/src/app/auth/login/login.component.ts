@@ -7,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import { AppState } from 'src/app/store/app.state';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'src/app/core/services/message.service';
-import { SetMessageCount } from 'src/app/store/actions/user.unread.count.action';
 
 @Component({
   selector: 'acr-login',
@@ -42,7 +41,7 @@ export class LoginComponent {
 
   buildForm() {
     this.lf = this.fb.group({
-      "umail": ["", [Validators.required]],
+      "umail": ["", [Validators.required,Validators.minLength(3)]],
       "password": ["", [Validators.required, Validators.minLength(minLengthFields.password)]],
     })
   }
@@ -55,12 +54,6 @@ export class LoginComponent {
       console.log("Avemos Papa:", this.authService.getUserInfo());
       this.toastrService.success("Successfull login", `Welcome ${values.umail}`)
       this.router.navigate([""]);
-
-      // this.messageService.getUnreadMsgCount().subscribe(cnt => {
-      //   debugger;
-      //   this.store.dispatch(new SetMessageCount({ userName: this.authService.getUserInfo().userName, unreadMessagesCount: cnt }))
-      //   debugger;
-      // })
     },
       e => {
         console.log("failure ->", e.error.error);

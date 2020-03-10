@@ -18,5 +18,6 @@ namespace Acresh.Services.Services.Contracts
         Task<Recipe> CreateAsync(RecipeCreateDTOin recipe);
         Task<RecipeEditDTOout> GetRecipeEditInfoAsync(string recipeId, string userId, bool isAdmin);
         Task<Recipe> EditRecipeAsync(RecipeEditDTOin recipe, string userId, bool isAdmin);
+        Task DeleteAsync(string id, string userId, bool isAdmin);
     }
 }

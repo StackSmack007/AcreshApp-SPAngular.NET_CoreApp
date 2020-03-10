@@ -43,8 +43,8 @@ export class IngredientService {
         return this.http.get<IIngredientCard[]>(ignredientPaths.getCards(page, index, phrase, essential));
     }
 
-    getEditData(id: number): Observable<IIngredientEdit> {
-        return this.http.get<IIngredientEdit>(ignredientPaths.edit(id))
+    getEditDataById(id: number): Observable<IIngredientEdit> {
+        return this.http.get<IIngredientEdit>(ignredientPaths.editGet(id))
     }
 
     createIngredient(value: IIngredientCreate): Observable<number> {
@@ -57,5 +57,9 @@ export class IngredientService {
 
     getIngredientNames(ids: string): Observable<string[]> {
         return this.http.get<string[]>(ignredientPaths.getNamesByIds(ids));
+    }
+
+    deleteIngredientById(id: number): Observable<any> {
+        return this.http.delete<any>(ignredientPaths.delete(id));
     }
 }
