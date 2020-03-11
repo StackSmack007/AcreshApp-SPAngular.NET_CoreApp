@@ -74,7 +74,7 @@
                 <div class="col-7">
                     <form #f="ngForm" (ngSubmit)="makeVote(f.value)">
                         <label for="choise">Rate This Recipe:</label>
-                        <div class="row justify-content-between">
+                        <div class="row justify-content-start">
                             <div class="col-4">
                                 <select  name="choise" ngModel [(ngModel)]="myVote" class="custom-select" id="choise" [disabled]="!isLoggedIn">
                                     <option  *ngIf="myVote===0"  value="0" selected disabled >Choose rating...</option>
@@ -84,11 +84,18 @@
                         <div class="col-3 pt-1">
                             <button type="submit" class="btn btn-primary btn-sm" [ngClass]="{'not-allowed': !rateBtnEnabled(f.value)}" [disabled]="!rateBtnEnabled(f.value)"><i class="fas fa-star"> </i>&nbsp; <span [innerHTML]="myVote? 'Change':'Give'" ></span> Rating </button>
                         </div>
-                        <div class="col-4 pt-1 px-0">
-                            <button type="button" (click)="favUnfav()" class="btn btn-primary btn-sm" [ngClass]="{'not-allowed': !isLoggedIn}" [disabled]="!isLoggedIn">
+                        <div class="col-5 pt-1 px-0">
+<div class="fav-btn">
+    <mat-button-toggle color="warn" #btn="matButtonToggle" [checked]="isLoggedIn && isFavourite" (click)="favUnfav()" [ngClass]="{'not-allowed': !isLoggedIn}" [disabled]="!isLoggedIn">
+        <span *ngIf="isFavourite; else removeOpt" opt="addOpt"> <i class="fas fa-heart-broken"></i>&nbsp; Remove from Favourite </span>
+        <ng-template #removeOpt><i class="fas fa-heart"></i>&nbsp; Add to Favourite</ng-template>
+    </mat-button-toggle>
+    <!-- {{btn.checked}} -->
+</div>
+                            <!-- <button type="button" (click)="favUnfav()" class="btn btn-primary btn-sm" [ngClass]="{'not-allowed': !isLoggedIn}" [disabled]="!isLoggedIn">
                                 <span *ngIf="isFavourite; else removeOpt" opt="addOpt"> <i class="fas fa-heart-broken"></i>&nbsp; Remove from Favourite </span>
                                 <ng-template #removeOpt><i class="fas fa-heart"></i>&nbsp; Add to Favourite </ng-template>
-                            </button>            
+                            </button>             -->
                         </div>
                     </div>
                     </form>

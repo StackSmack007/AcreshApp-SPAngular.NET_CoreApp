@@ -8,17 +8,20 @@ import { SafePipe } from './pipes/safeUrl.pipe';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from '../app-routing.module';
-import { MatTooltipModule} from '@angular/material/tooltip';
-import {PopoverModule} from "ngx-smart-popover";
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { PopoverModule } from "ngx-smart-popover";
 import { ClassIfClassDirective } from './directives/class-if-class.directive';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { DialogQuestionComponent } from './components/questionComponent/dialog-question.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle'; 
+
+const materialTools = [MatTooltipModule, MatDialogModule,MatButtonToggleModule]
 @NgModule({
-  declarations: [HTMLRaw,SafePipe, ClassIfClassDirective,DialogQuestionComponent],
+  declarations: [HTMLRaw, SafePipe, ClassIfClassDirective, DialogQuestionComponent],
   imports: [
-    CommonModule, HttpClientModule, NgxSpinnerModule,FormsModule,ReactiveFormsModule,  BrowserModule, BrowserAnimationsModule,AppRoutingModule,PopoverModule,MatTooltipModule,MatDialogModule
+    CommonModule, HttpClientModule, NgxSpinnerModule, FormsModule, ReactiveFormsModule, BrowserModule, BrowserAnimationsModule, AppRoutingModule, PopoverModule, MatTooltipModule, MatDialogModule, materialTools
   ],
-  exports: [DialogQuestionComponent,ClassIfClassDirective,NgxSpinnerModule,HTMLRaw,CommonModule,FormsModule,ReactiveFormsModule,SafePipe,BrowserModule, BrowserAnimationsModule,AppRoutingModule,PopoverModule,MatTooltipModule,MatDialogModule
+  exports: [DialogQuestionComponent, ClassIfClassDirective, NgxSpinnerModule, HTMLRaw, CommonModule, FormsModule, ReactiveFormsModule, SafePipe, BrowserModule, BrowserAnimationsModule, AppRoutingModule, PopoverModule, materialTools
   ]
 })
 export class CoreModule { }
