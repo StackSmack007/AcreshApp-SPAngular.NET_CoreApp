@@ -35,9 +35,9 @@ namespace Common.AutomapperConfigurations
 
             CreateMap<Recipe, RecipeSubInfoDTOout>()
                 .ForMember(d => d.Category, opt => opt.MapFrom(x => x.Category.Name))
-                .ForMember(d => d.Fans, opt => opt.MapFrom(x => x.RecipeFavorisers.Count(x=>!x.IsDeleted)))
+                .ForMember(d => d.Fans, opt => opt.MapFrom(x => x.RecipeFavorisers.Count(x => !x.IsDeleted)))
                 .ForMember(d => d.IngredientsCount, opt => opt.MapFrom(x => x.RecipeIngredients.Count(x => !x.IsDeleted)))
-                .ForMember(d => d.Rating, opt => opt.MapFrom(x => x.Votes.Where(x=>!x.IsDeleted).Sum(v => (int)v.Score) / x.Votes.Count(x => !x.IsDeleted)));
+                .ForMember(d => d.Rating, opt => opt.MapFrom(x => x.Votes.Where(x => !x.IsDeleted).Sum(v => (int)v.Score) / x.Votes.Count(x => !x.IsDeleted)));
 
             CreateMap<Recipe, RecipeCardDTOout>()
                 .ForMember(d => d.SubInfo, opt => opt.MapFrom(x => x))
@@ -53,7 +53,7 @@ namespace Common.AutomapperConfigurations
             CreateMap<RecipeIngredient, IngredientRecipeDetailsDTOout>()
                  .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Ingredient.Id))
                  .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Ingredient.Name))
-                 .ForMember(d=>d.Description,opt=>opt.MapFrom(s=>s.Ingredient.Description))
+                 .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Ingredient.Description))
                  .ForMember(d => d.PicURL, opt => opt.MapFrom(s => s.Ingredient.PicUrl))
                  .ForMember(d => d.IsVegan, opt => opt.MapFrom(s => s.Ingredient.IsVegan))
                  .ForMember(d => d.IsEssential, opt => opt.MapFrom(s => s.Ingredient.IsEssential));
@@ -92,7 +92,13 @@ namespace Common.AutomapperConfigurations
             CreateMap<Ingredient, IngredientDetailsDTOout>()
                     .ForMember(d => d.UsageCount, opt => opt.MapFrom(s => s.IngredientRecipes.Count(ir => !ir.IsDeleted && !ir.Ingredient.IsDeleted)))
                     .ForMember(d => d.LastModified, opt => opt.MapFrom(s => ConvertToUnixTimestamp(s.DateOfLastEdit)))
-                    .ForMember(d => d.MeasureType, opt => opt.MapFrom(s => s.MeasureType.ToString().Replace("_"," ")));
+                    .ForMember(d => d.MeasureType, opt => opt.MapFrom(s => s.MeasureType.ToString().Replace("_", " ")));
+
+            CreateMap<Category, CategoryDetailsDTOout>()
+                    .ForMember(d => d.RecipesCount, opt => opt.MapFrom(s => s.Recipes.Count(r => !r.IsDeleted)))
+                    .ForMember(d => d.ParentCategoryName, opt => opt.MapFrom(s => s.ParentCategory.Name))
+                    .ForMember(d => d.DateOfCreation, opt => opt.MapFrom(s => ConvertToUnixTimestamp(s.DateOfCreation)))
+                    .ForMember(d => d.DateOfLastEdit, opt => opt.MapFrom(s => ConvertToUnixTimestamp(s.DateOfLastEdit)));
         }
 
         private void CreateMapToMappings(System.Collections.Generic.IEnumerable<Type> allTypes)

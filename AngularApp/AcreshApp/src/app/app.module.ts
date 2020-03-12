@@ -14,6 +14,7 @@ import { unreadMsgsReducer } from './store/reducers/unread.msg.reducer';
 import { MessagesModule } from './messages/messages.module';
 import { RecipesModule } from './recipes/recipes.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @NgModule({
   declarations: [
@@ -22,12 +23,13 @@ import { IngredientsModule } from './ingredients/ingredients.module';
   imports: [
     BrowserModule,
     RecipesModule,
+    IngredientsModule,
+    CategoriesModule,
     AppRoutingModule,
     SharedModule,
     CoreModule,
     AuthModule,
     MessagesModule,
-    IngredientsModule,
     StoreModule.forRoot({
       userUnread: unreadMsgsReducer
     }),

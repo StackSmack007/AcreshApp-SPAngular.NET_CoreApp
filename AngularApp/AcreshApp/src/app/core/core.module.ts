@@ -11,17 +11,16 @@ import { AppRoutingModule } from '../app-routing.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PopoverModule } from "ngx-smart-popover";
 import { ClassIfClassDirective } from './directives/class-if-class.directive';
-import { MatDialogModule } from '@angular/material/dialog';
 import { DialogQuestionComponent } from './components/questionComponent/dialog-question.component';
-import {MatButtonToggleModule} from '@angular/material/button-toggle'; 
+import { MaterialModule } from './material/material.module';
 
-const materialTools = [MatTooltipModule, MatDialogModule,MatButtonToggleModule]
+
 @NgModule({
   declarations: [HTMLRaw, SafePipe, ClassIfClassDirective, DialogQuestionComponent],
   imports: [
-    CommonModule, HttpClientModule, NgxSpinnerModule, FormsModule, ReactiveFormsModule, BrowserModule, BrowserAnimationsModule, AppRoutingModule, PopoverModule, MatTooltipModule, MatDialogModule, materialTools
+    CommonModule, HttpClientModule, NgxSpinnerModule, FormsModule, ReactiveFormsModule, BrowserModule, BrowserAnimationsModule, AppRoutingModule, PopoverModule, MaterialModule
   ],
-  exports: [DialogQuestionComponent, ClassIfClassDirective, NgxSpinnerModule, HTMLRaw, CommonModule, FormsModule, ReactiveFormsModule, SafePipe, BrowserModule, BrowserAnimationsModule, AppRoutingModule, PopoverModule, materialTools
+  exports: [ ClassIfClassDirective, NgxSpinnerModule, HTMLRaw, CommonModule, FormsModule, ReactiveFormsModule, SafePipe, BrowserModule, BrowserAnimationsModule, AppRoutingModule, PopoverModule, MaterialModule
   ]
 })
 export class CoreModule { }

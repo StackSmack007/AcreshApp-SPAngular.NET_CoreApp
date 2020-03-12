@@ -22,13 +22,22 @@ namespace ACRESH_API.Controllers
             return result;
         }
 
+        [HttpGet("three")]
+        public async Task<ActionResult<CategoryTreeDTOout[]>> GetStructure()
+        {
+            CategoryTreeDTOout[] result = (await categoryService.GetThreeAsync()).ToArray();
+            return result;
+        }
 
+        [HttpGet("details")]
+        public async Task<ActionResult<CategoryDetailsDTOout>> GetDetails(int id)
+        {
+            CategoryDetailsDTOout result = await categoryService.GetCategoryDetailsAsync(id);
+            if (result is null) return BadRequest(new { reason="Category was not found!" });
+            return result;
+        }
 
-
-
-
-
-
+        
 
         //// GET: api/Categories
         //[HttpGet]

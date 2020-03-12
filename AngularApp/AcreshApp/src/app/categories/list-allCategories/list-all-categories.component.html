@@ -1,0 +1,22 @@
+<section>
+    <div class="title">
+        <h3>Recipe's Categories...</h3>
+    </div>
+    <div class="three">
+        <acr-cat-three *ngIf="categories" [cats]="categories"
+        [selectedCategory]="selectedCategory"
+        
+        ></acr-cat-three>
+    </div>
+    <div class="menu" *ngIf="action">
+        <div class="details">
+            <acr-create-edit-form *ngIf="action==='create'||action==='edit'"></acr-create-edit-form>
+            <acr-details  [selectedCategory]="selectedCategory" *ngIf="action==='details'" [category]="dataObj.info$ | async"></acr-details>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary btn-sm">Add</button>
+            <button class="btn btn-primary btn-sm">Edit</button>
+            <button class="btn btn-primary btn-sm">Delete</button>
+        </div>
+    </div>
+</section>

@@ -20,6 +20,7 @@ import { CreateIngredientComponent } from './ingredients/create-ingredient/creat
 import { EditIngredientComponent } from './ingredients/edit-ingredient/edit-ingredient.component';
 import { IngredientEditResolver } from './core/resolvers/ingredient-edit-data-resolver';
 import { ListAllRComponent, ListMostRecentRComponent, ListMostCommentedRComponent, ListCommentedRecentlyRComponent, ListHighlyRatedRComponent, ListMostRatedRComponent, ListMostFavouredRComponent, ListSearchedRComponent, ListUserSharedRComponent, ListMyFavouriteRComponent, ListMyCommentedRComponent, ListIngredientsContainingRComponent } from './recipes/list-recipes/recipes-list-exporter';
+import { ListAllCategoriesComponent } from './categories/list-allCategories/list-all-categories.component';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -139,25 +140,12 @@ const routes: Routes = [
         canActivate: [AuthorizedOnlyGuard],
         outlet: "ing-outlet"
       },
-      // {
-      //   path: "*",
-      //   redirectTo: "details/0",
-      //   outlet: "ing-outlet"
-      // },
-      //   {
-      //     path: 'list/:param1/:param2',
-      //     component: TestOneComponent,
-      //     outlet: 'ing'
-      // }
     ]
   },
-
-  // {path:"",
-  // component:TestOneComponent,
-  // outlet:"ing"
-  // },
-
-
+{
+  path: "categories",
+  component: ListAllCategoriesComponent
+}
 
 ];
 

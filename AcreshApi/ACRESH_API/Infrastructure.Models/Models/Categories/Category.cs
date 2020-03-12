@@ -6,18 +6,17 @@ namespace Infrastructure.Models
 {
     public class Category : BaseEntity<int>
     {
-
         public Category(string name, string description, params Category[] innerCat) : this(name, description)
         {
             ChildrenCategories = innerCat;
         }
 
-        public Category(string name, string description):this()
+        public Category(string name, string description) : this()
         {
             Name = name;
             Description = description;
         }
-        
+
         public Category()
         {
             Recipes = new HashSet<Recipe>();
@@ -38,7 +37,6 @@ namespace Infrastructure.Models
         public int? ParentCategoryId { get; set; }
         [ForeignKey(nameof(ParentCategoryId))]
         public Category ParentCategory { get; set; }
-
         public ICollection<Category> ChildrenCategories { get; set; }
 
     }

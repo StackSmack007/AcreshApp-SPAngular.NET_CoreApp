@@ -69,12 +69,16 @@ export interface IRecipePaths {
 
 export const categoryPaths: ICategoryPath = {
     base: basePath + "categories/",
-    getAllMini: basePath + "categories/all-mini"
+    getAllMini: basePath + "categories/all-mini",
+    getThreeStructure:basePath + "categories/three",
+    getDetails:(id:number)=> basePath+`categories/details?id=${id}`
 }
 
 export interface ICategoryPath {
     base: string,
     getAllMini: string
+    getThreeStructure:string,
+    getDetails(id: number): string;
 }
 
 export const ignredientPaths: IIgnredientPaths = {

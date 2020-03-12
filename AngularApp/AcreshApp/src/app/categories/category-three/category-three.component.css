@@ -1,0 +1,31 @@
+.mat-form-field {
+    margin-right: 4px;
+  }
+  
+  img.bullet-img{
+      width:2em;
+      margin-right: .5em;
+  }
+
+  span.opt {
+      cursor: pointer;
+      margin-left:.6em;
+  }
+
+  span.opt:hover {
+   transform:scale(1.4);
+   animation-duration: 1s;
+   animation-timing-function:ease-in;
+}
+
+img.rotated{
+    transform: rotate(45deg);
+}
+
+span.chosen {
+    background:blanchedalmond;
+    color:darkgreen;
+    border-radius: 1em;
+    font-weight: bold;
+    padding:0.2em 0.35em;
+}

@@ -1,0 +1,43 @@
+section {
+    width:100%;
+    max-width:90em;
+    margin:0 auto;
+    background:whitesmoke;
+    padding:2em 3em;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+
+div.title {
+    text-align: center;
+    flex: 0 0 100%;
+}
+
+div.three,div.menu {
+    flex: 1 0 auto;
+    max-width: 40em;
+}
+
+div.menu {
+    margin-left:auto;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+div.details{
+    border:2px solid magenta;
+    border-radius:2em;
+    padding:1em;
+    margin:2em 0;
+}
+
+div.actions {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    /* margin-top: auto; */
+}
