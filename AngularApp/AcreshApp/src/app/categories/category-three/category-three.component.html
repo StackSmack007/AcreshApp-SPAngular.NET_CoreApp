@@ -1,5 +1,5 @@
 <h4><img class="bullet-img" src="../../../assets/imgs/100x100xtree.png" alt="tree"> Category tree   
-    <span class="opt" *ngIf="isAdmin" (click)="add(null)"
+    <span class="opt" *ngIf="isAdmin" (click)="add(null,'Main Category')"
         mat-raised-button matTooltipPosition="above"
         matTooltip="Add new Head Category"
         aria-label="create-main category popup"> 
@@ -24,7 +24,7 @@
                 <i class="fas fa-scroll text-info"></i> 
         </span>
        
-        <span class="opt" *ngIf="canCreate" (click)="add(node.id)"
+        <span class="opt" *ngIf="canCreate" (click)="add(node.id,node.name)"
             mat-raised-button matTooltipPosition="above"
             [matTooltip]="'Add Sub-Category of '+node.name"
             aria-label="create popup"> 
@@ -37,7 +37,7 @@
             aria-label="edit popup">    
                 <i class="fas fa-pencil-alt text-primary"></i> 
         </span>
-        <span  *ngIf="canDelete(node)" class="opt" (click)="remove(node.id)"
+        <span  *ngIf="canDelete(node)" class="opt" (click)="askDelete(node.id,node.name)"
             mat-raised-button matTooltipPosition="above"
             [matTooltip]="'Delete category '+node.name"
             aria-label="delete popup">
@@ -59,7 +59,13 @@
             aria-label="details popup">     
                 <i class="fas fa-info-circle text-info"></i> 
         </span>
-        <span class="opt" *ngIf="canCreate" (click)="add(node.id)"
+        <span class="opt" *ngIf="node.hasRecipes" [routerLink]="['/']"
+            mat-raised-button matTooltipPosition="above"
+            [matTooltip]="'View recipes for '+node.name"
+            aria-label="recipes popup">
+                <i class="fas fa-scroll text-info"></i> 
+        </span>
+        <span class="opt" *ngIf="canCreate" (click)="add(node.id,node.name)"
             mat-raised-button matTooltipPosition="above"
             [matTooltip]="'Add Sub-Category of '+node.name"
             aria-label="create popup">

@@ -1,6 +1,8 @@
 ﻿using Acresh.Services.Services.Contracts;
 using DataTransferObjects.Categories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,7 +20,7 @@ namespace ACRESH_API.Controllers
         [HttpGet("all-mini")]
         public async Task<ActionResult<CategoryDTOout[]>> GetAllMini()
         {
-           var result=(await categoryService.GetAllCategories()).ToArray();
+            var result = (await categoryService.GetAllCategories()).ToArray();
             return result;
         }
 
@@ -33,42 +35,42 @@ namespace ACRESH_API.Controllers
         public async Task<ActionResult<CategoryDetailsDTOout>> GetDetails(int id)
         {
             CategoryDetailsDTOout result = await categoryService.GetCategoryDetailsAsync(id);
-            if (result is null) return BadRequest(new { reason="Category was not found!" });
+            if (result is null) return BadRequest(new { reason = "Category was not found!" });
             return result;
         }
+        [Authorize]
+        [HttpGet("name-used")]
+        public async Task<ActionResult<bool>> IsNameUsed(string name) => await categoryService.IsNameUsedAsync(name);
 
-        
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult<int>> Create(CategoryCreateDTOin cat)
+        {
+            try
+            {
+                int newId = await categoryService.CreateNewAsync(cat, IsAdmin, UserId);
+                return newId;
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+            }
+        }
 
-        //// GET: api/Categories
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        [Authorize]
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await categoryService.DeleteAsync(id, IsAdmin, UserId);
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+            }
+        }
 
-        //// GET: api/Categories/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        //// POST: api/Categories
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
-
-        //// PUT: api/Categories/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

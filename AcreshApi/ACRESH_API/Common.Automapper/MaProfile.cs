@@ -97,6 +97,7 @@ namespace Common.AutomapperConfigurations
             CreateMap<Category, CategoryDetailsDTOout>()
                     .ForMember(d => d.RecipesCount, opt => opt.MapFrom(s => s.Recipes.Count(r => !r.IsDeleted)))
                     .ForMember(d => d.ParentCategoryName, opt => opt.MapFrom(s => s.ParentCategory.Name))
+                    .ForMember(d => d.HasChildren, opt => opt.MapFrom(s => s.ChildrenCategories.Any(c=>!c.IsDeleted)))
                     .ForMember(d => d.DateOfCreation, opt => opt.MapFrom(s => ConvertToUnixTimestamp(s.DateOfCreation)))
                     .ForMember(d => d.DateOfLastEdit, opt => opt.MapFrom(s => ConvertToUnixTimestamp(s.DateOfLastEdit)));
         }

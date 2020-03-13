@@ -8,4 +8,5 @@ export interface ICategoryDetails {
     recipesCount: number;
     dateOfCreation: number;
     dateOfLastEdit: number;
+    hasChildren:boolean;
 }

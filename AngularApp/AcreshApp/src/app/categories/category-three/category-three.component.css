@@ -29,3 +29,7 @@ span.chosen {
     font-weight: bold;
     padding:0.2em 0.35em;
 }
+
+mat-tree.mat-tree{
+    padding:1em 0 0 2.5em;
+}

@@ -1,9 +1,12 @@
 ﻿using Acresh.Services.DBRepository.Contracts;
 using Acresh.Services.Services.Contracts;
+using AutoMapper;
 using Common.AutomapperConfigurations;
 using DataTransferObjects.Categories;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,10 +16,12 @@ namespace Acresh.Services.Services
     public class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> categoryRepo;
+        private readonly IMapper mapper;
 
-        public CategoryService(IRepository<Category> categoryRepo)
+        public CategoryService(IRepository<Category> categoryRepo, IMapper mapper)
         {
             this.categoryRepo = categoryRepo;
+            this.mapper = mapper;
         }
 
         public async Task<ICollection<CategoryDTOout>> GetAllCategories()
@@ -72,7 +77,32 @@ namespace Acresh.Services.Services
             };
         }
 
-        public async Task<CategoryDetailsDTOout> GetCategoryDetailsAsync(int id) => 
+        public async Task<CategoryDetailsDTOout> GetCategoryDetailsAsync(int id) =>
                await this.categoryRepo.All().Where(x => x.Id == id && !x.IsDeleted).To<CategoryDetailsDTOout>().FirstOrDefaultAsync();
+
+        public async Task<bool> IsNameUsedAsync(string name, int catId = -1) =>
+               await categoryRepo.All().AnyAsync(x => !x.IsDeleted && x.Name.ToLower() == name.ToLower() && x.Id != catId);
+
+        public async Task<int> CreateNewAsync(CategoryCreateDTOin cat, bool isAdmin, string userId)
+        {
+            if (cat.AuthorId != userId && !isAdmin) throw new InvalidOperationException("User is not authorized to create category!");
+            if (await IsNameUsedAsync(cat.Name)) throw new InvalidOperationException($"Category name {cat.Name} is already used!");
+            Category newCat = mapper.Map<Category>(cat);
+            await this.categoryRepo.AddAssync(newCat);
+            await this.categoryRepo.SaveChangesAsync();
+            return newCat.Id;
+        }
+
+        public async Task DeleteAsync(int id, bool isAdmin, string userId)
+        {
+            var catFd = await categoryRepo.All().Include(x => x.Recipes).FirstOrDefaultAsync(x => x.Id == id);
+            if (catFd is null) throw new InvalidOperationException("Category not found!");
+            if (await categoryRepo.All().AnyAsync(x => !x.IsDeleted && x.ParentCategoryId == id)) throw new InvalidOperationException("Category has sub-categories and can not be deleted!");
+            if (catFd.AuthorId != userId && !isAdmin) throw new InvalidOperationException("User is not authorized to delete category!");
+            if (catFd.Recipes.Any(x => !x.IsDeleted)) throw new InvalidOperationException("Category has recipes belonging and can not be deleted!");
+            if (catFd.IsDeleted) throw new InvalidOperationException("Category is already deleted!");
+            catFd.IsDeleted = true;
+            await categoryRepo.SaveChangesAsync();
+        }
     }
 }

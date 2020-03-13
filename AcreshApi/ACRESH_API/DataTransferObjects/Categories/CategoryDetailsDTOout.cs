@@ -11,4 +11,6 @@ public class CategoryDetailsDTOout
     public string ParentCategoryName { get; set; }
     public double DateOfCreation { get; set; }
     public double DateOfLastEdit { get; set; }
+
+    public bool HasChildren { get; set; }
 }

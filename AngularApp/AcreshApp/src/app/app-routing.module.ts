@@ -20,7 +20,7 @@ import { CreateIngredientComponent } from './ingredients/create-ingredient/creat
 import { EditIngredientComponent } from './ingredients/edit-ingredient/edit-ingredient.component';
 import { IngredientEditResolver } from './core/resolvers/ingredient-edit-data-resolver';
 import { ListAllRComponent, ListMostRecentRComponent, ListMostCommentedRComponent, ListCommentedRecentlyRComponent, ListHighlyRatedRComponent, ListMostRatedRComponent, ListMostFavouredRComponent, ListSearchedRComponent, ListUserSharedRComponent, ListMyFavouriteRComponent, ListMyCommentedRComponent, ListIngredientsContainingRComponent } from './recipes/list-recipes/recipes-list-exporter';
-import { ListAllCategoriesComponent } from './categories/list-allCategories/list-all-categories.component';
+import { MainBoardCategoriesComponent } from './categories/main-board/main-board-categories.component';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -144,7 +144,7 @@ const routes: Routes = [
   },
 {
   path: "categories",
-  component: ListAllCategoriesComponent
+  component: MainBoardCategoriesComponent
 }
 
 ];

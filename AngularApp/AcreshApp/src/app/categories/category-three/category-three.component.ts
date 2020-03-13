@@ -1,5 +1,5 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CategoryNode } from 'src/app/core/interfaces/categories/CategoryNode';
@@ -91,31 +91,49 @@ export class CategoryThreeComponent {
   set cats(v: CategoryNode[]) {
     console.log(v);
     this.dataSource.data = v;
+    if(this.selectedCategory) this.expandParents(this.selectedCategory.getValue())
   }
 
-  constructor(private authService: AuthService, ) { }//this.dataSource.data = TREE_DATA; }
+  constructor(private authService: AuthService) { }
+
+  private expandParents(id) {
+    if(!this.treeControl || id<=0) return;
+    const allNodes = this.treeControl.dataNodes;
+    const node = allNodes.find(x => x.id === id);
+    if (!node) return;
+     let level = node.level;
+    for (let i = allNodes.indexOf(node) - 1; i >= 0; i--) {
+      const current = allNodes[i];
+      if (current.level < level) {
+        level--;
+        this.treeControl.expand(current);
+      }
+      if (level === 0) break;
+    }
+  }
 
   hasChild = (_: number, node: CategoryFlatNode) => node.expandable;
-
-  get selected() {return this.selectedCategory.getValue()}
-
-  display(id: number) { this.selectedCategory.next(id) }
-
-  @Input()
+  
+  @Input()//Only for quick select with display followed!!!
   selectedCategory: BehaviorSubject<number>
+  get selected() { return this.selectedCategory.getValue() }
 
   get canCreate() { return this.authService.isAuthenticated() }
   get isAdmin() { return this.authService.isAdmin }
   canEdit(node: CategoryFlatNode) { return this.authService.isAuthenticated() && (this.isAdmin || this.authService.getUserInfo().id === node.authorId) }
   canDelete(node: CategoryFlatNode) { return this.canEdit(node) && !node.hasRecipes }
 
-  add(id: number) {
-    console.log(this.dataSource.data);
-  }
+  display(id: number) { this.selectedCategory.next(id) }
+
+  @Output()
+  addEvent: EventEmitter<{ pId: number, pName: string }> = new EventEmitter();
+  add(pId: number, pName: string) { this.addEvent.emit({ pId, pName }); }
+
+  @Output()
+  deleteEvent: EventEmitter<{ name: string, id: number }> = new EventEmitter();
+  askDelete(id: number, name: string) { this.deleteEvent.emit({ id, name }) }
+
   edit(id: number) {
-    alert("Advam  kum: " + id);
-  }
-  remove(id: number) {
     alert("Advam  kum: " + id);
   }
 }

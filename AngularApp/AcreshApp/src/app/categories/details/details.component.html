@@ -6,7 +6,7 @@
     <ul class="stats">
         <li>Recipes: {{category.recipesCount}}</li>
         <li *ngIf="category.parentCategoryId; else mainCategory">ParentCategory:
-             <span class="clickable text-success" (click)="selectedCategory.next(category.parentCategoryId)">{{category.parentCategoryName}}</span>
+             <span class="clickable text-success" (click)="selectParentCategory()">{{category.parentCategoryName}}</span>
         </li> 
         <ng-template #mainCategory><li> Main Category </li></ng-template>
                 
@@ -14,4 +14,11 @@
         <li>Created: {{createdBefore}}</li>
         <li *ngIf="createdBefore!==editedBefore">Last Modified: {{editedBefore}}</li>
     </ul>
+    <div class="row justify-content-between">
+<div class="col-4"></div>
+<div class="col-4"></div>
+<div class="col-4">
+    <button *ngIf="canDelete" class="btn btn-primary btn-sm float-right" (click)="askDelete()">Delete</button>
+</div>
+    </div>
 </section>
