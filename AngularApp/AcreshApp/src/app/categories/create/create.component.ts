@@ -12,7 +12,15 @@ import { BehaviorSubject } from 'rxjs';
 export class CreateComponent {
 
   @Input()
-  parentData: { pId: number, pName: string }
+  set parentCategoryId(parentCategoryId: number) {
+    this.settings = {
+      headline: 'Create',
+      submitBtnTitle: "<i class='fas fa-plus-circle'></i>&nbsp;Add Category",
+      parentCategoryId
+    }
+  }
+
+  abort() { this.selectedCategory.next(this.settings.parentCategoryId); }
 
   @Input()
   selectedCategory: BehaviorSubject<number>
@@ -20,7 +28,10 @@ export class CreateComponent {
   @Output()
   updateTreeEvent: EventEmitter<any> = new EventEmitter();
 
-  settings = { headline: 'Create', submitBtnTitle: "<i class='fas fa-plus-circle'></i>&nbsp;Add Category", parentCategory: () => this.parentData };
+  @Output()
+  navigateTreeEvent: EventEmitter<number> = new EventEmitter();
+
+  settings: { headline: string, submitBtnTitle: string, parentCategoryId: number };
 
   constructor(private catService: CategoryService, private toastr: ToastrService) { }
 
@@ -33,6 +44,5 @@ export class CreateComponent {
       console.log("nsh error", e);
       this.toastr.error('Unsucessfull creation of e')
     })
-    this.updateTreeEvent.emit();
   }
 }

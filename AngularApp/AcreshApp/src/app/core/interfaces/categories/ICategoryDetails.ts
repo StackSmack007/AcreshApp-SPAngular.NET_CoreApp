@@ -10,3 +10,5 @@ export interface ICategoryDetails {
     dateOfLastEdit: number;
     hasChildren:boolean;
 }
+
+

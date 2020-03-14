@@ -70,16 +70,18 @@ export interface IRecipePaths {
 export const categoryPaths: ICategoryPath = {
     base: basePath + "categories/",
     getAllMini: basePath + "categories/all-mini",
-    getThreeStructure:basePath + "categories/three",
-    getDetails:(id:number)=> basePath+`categories/details?id=${id}`,
-    nameUsed:(name: string) => basePath+`categories/name-used?name=${name}`,
-    delete:(id)=> basePath + `categories?id=${id}`,
+    getThreeStructure: basePath + "categories/three",
+    getDetails: (id: number) => basePath + `categories/details?id=${id}`,
+    nameUsed: (name: string) => basePath + `categories/name-used?name=${name}`,
+    delete: (id) => basePath + `categories?id=${id}`,
+    getEditDetails: (id) => basePath + `categories/edit-details?id=${id}`
 }
 
 export interface ICategoryPath {
+    getEditDetails(id: number): string;
     base: string,
     getAllMini: string
-    getThreeStructure:string,
+    getThreeStructure: string,
     getDetails(id: number): string;
     nameUsed(name: string): string;
     delete(id: number): string;

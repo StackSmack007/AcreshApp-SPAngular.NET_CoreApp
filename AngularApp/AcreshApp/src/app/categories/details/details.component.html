@@ -1,5 +1,4 @@
 <section *ngIf="category">
-    <!-- {{category | json}} -->
     <h3>{{category.name}}</h3>
     <h5>Details:</h5>
     <p>{{category.description}}</p>
@@ -15,10 +14,10 @@
         <li *ngIf="createdBefore!==editedBefore">Last Modified: {{editedBefore}}</li>
     </ul>
     <div class="row justify-content-between">
-<div class="col-4"></div>
-<div class="col-4"></div>
-<div class="col-4">
-    <button *ngIf="canDelete" class="btn btn-primary btn-sm float-right" (click)="askDelete()">Delete</button>
-</div>
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <button *ngIf="canDelete" class="btn btn-primary btn-sm float-right" (click)="askDelete()">Delete</button>
+        </div>
     </div>
 </section>

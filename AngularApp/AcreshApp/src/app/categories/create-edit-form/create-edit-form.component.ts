@@ -1,11 +1,12 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Subscription, Observable } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HelperService } from 'src/app/core/services/helper.service';
-import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/core/services/category.service';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { takenNameValidatorAsync } from 'src/app/core/validators/takenNameValidatorAsync';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { ICategoryCreate } from 'src/app/core/interfaces/categories/ICategoryCreate';
+import { ICategoryOption } from 'src/app/core/interfaces/categories/ICategoryOption';
+import { takenNameValidatorAsync } from 'src/app/core/validators/takenNameValidatorAsync';
 
 @Component({
   selector: 'acr-create-edit-form',
@@ -16,19 +17,32 @@ export class CreateEditFormComponent {
 
   @Output()
   btnClickEvent: EventEmitter<ICategoryCreate> = new EventEmitter<ICategoryCreate>();
+  get btnDisabled() {
+    return this.form.pristine || this.form.invalid || HelperService.compareObjects(this._category, this.form.value);
+  }
+  
+  @Output()
+  abortEvent:EventEmitter<any>=new EventEmitter();
+  abort(){    this.abortEvent.emit();  }
+
+  private _settings: { headline: string, submitBtnTitle: string, parentCategoryId: number }
+  get settings() { return this._settings }
 
   @Input()
-  settings: { headline: string, submitBtnTitle: string, parentCategory: () => { pId: number, pName: string } };
+  set settings(v) {
+    this._settings = v;
+    this.form.get("parentCategoryId").setValue(v.parentCategoryId)
+  };
 
-  get btnDisabled() {
-    return this.form.pristine || this.form.invalid || HelperService.compareObjects(this._ingredient, this.form.value);
-  }
+  @Input()
+  navigateTreeEvent: EventEmitter<number>;
 
-  private _ingredient: ICategoryCreate = null;
+  private _category: ICategoryCreate = null;
 
   @Input()
   set category(value: ICategoryCreate) {
-    this._ingredient = value;
+    if (value === null) return;
+    this._category = value;
     this.namesAllowed.push(value.name);
     this.form.patchValue(value);
   }
@@ -37,8 +51,11 @@ export class CreateEditFormComponent {
 
   form: FormGroup;
   constructor(private fb: FormBuilder, private catService: CategoryService, private authService: AuthService) {
+    this.categorie$ = catService.getAllMini();
     this.buildForm();
   }
+
+  categorie$: Observable<ICategoryOption[]>
 
   getCtrl(name: string) { return this.form.get(name); }
 
@@ -59,11 +76,16 @@ export class CreateEditFormComponent {
       authorId: this.authService.getUserInfo().id,
       parentCategoryId: null,
     })
+
+    this.subscriptions.push(
+      this.form.get("parentCategoryId")
+        .valueChanges.subscribe(id => {
+          this.navigateTreeEvent.emit(id === "null" || id === null ? null : +id)
+        }))
   }
 
   submitForm() {
     if (this.form.valid) {
-      this.form.get('parentCategoryId').setValue(this.settings.parentCategory().pId);
       this.btnClickEvent.emit(this.form.value)
     }
   }

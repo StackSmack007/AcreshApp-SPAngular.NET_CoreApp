@@ -3,23 +3,37 @@
         <h3><i class="far fa-bookmark"></i> Recipe's Categories...</h3>
     </div>
     <div class="three">
-        <acr-cat-three *ngIf="categories" [cats]="categories"
-        [selectedCategory]="selectedCategory"
-        (addEvent)="add($event)"
-        (deleteEvent)="confirmDelete($event)"
+        <acr-cat-three *ngIf="categories" 
+            [cats]="categories"
+            [selectedCategory]="selectedCategory"
+            (addEvent)="add($event)"
+            (editEvent)="edit($event)"
+            (deleteEvent)="confirmDelete($event)"
         ></acr-cat-three>
     </div>
 
     <div class="menu" *ngIf="action">
         <div class="details">
-            <acr-create-category *ngIf="action==='create'" [parentData]="dataObj.createInfo" (updateTreeEvent)="updateTree()" [selectedCategory]="selectedCategory"></acr-create-category>
-             <!-- <acr-create-edit-form *ngIf="action==='create'||action==='edit'"></acr-create-edit-form> -->
-             <acr-details *ngIf="action==='details'" [category]="dataObj.info$ | async" [selectedCategory]="selectedCategory" (deleteEvent)="confirmDelete($event)"></acr-details>
+            <acr-create-category *ngIf="action==='create'" 
+                [parentCategoryId]="dataObj.createInfo" 
+                (updateTreeEvent)="updateTree()" 
+                (navigateTreeEvent)="navigateTreeElementNoDetails($event)" 
+                [selectedCategory]="selectedCategory">
+            </acr-create-category>
+
+            <acr-edit-category *ngIf="action==='edit'" 
+            [selectedCategory]="selectedCategory"
+                (updateTreeEvent)="updateTree()" 
+                (navigateTreeEvent)="navigateTreeElementNoDetails($event)" 
+                [categoryId]="dataObj.editInfo"
+                >
+            </acr-edit-category>
+            
+             <acr-details *ngIf="action==='details'" 
+                [category]="dataObj.info$ | async" 
+                [selectedCategory]="selectedCategory" 
+                (deleteEvent)="confirmDelete($event)">
+            </acr-details>
         </div>
-        <!-- <div class="actions">
-            <button class="btn btn-primary btn-sm">Add</button>
-            <button class="btn btn-primary btn-sm">Edit</button>
-            <button class="btn btn-primary btn-sm">Delete</button>
-        </div> -->
     </div>
 </section>

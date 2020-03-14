@@ -2,6 +2,7 @@
 using DataTransferObjects.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace ACRESH_API.Controllers
         [HttpGet("all-mini")]
         public async Task<ActionResult<CategoryDTOout[]>> GetAllMini()
         {
-            var result = (await categoryService.GetAllCategories()).ToArray();
+            var result = await categoryService.GetAllMini().ToArrayAsync();
             return result;
         }
 
@@ -64,6 +65,35 @@ namespace ACRESH_API.Controllers
             try
             {
                 await categoryService.DeleteAsync(id, IsAdmin, UserId);
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpGet("edit-details")]
+        public async Task<ActionResult<CategoryEditDetailsDTOout>> GetEditDetails(int id)
+        {
+            try
+            {
+                return await categoryService.GetEditDetailsAsync(id, IsAdmin, UserId);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { reason = ex.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task<ActionResult> EditDetails(CategoryEditDetailsDTOin category)
+        {
+            try
+            {
+                await categoryService.EditDetailsAsync(category, IsAdmin, UserId);
                 return NoContent();
             }
             catch (InvalidOperationException ex)

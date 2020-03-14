@@ -24,11 +24,7 @@ namespace Acresh.Services.Services
             this.mapper = mapper;
         }
 
-        public async Task<ICollection<CategoryDTOout>> GetAllCategories()
-        {
-            var result = await this.categoryRepo.All().To<CategoryDTOout>().ToArrayAsync();
-            return result;
-        }
+        public IQueryable<CategoryDTOout> GetAllMini() => categoryRepo.All().Where(x => !x.IsDeleted).OrderBy(x => x.Name).To<CategoryDTOout>();
 
         public async Task<ICollection<CategoryTreeDTOout>> GetThreeAsync()
         {
@@ -102,6 +98,26 @@ namespace Acresh.Services.Services
             if (catFd.Recipes.Any(x => !x.IsDeleted)) throw new InvalidOperationException("Category has recipes belonging and can not be deleted!");
             if (catFd.IsDeleted) throw new InvalidOperationException("Category is already deleted!");
             catFd.IsDeleted = true;
+            await categoryRepo.SaveChangesAsync();
+        }
+
+        public async Task<CategoryEditDetailsDTOout> GetEditDetailsAsync(int id, bool isAdmin, string userId)
+        {
+            var categoryFd = await categoryRepo.All().FirstOrDefaultAsync(x => !x.IsDeleted && x.Id == id);
+            if (categoryFd is null) throw new InvalidOperationException("Category not found");
+            if (categoryFd.AuthorId != userId && !isAdmin) throw new InvalidOperationException("User not authorized to edit!");
+            return mapper.Map<CategoryEditDetailsDTOout>(categoryFd);
+        }
+
+        public async Task EditDetailsAsync(CategoryEditDetailsDTOin cat, bool isAdmin, string userId)
+        {
+            var categoryFd = await categoryRepo.All().FirstOrDefaultAsync(x => !x.IsDeleted && x.Id == cat.Id);
+            if (categoryFd is null) throw new InvalidOperationException("Category not found");
+            if (categoryFd.AuthorId != userId && !isAdmin) throw new InvalidOperationException("User not authorized to edit!");
+            categoryFd.Name = cat.Name;
+            categoryFd.ParentCategoryId = cat.ParentCategoryId;
+            categoryFd.Description = cat.Description;
+            categoryFd.DateOfLastEdit = DateTime.UtcNow;
             await categoryRepo.SaveChangesAsync();
         }
     }

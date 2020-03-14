@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CategoryNode } from 'src/app/core/interfaces/categories/CategoryNode';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { ICategoryDetails } from 'src/app/core/interfaces/categories/ICategoryDetails';
@@ -6,6 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogQuestionComponent } from 'src/app/core/components/questionComponent/dialog-question.component';
 import { ToastrService } from 'ngx-toastr';
+import { CategoryThreeComponent } from '../category-three/category-three.component';
 
 @Component({
   selector: 'main-board-categories',
@@ -14,15 +15,26 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MainBoardCategoriesComponent {
 
-  action: null | "details" | "create" | "edit" = null
-
   categories: CategoryNode[] = null;
 
+  private actionLocked = false;
+  action: null | "details" | "create" | "edit" = null
   selectedCategory: BehaviorSubject<number> = new BehaviorSubject<number>(-1)
+
+  @ViewChild(CategoryThreeComponent) tree: CategoryThreeComponent;
+
+  navigateTreeElementNoDetails(id: number) {
+    debugger;
+    this.actionLocked = true;
+    this.tree.expandParents(id);
+    this.selectedCategory.next(id);
+    this.actionLocked = false;
+  }
 
   constructor(private catService: CategoryService, private dialog: MatDialog, private toastr: ToastrService) {
     this.updateTree()
     this.selectedCategory.subscribe(id => {
+      if (this.actionLocked) return;
       if (id > 0) { this.action = "details"; }
       this.dataObj.info$ = this.catService.getDetails(id);
     })
@@ -34,15 +46,21 @@ export class MainBoardCategoriesComponent {
     });
   }
 
-  dataObj: { info$: Observable<ICategoryDetails>, createInfo: { pId: number, pName: string } } =
+  dataObj: { info$: Observable<ICategoryDetails>, createInfo: number, editInfo: number } =
     {
       info$: null,
-      createInfo: { pId: null, pName: null },
+      createInfo: null,
+      editInfo: null,
     }
 
-  add(v: { pId, pName }) {
+  add(parentCategoryId: number) {
     this.action = "create";
-    this.dataObj.createInfo = v;
+    this.dataObj.createInfo = parentCategoryId;//Todo can remove name from data transfer since it is retrieved from a list.
+  }
+
+  edit(id: number) {
+    this.dataObj.editInfo = id;
+    this.action = "edit";
   }
 
   confirmDelete({ name, id }) {
@@ -58,12 +76,15 @@ export class MainBoardCategoriesComponent {
         }
       });
 
+    const parentId = this.tree.getParentId(id);
+
     dialogRef.afterClosed().subscribe(result => {
       if (result === "true") {
         this.catService.deleteCategoryById(id).subscribe(() => {
           this.toastr.success(`Removed category ${name}`, "Success!");
           this.updateTree();
-          this.action = null;
+          this.selectedCategory.next(parentId);
+          this.navigateTreeElementNoDetails(parentId);
         }, (err) => {
           this.toastr.error(`Category ${name} was not removed`, "Failure");
           console.log(err);

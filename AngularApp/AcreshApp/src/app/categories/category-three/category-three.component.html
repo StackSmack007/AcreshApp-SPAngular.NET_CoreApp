@@ -1,5 +1,5 @@
 <h4><img class="bullet-img" src="../../../assets/imgs/100x100xtree.png" alt="tree"> Category tree   
-    <span class="opt" *ngIf="isAdmin" (click)="add(null,'Main Category')"
+    <span class="opt" *ngIf="isAdmin" (click)="add(null)"
         mat-raised-button matTooltipPosition="above"
         matTooltip="Add new Head Category"
         aria-label="create-main category popup"> 
@@ -11,7 +11,7 @@
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
         <!-- use a disabled button to provide padding for tree leaf -->
         <!-- <button mat-icon-button disabled></button> -->
-        <img class="bullet-img" src="../../../assets/imgs/leaf 100x100.png" alt="bottom-category"> <span [ngClass]="{'chosen':node.id===selected}">{{node.name}}</span> 
+        <img class="bullet-img" src="../../../assets/imgs/leaf 100x100.png" alt="bottom-category"> <span [ngClass]="{'chosen':node.id===chosenId}">{{node.name}}</span> 
         <span class="opt" (click)="display(node.id)"
             mat-raised-button matTooltipPosition="above"
             [matTooltip]="'View details for '+node.name"
@@ -24,7 +24,7 @@
                 <i class="fas fa-scroll text-info"></i> 
         </span>
        
-        <span class="opt" *ngIf="canCreate" (click)="add(node.id,node.name)"
+        <span class="opt" *ngIf="canCreate" (click)="add(node.id)"
             mat-raised-button matTooltipPosition="above"
             [matTooltip]="'Add Sub-Category of '+node.name"
             aria-label="create popup"> 
@@ -52,7 +52,7 @@
 
             </mat-icon>
         </button>
-        <span [ngClass]="{'chosen':node.id===selected}">{{node.name}}</span>  &nbsp;
+        <span [ngClass]="{'chosen':node.id===chosenId}">{{node.name}}</span>  &nbsp;
         <span class="opt" (click)="display(node.id)"
             mat-raised-button matTooltipPosition="above"
             [matTooltip]="'View details for '+node.name"
@@ -65,7 +65,7 @@
             aria-label="recipes popup">
                 <i class="fas fa-scroll text-info"></i> 
         </span>
-        <span class="opt" *ngIf="canCreate" (click)="add(node.id,node.name)"
+        <span class="opt" *ngIf="canCreate" (click)="add(node.id)"
             mat-raised-button matTooltipPosition="above"
             [matTooltip]="'Add Sub-Category of '+node.name"
             aria-label="create popup">
