@@ -6,7 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogQuestionComponent } from 'src/app/core/components/questionComponent/dialog-question.component';
 import { ToastrService } from 'ngx-toastr';
-import { CategoryThreeComponent } from '../category-three/category-three.component';
+import { CategoryTreeComponent } from '../category-tree/category-tree.component';
 
 @Component({
   selector: 'main-board-categories',
@@ -21,7 +21,7 @@ export class MainBoardCategoriesComponent {
   action: null | "details" | "create" | "edit" = null
   selectedCategory: BehaviorSubject<number> = new BehaviorSubject<number>(-1)
 
-  @ViewChild(CategoryThreeComponent) tree: CategoryThreeComponent;
+  @ViewChild(CategoryTreeComponent) tree: CategoryTreeComponent;
 
   navigateTreeElementNoDetails(id: number) {
     debugger;

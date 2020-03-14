@@ -3,13 +3,13 @@
         <h3><i class="far fa-bookmark"></i> Recipe's Categories...</h3>
     </div>
     <div class="three">
-        <acr-cat-three *ngIf="categories" 
+        <acr-cat-tree *ngIf="categories" 
             [cats]="categories"
             [selectedCategory]="selectedCategory"
             (addEvent)="add($event)"
             (editEvent)="edit($event)"
             (deleteEvent)="confirmDelete($event)"
-        ></acr-cat-three>
+        ></acr-cat-tree>
     </div>
 
     <div class="menu" *ngIf="action">

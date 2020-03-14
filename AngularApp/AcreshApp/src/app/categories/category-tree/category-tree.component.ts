@@ -25,11 +25,11 @@ interface CategoryFlatNode {
  * @title Tree with flat nodes
  */
 @Component({
-  selector: 'acr-cat-three',
-  templateUrl: 'category-three.component.html',
-  styleUrls: ['category-three.component.css'],
+  selector: 'acr-cat-tree',
+  templateUrl: 'category-tree.component.html',
+  styleUrls: ['category-tree.component.css'],
 })
-export class CategoryThreeComponent implements OnInit {
+export class CategoryTreeComponent implements OnInit {
   private _transformer = (node: CategoryNode, level: number): CategoryFlatNode => {
     return {
       id: node.id,
