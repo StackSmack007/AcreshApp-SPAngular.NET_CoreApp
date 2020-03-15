@@ -22,7 +22,6 @@ import { IngredientEditResolver } from './core/resolvers/ingredient-edit-data-re
 import { ListAllRComponent, ListMostRecentRComponent, ListMostCommentedRComponent, ListCommentedRecentlyRComponent, ListHighlyRatedRComponent, ListMostRatedRComponent, ListMostFavouredRComponent, ListSearchedRComponent, ListUserSharedRComponent, ListMyFavouriteRComponent, ListMyCommentedRComponent, ListIngredientsContainingRComponent } from './recipes/list-recipes/recipes-list-exporter';
 import { MainBoardCategoriesComponent } from './categories/main-board/main-board-categories.component';
 import { ListInCategoryRComponent } from './recipes/list-recipes/filters/in-category/list-inCategory.component';
-import { DisplayCategoryDetailsFromOutLinkComponent } from './categories/display-category-details-from-out-link/display-category-details-from-out-link.component';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
