@@ -23,5 +23,6 @@ namespace DataTransferObjects.Recipes
         public int IngredientsCount { get; set; }
         public string Difficulty { get; set; }
         public int Fans { get; set; }
+        public int CategoryId { get; set; }
     }
 }

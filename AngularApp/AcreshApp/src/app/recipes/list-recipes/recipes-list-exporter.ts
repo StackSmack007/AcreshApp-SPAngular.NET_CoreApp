@@ -10,3 +10,4 @@ export * from './filters/user-shared/list-userSharedR.component';
 export * from './filters/my-favourite/list-myFavourite'
 export * from './filters/my-commented/list-myCommentedR.component'
 export * from './filters/ings-contain/list-ingredientsContainingR.component'
+export * from './filters/in-category/list-inCategory.component'

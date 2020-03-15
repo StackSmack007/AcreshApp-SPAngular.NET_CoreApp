@@ -46,7 +46,6 @@ export class EditComponent {
 
   editCategory(v: ICategoryCreate) {
     let edited: ICategoryEditDetails = { ...v, ...{ id: this._categoryId } }
-    debugger;
     this.catService.editCategory(edited).subscribe(() => {
       this.updateTreeEvent.emit();
       this.selectedCategory.next(this._categoryId);

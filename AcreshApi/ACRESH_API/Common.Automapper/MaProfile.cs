@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.Interfaces.Contracts.Automapper;
+using DataTransferObjects.Categories;
 using DataTransferObjects.Comments;
 using DataTransferObjects.Ingredients;
 using DataTransferObjects.Recipes;

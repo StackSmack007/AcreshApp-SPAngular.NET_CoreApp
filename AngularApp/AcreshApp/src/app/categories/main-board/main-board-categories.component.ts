@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogQuestionComponent } from 'src/app/core/components/questionComponent/dialog-question.component';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryTreeComponent } from '../category-tree/category-tree.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'main-board-categories',
@@ -24,19 +25,27 @@ export class MainBoardCategoriesComponent {
   @ViewChild(CategoryTreeComponent) tree: CategoryTreeComponent;
 
   navigateTreeElementNoDetails(id: number) {
-    debugger;
     this.actionLocked = true;
     this.tree.expandParents(id);
     this.selectedCategory.next(id);
     this.actionLocked = false;
   }
 
-  constructor(private catService: CategoryService, private dialog: MatDialog, private toastr: ToastrService) {
+  constructor(private catService: CategoryService, private dialog: MatDialog, private toastr: ToastrService, activatedRoute: ActivatedRoute) {
+    console.log(activatedRoute);
+
+    if (activatedRoute.snapshot.url[0]&&activatedRoute.snapshot.url[0].path.toLowerCase() === "details" &&
+      !isNaN(activatedRoute.snapshot.params["id"])) {
+      this.selectedCategory.next(+activatedRoute.snapshot.params["id"])
+    }
+
     this.updateTree()
     this.selectedCategory.subscribe(id => {
       if (this.actionLocked) return;
-      if (id > 0) { this.action = "details"; }
-      this.dataObj.info$ = this.catService.getDetails(id);
+      if (id > 0) {
+        this.dataObj.info$ = this.catService.getDetails(id);
+        this.action = "details";
+      }
     })
   }
 
@@ -54,8 +63,8 @@ export class MainBoardCategoriesComponent {
     }
 
   add(parentCategoryId: number) {
-    this.action = "create";
     this.dataObj.createInfo = parentCategoryId;//Todo can remove name from data transfer since it is retrieved from a list.
+    this.action = "create";
   }
 
   edit(id: number) {

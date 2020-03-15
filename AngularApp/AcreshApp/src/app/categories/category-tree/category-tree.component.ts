@@ -8,7 +8,7 @@ import { delay } from 'rxjs/operators';
 
 /**
  * Category data with nested structure.
- * Each node has a name and an optional list of children.
+ * Each node has a id, name, authorId, hasRecipes, and an optional list of children.
  */
 
 /** Flat node with expandable and level information */
@@ -50,19 +50,20 @@ export class CategoryTreeComponent implements OnInit {
   @Input()
   set cats(v: CategoryNode[]) {
     this.dataSource.data = v;
+    //If it category was added or deleted upon refreshing categories it will expand to current!
     if (this.selectedCategory) this.expandParents(this.selectedCategory.getValue())
   }
 
   constructor(private authService: AuthService) { }
-
-  public expandParents(id) {
-    if (!this.treeControl) return;
+  
+  /**Expands only provided id's parents in tree structure and closes everything else...*/
+  public expandParents(id, expandSelf = false) {
     this.treeControl.collapseAll();
-    if (id === null || id <= 0) return;
+    if (!this.treeControl || id === null || id <= 0) return;
     const allNodes = this.treeControl.dataNodes;
     const node = allNodes.find(x => x.id === id);
     if (!node) return;
-    this.treeControl.expand(node);
+    if (expandSelf) this.treeControl.expand(node);
     let level = node.level;
     for (let i = allNodes.indexOf(node) - 1; i >= 0; i--) {
       const current = allNodes[i];
@@ -73,11 +74,9 @@ export class CategoryTreeComponent implements OnInit {
       if (level === 0) break;
     }
   }
-
+  /**Purpose is to provide parentNode id so after deletion and treeUpdate to expandParents(id)*/
   public getParentId(nodeId: number): number {
-    if (!this.treeControl) return null;
-    this.treeControl.collapseAll();
-    if (nodeId === null || nodeId <= 0) return null;
+    if (!this.treeControl || nodeId === null || nodeId <= 0) return null;
     const allNodes = this.treeControl.dataNodes;
     const node = allNodes.find(x => x.id === nodeId);
     if (!node) return null;
@@ -94,7 +93,7 @@ export class CategoryTreeComponent implements OnInit {
   selectedCategory: BehaviorSubject<number>
   chosenId: number = null;
   ngOnInit(): void {
-    this.selectedCategory.pipe(delay(0)).subscribe(x => { this.chosenId = x })
+    this.selectedCategory.pipe(delay(0)).subscribe(x => { this.chosenId = x; this.expandParents(x) })
   }
 
   get canCreate() { return this.authService.isAuthenticated() }
@@ -116,7 +115,6 @@ export class CategoryTreeComponent implements OnInit {
   editEvent: EventEmitter<number> = new EventEmitter();
   edit(id: number) { this.editEvent.emit(id) }
 }
-
 
 /* Example of input structure **/
 const TREE_DATA: CategoryNode[] = [

@@ -5,4 +5,5 @@ export interface IRecipeMiniSubInfo {
     ingredientsCount:number,
     difficulty: string;
     fans: number;
+    categoryId:number;
 }

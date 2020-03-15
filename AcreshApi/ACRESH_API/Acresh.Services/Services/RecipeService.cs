@@ -97,6 +97,7 @@ namespace Acresh.Services.Services
                 ["search"] = tagNameMatches,
                 ["ingredients"] = ingsMatches,
                 ["all"] = (x) => x,
+                ["category"] = (x) => x.Where(x=>x.CategoryId==int.Parse(val)),
                 ["recent"] = (x) => x.Where(x => x.DateOfCreation > DateTime.UtcNow.AddDays(-61)).OrderByDescending(x => x.DateOfCreation),
                 ["commented"] = (x) => x.OrderByDescending(x => x.Comments.Count(c => !c.IsDeleted)),
                 ["commented-recently"] = (x) => x.Where(x => x.Comments.Any(c => !c.IsDeleted))
@@ -104,10 +105,10 @@ namespace Acresh.Services.Services
                 ["highly-rated"] = (x) => x.OrderByDescending(x => x.Votes.Sum(v => (int)v.Score) / x.Votes.Count()),
                 ["most-rated"] = (x) => x.OrderByDescending(x => x.Votes.Count()),
                 ["most-favoured"] = (x) => x.OrderByDescending(x => x.RecipeFavorisers.Count(rf => rf.IsDeleted)),
-                ["user"] = (x) => x.Where(x => !x.IsDeleted && x.Author.UserName == val).OrderByDescending(x => x.DateOfCreation),
+                ["user"] = (x) => x.Where(x => x.Author.UserName == val).OrderByDescending(x => x.DateOfCreation),
             };
 
-            if (sortCriteria.ContainsKey(criteria))return sortCriteria[criteria](recipeRepo.All()).To<RecipeCardDTOout>();
+            if (sortCriteria.ContainsKey(criteria))return sortCriteria[criteria](recipeRepo.All()).Where(x=>!x.IsDeleted).To<RecipeCardDTOout>();
             return null;
         }
 

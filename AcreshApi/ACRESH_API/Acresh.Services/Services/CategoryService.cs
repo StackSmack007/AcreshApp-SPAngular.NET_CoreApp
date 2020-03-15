@@ -4,7 +4,6 @@ using AutoMapper;
 using Common.AutomapperConfigurations;
 using DataTransferObjects.Categories;
 using Infrastructure.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

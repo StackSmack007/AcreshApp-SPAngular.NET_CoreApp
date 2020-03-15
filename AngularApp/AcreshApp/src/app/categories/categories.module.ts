@@ -9,6 +9,7 @@ import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 
 
+
 @NgModule({
   declarations: [MainBoardCategoriesComponent, CategoryTreeComponent, CreateEditFormComponent, DetailsComponent, CreateComponent, EditComponent],
   imports: [CoreModule]

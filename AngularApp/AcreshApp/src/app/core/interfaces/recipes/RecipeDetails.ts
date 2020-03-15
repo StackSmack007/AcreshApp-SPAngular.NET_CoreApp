@@ -5,6 +5,7 @@ export interface IRecipeDetails {
     name: string,
     authorUserName: string,
     authorCookRank: number,
+    categoryId: number,
     categoryName: string,
     dateOfLastEdit: string,
     description: string,

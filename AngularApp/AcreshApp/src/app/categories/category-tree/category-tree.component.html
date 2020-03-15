@@ -17,7 +17,7 @@
             [matTooltip]="'View details for '+node.name"
             aria-label="details popup">
                 <i class="fas fa-info-circle text-info"></i> </span>
-        <span class="opt" *ngIf="node.hasRecipes" [routerLink]="['/']"
+        <span class="opt" *ngIf="node.hasRecipes" [routerLink]="['/recipes/category',node.id]"
             mat-raised-button matTooltipPosition="above"
             [matTooltip]="'View recipes for '+node.name"
             aria-label="recipes popup">
@@ -59,7 +59,7 @@
             aria-label="details popup">     
                 <i class="fas fa-info-circle text-info"></i> 
         </span>
-        <span class="opt" *ngIf="node.hasRecipes" [routerLink]="['/']"
+        <span class="opt" *ngIf="node.hasRecipes" [routerLink]="['/recipes/category',node.id]"
             mat-raised-button matTooltipPosition="above"
             [matTooltip]="'View recipes for '+node.name"
             aria-label="recipes popup">

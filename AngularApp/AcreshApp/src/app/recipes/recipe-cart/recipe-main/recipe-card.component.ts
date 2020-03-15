@@ -33,6 +33,7 @@ export class RecipeCartComponent implements OnInit {
     subInfo: {
       rating: 7,
       category: "BreakFast",
+      categoryId: 13,
       commentsCount: 0,
       ingredientsCount: 4,
       difficulty: "Hard",

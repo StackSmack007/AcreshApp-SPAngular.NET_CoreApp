@@ -10,15 +10,15 @@ import { EditRecipeComponent } from './edit/edit.component';
 import { CreateEditFormComponent } from './create-edit-form/create-edit-form.component';
 import { CommentsModule } from '../comments/comments.module';
 import { ListRecipesComponent } from './list-recipes/base/list-recipes.component';
-import { ListAllRComponent, ListMostRecentRComponent, ListMostFavouredRComponent, ListSearchedRComponent, ListMostCommentedRComponent, ListMostRatedRComponent, ListHighlyRatedRComponent, ListCommentedRecentlyRComponent, ListUserSharedRComponent, ListMyFavouriteRComponent, ListMyCommentedRComponent, ListIngredientsContainingRComponent } from './list-recipes/recipes-list-exporter';
-const recipeListings = [ListRecipesComponent, ListAllRComponent, ListCommentedRecentlyRComponent, ListHighlyRatedRComponent, ListMostCommentedRComponent, ListMostRecentRComponent, ListSearchedRComponent, ListMostFavouredRComponent, ListMostRatedRComponent, ListUserSharedRComponent, ListMyFavouriteRComponent, ListMyCommentedRComponent, ListIngredientsContainingRComponent];
+import { ListAllRComponent, ListMostRecentRComponent, ListMostFavouredRComponent, ListSearchedRComponent, ListMostCommentedRComponent, ListMostRatedRComponent, ListHighlyRatedRComponent, ListCommentedRecentlyRComponent, ListUserSharedRComponent, ListMyFavouriteRComponent, ListMyCommentedRComponent, ListIngredientsContainingRComponent, ListInCategoryRComponent } from './list-recipes/recipes-list-exporter';
+const recipeListings = [ListRecipesComponent, ListAllRComponent, ListCommentedRecentlyRComponent, ListHighlyRatedRComponent, ListMostCommentedRComponent, ListMostRecentRComponent, ListSearchedRComponent, ListMostFavouredRComponent, ListMostRatedRComponent, ListUserSharedRComponent, ListMyFavouriteRComponent, ListMyCommentedRComponent, ListIngredientsContainingRComponent,ListInCategoryRComponent];
 
 @NgModule({
   declarations: [RecipeCartComponent, RecipeSubInfoCardComponent, RecipeDetailsComponent,
     CreateRecipeComponent, EditRecipeComponent, CreateEditFormComponent, recipeListings
       ],
   imports: [
-    CommonModule, AppRoutingModule, CoreModule, CommentsModule
+     AppRoutingModule, CoreModule, CommentsModule
   ],
   exports: []
 })

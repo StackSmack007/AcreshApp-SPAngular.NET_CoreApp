@@ -9,6 +9,7 @@ namespace DataTransferObjects.Recipes.Details
         public string Id { get; set; }
         public DateTime DateOfLastEdit { get; set; }
         public string Name { get; set; }
+        public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public CookRank AuthorCookRank { get; set; }
         public string AuthorUserName { get; set; }
@@ -21,7 +22,6 @@ namespace DataTransferObjects.Recipes.Details
         public ICollection<string> Tags { get; set; }
         public ICollection<string> Favorizers { get; set; }
         //public bool IsDeleted { get; set; }
-
         public string MainPicture { get; set; }
     }
 }
