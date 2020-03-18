@@ -93,7 +93,7 @@ export class HelperService {
     if(!obj1||!obj2) return false;
     let result = true;
     Object.entries(obj1).forEach(([key, value]) => {
-      if (value.toString() === obj2[key].toString()) { return; }
+      if (value?.toString() === obj2[key]?.toString()) { return; }
       if (JSON.stringify(value) !== JSON.stringify(obj2[key])) { result = false; }
     })
     return result;

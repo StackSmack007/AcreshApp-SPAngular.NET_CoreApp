@@ -16,14 +16,14 @@
         <div class="details">
             <acr-create-category *ngIf="action==='create'" 
                 [parentCategoryId]="dataObj.createInfo" 
-                (updateTreeEvent)="updateTree()" 
+                (addNodeEvent)="addNodeToTree($event)" 
                 (navigateTreeEvent)="navigateTreeElementNoDetails($event)" 
                 [selectedCategory]="selectedCategory">
             </acr-create-category>
 
             <acr-edit-category *ngIf="action==='edit'" 
             [selectedCategory]="selectedCategory"
-                (updateTreeEvent)="updateTree()" 
+                (editEvent)="editNodeInTree($event)" 
                 (navigateTreeEvent)="navigateTreeElementNoDetails($event)" 
                 [categoryId]="dataObj.editInfo"
                 >

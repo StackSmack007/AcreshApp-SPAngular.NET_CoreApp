@@ -31,7 +31,7 @@ export class EditComponent {
   selectedCategory: BehaviorSubject<number>
 
   @Output()
-  updateTreeEvent: EventEmitter<any> = new EventEmitter();
+  editEvent: EventEmitter<{ id: number, parentId: number, name: string}> = new EventEmitter();
 
   @Output()//just passing from parent to child
   navigateTreeEvent: EventEmitter<number> = new EventEmitter();
@@ -47,7 +47,7 @@ export class EditComponent {
   editCategory(v: ICategoryCreate) {
     let edited: ICategoryEditDetails = { ...v, ...{ id: this._categoryId } }
     this.catService.editCategory(edited).subscribe(() => {
-      this.updateTreeEvent.emit();
+      this.editEvent.emit({ id: this._categoryId, parentId: v.parentCategoryId, name: v.name });
       this.selectedCategory.next(this._categoryId);
       this.toastr.success(`Edited category ${v.name}`, "Success!");
     }, (e) => {

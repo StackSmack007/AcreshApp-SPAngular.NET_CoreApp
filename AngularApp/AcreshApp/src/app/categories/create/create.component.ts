@@ -26,7 +26,7 @@ export class CreateComponent {
   selectedCategory: BehaviorSubject<number>
 
   @Output()
-  updateTreeEvent: EventEmitter<any> = new EventEmitter();
+  addNodeEvent: EventEmitter<{ id: number, parentId: number, name: string }> = new EventEmitter();
 
   @Output()
   navigateTreeEvent: EventEmitter<number> = new EventEmitter();
@@ -39,7 +39,7 @@ export class CreateComponent {
     this.catService.create(v).subscribe(id => {
       this.selectedCategory.next(id);
       this.toastr.success(`Created category ${v.name}`, "Success!");
-      this.updateTreeEvent.emit();
+      this.addNodeEvent.emit({ id, parentId: v.parentCategoryId, name: v.name });
     }, (e) => {
       console.log("nsh error", e);
       this.toastr.error('Unsucessfull creation of e')
