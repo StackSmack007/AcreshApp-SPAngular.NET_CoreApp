@@ -22,9 +22,12 @@ namespace ACRESH_API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment env;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            this.env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -33,7 +36,17 @@ namespace ACRESH_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            // services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            if (env.EnvironmentName == "Development")
+            {
+                services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DevelopmentMySQL")));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("ProductionMySQL")));
+            }
+
             services.AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
             services.AddIdentity<AcUser, IdentityRole>(opt =>
 {

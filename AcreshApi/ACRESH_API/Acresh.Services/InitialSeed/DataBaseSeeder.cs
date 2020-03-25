@@ -16,6 +16,8 @@
         private readonly ApplicationDbContext db;
         private readonly UserManager<AcUser> um;
         private readonly RoleManager<IdentityRole> rm;
+       
+        private static bool migrated=false;
         public DataBaseSeeder( UserManager<AcUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext)
         {
             this.rm = roleManager;
@@ -23,7 +25,10 @@
             this.db = dbContext;
         }
         public async Task SeedData()
-        {  
+        {
+            if (migrated) { return; }
+            await this.db.Database.MigrateAsync(); 
+            migrated = true;
             if (!db.Roles.Any())
             {
                 await db.Database.EnsureDeletedAsync();
