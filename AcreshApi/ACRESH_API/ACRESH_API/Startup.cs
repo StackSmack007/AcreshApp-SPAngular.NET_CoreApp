@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IO;
 
 namespace ACRESH_API
 {
@@ -74,15 +75,6 @@ namespace ACRESH_API
             services.Configure<JWTSettings>(JWTsettingsSection);
             var jwtSettings = JWTsettingsSection.Get<JWTSettings>();
 
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("CorsPolicy", builder => builder
-            //           .WithOrigins("http://localhost:4200")
-            //           .AllowAnyMethod()
-            //           .AllowAnyHeader()
-            //           //.AllowCredentials()
-            //           );
-            //});
             services.AddSignalR();
             services.AddControllers().AddNewtonsoftJson();
 
@@ -110,23 +102,42 @@ namespace ACRESH_API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
-            app.UseHttpsRedirection();
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
+                {
+                    context.Response.StatusCode = 200;
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
+            });
+
+         //   if (env.EnvironmentName == Microsoft.Extensions.Hosting.Environments.Development) app.UseHttpsRedirection();
+
             app.UseRouting();
 
-            app.UseCors(builder => builder
-                       .WithOrigins("http://localhost:4200")
-                       .AllowAnyMethod()
-                       .AllowAnyHeader()
-                       .AllowCredentials()
-                       );
+            if (env.EnvironmentName == Microsoft.Extensions.Hosting.Environments.Development)
+            {
+                app.UseCors(builder => builder
+                           .WithOrigins("http://localhost:4200")
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials()
+                           );
+            }
+            else
+            {
+                app.UseStaticFiles();
+                app.UseDefaultFiles();
+            }
+
 
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseHsts();
             app.UseResponseCompression();
-            //app.UseSession();
 
             app.UseMiddleware<Middlewares.SeederMiddleware>();
 

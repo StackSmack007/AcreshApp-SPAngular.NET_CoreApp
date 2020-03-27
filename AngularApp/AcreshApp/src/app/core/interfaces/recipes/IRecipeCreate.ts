@@ -13,4 +13,3 @@ export interface IRecipeCreate {
     ingredients: IRecipeIngredientAmmount[];
 }
 
-

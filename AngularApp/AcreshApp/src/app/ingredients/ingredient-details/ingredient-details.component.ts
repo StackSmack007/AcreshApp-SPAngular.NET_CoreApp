@@ -44,7 +44,7 @@ export class IngredientDetailsComponent {
 
   private get myInfo() { return this.authService.getUserInfo(); }
 
-  get isEditAuthorised() { return this.myInfo.userName === this.ingredient.authorUserName || this.authService.isAdmin; }
+  get isEditAuthorised() { return this.myInfo?.userName === this.ingredient.authorUserName || this.authService.isAdmin; }
   get isDeleteAuthorised() { return this.ingredient.usageCount === 0 && this.isEditAuthorised }
   get modificationDate() { return HelperService.timeElapsed(this.ingredient.lastModified) }
 

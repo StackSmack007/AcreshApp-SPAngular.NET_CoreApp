@@ -10,3 +10,4 @@ export interface IRecipeMiniInfo {
     dateOfCreation: string,
     subInfo: IRecipeMiniSubInfo
 }
+

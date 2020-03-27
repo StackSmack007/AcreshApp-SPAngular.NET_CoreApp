@@ -6,7 +6,14 @@
     background-color:blanchedalmond;
     color: rgb(80, 15, 153);
 }
-@media  screen and (max-width: 1455px) {
+@media  screen and (max-width: 1600px) {
+    ul.main-logo {
+padding-top: 0.56rem;
+font-size:0.7em;
+    }
+  }
+
+  @media  screen and (max-width: 1405px) {
     ul.main-logo {
      display: none;
     }

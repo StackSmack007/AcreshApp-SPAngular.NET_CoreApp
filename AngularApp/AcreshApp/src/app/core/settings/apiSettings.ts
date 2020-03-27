@@ -1,4 +1,5 @@
-const basePath: string = "https://localhost:5001/";
+ const basePath: string = "https://localhost:5020/";
+// const basePath: string = "http://localhost:5020/";
 
 export const authPaths: IAuthPaths = {
     checkUserNameOrEmailTaken: basePath + "users/is-singIn-data-free",//post
@@ -55,7 +56,7 @@ export const recipePaths: IRecipePaths = {
     edit: (id) => basePath + `recipes/edit?id=${id}`,
     delete: (id) => basePath + `recipes?id=${id}`
 }
-
+// "outputPath": "../../AcreshApi/ACRESH_API/ACRESH_API/wwwroot/",
 export interface IRecipePaths {
     base: string,
     getMinified: (pNum: number, crit: string, val: string, ) => string,

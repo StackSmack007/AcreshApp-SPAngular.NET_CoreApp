@@ -40,6 +40,8 @@ export class IngredientService {
     getEssentialIngCards(page: number, index: string, phrase: string): Observable<IIngredientCard[]> { return this.getCards(page, index, phrase, true) }
     getNonEssentialIngsCards(page: number, index: string, phrase: string): Observable<IIngredientCard[]> { return this.getCards(page, index, phrase) }
     private getCards(page: number, index: string, phrase: string, essential: boolean = false): Observable<IIngredientCard[]> {
+        debugger;
+        console.log(ignredientPaths.getCards(page, index, phrase, essential));
         return this.http.get<IIngredientCard[]>(ignredientPaths.getCards(page, index, phrase, essential));
     }
 

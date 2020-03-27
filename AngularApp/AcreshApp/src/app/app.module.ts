@@ -15,6 +15,7 @@ import { MessagesModule } from './messages/messages.module';
 import { RecipesModule } from './recipes/recipes.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { CategoriesModule } from './categories/categories.module';
+import { CommonFuncModule } from './common-func/common-func.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { CategoriesModule } from './categories/categories.module';
     CategoriesModule,
     AppRoutingModule,
     SharedModule,
+    CommonFuncModule,
     CoreModule,
     AuthModule,
     MessagesModule,

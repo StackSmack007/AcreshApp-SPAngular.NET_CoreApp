@@ -31,8 +31,8 @@
             migrated = true;
             if (!db.Roles.Any())
             {
-                await db.Database.EnsureDeletedAsync();
-                await db.Database.EnsureCreatedAsync();
+                //await db.Database.EnsureDeletedAsync();
+                //await db.Database.EnsureCreatedAsync();
                 await SeedRoles();
                 await SeedUsers();
                 await SeedUserMessages();
