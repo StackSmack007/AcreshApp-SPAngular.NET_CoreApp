@@ -32,13 +32,13 @@ export class ProfileInfoComponent {
   public myUserName: string;
   constructor(private toastr: ToastrService, route: ActivatedRoute, private authService: AuthService, private userDataService: UserDataService, private messageService: MessageService) {
     this.user = route.snapshot.data["userInfo"];
-    this.myUserName = authService.getUserInfo().userName;
+    this.myUserName = authService.getUserInfo()?.userName;
     this.amBlocked = this.user.blockedUserNames.includes(this.myUserName);
-    this.iblocked = this.authService.getUserInfo().blocked.includes(this.user.userName);
+    this.iblocked = this.authService.getUserInfo()?.blocked.includes(this.user.userName);
   }
 
-   ngOnDestroy() {
-    if (!this.isAuthor()) {
+  ngOnDestroy() {
+    if (!this.isAuthor() && this.myUserName) {
       const iBlockedUser = this.authService.getUserInfo().blocked.includes(this.user.userName);
       if (this.blockOption.nativeElement.checked && !iBlockedUser ||
         !this.blockOption.nativeElement.checked && iBlockedUser) {
@@ -50,7 +50,7 @@ export class ProfileInfoComponent {
   }
 
   submitMessage(mf: NgForm) {
-    if(mf.invalid) return;
+    if (mf.invalid) return;
     this.messageService.submitMsg(mf.value.msg, this.user.id).subscribe(() => {
       this.toastr.success("Message Sent", "Success");
       mf.reset();
@@ -60,5 +60,5 @@ export class ProfileInfoComponent {
   }
 
 
-s
+  s
 }

@@ -14,6 +14,11 @@ div.img-date {
     width:auto;
   }
 
+div.card{
+  border:2px solid rgb(119, 41, 83);
+  padding-right:1px !important;
+}
+
   div.card:hover{
     box-shadow: 20px 20px 25px -19px rgba(161,66,128,1);
     transition: 0.4s ease-in-out;

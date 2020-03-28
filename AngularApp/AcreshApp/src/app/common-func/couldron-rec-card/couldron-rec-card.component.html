@@ -1,0 +1,19 @@
+<li>
+    <media>
+        <img class="main" [src]="recipe.mainPicture" [alt]="recipe.name+'-pic'">
+    </media>
+    <div class="info">
+        <h5><a [routerLink]="['/recipes/details', recipe.id]">{{recipe.name}}</a></h5>
+        <h6>Ingredients Used:
+            <span *ngFor="let ing of recipe.ingredients">
+                <a [routerLink]="['/ingredients',{outlets: {'ing-outlet':['details',ing.id]}}]">{{ing.name}}</a>,
+            </span>
+        </h6>
+        <h6>Category: <a [routerLink]="['/categories/details',recipe.categoryId]">{{recipe.categoryName}}</a></h6>
+        <h6 class="author-info"><i class="fas fa-user"></i>&nbsp;<span class="author">
+                <img src="../../../../assets/hat.png" class="cook-hat" alt="cook-hat">
+                {{cookRank}} &nbsp;<a [routerLink]="['/user-data/profile/', recipe.authorUserName]">{{recipe.authorUserName}}</a>
+            </span>
+        </h6>
+    </div>
+</li>

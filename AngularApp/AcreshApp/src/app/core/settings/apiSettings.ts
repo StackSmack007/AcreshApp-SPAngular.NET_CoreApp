@@ -1,4 +1,4 @@
- const basePath: string = "https://localhost:5020/";
+export const basePath: string = "https://localhost:5020/";
 // const basePath: string = "http://localhost:5020/";
 
 export const authPaths: IAuthPaths = {
@@ -54,7 +54,8 @@ export const recipePaths: IRecipePaths = {
     setRating: basePath + "recipes/set-rating",
     chkNameTaken: (name) => basePath + `recipes/name-used?name=${name}`,
     edit: (id) => basePath + `recipes/edit?id=${id}`,
-    delete: (id) => basePath + `recipes?id=${id}`
+    delete: (id) => basePath + `recipes?id=${id}`,
+    getCauldronCards: (ids, page) => basePath + `recipes/caulron-cards?ids=${ids}&page=${page}`,
 }
 // "outputPath": "../../AcreshApi/ACRESH_API/ACRESH_API/wwwroot/",
 export interface IRecipePaths {
@@ -66,6 +67,7 @@ export interface IRecipePaths {
     chkNameTaken: (name: string) => string,
     edit: (id: string) => string,
     delete(id: string): string;
+    getCauldronCards(ids: string, page: number): string;
 }
 
 export const categoryPaths: ICategoryPath = {
@@ -99,6 +101,8 @@ export const ignredientPaths: IIgnredientPaths = {
     editGet: (id) => basePath + `ingredients/edit?id=${id}`,
     delete: (id) => basePath + `ingredients?id=${id}`,
     getNamesByIds: (ids) => basePath + `ingredients/get-names?ids=${ids}`,
+    getCauldronIngsCount: (phr) => basePath + `ingredients/get-cauld-cards-count?phrase=${phr}`,
+    getCauldronIngs: (phr, page) => basePath + `ingredients/get-cauld-cards?phrase=${phr}&page=${page}`,
 }
 
 export interface IIgnredientPaths {
@@ -112,6 +116,8 @@ export interface IIgnredientPaths {
     editGet: (id: number) => string,
     delete: (id: number) => string,
     getNamesByIds: (ids: string) => string;
+    getCauldronIngsCount(phr: string): string;
+    getCauldronIngs(phr: string, page: number): string;
 }
 
 export const commentsPaths: ICommentPaths = {

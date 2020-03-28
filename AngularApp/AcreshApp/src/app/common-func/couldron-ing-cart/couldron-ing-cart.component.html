@@ -1,0 +1,13 @@
+<li>
+    <h5>
+        <span *ngIf="!isDeletable" class="btn-opts text-primary" (click)="choose()">
+            {{ingredient.name}}
+        </span>
+        <span *ngIf="isDeletable">
+            {{ingredient.name}}&nbsp; <span class="btn-opts text-danger" (click)="remove()">X</span>
+        </span>
+    </h5>
+    <media>
+        <img [src]="ingredient.picUrl" [alt]="ingredient.name">
+    </media>
+</li>

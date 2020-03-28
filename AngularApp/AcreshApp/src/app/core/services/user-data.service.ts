@@ -36,7 +36,6 @@ export class UserDataService {
     return this.http.get<ISmallUserInfo[]>(userDataPaths.blocked)
   }
   
-
   getBlockerUserInfos(): Observable<ISmallUserInfo[]> {
     return this.http.get<ISmallUserInfo[]>(userDataPaths.myblockers)
   }

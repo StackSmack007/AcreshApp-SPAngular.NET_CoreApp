@@ -21,6 +21,7 @@ namespace ACRESH_API.Controllers
             this.jwtService = jwtService;
         }
         
+        [AllowAnonymous]
         [HttpGet("profileInfo")]
         public async Task<ActionResult<UserProfileData>> GetProfileInfo(string userName)
         {

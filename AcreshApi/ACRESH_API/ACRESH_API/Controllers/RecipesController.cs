@@ -1,4 +1,5 @@
 ﻿using Acresh.Services.Services.Contracts;
+using DataTransferObjects.Cauldron;
 using DataTransferObjects.Recipes;
 using DataTransferObjects.Recipes.Details;
 using Infrastructure.Models;
@@ -35,7 +36,7 @@ namespace ACRESH_API.Controllers
         [HttpGet]
         public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetCards(string criteria, int pageNum, string val = "")
         {
-            IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetRecipeCarts(criteria, val);
+            IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetRecipeCards(criteria, val);
             if (sqlReq is null) return BadRequest(new { reason = "Criteria is invalid!" });
             var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(pageNum == 1 ? REC_COUNT_PER_FETCH + 1 : REC_COUNT_PER_FETCH).ToArrayAsync();
             return result;
@@ -138,7 +139,7 @@ namespace ACRESH_API.Controllers
             }
         }
 
-                [HttpDelete]
+        [HttpDelete]
         public async Task<ActionResult> DeleteRecipe(string id)
         {
             try
@@ -150,6 +151,14 @@ namespace ACRESH_API.Controllers
             {
                 return BadRequest(new { reason = ex.Message });
             }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("caulron-cards")]
+        public async Task<ActionResult<CauldronRecipeDTOout[]>> GetCauldronCards(string ids, int page)
+        {
+            IQueryable<CauldronRecipeDTOout> result = this.recipeService.GetCauldronCards(ids);
+            return await result.Skip((page - 1) * REC_COUNT_PER_FETCH).Take(REC_COUNT_PER_FETCH).ToArrayAsync();
         }
 
         //// GET: api/Recipes/5

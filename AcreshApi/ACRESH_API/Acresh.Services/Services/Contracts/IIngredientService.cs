@@ -1,4 +1,5 @@
-﻿using DataTransferObjects.Ingredients;
+﻿using DataTransferObjects.Cauldron;
+using DataTransferObjects.Ingredients;
 using DataTransferObjects.Recipes.Details;
 using Infrastructure.Models;
 using System.Collections.Generic;
@@ -20,5 +21,7 @@ namespace Acresh.Services.Services.Contracts
         Task<bool> UpdateAsync(IngredientEditDTO editIng);
         Task<string[]> GetNamesByIdsAsync(string ids);
         Task DeleteAsync(int id, string userId, bool isAdmin);
+        Task<int> GetCauldronIngsCount(string phrase);
+        IQueryable<CauldronIngredientDTOout> GetCauldronIngs(string phrase);
     }
 }

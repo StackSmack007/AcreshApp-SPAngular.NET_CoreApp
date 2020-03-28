@@ -1,0 +1,38 @@
+li{
+    flex:1 1 1em;
+    margin-right:1.5em;
+    display:flex;
+    border:2px solid rgb(119, 41, 83);
+    border-radius: 0.5em;
+}
+
+img.cook-hat{
+    width: 1em;
+    height:  1em;
+    text-align: left;
+    display: block;
+}
+
+img.main{
+    height:14em;
+    width:auto;
+    display:block;
+    border-radius: 0.5em;
+    margin-right: 1em;
+}
+
+div.info{
+    flex:1 1 1em;
+    display:flex;
+    flex-direction: column;
+    padding:1em;
+}
+
+h6.author-info{
+    align-self: flex-end;
+    margin-top: auto;
+}
+
+span.author {
+    display:inline-block;
+}

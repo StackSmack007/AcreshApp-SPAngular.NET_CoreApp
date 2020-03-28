@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System;
 using AutoMapper;
+using DataTransferObjects.Cauldron;
 
 namespace Acresh.Services.Services
 {
@@ -61,14 +62,14 @@ namespace Acresh.Services.Services
             return result;
         }
 
-        public async Task<bool> IsNameUsedAsync(string name, int ingId = -1)  => await ingRepo.All().AnyAsync(x => !x.IsDeleted && x.Name.ToLower() == name.ToLower() && x.Id!= ingId);
+        public async Task<bool> IsNameUsedAsync(string name, int ingId = -1) => await ingRepo.All().AnyAsync(x => !x.IsDeleted && x.Name.ToLower() == name.ToLower() && x.Id != ingId);
 
         public async Task<Ingredient> CreateAsync(IngredientCreateDTOin input)
         {
-                Ingredient ing = this.mapper.Map<Ingredient>(input);
-                await this.ingRepo.AddAssync(ing);
-                await this.ingRepo.SaveChangesAsync();
-                return ing;
+            Ingredient ing = this.mapper.Map<Ingredient>(input);
+            await this.ingRepo.AddAssync(ing);
+            await this.ingRepo.SaveChangesAsync();
+            return ing;
         }
 
         public async Task<IngredientEditDTO> GetIngredientEditDataAsync(int id)
@@ -108,7 +109,14 @@ namespace Acresh.Services.Services
             await ingRepo.SaveChangesAsync();
         }
 
-        //public IQueryable<IngredientRecipeDetailsDTOout> GetRecipeIngridients(string id) => ingRecipeRepo.All().Where(x => x.RecipeId == id && !x.IsDeleted).To<IngredientRecipeDetailsDTOout>();
+        public async Task<int> GetCauldronIngsCount(string phrase) =>
+               await GetCauldronIngs(phrase).CountAsync();
+        
+        public IQueryable<CauldronIngredientDTOout> GetCauldronIngs(string phrase) =>
+               ingRepo.All().Where(x =>
+               !x.IsDeleted 
+              //&& x.IsEssential 
+               && x.Name.ToLower().StartsWith(phrase.ToLower())).To<CauldronIngredientDTOout>();
+               
     }
-
 }

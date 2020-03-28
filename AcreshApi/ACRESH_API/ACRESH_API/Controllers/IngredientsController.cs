@@ -8,12 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Infrastructure.Models;
 using System;
+using DataTransferObjects.Cauldron;
 
 namespace ACRESH_API.Controllers
 {
     public class IngredientsController : BaseController
     {
         private const int CARDS_PER_FETCH = 2;
+        private const int CAULD_CARDS_PER_FETCH = 8;
         private readonly IIngredientService ingService;
 
         public IngredientsController(IIngredientService ingService)
@@ -41,7 +43,7 @@ namespace ACRESH_API.Controllers
         [HttpGet("cards")]
         public async Task<ActionResult<IngredientCardDTOout[]>> GetCards(int page, string index, string phrase, bool essential)
         {
-            var result = await ingService.GetCards(index, phrase, essential).Skip((page - 1) * CARDS_PER_FETCH).Take(CARDS_PER_FETCH).ToArrayAsync();
+            var result = await ingService.GetCards(index, phrase, essential).Skip((page - 1) * CARDS_PER_FETCH).Take(page == 1 ? CARDS_PER_FETCH + 1 : CARDS_PER_FETCH).ToArrayAsync();
             return result;
         }
 
@@ -89,6 +91,17 @@ namespace ACRESH_API.Controllers
             string[] result = await this.ingService.GetNamesByIdsAsync(ids);
             return result;
         }
+
+
+
+        [HttpGet("get-cauld-cards-count")]
+        public async Task<ActionResult<int>> GetCauldronIngsCount(string phrase) =>
+               await this.ingService.GetCauldronIngsCount(phrase is null ? "" : phrase);
+
+        [HttpGet("get-cauld-cards")]
+        public async Task<CauldronIngredientDTOout[]> GetCauldronIngs(string phrase, int page)=>
+               await ingService.GetCauldronIngs(phrase is null ? "" : phrase).Skip((page - 1) * CAULD_CARDS_PER_FETCH).Take(CAULD_CARDS_PER_FETCH).ToArrayAsync();
+
         [Authorize]
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)

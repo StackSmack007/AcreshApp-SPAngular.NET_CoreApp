@@ -1,0 +1,60 @@
+<section class="cauldron">
+    <div class="headline">
+        <h3><i class="fas fa-flask"></i> Cauldron</h3>
+        <p>Cook a meal based on what products you posses...</p>
+    </div>
+    <section class="cauld-res">
+        <div class="row1">
+            <media class="cauldron-gif">
+                <img src="../../../assets/cauldron-cutted.gif" alt="boiling_cauldron_with_fire_below">
+            </media>
+            <div class="ing-used">
+                <h5>Ingredients used..{{ingredientsUsed.length}}</h5>
+                <ul class="ings">
+                    <acr-couldron-ing-cart *ngFor="let ing of ingredientsUsed" (removeEvent)="deselectIngredient($event)"
+                        [ingredient]="ing" [isDeletable]="true">
+                    </acr-couldron-ing-cart>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="cauld-browse">
+        <form #sform="ngForm" (ngSubmit)="getIngs(sform)">
+            <label for="ing-search">Search for ingredient:</label>
+            <div>
+                <input ngModel name="phrase" type="text" id="ing-search" placeholder="name of ingredient...">
+                <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
+            </div>
+        </form>
+        <p *ngIf="phrase">Displayed {{ingsFd.results.length}}/{{ingsFd.maxCount}} results for <em>"{{phrase | async}}"</em></p>
+        <ul class="ings" (scroll)="onScrollIngs($event)" #ingBox>
+
+            <li #spinner style="position:relative" *ngIf="ingsFd.isLoading">
+                <ngx-spinner style="position: absolute; top: 3em; left: 3em;" bdColor="rgba(51,51,51,0.8)" size="medium" color="rgba(119, 41, 83, 0.73)" type="ball-scale-multiple" [fullScreen]="false">
+                    <div>
+                         <p style="font-size: 18px; color:rgba(119, 41, 83, 0.73); padding-left: 10em; padding-top: 2em;">Loading ingredients...</p>
+                     </div>
+                 </ngx-spinner>
+            </li>
+
+            <acr-couldron-ing-cart *ngFor="let ing of ingsFd.results" (chooseEvent)="selectIngredient($event)"
+                [ingredient]="ing">
+            </acr-couldron-ing-cart>
+        </ul>
+    </section>
+    <article class="result-set" *ngIf="recsFd.results.length>0">
+        <h4>Recipes <span *ngIf="selectedIngNames">containing {{selectedIngNames}} </span> Displayed...{{recsFd.results.length}}</h4>
+     
+        <div #spinner style="position:relative" *ngIf="recsFd.isLoading">
+            <ngx-spinner style="position: absolute; top: 10em; right: 50%;" bdColor="rgba(51,51,51,0.8)" size="medium" color="rgba(119, 41, 83, 0.73)" type="ball-scale-multiple" [fullScreen]="false">
+                <div>
+                     <p style="font-size: 18px; color:rgba(119, 41, 83, 0.73); padding-left: 10em; padding-top: 2em;">Loading recipes...</p>
+                 </div>
+             </ngx-spinner>
+        </div>
+
+        <ul class="recipes-prop" (scroll)="onScrollRecs($event)">
+            <acr-couldron-rec-card *ngFor="let rec of recsFd.results" [recipe]="rec"></acr-couldron-rec-card>
+        </ul>
+    </article>
+</section>

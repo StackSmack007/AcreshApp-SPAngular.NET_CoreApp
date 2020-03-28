@@ -1,0 +1,157 @@
+section.cauldron{
+    max-width: 100em;
+    margin: 0 auto;
+    background: rgb(241, 241, 241);
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding:0 1.5em 3em 1.5em;
+}
+
+ul{list-style: none;}
+
+.headline {
+    flex:0 0 100%;
+    padding-top:1.2em;
+    text-align: center;
+}
+
+.headline>p{
+    font-style: italic;
+    font-size: 1.2em;
+    margin-bottom:0;
+}
+
+section.cauld-res,
+section.cauld-browse {
+    padding-top:1em;
+    margin:1.5em 2em 0 0;
+}
+
+
+section.cauld-res {
+    border:2px solid rgb(119, 41, 83);
+    border-radius: 1em;
+    flex:1 0 55%;
+    display:flex;
+    flex-direction: column;
+}
+
+div.row1{
+    display:flex;
+    flex-wrap: nowrap;
+}
+
+media.cauldron-gif{
+    width:24em;
+    flex-shrink: 0;
+    align-self: center;
+}
+
+media.cauldron-gif>img{
+    width:100%;
+    height: auto;
+}
+/* Ingredients */
+ul.ings{
+flex-grow:1;
+min-width: 20.2em;
+overflow-y: auto;
+display:flex;
+flex-wrap: wrap;
+padding:0.5em 0 0 0.5em;
+}
+
+.cauld-res>ul-ings{ max-height: 25em; }
+.cauld-browse>ul.ings{ max-height: 20em; }
+
+.cauld-browse>ul.recipes-prop {
+    height:21em;
+    padding-bottom:0;
+}
+
+/* acr-couldron-ing-cart{margin:0 0.5em 1em 0.5em;} */
+
+/* ingredients */
+section.cauld-browse{
+    flex:1 1 1%;
+    min-width:40%;
+    display:flex;
+    flex-direction: column;
+    border:2px solid rgb(119, 41, 83);
+    border-radius: 1em;
+}
+
+.cauld-browse>form{
+    display:flex;
+    flex-direction: column;
+    margin:0 auto;
+}
+#ing-search{
+    padding:0.33em 1em;
+    border-radius: 0.25em 0 0 0.25em;
+    background-color:burlywood;
+    border:none;
+    color:whitesmoke;
+}
+.cauld-browse>form button{
+    padding:0.33em 0.75em;
+    background-color: rgb(175, 142, 93);
+    color:whitesmoke;
+    border:none;
+    border-radius: 0 0.25em 0.25em 0;
+}
+
+.cauld-browse>form>label {
+    font-size: 1.3em;
+}
+
+.cauld-browse>p {
+    margin:0 0 0 auto;
+    padding:0.6em 1em 0 0;
+}
+
+.cauld-browse>ul.ings {
+    flex-grow: 1;
+}
+
+/* results */
+article.result-set{
+    padding-top:1em;
+}
+
+article.result-set>h4{
+    text-align: center;
+}
+
+ul.recipes-prop {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding:1em 1em 1em 0;
+    height:20em;
+    overflow-y: auto;
+}
+
+ul.recipes-prop>li img{
+    height:14em;
+    width:auto;
+    border-radius: 0.5em;
+    margin-right: 1em;
+}
+
+acr-couldron-rec-card {
+    flex :1 1 49%;
+    min-width:37em;
+    display:flex;
+    padding-bottom:1em;
+}
+
+@media  screen and (max-width: 50em) { media.cauldron-gif{ min-width: 15em; }}
+
+@media  screen and (max-width: 86.5em) {
+    .cauld-browse>ul.ings{
+        justify-content: space-between;
+        max-height: 12em;
+    }
+}

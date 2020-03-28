@@ -1,6 +1,7 @@
 
 import * as signalR from "@aspnet/signalr";
 import { Injectable } from '@angular/core';
+import { basePath } from '../settings/apiSettings';
 import { IComment } from '../interfaces/comments/IComment';
 import { ICommentLikeStatus } from '../interfaces/comments/ILikesCommentStatus';
 import { ICommentContentStatus } from '../interfaces/comments/ICommentContentStatus';
@@ -14,7 +15,7 @@ export class SignalRRecipeDetailsService {
     private commentsMonitored: IComment[] = null;
     public startConnection = (rec: { id: string }): Promise<any> => {//TODO
         this.hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl('https://localhost:5001/recipe-details')
+            .withUrl(basePath+'recipe-details')
             .build();
 
         return this.hubConnection

@@ -3,7 +3,8 @@
         <div class="col-3"></div>
         <div class="col-6">
             <h2 class="text-center py-3" *ngIf="!isAuthor()"><i class="fas fa-info-circle"></i> &nbsp; User Info:</h2>
-            <h2 class="text-center py-3" *ngIf="isAuthor()"><i class="fas fa-info-circle"></i> &nbsp; My Profile Info:</h2>
+            <h2 class="text-center py-3" *ngIf="isAuthor()"><i class="fas fa-info-circle"></i> &nbsp; My Profile Info:
+            </h2>
             <!-- {{user | json}} -->
             <div class="row">
                 <div class="row container-fluid justify-content-start pb-2">
@@ -40,7 +41,6 @@
                                         <td class="py-1 my-1">
                                             <a [routerLink]="['/recipes/user/',user.userName]">{{user.recipesShared}}
                                                 <i class="fas fa-scroll"></i></a></td>
-
                                     </tr>
                                     <tr>
                                         <td class="py-1 my-1">About Me:</td>
@@ -63,31 +63,33 @@
                 </div>
             </div>
             <ng-template #visitor>
-                <form #mf="ngForm" (ngSubmit)="submitMessage(mf)">
-                    <div class="row mt-2 justify-content-between">
-                        <div class="col-9">
-                            <div class="form-group">
-                                <label for="msg">Write a message:</label>
-                                <textarea name="msg" required minlength="4" #msg="ngModel" ngModel class="form-control"
-                                    [disabled]="amBlocked" id="msg" rows="3" placeholder="message..."></textarea> </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="row">
-                                <div class="form-group col-12">
-                                    <div class="custom-control custom-switch pt-4">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitch1"
-                                        [checked]="iblocked" #blockOpt>
-                                        <label class="custom-control-label" for="customSwitch1"
-                                            [ngClass]="{'text-danger': blockOpt.checked, 'text-success': !blockOpt.checked}"><i
-                                            class="fas fa-biohazard"></i>
-                                            Block User Messages!</label>
+                <div *ngIf="myUserName">
+                    <form #mf="ngForm" (ngSubmit)="submitMessage(mf)">
+                        <div class="row mt-2 justify-content-between">
+                            <div class="col-9">
+                                <div class="form-group">
+                                    <label for="msg">Write a message:</label>
+                                    <textarea name="msg" required minlength="4" #msg="ngModel" ngModel
+                                        class="form-control" [disabled]="amBlocked" id="msg" rows="3"
+                                        placeholder="message..."></textarea> </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="row">
+                                    <div class="form-group col-12">
+                                        <div class="custom-control custom-switch pt-4">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch1"
+                                                [checked]="iblocked" #blockOpt>
+                                            <label class="custom-control-label" for="customSwitch1"
+                                                [ngClass]="{'text-danger': blockOpt.checked, 'text-success': !blockOpt.checked}"><i
+                                                    class="fas fa-biohazard"></i>
+                                                Block User Messages!</label>
                                         </div>
                                     </div>
 
                                     <div class="form-group col-12">
                                         <button type="submit" class="btn btn-info"
-                                        [ngClass]="{'disabled': mf.invalid,'not-allowed':amBlocked}"> Send
-                                        Message</button>
+                                            [ngClass]="{'disabled': mf.invalid,'not-allowed':amBlocked}"> Send
+                                            Message</button>
                                     </div>
                                 </div>
                             </div>
@@ -99,8 +101,8 @@
                         <div class="alert alert-danger" *ngIf="msg.errors.minlength">Please provide message with
                             length {{msg.errors.minlength.requiredLength}}</div>
                     </div>
+                </div>
             </ng-template>
-
         </div>
         <div class="col-3"></div>
     </div>

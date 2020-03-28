@@ -9,6 +9,7 @@ import { IIngredientCreate } from '../interfaces/ingredients/IIngredientCreate';
 import { IIngredientDetails } from "../interfaces/ingredients/IIngredientDetails";
 import { IIngredeintMatches } from '../interfaces/ingredients/IIngredeintMatches';
 import { IIngredientEdit } from '../interfaces/ingredients/IIngredientEdit';
+import { ICauldronIngredient } from '../interfaces/ingredients/ICauldronIngredient';
 
 @Injectable({
     providedIn: 'root'
@@ -40,8 +41,6 @@ export class IngredientService {
     getEssentialIngCards(page: number, index: string, phrase: string): Observable<IIngredientCard[]> { return this.getCards(page, index, phrase, true) }
     getNonEssentialIngsCards(page: number, index: string, phrase: string): Observable<IIngredientCard[]> { return this.getCards(page, index, phrase) }
     private getCards(page: number, index: string, phrase: string, essential: boolean = false): Observable<IIngredientCard[]> {
-        debugger;
-        console.log(ignredientPaths.getCards(page, index, phrase, essential));
         return this.http.get<IIngredientCard[]>(ignredientPaths.getCards(page, index, phrase, essential));
     }
 
@@ -64,4 +63,13 @@ export class IngredientService {
     deleteIngredientById(id: number): Observable<any> {
         return this.http.delete<any>(ignredientPaths.delete(id));
     }
+
+    getCauldronIngredientsCount(phr: string): Observable<number> {
+        return this.http.get<number>(ignredientPaths.getCauldronIngsCount(phr));
+    }
+
+    getCauldronIngredients(phr: string, page: number): Observable<ICauldronIngredient[]> {
+        return this.http.get<ICauldronIngredient[]>(ignredientPaths.getCauldronIngs(phr, page));
+    }
+
 }

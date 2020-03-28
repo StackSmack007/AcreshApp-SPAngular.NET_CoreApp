@@ -1,12 +1,13 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { HelperService } from './helper.service';
 import { HttpClient } from '@angular/common/http';
 import { recipePaths } from '../settings/apiSettings';
-import { Observable } from 'rxjs';
 import { IRecipeMiniInfo } from '../interfaces/recipes/recipeMiniInfo';
-import { HelperService } from './helper.service';
 import { IRecipeDetails } from '../interfaces/recipes/RecipeDetails';
 import { IRecipeCreate } from '../interfaces/recipes/IRecipeCreate';
 import { IRecipeEdit } from '../interfaces/recipes/IRecipeEdit';
+import { ICauldronRecipeCard } from '../interfaces/recipes/ICauldronRecipeCard';
 
 @Injectable({
   providedIn: 'root'
@@ -54,5 +55,9 @@ export class RecipeService {
 
   deleteIngredientById(id: string): Observable<any> {
     return this.http.delete(recipePaths.delete(id))
+  }
+
+  getCauldronRecipeCards(ids: string, page: number): Observable<ICauldronRecipeCard[]> {
+    return this.http.get<ICauldronRecipeCard[]>(recipePaths.getCauldronCards(ids, page))
   }
 }

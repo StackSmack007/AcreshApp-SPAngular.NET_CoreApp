@@ -1,6 +1,7 @@
 
 import * as signalR from "@aspnet/signalr";
 import { Injectable } from '@angular/core';
+import { basePath } from '../settings/apiSettings';
 
 @Injectable({ providedIn: "root" })
 export class SignalRNewMessagesService {
@@ -9,7 +10,7 @@ export class SignalRNewMessagesService {
 
   public startConnection = (userName: string): Promise<any> => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5001/unread-messages')
+      .withUrl(basePath + 'unread-messages')
       .build();
 
     return this.hubConnection

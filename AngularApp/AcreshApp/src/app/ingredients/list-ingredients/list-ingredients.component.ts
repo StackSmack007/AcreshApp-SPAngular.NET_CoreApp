@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
@@ -13,7 +13,6 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./list-ingredients.component.css']
 })
 export class ListIngredientsComponent {
-
   cards = {
     essentials: { page: 1, cards: [], loading: false },
     nonEssentials: { page: 1, cards: [], loading: false }
@@ -82,11 +81,14 @@ export class ListIngredientsComponent {
     if (this.cards.essentials.cards.length === this.resultsFd.essentials || this.cards.essentials.loading) return;
     this.cards.essentials.loading = true;
     this.spinner.show();
+
     this.ingService.getEssentialIngCards(this.cards.essentials.page++, this.formData.index, this.formData.phrase)
       .subscribe(r => {
         this.cards.essentials.cards.splice(this.cards.essentials.cards.length, 0, ...r);
         this.cards.essentials.loading = false;
-      }).add(() => this.spinner.hide())
+      }).add(() => {
+        this.spinner.hide();
+      })
   }
 
   fetchNonEssentials() {

@@ -1,4 +1,5 @@
-﻿using DataTransferObjects.Recipes;
+﻿using DataTransferObjects.Cauldron;
+using DataTransferObjects.Recipes;
 using DataTransferObjects.Recipes.Details;
 using Infrastructure.Models;
 using Infrastructure.Models.Enumerations;
@@ -9,7 +10,7 @@ namespace Acresh.Services.Services.Contracts
 {
     public interface IRecipesService
     {
-        IQueryable<RecipeCardDTOout> GetRecipeCarts(string criteria, string val);
+        IQueryable<RecipeCardDTOout> GetRecipeCards(string criteria, string val);
         IQueryable<RecipeCardDTOout> GetPrivateRecipeCarts(string criteria, string userId);
         Task<RecipeDetailsDTOout> GetRecipeDetailsByIdAsync(string recipeId);
         Task<bool> FavUnfav(string recipeId, string userId);
@@ -19,5 +20,6 @@ namespace Acresh.Services.Services.Contracts
         Task<RecipeEditDTOout> GetRecipeEditInfoAsync(string recipeId, string userId, bool isAdmin);
         Task<Recipe> EditRecipeAsync(RecipeEditDTOin recipe, string userId, bool isAdmin);
         Task DeleteAsync(string id, string userId, bool isAdmin);
+        IQueryable<CauldronRecipeDTOout> GetCauldronCards(string ids);
     }
 }

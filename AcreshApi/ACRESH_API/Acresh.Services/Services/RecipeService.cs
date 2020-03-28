@@ -2,6 +2,7 @@
 using Acresh.Services.Services.Contracts;
 using AutoMapper;
 using Common.AutomapperConfigurations;
+using DataTransferObjects.Cauldron;
 using DataTransferObjects.Recipes;
 using DataTransferObjects.Recipes.Details;
 using Infrastructure.Models;
@@ -63,7 +64,8 @@ namespace Acresh.Services.Services
             return null;
         }
 
-        public IQueryable<RecipeCardDTOout> GetRecipeCarts(string criteria, string val)
+
+        public IQueryable<RecipeCardDTOout> GetRecipeCards(string criteria, string val)
         {
             Func<IQueryable<Recipe>, IQueryable<Recipe>> tagNameMatches = (x) =>
             {
@@ -77,27 +79,12 @@ namespace Acresh.Services.Services
                 return x.Where(x => allowdIds.Contains(x.Id));
             };
 
-            Func<IQueryable<Recipe>, IQueryable<Recipe>> ingsMatches = (x) =>
-            {
-                var ingIds = val.Split("|", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
-                var idsChosen = x.Where(x => !x.IsDeleted).Select(x => new
-                {
-                    recId = x.Id,
-                    ingIds = x.RecipeIngredients.Where(ri => !ri.IsDeleted && !ri.Ingredient.IsDeleted).Select(ri => ri.IngredientId)
-                });
-                foreach (int id in ingIds)
-                {
-                    idsChosen = idsChosen.Where(x => x.ingIds.Contains(id));
-                }
-                return x.Where(x => idsChosen.Select(i => i.recId).Contains(x.Id));
-            };
-
             Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>> sortCriteria = new Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>>
             {
                 ["search"] = tagNameMatches,
-                ["ingredients"] = ingsMatches,
+                ["ingredients"] = (x) => this.GetIngredientMatches(x, ParseIngIdsFromString(val)),
                 ["all"] = (x) => x,
-                ["category"] = (x) => x.Where(x=>x.CategoryId==int.Parse(val)),
+                ["category"] = (x) => x.Where(x => x.CategoryId == int.Parse(val)),
                 ["recent"] = (x) => x.Where(x => x.DateOfCreation > DateTime.UtcNow.AddDays(-61)).OrderByDescending(x => x.DateOfCreation),
                 ["commented"] = (x) => x.OrderByDescending(x => x.Comments.Count(c => !c.IsDeleted)),
                 ["commented-recently"] = (x) => x.Where(x => x.Comments.Any(c => !c.IsDeleted))
@@ -108,7 +95,7 @@ namespace Acresh.Services.Services
                 ["user"] = (x) => x.Where(x => x.Author.UserName == val).OrderByDescending(x => x.DateOfCreation),
             };
 
-            if (sortCriteria.ContainsKey(criteria))return sortCriteria[criteria](recipeRepo.All()).Where(x=>!x.IsDeleted).To<RecipeCardDTOout>();
+            if (sortCriteria.ContainsKey(criteria)) return sortCriteria[criteria](recipeRepo.All()).Where(x => !x.IsDeleted).To<RecipeCardDTOout>();
             return null;
         }
 
@@ -141,7 +128,6 @@ namespace Acresh.Services.Services
             await this.recipeRepo.SaveChangesAsync();
             return result;
         }
-
 
         public async Task VoteForRecipeAsync(string recipeId, string userId, RecipeRating score)
         {
@@ -181,6 +167,21 @@ namespace Acresh.Services.Services
 
         }
 
+        private IQueryable<Recipe> GetIngredientMatches(IQueryable<Recipe> all, int[] ingIds)
+        {
+            var idsChosen = all.Where(x => !x.IsDeleted).Select(x => new
+            {
+                recId = x.Id,
+                ingIds = x.RecipeIngredients.Where(ri => !ri.IsDeleted && !ri.Ingredient.IsDeleted).Select(ri => ri.IngredientId)
+            });
+            foreach (int id in ingIds)
+            {
+                idsChosen = idsChosen.Where(x => x.ingIds.Contains(id));
+            }
+            return all.Where(x => idsChosen.Select(i => i.recId).Contains(x.Id));
+        }
+
+        private int[] ParseIngIdsFromString(string ids) => ids.Split("|", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
         public async Task<Recipe> EditRecipeAsync(RecipeEditDTOin recipe, string userId, bool isAdmin)
         {
             Recipe recipeFd = await this.recipeRepo.All()
@@ -249,5 +250,8 @@ namespace Acresh.Services.Services
             recipeFd.IsDeleted = true;
             await recipeRepo.SaveChangesAsync();
         }
+
+        public IQueryable<CauldronRecipeDTOout> GetCauldronCards(string ids) =>
+                this.GetIngredientMatches(this.recipeRepo.All(), ParseIngIdsFromString(ids)).Where(x => !x.IsDeleted).To<CauldronRecipeDTOout>();
     }
 }
