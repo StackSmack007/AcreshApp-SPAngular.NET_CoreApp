@@ -1,0 +1,7 @@
+@import "./style/reset.css";
+/* @import "./typography.css"; */
+@import "./style/layout.css";
+@import "./style/section-questions.css";
+@import "./style/section-content.css";
+@import "./style/gallery.css";
+@import "./style/responsive.css";

@@ -20,7 +20,6 @@
     "ACRESH_API": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "WeatherForecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

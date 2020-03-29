@@ -23,6 +23,7 @@ import { ListAllRComponent, ListMostRecentRComponent, ListMostCommentedRComponen
 import { MainBoardCategoriesComponent } from './categories/main-board/main-board-categories.component';
 import { ListInCategoryRComponent } from './recipes/list-recipes/filters/in-category/list-inCategory.component';
 import { CauldronComponent } from './common-func/cauldron/cauldron.component';
+import { AboutComponent } from './shared/components/about/about.component';
 
 const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "/index" },
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: "message-box", component: ListAllComponent,
     canActivate: [AuthorizedOnlyGuard]
+  },
+
+  {
+    path: "about", component: AboutComponent
   },
 
   {

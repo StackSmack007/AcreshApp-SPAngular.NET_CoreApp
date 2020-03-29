@@ -1,5 +1,5 @@
 export const basePath: string = "https://localhost:5020/";
-// const basePath: string = "http://localhost:5020/";
+ //export const basePath: string = "http://localhost:5020/";
 
 export const authPaths: IAuthPaths = {
     checkUserNameOrEmailTaken: basePath + "users/is-singIn-data-free",//post

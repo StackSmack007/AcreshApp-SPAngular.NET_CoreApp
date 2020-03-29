@@ -107,7 +107,7 @@ namespace ACRESH_API
                 await next();
                 if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
                 {
-                    context.Response.StatusCode = 200;
+                    //  context.Response.StatusCode = 200;
                     context.Request.Path = "/index.html";
                     await next();
                 }
@@ -128,8 +128,8 @@ namespace ACRESH_API
             }
             else
             {
-                app.UseStaticFiles();
                 app.UseDefaultFiles();
+                app.UseStaticFiles();
             }
 
 

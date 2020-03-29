@@ -1,0 +1,12 @@
+html {
+    box-sizing: border-box;
+}
+
+*:after,*:before,*{
+    box-sizing: inherit;
+}
+
+div,span,p,ul,li,ol,body{
+padding:0;
+margin:0
+}

@@ -1,0 +1,33 @@
+section.questions{
+    display:block;
+    height: 30em;
+    background-image: url("../../../../../assets/imgs/index/craving.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.questions>div.nav{
+    text-align: center;
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
+    color:white;
+    display: flex;
+    flex-direction: column;
+}
+
+.questions>div.nav>h2 {
+    text-shadow: 0px 4px 19px rgba(24,24,10,0.85);
+    padding-bottom:1em;
+    display:block;
+}
+
+ .questions>div.nav>h2:hover{
+    font-size: 3em;
+    transition:ease-in-out 0.6s;
+} 
+
+
+
+

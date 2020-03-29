@@ -1,2 +1,82 @@
-<button class="btn btn-primary" (click)="getChupakabra()"> GetChupakabra </button>
-{{chupakabra|json}}
+<div class="site">
+    <main>
+        <section class="questions">
+            <div class="nav">
+                <h2>Wish to cook something nice?</h2>
+                <h2>Teach others too cook your best recipes?</h2>
+                <h2>Find a recipe based on products you possess?</h2>
+            </div>
+        </section>
+
+        <section class="main-width-1 content">
+            <ul>
+                <li class="cont-pt">
+                    <img src="../../../../assets/imgs/index/ramen.jpg" alt="ramen_img">
+                    <div class="info">
+                        <h3>Recipes for various meals:</h3>
+                        <p>Explore various meals.</p>
+                        <p>Test and share your success with others.</p>
+                        <a routerLink="/categories">View Categories</a>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="main-width-1 content">
+            <ul>
+                <li class="cont-pt">
+                    <img src="../../../../assets/imgs/index/cake.jpg" alt="cake_img">
+                    <div class="info">
+                        <h3>Recipes for deserts:</h3>
+                        <p>Make the best desserts for every occasion.</p>
+                        <a routerLink="/categories">View Categories</a>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="main-width-1 content">
+            <ul>
+                <li class="cont-pt">
+                    <img src="../../../../assets/imgs/index/cocktails.jpg" alt="cocktail_img">
+                    <div class="info">
+                        <h3>Party favorites</h3>
+                        <p>The best cocktails and how to make them.</p>
+                        <a routerLink="/categories">View Categories</a>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="main-width-2 gallery">
+            <button disabled>Acresh Features</button>
+            <ul>
+                <li>
+                    <media>
+                        <img src="../../../../assets/imgs/index/share-recipe.png" alt="bowls">
+                    </media>
+                    <h5>Share your favourite Recipes</h5>
+                </li>
+                <li>
+                    <media>
+                        <img src="../../../../assets/imgs/index/rating-cookies.jfif" alt="cutters">
+                    </media>
+                    <h5>Give Comment and Rate a Recipe</h5>
+                </li>
+                <li>
+                    <media>
+                        <img src="../../../../assets/imgs/index/ingredients.jpg" alt="sheats">
+                    </media>
+                    <h5>Add Ingredients and Categories</h5>
+                </li>
+                <li>
+                    <media>
+                        <img src="../../../../assets/imgs/index/mesages.png" alt="pin">
+                    </media>
+                    <h5>Message Other users</h5>
+                </li>
+            </ul>
+            <button *ngIf="!isLoggedIn" routerLink="/authentication/register"> Sign In Now!</button>
+        </section>
+    </main>
+</div>
