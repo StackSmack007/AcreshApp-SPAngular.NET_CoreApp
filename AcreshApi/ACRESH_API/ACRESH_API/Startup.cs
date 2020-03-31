@@ -113,7 +113,7 @@ namespace ACRESH_API
                 }
             });
 
-         //   if (env.EnvironmentName == Microsoft.Extensions.Hosting.Environments.Development) app.UseHttpsRedirection();
+            //   if (env.EnvironmentName == Microsoft.Extensions.Hosting.Environments.Development) app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -128,10 +128,15 @@ namespace ACRESH_API
             }
             else
             {
+            app.UseCors(builder => builder
+           .WithOrigins("http://acresh.nsh7.tk")
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .AllowCredentials()
+           );
                 app.UseDefaultFiles();
                 app.UseStaticFiles();
             }
-
 
             app.UseAuthentication();
             app.UseAuthorization();

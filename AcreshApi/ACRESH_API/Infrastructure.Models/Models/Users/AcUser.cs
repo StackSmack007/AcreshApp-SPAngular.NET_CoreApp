@@ -30,7 +30,7 @@ namespace Infrastructure.Models
         public CookRank CookRank { get; set; }
         public Gender Gender { get; set; }
 
-        [Url]
+        [Required]
         public string AvatarPicture { get; set; }
 
         [MaxLength(512)]

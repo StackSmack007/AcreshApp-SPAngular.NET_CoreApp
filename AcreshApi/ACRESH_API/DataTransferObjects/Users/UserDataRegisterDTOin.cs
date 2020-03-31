@@ -19,7 +19,6 @@ namespace DataTransferObjects.Users
         public string Password { get; set; }
         public Gender Gender { get; set; }
 
-        [Url]
         public string AvatarPicture { get; set; }
 
         [MaxLength(512)]

@@ -349,3 +349,6 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /AcreshApi/ACRESH_API/ACRESH_API/appsettings.json
+Dist
+/AngularApp/Dist/*
+Dist
