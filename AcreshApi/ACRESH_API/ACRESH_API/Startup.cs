@@ -128,12 +128,12 @@ namespace ACRESH_API
             }
             else
             {
-            app.UseCors(builder => builder
-           .WithOrigins("http://acresh.nsh7.tk")
-           .AllowAnyMethod()
-           .AllowAnyHeader()
-           .AllowCredentials()
-           );
+                app.UseCors(builder => builder
+               .WithOrigins("https://acresh.nsh7.tk", "https://www.acresh.nsh7.tk")
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials()
+               );
                 app.UseDefaultFiles();
                 app.UseStaticFiles();
             }

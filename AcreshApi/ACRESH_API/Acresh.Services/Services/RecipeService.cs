@@ -252,6 +252,9 @@ namespace Acresh.Services.Services
         }
 
         public IQueryable<CauldronRecipeDTOout> GetCauldronCards(string ids) =>
-                this.GetIngredientMatches(this.recipeRepo.All(), ParseIngIdsFromString(ids)).Where(x => !x.IsDeleted).To<CauldronRecipeDTOout>();
+                this.GetIngredientMatches(this.recipeRepo.All(), ParseIngIdsFromString(ids))
+                    .Where(x => !x.IsDeleted)
+                    .OrderBy(x=>x.RecipeIngredients.Count(i=>!i.IsDeleted))
+                    .To<CauldronRecipeDTOout>();
     }
 }

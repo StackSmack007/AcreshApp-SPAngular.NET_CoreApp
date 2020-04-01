@@ -18,8 +18,8 @@ export class CategoryService {
         return this.http.get<ICategoryOption[]>(categoryPaths.getAllMini);
     }
     
-    getThreeStructure(): Observable<ICategoryOption[]> {
-        return this.http.get<ICategoryOption[]>(categoryPaths.getThreeStructure);
+    getTreeStructure(): Observable<ICategoryOption[]> {
+        return this.http.get<ICategoryOption[]>(categoryPaths.getTreeStructure);
     }
     
     getDetails(id: number): Observable<ICategoryDetails> {

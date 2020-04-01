@@ -24,12 +24,9 @@ namespace ACRESH_API.Controllers
 
         [AllowAnonymous]
         [HttpGet("for-recipe")]
-        public async Task<ActionResult<CommentDTOout[]>> GetCommentsForRecipe(int page, string recipeId)
-        {
-            var result = await this.commentService.GetCommentsForRecipe(recipeId).Skip((page - 1) * FETCH_PORTION).Take(FETCH_PORTION).ToArrayAsync();
-            return result;
-        }
-    
+        public async Task<ActionResult<CommentDTOout[]>> GetCommentsForRecipe(int page, string recipeId) =>
+               await commentService.GetCommentsForRecipe(recipeId).Skip((page - 1) * FETCH_PORTION).Take(FETCH_PORTION).ToArrayAsync();
+
         [HttpPost()]
         public async Task<ActionResult<int>> SubmitComment(CommentDTOin comment)
         {
@@ -59,7 +56,7 @@ namespace ACRESH_API.Controllers
             }
         }
         [Authorize]
-         [HttpPatch]
+        [HttpPatch]
         public async Task<ActionResult<CommentLikeStatusDTOout>> ChangeContent(CommentContentDTOin commentContent)
         {
             try

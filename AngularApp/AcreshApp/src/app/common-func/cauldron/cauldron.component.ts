@@ -50,6 +50,7 @@ export class CauldronComponent implements OnInit {
     this.ingsFd.results.push(ing);
     this.ingsFd.maxCount++;
     this.recsFd.endReached = false;
+    this.updateRecipes();
   }
 
   get selectedIngNames() {

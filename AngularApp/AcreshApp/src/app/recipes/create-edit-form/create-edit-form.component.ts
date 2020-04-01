@@ -114,7 +114,7 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
     this.formArrs.ingredients = this.form.get('ingredients') as FormArray;
   }
   addPicture(picUrl = "") {
-    this.formArrs.pictures.push(this.fb.control(picUrl, [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")]))
+    this.formArrs.pictures.push(this.fb.control(picUrl, [Validators.required, Validators.pattern("(http(s?):).+")]))
   }
   removePicture(index: number = 0) {
     this.formArrs.pictures.removeAt(index);
@@ -157,7 +157,7 @@ export class CreateEditFormComponent implements OnDestroy, DoCheck {
       name: ["", { validators: [Validators.required, Validators.minLength(4), takenNameValidatorAsync(this.recipeService.nameTaken.bind(this.recipeService), this.namesAllowed), Validators.pattern("[a-zA-Z ]+")], updateOn: "blur" }],
       categoryId: ["-1", [Validators.min(1), Validators.required], []],
       description: ["", [Validators.required, Validators.minLength(100), Validators.maxLength(25600)], []],
-      mainPicture: ["", [Validators.required, Validators.pattern("(http(s?):)([/|.|\\w|\\s|-])*\.(?:jpg|gif|png)")], []],
+      mainPicture: ["", [Validators.required, Validators.pattern("(http(s?):).+")], []],
       videoLink: ["", [], []],
       difficulty: [1, [Validators.required], []],
       pictures: this.fb.array([]),

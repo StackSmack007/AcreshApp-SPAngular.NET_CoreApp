@@ -50,7 +50,7 @@ export class MainBoardCategoriesComponent {
   }
 
   updateTree() {
-    this.catService.getThreeStructure().subscribe((x: CategoryNode[]) => {
+    this.catService.getTreeStructure().subscribe((x: CategoryNode[]) => {
       this.categories = x;
     });
   }

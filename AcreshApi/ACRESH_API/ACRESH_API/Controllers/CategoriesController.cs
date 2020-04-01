@@ -25,7 +25,7 @@ namespace ACRESH_API.Controllers
             return result;
         }
 
-        [HttpGet("three")]
+        [HttpGet("tree")]
         public async Task<ActionResult<CategoryTreeDTOout[]>> GetStructure()
         {
             CategoryTreeDTOout[] result = (await categoryService.GetThreeAsync()).ToArray();

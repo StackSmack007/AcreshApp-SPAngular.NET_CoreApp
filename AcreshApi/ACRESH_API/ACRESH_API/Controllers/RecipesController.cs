@@ -17,6 +17,8 @@ namespace ACRESH_API.Controllers
     public partial class RecipesController : BaseController
     {
         private const int REC_COUNT_PER_FETCH = 3;
+        private const int FIRST_BATCH_ADDUP = 1;
+
         private readonly IRecipesService recipeService;
 
         public RecipesController(IRecipesService recipeService)
@@ -31,15 +33,16 @@ namespace ACRESH_API.Controllers
             if (result is null) return NotFound();
             return result;
         }
+
         [AllowAnonymous]
-        // GET: api/Recipes
         [HttpGet]
         public async Task<ActionResult<ICollection<RecipeCardDTOout>>> GetCards(string criteria, int pageNum, string val = "")
         {
             IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetRecipeCards(criteria, val);
             if (sqlReq is null) return BadRequest(new { reason = "Criteria is invalid!" });
-            var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(pageNum == 1 ? REC_COUNT_PER_FETCH + 1 : REC_COUNT_PER_FETCH).ToArrayAsync();
-            return result;
+
+            return await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1) + (pageNum > 1 ? FIRST_BATCH_ADDUP : 0))
+                               .Take(pageNum == 1 ? REC_COUNT_PER_FETCH + 1 : REC_COUNT_PER_FETCH).ToArrayAsync();
         }
 
         [HttpGet("private")]
