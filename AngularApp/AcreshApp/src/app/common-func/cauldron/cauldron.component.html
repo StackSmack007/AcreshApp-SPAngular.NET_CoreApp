@@ -11,7 +11,7 @@
             <div class="ing-used">
                 <h5>Ingredients used..{{ingredientsUsed.length}}</h5>
                 <ul class="ings">
-                    <acr-couldron-ing-cart *ngFor="let ing of ingredientsUsed" (removeEvent)="deselectIngredient($event)"
+                    <acr-couldron-ing-cart *ngFor="let ing of ingredientsUsed" (removeEvent)="deselectIngredient($event)" @fade-shrink
                         [ingredient]="ing" [isDeletable]="true">
                     </acr-couldron-ing-cart>
                 </ul>
@@ -37,7 +37,7 @@
                  </ngx-spinner>
             </li>
 
-            <acr-couldron-ing-cart *ngFor="let ing of ingsFd.results" (chooseEvent)="selectIngredient($event)"
+            <acr-couldron-ing-cart *ngFor="let ing of ingsFd.results" (chooseEvent)="selectIngredient($event)" @fade-shrink
                 [ingredient]="ing">
             </acr-couldron-ing-cart>
         </ul>
@@ -54,7 +54,7 @@
         </div>
 
         <ul class="recipes-prop" (scroll)="onScrollRecs($event)">
-            <acr-couldron-rec-card *ngFor="let rec of recsFd.results" [recipe]="rec"></acr-couldron-rec-card>
+            <acr-couldron-rec-card *ngFor="let rec of recsFd.results" [recipe]="rec" @fade></acr-couldron-rec-card>
         </ul>
     </article>
 </section>

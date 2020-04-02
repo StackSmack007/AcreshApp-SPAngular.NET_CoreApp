@@ -4,7 +4,7 @@ import { ICauldronIngredient } from 'src/app/core/interfaces/ingredients/ICauldr
 @Component({
   selector: 'acr-couldron-ing-cart',
   templateUrl: './couldron-ing-cart.component.html',
-  styleUrls: ['./couldron-ing-cart.component.css']
+  styleUrls: ['./couldron-ing-cart.component.css'],
 })
 export class CouldronIngCartComponent {
 

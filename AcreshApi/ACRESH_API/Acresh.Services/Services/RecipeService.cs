@@ -69,14 +69,23 @@ namespace Acresh.Services.Services
         {
             Func<IQueryable<Recipe>, IQueryable<Recipe>> tagNameMatches = (x) =>
             {
-                var phrases = val.Split(new[] { ',', ' ', ';', '_', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                try
+                {
+                var phrases = val.ToLower().Split(new[] { ',', ' ', ';', '_', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 HashSet<IQueryable<string>> ids = new HashSet<IQueryable<string>>();
                 foreach (var phrase in phrases)
                 {
-                    ids.Add(x.Where(x => !x.IsDeleted && (x.Name.Contains(phrase) || x.RecipeTags.Any(t => t.Tag.Name == phrase))).Select(x => x.Id));
+                    ids.Add(x.Where(x => !x.IsDeleted && (x.Name.ToLower().Contains(phrase) || x.RecipeTags.Any(t => t.Tag.Name.ToLower() == phrase))).Select(x => x.Id));
                 }
                 var allowdIds = ids.SelectMany(x => x).Distinct();
                 return x.Where(x => allowdIds.Contains(x.Id));
+
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
             };
 
             Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>> sortCriteria = new Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>>

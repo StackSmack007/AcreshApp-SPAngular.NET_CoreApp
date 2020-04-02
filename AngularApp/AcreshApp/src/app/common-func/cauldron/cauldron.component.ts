@@ -5,11 +5,22 @@ import { IngredientService } from 'src/app/core/services/ingredient.service';
 import { ICauldronRecipeCard } from 'src/app/core/interfaces/recipes/ICauldronRecipeCard';
 import { RecipeService } from 'src/app/core/services/recipe.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'acr-cauldron',
   templateUrl: './cauldron.component.html',
-  styleUrls: ['./cauldron.component.css']
+  styleUrls: ['./cauldron.component.css'],
+  animations: [
+    trigger('fade-shrink', [
+      transition('void=>*', [style({ opacity: '0', transform: 'scale(0.1)' }), animate(1200)]),
+      transition('*=>void', [animate(1200), style({ opacity: '0', transform: 'scale(0.1)' })]),
+    ]),
+    trigger('fade', [
+      transition('void=>*', [style({ opacity: '0' }), animate(1200)]),
+      transition('*=>void', [animate(1200), style({ opacity: '0' })]),
+    ])
+  ]
 })
 export class CauldronComponent implements OnInit {
 
@@ -136,7 +147,7 @@ export class CauldronComponent implements OnInit {
       if (recs.length === 0) { this.recsFd.endReached = true; }
       else { this.recsFd.results.splice(this.ingsFd.results.length, 0, ...recs) }
       console.log("raz");
-    }).add(() => {console.log("dva------"); this.recsFd.isLoading = false; this.spinner.hide() })
+    }).add(() => { console.log("dva------"); this.recsFd.isLoading = false; this.spinner.hide() })
   }
 
   onScrollRecs({ target }) {
