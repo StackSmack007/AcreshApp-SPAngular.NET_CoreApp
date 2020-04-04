@@ -4,9 +4,6 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { minLengthFields } from 'src/app/core/settings/globalConstants';
 import { ToastrService } from 'ngx-toastr';
-import { AppState } from 'src/app/store/app.state';
-import { Store } from '@ngrx/store';
-import { MessageService } from 'src/app/core/services/message.service';
 
 @Component({
   selector: 'acr-login',
@@ -19,11 +16,8 @@ export class LoginComponent {
   constructor(private router: Router,
     private authService: AuthService,
     private fb: FormBuilder,
-    private toastrService: ToastrService,
-    private messageService: MessageService,
-    private store: Store<AppState>) {
+    private toastrService: ToastrService) {
     this.buildForm();
-    this.toastrService.toastrConfig.positionClass = "toastr";
     this.toastrService.toastrConfig.closeButton = true;
   }
 
@@ -41,7 +35,7 @@ export class LoginComponent {
 
   buildForm() {
     this.lf = this.fb.group({
-      "umail": ["", [Validators.required,Validators.minLength(3)]],
+      "umail": ["", [Validators.required, Validators.minLength(3)]],
       "password": ["", [Validators.required, Validators.minLength(minLengthFields.password)]],
     })
   }
@@ -50,8 +44,6 @@ export class LoginComponent {
     console.log(this.lf);
     const values = this.lf.value;
     this.authService.login(values).subscribe(r => {
-      console.log("success");
-      console.log("Avemos Papa:", this.authService.getUserInfo());
       this.toastrService.success("Successfull login", `Welcome ${values.umail}`)
       this.router.navigate([""]);
     },

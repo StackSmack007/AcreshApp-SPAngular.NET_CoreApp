@@ -131,13 +131,7 @@ ul.recipes-prop {
     padding:1em 1em 1em 0;
     height:20em;
     overflow-y: auto;
-}
-
-ul.recipes-prop>li img{
-    height:14em;
-    width:auto;
-    border-radius: 0.5em;
-    margin-right: 1em;
+    align-items: flex-start;
 }
 
 acr-couldron-rec-card {
