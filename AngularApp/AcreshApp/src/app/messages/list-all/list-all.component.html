@@ -1,7 +1,6 @@
 <div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-2 toastr"></div>
-        <div class="col-8">
+    <div class="content-box">
+        <div class="content">
             <h2 class="text-center py-3">Message Box:</h2>
             <ul class="nav nav-tabs h4">
                 <li class="nav-item">
@@ -40,21 +39,18 @@
 
                 <div class="tab-pane fade" id="users-i-block">
                     <p>All users who can't tell me shit... </p>
-                    <div class="row justify-content-start">
-                        <acr-user-sm class="col-2" *ngFor="let u of (blockedUsers$ | async)" [user]="u"></acr-user-sm>
+                    <div class="user-list">
+                        <acr-user-sm class="user-info" *ngFor="let u of (blockedUsers$ | async)" [user]="u"></acr-user-sm> 
                     </div>
                 </div>
 
                 <div class="tab-pane fade" id="users-blocking-me">
                     <p>All users who I can not write... </p>
-                    <div class="row justify-content-start">
-                        <acr-user-sm class="col-2" *ngFor="let u of (blockerUsers$ | async)" [user]="u"></acr-user-sm>
+                    <div class="user-list">
+                        <acr-user-sm class="user-info" *ngFor="let u of (blockerUsers$ | async)" [user]="u"></acr-user-sm>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-2">
-
         </div>
     </div>
 </div>

@@ -2,18 +2,30 @@
     background-color:blanchedalmond;
     background-image: none;
 }
+
 #sbtn:hover {
     background-color:blanchedalmond;
     color: rgb(80, 15, 153);
 }
-@media  screen and (max-width: 1600px) {
-    ul.main-logo {
-padding-top: 0.56rem;
-font-size:0.7em;
+
+ul.main-logo>li{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-27%);
+}
+
+@media  screen and (max-width: 1500px) {
+    ul.main-logo>li{
+        font-size: 0.8em;
+        position: absolute;
+        top: 0.5em;
+        left: 50%;
+        transform: translateX(-18%);
     }
   }
 
-  @media  screen and (max-width: 1405px) {
+  @media  screen and (max-width: 1375px) {
     ul.main-logo {
      display: none;
     }

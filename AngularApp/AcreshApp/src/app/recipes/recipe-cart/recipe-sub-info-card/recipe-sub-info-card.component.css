@@ -1,7 +1,9 @@
 div.card {
-    position:absolute;
+    /* position:absolute; */
     border-radius: 15%;
     border: 2px solid cornflowerblue;
+    margin-top:1em;
+    padding:1em 1em 0 1em;
 }
 
 #menuDiv {

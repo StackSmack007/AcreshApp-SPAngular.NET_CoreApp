@@ -1,5 +1,6 @@
 section {
-    width:100%;
+    /* width:100%; */
+    min-height: calc(100vh - 5.625em);
     max-width:90em;
     margin:0 auto;
     background:whitesmoke;
@@ -7,6 +8,8 @@ section {
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
 }
 
 div.title {
@@ -14,23 +17,24 @@ div.title {
     flex: 0 0 100%;
 }
 
-div.three,div.menu {
-    flex: 1 0 auto;
-    max-width: 40em;
+div.tree,div.menu {
+    flex: 1 0 0;
+    margin-right: 2em;
 }
 
 div.menu {
+    flex:0 0 37.5em;
     margin-left:auto;
     display:flex;
     flex-direction: column;
-    justify-content: center;
+    padding-top: 4.8em;
+    /* justify-content: center; */
 }
 
 div.details{
     border:2px solid magenta;
     border-radius:2em;
     padding:1em;
-    margin:2em 0;
 }
 
 div.actions {

@@ -1,10 +1,9 @@
 <div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-3"></div>
-        <div class="col-6">
+    <h2 class="text-center py-3">Edit Profile</h2>
+    <div class="content-box">
+        <div class="content-menu">
             <form [formGroup]="rf" (ngSubmit)="submitEdit()">
                 <fieldset>
-                    <h2 class="text-center py-3">Edit Profile</h2>
                     <!-- {{rf.value | json}} -->
                     <div class="row justify-content-between">
                         <div class="col-3">
@@ -104,7 +103,7 @@
                 </fieldset>
             </form>
         </div>
-        <div class="col-3 validationMessages">
+        <div class="content-val-mess">
              <div class="firstNameValidations" *ngIf="isTouchedInvalid('firstName')">
                 <div *ngIf="getCtrlErrors('firstName')['required']" class="alert alert-dismissible alert-danger">
                     <strong>Invalid First Name!</strong> Please provide first Name!

@@ -6,12 +6,12 @@ import { IRecipeMiniInfo } from 'src/app/core/interfaces/recipes/recipeMiniInfo'
 @Component({
   selector: 'acr-list-recipes',
   templateUrl: './list-recipes.component.html',
-  styleUrls: []
+  styleUrls: ['list-recipes.component.css'],
 })
 
 export class ListRecipesComponent implements OnInit {
 
-  public recipesContainer: { fetched: IRecipeMiniInfo[], page: number, endReached: boolean } = { fetched: [], page: 1, endReached: false };
+  public recipesContainer: { fetched: IRecipeMiniInfo[], page: number, endReached: boolean }; 
 
   public isLoading: boolean = false;
   public notFound: boolean = false;
@@ -59,8 +59,8 @@ export class ListRecipesComponent implements OnInit {
   }
 
   private startLoadingInfo() {
-    this.isLoading = true;
     if (this.recipesContainer.endReached) return;
+    this.isLoading = true;
     this.spinner.show();
   }
 

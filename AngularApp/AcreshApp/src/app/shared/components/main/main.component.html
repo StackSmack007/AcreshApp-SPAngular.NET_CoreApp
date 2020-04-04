@@ -49,7 +49,7 @@
         </section>
 
         <section class="main-width-2 gallery">
-            <button disabled>Acresh Features</button>
+            <button class="btn-inactive" disabled>Acresh Features</button>
             <ul>
                 <li>
                     <media>
@@ -76,7 +76,8 @@
                     <h5>Message Other users</h5>
                 </li>
             </ul>
-            <button *ngIf="!isLoggedIn" routerLink="/authentication/register"> Sign In Now!</button>
+            <button *ngIf="!isLoggedIn"  class="btn-active" routerLink="/authentication/register"> Sign In Now!</button>
+            <button *ngIf="isLoggedIn" class="btn-inactive">Acresh Features</button>
         </section>
     </main>
 </div>

@@ -42,7 +42,7 @@ namespace Common.AutomapperConfigurations
 
             CreateMap<Recipe, RecipeCardDTOout>()
                 .ForMember(d => d.SubInfo, opt => opt.MapFrom(x => x))
-                .ForMember(d => d.Description, opt => opt.MapFrom(x => x.Description.Substring(0, 600)));
+                .ForMember(d => d.Description, opt => opt.MapFrom(x => x.Description.Substring(0, 2000)));
 
 
             CreateMap<Recipe, RecipeDetailsDTOout>()

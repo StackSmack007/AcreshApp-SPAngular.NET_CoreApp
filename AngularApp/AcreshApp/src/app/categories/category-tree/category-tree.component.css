@@ -31,5 +31,6 @@ span.chosen {
 }
 
 mat-tree.mat-tree{
-    padding:1em 0 0 2.5em;
+    padding:0 0 0 2em;
+    background-color:whitesmoke;
 }

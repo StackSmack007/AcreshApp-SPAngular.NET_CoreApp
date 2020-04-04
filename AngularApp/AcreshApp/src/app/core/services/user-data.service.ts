@@ -24,7 +24,6 @@ export class UserDataService {
   }
 
   getUserInfoForEditing(): Observable<IUserProfileEditData> {
-    debugger
     return this.http.get<IUserProfileEditData>(userDataPaths.userInfo)
   }
 

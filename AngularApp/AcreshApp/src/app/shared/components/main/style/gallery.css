@@ -4,7 +4,7 @@ section.gallery{
     border-radius: 2em;
 }
 
-section.gallery button {
+section.gallery button.btn-inactive {
    font-size: 1.6em;
    display:block;
    margin:0 auto;
@@ -13,17 +13,17 @@ section.gallery button {
    padding:0.4em;
 }
 
-section.gallery button:first-of-type{
+.gallery>button:first-of-type{
     background-color: rgba(256,256,256,0.7);
     color:black;
 }
 
-section.gallery button:last-of-type{
+.gallery>button.btn-active{
     background-color: rgb(215, 74, 50);
     color:white;
 }
 
-section.gallery button:last-of-type:hover{
+section.gallery button.btn-active:hover{
     cursor: pointer;
    border-radius: 2em;
    color:gold;

@@ -64,7 +64,6 @@ namespace Acresh.Services.Services
             return null;
         }
 
-
         public IQueryable<RecipeCardDTOout> GetRecipeCards(string criteria, string val)
         {
             Func<IQueryable<Recipe>, IQueryable<Recipe>> tagNameMatches = (x) =>
@@ -250,7 +249,6 @@ namespace Acresh.Services.Services
             }
             return result;
         }
-
         public async Task DeleteAsync(string id, string userId, bool isAdmin)
         {
             var recipeFd = await recipeRepo.All().FirstOrDefaultAsync(x => x.Id == id);
@@ -259,7 +257,6 @@ namespace Acresh.Services.Services
             recipeFd.IsDeleted = true;
             await recipeRepo.SaveChangesAsync();
         }
-
         public IQueryable<CauldronRecipeDTOout> GetCauldronCards(string ids) =>
                 this.GetIngredientMatches(this.recipeRepo.All(), ParseIngIdsFromString(ids))
                     .Where(x => !x.IsDeleted)

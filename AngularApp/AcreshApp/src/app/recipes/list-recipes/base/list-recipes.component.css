@@ -1,0 +1,14 @@
+.cards{
+    width:100%;
+    display:flex;
+    justify-content: center;
+    padding:0em 2em;
+}
+
+.cards>div.card-list{ flex:0 1 90em; }
+
+@media only screen and (max-width: 1080px) {
+    body {
+      background-color: lightblue;
+    }
+  }

@@ -1,10 +1,9 @@
 <div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-3"></div>
-        <div class="col-6">
+    <h2 class="text-center py-3">Register</h2>
+    <div class="content-box">
+        <div class="content-menu">
             <form [formGroup]="rf" (ngSubmit)="submitRegister()">
                 <fieldset>
-                    <h2 class="text-center py-3">Register</h2>
                     <!-- {{rf.value | json}} -->
                     <div class="row justify-content-between">
                         <div class="col-3">
@@ -105,7 +104,7 @@
                 </fieldset>
             </form>
         </div>
-        <div class="col-3 validationMessages">
+        <div class="content-val-mess">
             <div class="userNameValidations" *ngIf="isTouchedInvalid('userName')">
                 <div *ngIf="getCtrlErrors('userName')['required']" class="alert alert-dismissible alert-danger">
                     <strong>Invalid Username!</strong> Please provide username!
@@ -156,7 +155,6 @@
                 </div>
             </div>
 
-            <!-- {{getCtrlErrors('rePassword')|json}} -->
             <div class="repasswordValidations" *ngIf="isTouchedInvalid('rePassword')">
                 <div *ngIf="getCtrlErrors('rePassword')['required']" class="alert alert-dismissible alert-danger">
                     <strong>Invalid Password!</strong> Please provide Password!
@@ -171,7 +169,6 @@
                     <strong>Invalid Password!</strong> Passwords mismatch!
                 </div>
             </div>
-
         </div>
     </div>
 </div>

@@ -4,15 +4,15 @@ import { IRecipeMiniInfo } from 'src/app/core/interfaces/recipes/recipeMiniInfo'
 import { HelperService, CustomDateFormats as CustomDateFormats } from 'src/app/core/services/helper.service';
 import { CookRank } from 'src/app/core/enumerations/CookRank';
 
-
 @Component({
   selector: 'acr-recipe-card',
   templateUrl: './recipe-card.component.html',
   styleUrls: ['./recipe-card.component.css'],
   animations: [
-    trigger('fade', [
-      transition('void=>*', [style({ opacity: '0', transform: 'translateX(-15rem) scaleX(0.1)' }), animate(1500, style({ opacity: '1', transform: 'translateX(0) scaleX(1)' }))]),
-    ])]
+    trigger('fade-s', [
+      transition('void=>*', [style({ opacity: '0', transform: 'translateX(-10rem) scaleX(0.1)' }), animate(1500, style({ opacity: '1', transform: 'translateX(0) scaleX(1)' }))]),
+    ]),
+    trigger('fade-m', [transition('void=>*', [style({ opacity: '0' }), animate(1200)])])  ]
 })
 
 export class RecipeCartComponent implements OnInit {
@@ -47,7 +47,6 @@ export class RecipeCartComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   displayInfo(timeDelay: number = 1000) {
     setTimeout(() =>
       this.infoShown = true, timeDelay)
@@ -61,5 +60,4 @@ export class RecipeCartComponent implements OnInit {
   get date() {
     return HelperService.dateConvert(this.recipe.dateOfCreation, CustomDateFormats.DefaultFormater)
   }
-
 }

@@ -1,1 +1,9 @@
 .not-allowed {cursor: not-allowed;}
+
+div.content-box{
+    display:flex;
+    justify-content:center;
+}
+div.content{
+    flex:0 1 58em;
+}
