@@ -2,11 +2,15 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IMessageRecievedSent } from 'src/app/core/interfaces/message-interfaces/messageRecieve';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HelperService, CustomDateFormats } from 'src/app/core/services/helper.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'acr-message-recieved',
   templateUrl: './message-recieved.component.html',
-  styleUrls: ['./message-recieved.component.css']
+  styleUrls: ['./message-recieved.component.css'],
+  animations: [
+    trigger('fade', [transition('void=>*', [style({ opacity: '0' }), animate(1200, style({ opacity: '1' }))]),])
+  ]
 })
 export class MessageRecievedComponent {
 

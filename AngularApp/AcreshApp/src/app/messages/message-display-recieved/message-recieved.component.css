@@ -5,3 +5,36 @@ img.avatar {
     padding-right: 1rem;
     padding-bottom: 1rem;
 }
+
+.card-body{
+    display: inline;
+    max-height: 15em;
+    overflow: auto;
+}
+
+.card-header{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header>.name{
+    flex: 1 1 10em;
+}
+
+.card-header>.status{
+    text-align: center;
+    flex:1 0 5.8em;
+
+}
+
+.card-header>.date{
+    flex:1 0 16em;
+}
+
+.card-header>.actions{
+    flex:0 1 9em;
+    display:flex;
+    justify-content:space-between;
+    cursor: pointer;
+}

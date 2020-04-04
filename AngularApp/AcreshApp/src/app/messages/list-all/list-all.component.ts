@@ -10,7 +10,8 @@ import { ISmallUserInfo } from 'src/app/core/interfaces/user-data-interfaces/use
 @Component({
   selector: 'acr-list-all',
   templateUrl: './list-all.component.html',
-  styleUrls: ['./list-all.component.css']
+  styleUrls: ['./list-all.component.css'],
+
 })
 export class ListAllComponent implements AfterViewInit {
 

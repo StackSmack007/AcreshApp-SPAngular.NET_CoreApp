@@ -20,4 +20,10 @@ div.fav-btn .mat-button-toggle{
 
   .mat-button-toggle.not-allowed{cursor: not-allowed;}
 
+  /* mat-tree.mat-tree{
+    background-color:whitesmoke;
+    background-color:orange;
+    padding: 0 0 0 2em ;
+  } */
+
   

@@ -1,7 +1,7 @@
 <div class="card border-primary mb-3 mx-4" style="max-width: 100%;">
     <div class="card-header">
-        <div class="row justify-content-start">
-            <div class="col-4">
+
+            <div class="name">
                 <span class="h4">From : </span><a class="h4"
                     [routerLink]="['/user-data/profile/', message.senderUserName]">
                     <span *ngIf="isSenderBlocked" (mouseenter)="showHideBlockInfo()"
@@ -11,8 +11,7 @@
                     I have blocked this user!</span>
             </div>
 
-
-            <div class="col-2">
+            <div class="status">
                 <div *ngIf="message.status==='Read'; else unread" class="text-success">
                     <i class="fas fa-eye"></i> &nbsp; Read
                 </div>
@@ -20,21 +19,20 @@
                     <div class=" text-danger"><i class="fas fa-eye-slash"></i> &nbsp; Unread</div>
                 </ng-template>
             </div>
-            <div class="col-3">
-                <span class="font-italic">&nbsp;Recieved on: {{dateSent}}</span>
+            <div class="date">
+                <span class="font-italic">Recieved on: {{dateSent}}</span>
             </div>
-            <div class="col-3 float-right">
+            <div class="actions">
                 <div (click)="showHideContent()" class="link">
-                    <div *ngIf="expanded" class="float-right pt-1 px-4">
-                        <i class="far fa-minus-square"></i> &nbsp; Hide
+                    <div *ngIf="expanded">
+                        <i class="far fa-minus-square"></i> Hide
                     </div>
-                    <div *ngIf="!expanded" class="float-right pt-1 px-4">
-                        <i class="far fa-plus-square"></i> &nbsp; Display
+                    <div *ngIf="!expanded" >
+                        <i class="far fa-plus-square"></i> Display
                     </div>
                 </div>
-                <a class="float-right pt-1" (click)="del()"><i class="far fa-trash-alt"></i> &nbsp; Delete</a>
+                <a class="float-right" (click)="del()"><i class="far fa-trash-alt"></i> Delete</a>
             </div>
-        </div>
     </div>
 
     <div class="card-body p-2 h5 mb-0 mt-1" [ngStyle]="{'display':expanded ? 'inline' : 'none'}">
