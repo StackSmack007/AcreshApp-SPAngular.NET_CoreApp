@@ -1,6 +1,6 @@
 //export const basePath: string = isDevMode()?"https://localhost:5020/":"acresh.nsh7.tk";
-   export const basePath: string = "https://localhost:5020/";
- //export const basePath: string = "https://acresh.nsh7.tk/";
+//export const basePath: string = "https://localhost:5020/";
+ export const basePath: string = "https://www.acresh.nsh7.tk/";
 
 export const authPaths: IAuthPaths = {
     checkUserNameOrEmailTaken: basePath + "users/is-singIn-data-free",//post
@@ -132,4 +132,12 @@ export interface ICommentPaths {
     base: string,
     delete: (id: number) => string,
     getAllForRecipe: (page, id) => string,
+}
+
+export const uploadPaths: IUploadPaths = {
+    avatarImg: basePath + "upload/avatarImg",//post
+}
+
+export interface IUploadPaths {
+    avatarImg: string,
 }

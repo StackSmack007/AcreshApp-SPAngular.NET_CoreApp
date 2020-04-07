@@ -22,15 +22,16 @@ import { trigger, style, animate, transition } from '@angular/animations';
     ])
   ]
 })
+
 export class CauldronComponent implements OnInit {
 
   @ViewChild('ingBox') container: ElementRef
   get hasScroller() { return this.container.nativeElement.scrollHeight > this.container.nativeElement.clientHeight }
 
   phrase: BehaviorSubject<string> = new BehaviorSubject("");
-  chosenIngs: BehaviorSubject<string> = new BehaviorSubject("");
-
+ // chosenIngs: BehaviorSubject<string> = new BehaviorSubject("");
   ingredientsUsed: ICauldronIngredient[] = [];
+  get ingsUsedIds():number[]{  return this.ingredientsUsed.map(x=>x.id);}
 
   recsFd: {
     page: number,
@@ -38,7 +39,6 @@ export class CauldronComponent implements OnInit {
     isLoading: boolean,
     results: ICauldronRecipeCard[];
   } = { page: 0, endReached: false, isLoading: false, results: [] }
-
 
   selectIngredient(id: number) {
     const index = this.ingsFd.results.findIndex(x => x.id === id);
@@ -140,14 +140,12 @@ export class CauldronComponent implements OnInit {
       this.spinner.hide();
       return;
     }
-    const ingIds = this.ingredientsUsed.map(x => x.id).join('|');
     this.recsFd.isLoading = true;
     this.spinner.show();
-    this.recipesService.getCauldronRecipeCards(ingIds, this.recsFd.page++).subscribe(recs => {
+    this.recipesService.getCauldronRecipeCards(this.ingsUsedIds.join('|'), this.recsFd.page++).subscribe(recs => {
       if (recs.length === 0) { this.recsFd.endReached = true; }
       else { this.recsFd.results.splice(this.ingsFd.results.length, 0, ...recs) }
-      console.log("raz");
-    }).add(() => { console.log("dva------"); this.recsFd.isLoading = false; this.spinner.hide() })
+    }).add(() => { this.recsFd.isLoading = false; this.spinner.hide() })
   }
 
   onScrollRecs({ target }) {

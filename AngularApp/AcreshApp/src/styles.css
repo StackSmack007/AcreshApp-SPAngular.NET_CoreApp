@@ -4,6 +4,7 @@
 @import url("https://fonts.googleapis.com/css?family=Lemonada:400,500&display=swap&text=ACRESH");
 @import "./assets/popper-settings.css";
 @import "./assets/tooltip-settings.css";
+@import "./assets/reset.css";
 @import "./assets/typography.css";
 @import "./assets/toastr-settings.css";
 @import "./assets/material-settings.css";

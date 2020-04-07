@@ -5,10 +5,12 @@ import { CookRank } from 'src/app/core/enumerations/CookRank';
 @Component({
   selector: 'acr-couldron-rec-card',
   templateUrl: './couldron-rec-card.component.html',
-  styleUrls: ['./couldron-rec-card.component.css']
+  styleUrls: ['./couldron-rec-card.component.scss']
 })
-export class CouldronRecCardComponent  {
+export class CouldronRecCardComponent {
 
+  @Input()
+  ingsUsedIds: number[];
 
   @Input()
   recipe: ICauldronRecipeCard = {
@@ -27,12 +29,12 @@ export class CouldronRecCardComponent  {
     ]
   }
 
+  get ingredientsOwned() { return this.recipe.ingredients.filter(x => this.ingsUsedIds.includes(x.id)) }
+  get ingredientsNotOwned() { return this.recipe.ingredients.filter(x => !this.ingsUsedIds.includes(x.id)) }
+
   get cookRank() {
     return CookRank[this.recipe.authorCookRank];
   }
 
   constructor() { }
-
-
-
 }

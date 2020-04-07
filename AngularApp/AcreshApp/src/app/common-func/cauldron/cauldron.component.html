@@ -54,7 +54,7 @@
         </div>
 
         <ul class="recipes-prop" (scroll)="onScrollRecs($event)">
-            <acr-couldron-rec-card *ngFor="let rec of recsFd.results" [recipe]="rec" @fade></acr-couldron-rec-card>
+            <acr-couldron-rec-card *ngFor="let rec of recsFd.results" [recipe]="rec" [ingsUsedIds]="ingsUsedIds" @fade></acr-couldron-rec-card>
         </ul>
     </article>
 </section>

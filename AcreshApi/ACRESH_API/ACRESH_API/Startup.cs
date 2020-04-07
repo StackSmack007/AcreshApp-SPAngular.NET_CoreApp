@@ -12,10 +12,13 @@ using Infrastructure.Data;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using System;
 using System.IO;
 
@@ -38,9 +41,10 @@ namespace ACRESH_API
         {
             services.AddControllers();
 
-            // services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             if (env.EnvironmentName == "Development")
             {
+                //  services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
                 services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DevelopmentMySQL")));
             }
             else
@@ -78,6 +82,35 @@ namespace ACRESH_API
             services.AddSignalR();
             services.AddControllers().AddNewtonsoftJson();
 
+            services.Configure<FormOptions>(o =>
+            {
+                o.ValueCountLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("development",
+                    builder =>
+            {
+                builder.WithOrigins("http://localhost:4200",
+                                    "http://localhost:5020")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+                options.AddPolicy("production",
+                    builder =>
+            {
+                builder.WithOrigins("www.acresh.nsh7.tk",
+                                    "acresh.nsh7.tk",
+                                    "https://acresh.nsh7.tk",
+                                    "https://www.acresh.nsh7.tk")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+            });
+            });
+
             //Configuring OfJWTHappensHere
             ServiceJWT.ConfigureJWTAUth(services, jwtSettings.Secret, jwtSettings.Issuer);
             services.AddSingleton<Random>();
@@ -101,6 +134,7 @@ namespace ACRESH_API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseMiddleware<Middlewares.SeederMiddleware>();
 
             app.Use(async (context, next) =>
             {
@@ -113,30 +147,22 @@ namespace ACRESH_API
                 }
             });
 
-            //   if (env.EnvironmentName == Microsoft.Extensions.Hosting.Environments.Development) app.UseHttpsRedirection();
-
             app.UseRouting();
-
             if (env.EnvironmentName == Microsoft.Extensions.Hosting.Environments.Development)
             {
-                app.UseCors(builder => builder
-                           .WithOrigins("http://localhost:4200")
-                           .AllowAnyMethod()
-                           .AllowAnyHeader()
-                           .AllowCredentials()
-                           );
+                app.UseCors("development");
             }
             else
             {
-                app.UseCors(builder => builder
-               .WithOrigins("https://acresh.nsh7.tk", "https://www.acresh.nsh7.tk")
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowCredentials()
-               );
-                app.UseDefaultFiles();
-                app.UseStaticFiles();
+                app.UseCors("production");
             }
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resourses")),
+                RequestPath = new PathString("/Resourses")
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -144,7 +170,6 @@ namespace ACRESH_API
             app.UseHsts();
             app.UseResponseCompression();
 
-            app.UseMiddleware<Middlewares.SeederMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

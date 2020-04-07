@@ -20,8 +20,8 @@ namespace Infrastructure.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql("Server=localhost;port=3306;Database=JunjuriaDB;Uid=root;Pwd=nevermind;");
-                //optionsBuilder.UseSqlServer("Server=DESKTOP-FETTQ2O\\SQLEXPRESS;Database=T34;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseMySql("Server=localhost;port=3306;Database=nevermind;Uid=root;Pwd=nevermind;");
+               // optionsBuilder.UseSqlServer("Server=DESKTOP-FETTQ2O\\SQLEXPRESS;Database=T34;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
             base.OnConfiguring(optionsBuilder);
         }

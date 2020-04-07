@@ -43,7 +43,7 @@ namespace Infrastructure.Models
         public RecipeDifficulty Difficulty { get; set; }
         public virtual ApprovalStatus Status { get; set; }
         public ICollection<RecipePicture> Pictures { get; set; }
-        public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; } 
+        public virtual ICollection<RecipeIngredient>RecipeIngredients { get; set; } 
         public virtual ICollection<RecipeVote> Votes { get; set; } //*
         [NotMapped]
         public virtual bool IsVegan => RecipeIngredients.Any(x => !x.Ingredient.IsVegan);

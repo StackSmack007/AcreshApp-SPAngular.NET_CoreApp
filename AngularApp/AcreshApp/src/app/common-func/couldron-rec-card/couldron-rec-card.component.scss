@@ -36,3 +36,19 @@ h6.author-info{
 span.author {
     display:inline-block;
 }
+
+a{
+    text-decoration: none;
+}
+
+a.owned{
+    color:green;
+}
+
+a.not-owned{
+color:rgba(255, 0, 0, 0.753);
+}
+
+ a:hover{
+     color:rgb(119, 41, 83);
+}

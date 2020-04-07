@@ -7,6 +7,7 @@ import { sameFieldsValidator } from 'src/app/core/validators/sameInputVal';
 import { avImages, maxLengthFields, minLengthFields } from 'src/app/core/settings/globalConstants';
 import { ToastrService } from 'ngx-toastr';
 import { HelperService } from 'src/app/core/services/helper.service';
+import { UploadService } from 'src/app/core/services/upload.service';
 
 @Component({
   selector: 'acr-register',
@@ -17,11 +18,13 @@ export class RegisterComponent {
   public rf: FormGroup = null;
   private takenUserNames: string[] = [];
   private takenEmails: string[] = [];
+  public fileAvatar: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService, private fb: FormBuilder, private toastr: ToastrService) {
+  constructor(private router: Router, private authService: AuthService,
+    private fb: FormBuilder, private toastr: ToastrService, private uploadService: UploadService) {
     this.buildForm();
     this.rf.controls.gender.valueChanges.subscribe(gender => {
-      this.rf.controls.avatarPicture.setValue(avImages[gender][0]);
+      if (!this.fileAvatar) this.rf.controls.avatarPicture.setValue(avImages[gender][0]);
     })
   }
 
@@ -66,8 +69,16 @@ export class RegisterComponent {
     })
   }
 
+  processPicture(pic: File) {
+    if (pic.size > 100000) return this.toastr.error("File size must not exceed 100 kb! Dimmensions 300x300px!", "Failure")
+    this.uploadService.uploadAvImg(pic).subscribe(r => {
+      this.fileAvatar = true;
+      this.rf.get("avatarPicture").setValue(r);
+    })
+  }
+
   submitRegister() {
-     const values = this.rf.value;
+    const values = this.rf.value;
     this.authService.checkUserNameOrEmailTaken(values).subscribe(answer => {
       if (answer.userNameTaken || answer.emailTaken) {
         if (answer.userNameTaken) {

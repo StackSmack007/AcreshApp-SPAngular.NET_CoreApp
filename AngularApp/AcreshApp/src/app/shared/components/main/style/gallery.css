@@ -4,7 +4,7 @@ section.gallery{
     border-radius: 2em;
 }
 
-section.gallery button.btn-inactive {
+section.gallery button.btn-inactive,section.gallery button.btn-active {
    font-size: 1.6em;
    display:block;
    margin:0 auto;
@@ -24,7 +24,7 @@ section.gallery button.btn-inactive {
 }
 
 section.gallery button.btn-active:hover{
-    cursor: pointer;
+   cursor: pointer;
    border-radius: 2em;
    color:gold;
    transition: ease-in-out 0.3s;

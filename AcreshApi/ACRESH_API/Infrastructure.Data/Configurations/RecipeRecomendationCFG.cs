@@ -9,6 +9,7 @@
         {
             builder.HasKey(e => e.Id);
             builder.HasOne(e => e.Author).WithMany(a => a.RecipesRecomendations).HasForeignKey(e => e.AuthorId);
+            builder.HasOne(e => e.Recipe).WithMany(r => r.RecipeRecomendations).HasForeignKey(e => e.RecipeId).OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(e => e.Recipe).WithMany(a => a.RecipeRecomendations).HasForeignKey(e => e.RecipeId);
         }
     }

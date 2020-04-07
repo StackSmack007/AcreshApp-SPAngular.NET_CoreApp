@@ -33,7 +33,6 @@ namespace Acresh.Services.Services
             return result;
         }
 
-
         public async Task<int> SubmitCommentAsync(CommentDTOin comment)
         {
             bool recipeExists = await recipeRepo.All().AnyAsync(x => x.Id == comment.RecipeId && !x.IsDeleted);

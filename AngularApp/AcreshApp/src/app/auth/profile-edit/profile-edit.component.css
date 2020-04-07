@@ -27,3 +27,21 @@ div.content-val-mess{
     div.content-val-mess{ margin:0 1em; }
     div.content-menu{ order:2; }
   }
+
+    .picture-nav>button {
+    font-size: 0.9em;
+    float: left;
+    border: none;
+    border-radius: 1rem;
+    background-color: rgb(233, 84, 32);
+    color: whitesmoke;
+    padding: 0.1rem 0.8rem;
+}
+
+#pic-inp{
+  display:none;
+}
+
+.no-touching{
+cursor:not-allowed;
+}

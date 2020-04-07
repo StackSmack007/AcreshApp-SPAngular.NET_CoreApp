@@ -5,6 +5,12 @@ html {
     font: 16px/1.3 cursive,Verdana,Helvetica,Serif;
 }
 
+@media only screen and (max-width: 600px) {
+  html {
+    font: 14px/1.2 cursive,Verdana,Helvetica,Serif;
+  } 
+}
+
 span.acsh{
 color:#ffa64d;
 font-family: 'Lemonada',cursive,Verdana,Helvetica,Serif;

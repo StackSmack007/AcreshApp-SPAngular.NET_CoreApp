@@ -8,7 +8,6 @@ import { SafePipe } from './pipes/safeUrl.pipe';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from '../app-routing.module';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { PopoverModule } from "ngx-smart-popover";
 import { ClassIfClassDirective } from './directives/class-if-class.directive';
 import { DialogQuestionComponent } from './components/questionComponent/dialog-question.component';

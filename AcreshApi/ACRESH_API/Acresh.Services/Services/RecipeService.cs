@@ -51,15 +51,15 @@ namespace Acresh.Services.Services
         {
             Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>> sortCriteria = new Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>>
             {
-                ["my-favourite"] = (x) => x.Where(x => !x.IsDeleted && x.RecipeFavorisers.Any(rf => !rf.IsDeleted && rf.UserId == myId))
+                ["my-favourite"] = (x) => x.Where(x => x.RecipeFavorisers.Any(rf => !rf.IsDeleted && rf.UserId == myId))
                 .OrderByDescending(x => x.RecipeFavorisers.Where(rf => rf.UserId == myId).First().DateOfLastEdit),
-                ["my-commented"] = (x) => x.Where(x => !x.IsDeleted && x.Comments.Any(rc => !rc.IsDeleted && rc.AuthorId == myId))
+                ["my-commented"] = (x) => x.Where(x => x.Comments.Any(rc => !rc.IsDeleted && rc.AuthorId == myId))
                                          .OrderByDescending(x => x.Comments.Where(rc => !rc.IsDeleted && rc.AuthorId == myId).Select(rc => rc.DateOfCreation)
                                          .OrderByDescending(d => d).First()),
             };
             if (sortCriteria.ContainsKey(criteria))
             {
-                return sortCriteria[criteria](recipeRepo.All()).To<RecipeCardDTOout>();
+                return sortCriteria[criteria](recipeRepo.All()).Where(x => !x.IsDeleted).To<RecipeCardDTOout>();
             }
             return null;
         }
@@ -68,23 +68,14 @@ namespace Acresh.Services.Services
         {
             Func<IQueryable<Recipe>, IQueryable<Recipe>> tagNameMatches = (x) =>
             {
-                try
-                {
-                var phrases = val.ToLower().Split(new[] { ',', ' ', ';', '_', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                HashSet<IQueryable<string>> ids = new HashSet<IQueryable<string>>();
-                foreach (var phrase in phrases)
-                {
-                    ids.Add(x.Where(x => !x.IsDeleted && (x.Name.ToLower().Contains(phrase) || x.RecipeTags.Any(t => t.Tag.Name.ToLower() == phrase))).Select(x => x.Id));
-                }
-                var allowdIds = ids.SelectMany(x => x).Distinct();
-                return x.Where(x => allowdIds.Contains(x.Id));
-
-                }
-                catch (Exception ex)
-                {
-
-                    throw;
-                }
+                    var phrases = val.ToLower().Split(new[] { ',', ' ', ';', '_', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    HashSet<IQueryable<string>> ids = new HashSet<IQueryable<string>>();
+                    foreach (var phrase in phrases)
+                    {
+                        ids.Add(x.Where(x => !x.IsDeleted && (x.Name.ToLower().Contains(phrase) || x.RecipeTags.Any(t => t.Tag.Name.ToLower() == phrase))).Select(x => x.Id));
+                    }
+                    var allowdIds = ids.SelectMany(x => x).Distinct();
+                    return x.Where(x => allowdIds.Contains(x.Id));
             };
 
             Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>> sortCriteria = new Dictionary<string, Func<IQueryable<Recipe>, IQueryable<Recipe>>>
@@ -260,7 +251,7 @@ namespace Acresh.Services.Services
         public IQueryable<CauldronRecipeDTOout> GetCauldronCards(string ids) =>
                 this.GetIngredientMatches(this.recipeRepo.All(), ParseIngIdsFromString(ids))
                     .Where(x => !x.IsDeleted)
-                    .OrderBy(x=>x.RecipeIngredients.Count(i=>!i.IsDeleted))
+                    .OrderBy(x => x.RecipeIngredients.Count(i => !i.IsDeleted))
                     .To<CauldronRecipeDTOout>();
     }
 }

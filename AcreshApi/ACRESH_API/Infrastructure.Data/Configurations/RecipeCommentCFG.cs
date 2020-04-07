@@ -10,6 +10,7 @@ namespace Infrastructure.Data.Configurations
         {
             builder.HasKey(e => e.Id);
             builder.HasOne(e => e.Author).WithMany(a => a.Comments).HasForeignKey(e => e.AuthorId);
+            builder.HasOne(e => e.Recipe).WithMany(c => c.Comments).HasForeignKey(e => e.RecipeId).OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(e => e.Recipe).WithMany(a => a.Comments).HasForeignKey(e => e.RecipeId);
         }
     }

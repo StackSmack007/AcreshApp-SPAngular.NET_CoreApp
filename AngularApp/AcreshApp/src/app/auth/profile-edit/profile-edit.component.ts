@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HelperService } from 'src/app/core/services/helper.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 import { IUserProfileEditData } from 'src/app/core/interfaces/user-data-interfaces/userProfileEditData';
+import { UploadService } from 'src/app/core/services/upload.service';
 
 
 @Component({
@@ -19,13 +20,15 @@ export class ProfileEditComponent {
   public rf: FormGroup = null;
   private takenEmails: string[] = [];
   private user: IUserProfileEditData = null;
+  public fileAvatar: boolean = false;
 
-  constructor(route: ActivatedRoute, private router: Router, private authService: AuthService, private userDataService: UserDataService, private fb: FormBuilder, private toastr: ToastrService) {
+  constructor(route: ActivatedRoute, private router: Router, private authService: AuthService, 
+    private userDataService: UserDataService, private fb: FormBuilder, private toastr: ToastrService,private uploadService: UploadService) {
     this.buildForm();
     this.user = route.snapshot.data["userInfo"];
     this.rf.patchValue(this.user);
     this.rf.controls.gender.valueChanges.subscribe(gender => {
-      this.rf.controls.avatarPicture.setValue(avImages[gender][0]);
+      if (!this.fileAvatar) this.rf.controls.avatarPicture.setValue(avImages[gender][0]);
     })
   }
 
@@ -67,7 +70,14 @@ export class ProfileEditComponent {
       "avatarPicture": [avImages.ufo[0], [Validators.required]],
       "description": ["", [Validators.maxLength(maxLengthFields.description)]],
     });
+  }
 
+  processPicture(pic: File) {
+    if (pic.size > 100000) return this.toastr.error("File size must not exceed 100 kb! Dimmensions 300x300px!", "Failure")
+    this.uploadService.uploadAvImg(pic).subscribe(r => {
+      this.fileAvatar = true;
+      this.rf.get("avatarPicture").setValue(r);
+    },error=>console.log(error,"nsh"));
   }
 
   submitEdit() {

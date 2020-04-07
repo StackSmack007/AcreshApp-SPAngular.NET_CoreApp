@@ -160,8 +160,9 @@ namespace ACRESH_API.Controllers
         [HttpGet("caulron-cards")]
         public async Task<ActionResult<CauldronRecipeDTOout[]>> GetCauldronCards(string ids, int page)
         {
-            IQueryable<CauldronRecipeDTOout> result = this.recipeService.GetCauldronCards(ids);
-            return await result.Skip((page - 1) * REC_COUNT_PER_FETCH).Take(REC_COUNT_PER_FETCH).ToArrayAsync();
+            var result = await recipeService.GetCauldronCards(ids)
+                               .Skip((page - 1) * REC_COUNT_PER_FETCH).Take(REC_COUNT_PER_FETCH).ToArrayAsync();
+            return result;
         }
 
         //// GET: api/Recipes/5

@@ -1,3 +1,4 @@
+<input id="pic-inp" #avatar type="file" accept="image/png, image/jpeg" (change)="processPicture($event.target.files[0])">
 <div class="container-fluid">
     <h2 class="text-center py-3">Register</h2>
     <div class="content-box">
@@ -32,9 +33,12 @@
                                 </div>
                             </div>
                             <div class="picture-nav text-center pt-2 pl-2">
-                                <span (click)="prevPicture()"><i class="far fa-arrow-alt-circle-left h6"></i></span>
-                                &nbsp; &nbsp;
-                                <span (click)="nextPicture()"> <i class="far fa-arrow-alt-circle-right h6"></i></span>
+                                <button type="button" (click)="avatar.click()"><i class="fas fa-file-upload"></i> From HDD</button>
+                               <span [ngClass]="{'no-touching': fileAvatar}">
+                                    <span (click)="prevPicture()"><i class="far fa-arrow-alt-circle-left h6"></i></span>
+                                    &nbsp; &nbsp;
+                                    <span (click)="nextPicture()"> <i class="far fa-arrow-alt-circle-right h6"></i></span>
+                                </span>
                             </div>
                         </div>
                         <div class="col-3">
@@ -115,7 +119,8 @@
                 </div>
                 <div *ngIf="getCtrlErrors('userName')['valueTaken']" class="alert alert-dismissible alert-danger">
                     <strong>Invalid Username!</strong> UserName
-                    <strong> {{getCtrlErrors('userName')['valueTaken']}}</strong> is already used please provide another!
+                    <strong> {{getCtrlErrors('userName')['valueTaken']}}</strong> is already used please provide
+                    another!
                 </div>
             </div>
             <div class="firstNameValidations" *ngIf="isTouchedInvalid('firstName')">
@@ -140,7 +145,7 @@
                     <strong>Invalid Email!</strong> Please provide valid email!
                 </div>
                 <div *ngIf="getCtrlErrors('email')['valueTaken']" class="alert alert-dismissible alert-danger">
-                    <strong>Invalid Email!</strong> Email 
+                    <strong>Invalid Email!</strong> Email
                     <strong> {{getCtrlErrors('email')['valueTaken']}}</strong> is already used please provide another!
                 </div>
             </div>
@@ -164,8 +169,7 @@
                     {{getCtrlErrors('rePassword')['minlength']['requiredLength']}} symbols!
                 </div>
 
-                <div *ngIf="getCtrlErrors('rePassword')['mismatch']"
-                    class="alert alert-dismissible alert-danger">
+                <div *ngIf="getCtrlErrors('rePassword')['mismatch']" class="alert alert-dismissible alert-danger">
                     <strong>Invalid Password!</strong> Passwords mismatch!
                 </div>
             </div>

@@ -1,3 +1,4 @@
+<input id="pic-inp" #avatar type="file" accept="image/*" (change)="processPicture($event.target.files[0])">
 <div class="container-fluid">
     <h2 class="text-center py-3">Edit Profile</h2>
     <div class="content-box">
@@ -32,9 +33,12 @@
                                 </div>
                             </div>
                             <div class="picture-nav text-center pt-2 pl-2">
-                                <span (click)="prevPicture()"><i class="far fa-arrow-alt-circle-left h6"></i></span>
-                                &nbsp; &nbsp;
-                                <span (click)="nextPicture()"> <i class="far fa-arrow-alt-circle-right h6"></i></span>
+                                <button type="button" (click)="avatar.click()"><i class="fas fa-file-upload"></i> From HDD</button>
+                               <span [ngClass]="{'no-touching': fileAvatar}">
+                                    <span (click)="prevPicture()"><i class="far fa-arrow-alt-circle-left h6"></i></span>
+                                    &nbsp; &nbsp;
+                                    <span (click)="nextPicture()"> <i class="far fa-arrow-alt-circle-right h6"></i></span>
+                                </span>
                             </div>
                         </div>
                         <div class="col-3">

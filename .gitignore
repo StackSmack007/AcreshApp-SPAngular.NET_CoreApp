@@ -30,6 +30,10 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+AngularApp/Dist/
+AcreshApi/ACRESH_API/ACRESH_API/Resourses/
+AcreshApi/ACRESH_API/Infrastructure.Data/Migrations/
+AcreshApi/ACRESH_API/ACRESH_API/wwwroot/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

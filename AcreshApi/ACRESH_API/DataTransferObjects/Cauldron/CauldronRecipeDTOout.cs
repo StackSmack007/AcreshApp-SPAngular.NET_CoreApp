@@ -1,11 +1,9 @@
-﻿using Common.Interfaces.Contracts.Automapper;
-using Infrastructure.Models;
-using Infrastructure.Models.Enumerations;
+﻿using Infrastructure.Models.Enumerations;
 using System.Collections.Generic;
 
 namespace DataTransferObjects.Cauldron
 {
-    public class CauldronRecipeDTOout : IMapFrom<Recipe>
+    public class CauldronRecipeDTOout
     {
         public string Id { get; set; }
         public string Name { get; set; }
