@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using AutoMapper.Configuration.Annotations;
-using Infrastructure.Models;
-
-namespace DataTransferObjects.Recipes
+﻿namespace DataTransferObjects.Recipes
 {
     //[AutoMap(typeof(RecipeIngredient))]
     public class RecipeIngredientDTOin
@@ -10,6 +6,6 @@ namespace DataTransferObjects.Recipes
         public string Ammount { get; set; }
 
         //[SourceMember(nameof(RecipeIngredient.IngredientId))]
-          public int Id { get; set; }
+        public int Id { get; set; }
     }
 }

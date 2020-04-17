@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Acresh.Services.DBRepository
@@ -85,7 +84,7 @@ namespace Acresh.Services.DBRepository
         //        //        UpdateEntity2()
         //        //    }
         //        //}
-                                             
+
 
         //    }
 

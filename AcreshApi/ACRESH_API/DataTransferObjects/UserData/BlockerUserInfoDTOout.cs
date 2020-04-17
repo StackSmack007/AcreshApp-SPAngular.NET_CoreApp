@@ -1,5 +1,5 @@
 ﻿namespace DataTransferObjects.UserData
 {
-    public class BlockerUserInfoDTOout:BlockedUserInfoDTOout
-    {    }
+    public class BlockerUserInfoDTOout : BlockedUserInfoDTOout
+    { }
 }

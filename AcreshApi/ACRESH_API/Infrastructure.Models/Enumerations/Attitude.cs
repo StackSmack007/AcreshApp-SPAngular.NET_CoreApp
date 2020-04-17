@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Infrastructure.Models.Enumerations
+﻿namespace Infrastructure.Models.Enumerations
 {
-  public enum Attitude
+    public enum Attitude
     {
-        Like=0,
-        Dislike=1
+        Like = 0,
+        Dislike = 1
     }
 }

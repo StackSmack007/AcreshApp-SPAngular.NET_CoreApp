@@ -5,6 +5,7 @@ div.content-box{
     justify-content:space-between;
     flex-wrap: nowrap;
     padding:0 1em;
+    padding-bottom: 2em;
 }
 
 div.content-menu{

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 
@@ -132,6 +133,18 @@ namespace Acresh.Services.Services
         {
             var result = this.blockingsRepository.All().Where(x => !x.IsDeleted && x.IrritatorId == userId).OrderByDescending(x => x.DateOfCreation).To<BlockerUserInfoDTOout>();
             return result;
+        }
+
+        public async Task<string> GetUserDataStringAsync(string userId)
+        {
+            var user = await uManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            var sb = new StringBuilder();
+            sb.AppendLine($"UserName: {user.UserName}");
+            sb.AppendLine($"FirstName: {user.FirstName}");
+            if (!string.IsNullOrEmpty(user.LastName)) sb.AppendLine($"LastName: {user.LastName}");
+            sb.AppendLine($"Gender: {user.Gender.ToString()}");
+            sb.AppendLine($"Email: {user.Email}");
+            return sb.ToString().Trim();
         }
     }
 }

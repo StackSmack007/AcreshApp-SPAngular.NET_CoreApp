@@ -17,7 +17,7 @@ namespace ACRESH_API.Middlewares
         // IMyScopedService is injected into Invoke
         public async Task Invoke(HttpContext httpContext, DataBaseSeeder seeder)
         {
-           await seeder.SeedData();
+            await seeder.SeedData();
             await _next(httpContext);
         }
     }

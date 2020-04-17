@@ -2,8 +2,8 @@
 {
     public enum ApprovalStatus
     {
-        Awaiting=1,
-        Denied=2,
-        Accepted=3
+        Awaiting = 1,
+        Denied = 2,
+        Accepted = 3
     }
 }

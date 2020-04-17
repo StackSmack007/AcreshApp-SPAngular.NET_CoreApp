@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Models
 {
-    public class RecipeVote:BaseEntityData
+    public class RecipeVote : BaseEntityData
     {
         public string VoterId { get; set; }
         [ForeignKey(nameof(VoterId))]

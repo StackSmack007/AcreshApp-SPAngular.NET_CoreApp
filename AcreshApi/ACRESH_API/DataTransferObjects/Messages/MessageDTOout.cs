@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Common.Interfaces.Contracts.Automapper;
+﻿using Common.Interfaces.Contracts.Automapper;
 using Infrastructure.Models;
-using Infrastructure.Models.Enumerations;
 using System;
 using System.ComponentModel.DataAnnotations;
 

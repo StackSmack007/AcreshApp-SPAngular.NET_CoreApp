@@ -8,8 +8,8 @@ using System.Linq;
 
 namespace Infrastructure.Models
 {
-    public class Recipe : BaseEntity<string>,IReportable
-    {       
+    public class Recipe : BaseEntity<string>, IReportable
+    {
         public Recipe()
         {
             Status = ApprovalStatus.Awaiting;
@@ -43,7 +43,7 @@ namespace Infrastructure.Models
         public RecipeDifficulty Difficulty { get; set; }
         public virtual ApprovalStatus Status { get; set; }
         public ICollection<RecipePicture> Pictures { get; set; }
-        public virtual ICollection<RecipeIngredient>RecipeIngredients { get; set; } 
+        public virtual ICollection<RecipeIngredient> RecipeIngredients { get; set; }
         public virtual ICollection<RecipeVote> Votes { get; set; } //*
         [NotMapped]
         public virtual bool IsVegan => RecipeIngredients.Any(x => !x.Ingredient.IsVegan);
@@ -54,6 +54,6 @@ namespace Infrastructure.Models
         public ICollection<RecipeTag> RecipeTags { get; set; }
         public virtual ICollection<RecipeComment> Comments { get; set; } //*
         public ICollection<Report> Reports { get; set; } //*
-                     
+
     }
 }

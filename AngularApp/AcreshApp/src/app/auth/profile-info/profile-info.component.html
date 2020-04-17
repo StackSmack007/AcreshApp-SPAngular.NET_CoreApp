@@ -56,8 +56,8 @@
                 </div>
             </div>
             <div class="row mt-4 justify-content-between" *ngIf="isAuthor(); else visitor">
-                <div class="col-5"><a routerLink="/authentication/profile/download">Download</a>&nbsp; My Personal Data
-                    As JSON</div>
+                <div class="col-5"> <button (click)="getFile()" class="down-btn">Download</button>&nbsp; My Personal Data As *.txt
+                </div>
                 <div class="col-5">
                     <a routerLink="/user-data/edit-profile" class="btn btn-primary float-right">Edit My Profile</a>
                 </div>

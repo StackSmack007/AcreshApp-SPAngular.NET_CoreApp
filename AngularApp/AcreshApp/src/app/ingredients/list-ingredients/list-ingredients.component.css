@@ -3,7 +3,10 @@ div.allContent {
     margin:0 auto;
     height: 92vh;
     background: rgb(241, 241, 241);
+    padding-bottom: 2em;
 }
+
+div.allContent>div{ padding-bottom:3em; }
 
 div.center {
     margin:0 auto;

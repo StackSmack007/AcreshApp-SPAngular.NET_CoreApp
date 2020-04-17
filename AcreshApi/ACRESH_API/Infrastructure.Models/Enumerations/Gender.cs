@@ -2,8 +2,8 @@
 {
     public enum Gender
     {
-        Ufo=0,
-        Male=1,
-        Female=2,
+        Ufo = 0,
+        Male = 1,
+        Female = 2,
     }
 }

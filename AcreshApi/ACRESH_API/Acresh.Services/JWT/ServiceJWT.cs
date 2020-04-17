@@ -58,9 +58,9 @@ namespace Acresh.Services.JWT
         public async Task<string> CreateJWT(AcUser u)
         {
             //Preferences here
-            var blockedUserNames = userBlockingsRepository.All().Where(x =>!x.IsDeleted && x.DefenderId == u.Id).Select(x => x.Irritator.UserName).ToArray();
+            var blockedUserNames = userBlockingsRepository.All().Where(x => !x.IsDeleted && x.DefenderId == u.Id).Select(x => x.Irritator.UserName).ToArray();
             var roles = await um.GetRolesAsync(u);
-            
+
             List<Claim> claims = new List<Claim>(){
                 new Claim(ClaimTypes.Name,u.UserName),
                 new Claim("roles", string.Join("|", roles)),
@@ -85,14 +85,14 @@ namespace Acresh.Services.JWT
             return tokenHandler.WriteToken(token);
         }
 
-         public async Task<AcUser> GetUserFromRequestTokenAsync(HttpRequest request)
+        public async Task<AcUser> GetUserFromRequestTokenAsync(HttpRequest request)
         {
             string token = (request.Headers["Authorization"]).ToString().Replace("Bearer ", "");
             var userData = this.GetPrincipal(token);
             return await um.Users.FirstOrDefaultAsync(x => x.Id == userData.FindFirst("_id").Value);
         }
 
-        private  ClaimsPrincipal GetPrincipal(string token)
+        private ClaimsPrincipal GetPrincipal(string token)
         {
             try
             {

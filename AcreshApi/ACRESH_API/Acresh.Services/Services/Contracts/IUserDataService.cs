@@ -16,5 +16,6 @@ namespace Acresh.Services.Services.Contracts
         IQueryable<BlockedByMeDTOout> GetOnesIblock(string myId);
         IQueryable<BlockedUserInfoDTOout> GetBlockedUserInfos(string userId);
         IQueryable<BlockerUserInfoDTOout> GetBlockerUserInfos(string userId);
+        Task<string> GetUserDataStringAsync(string userId);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Acresh.Services.DBRepository.Contracts;
 using Acresh.Services.Services.Contracts;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Common.AutomapperConfigurations;
 using DataTransferObjects.Messages;
 using Infrastructure.Models;

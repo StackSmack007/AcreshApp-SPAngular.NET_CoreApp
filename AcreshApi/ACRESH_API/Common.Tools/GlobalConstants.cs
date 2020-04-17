@@ -1,8 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Text;
-
-namespace Common.Tools
+﻿namespace Common.Tools
 {
     public static class GlobalConstants
     {

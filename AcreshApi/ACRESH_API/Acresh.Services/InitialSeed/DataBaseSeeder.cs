@@ -16,9 +16,9 @@
         private readonly ApplicationDbContext db;
         private readonly UserManager<AcUser> um;
         private readonly RoleManager<IdentityRole> rm;
-       
-        private static bool migrated=false;
-        public DataBaseSeeder( UserManager<AcUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext)
+
+        private static bool migrated = false;
+        public DataBaseSeeder(UserManager<AcUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext)
         {
             this.rm = roleManager;
             this.um = userManager;
@@ -27,7 +27,7 @@
         public async Task SeedData()
         {
             if (migrated) { return; }
-            await this.db.Database.MigrateAsync(); 
+            await this.db.Database.MigrateAsync();
             migrated = true;
             if (!db.Roles.Any())
             {

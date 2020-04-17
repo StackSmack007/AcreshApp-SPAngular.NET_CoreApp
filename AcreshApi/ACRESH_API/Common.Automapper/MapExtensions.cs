@@ -2,7 +2,6 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using System.Collections.Generic;
     using System.Linq;
 
     public static class MapExtensions
@@ -20,10 +19,10 @@
         }
         public static IQueryable<TDestination> To<TDestination>(this IQueryable<object> query)
         {
-           
+
             //return query.Select(x => mapper.Map<TDestination>(x));
-            
-            
+
+
             return query.ProjectTo<TDestination>(mapcfg);
         }
 

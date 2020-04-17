@@ -1,7 +1,4 @@
-﻿using Common.Interfaces.Contracts.Automapper;
-using Infrastructure.Models;
-
-namespace DataTransferObjects.UserData
+﻿namespace DataTransferObjects.UserData
 {
     public class ProfileDataForEditDTOout
     {

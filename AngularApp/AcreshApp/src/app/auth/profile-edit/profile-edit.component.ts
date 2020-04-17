@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HelperService } from 'src/app/core/services/helper.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 import { IUserProfileEditData } from 'src/app/core/interfaces/user-data-interfaces/userProfileEditData';
-import { UploadService } from 'src/app/core/services/upload.service';
+import { TrafficService } from 'src/app/core/services/traffic.service';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class ProfileEditComponent {
   public fileAvatar: boolean = false;
 
   constructor(route: ActivatedRoute, private router: Router, private authService: AuthService, 
-    private userDataService: UserDataService, private fb: FormBuilder, private toastr: ToastrService,private uploadService: UploadService) {
+    private userDataService: UserDataService, private fb: FormBuilder, private toastr: ToastrService,private trafficService: TrafficService) {
     this.buildForm();
     this.user = route.snapshot.data["userInfo"];
     this.rf.patchValue(this.user);
@@ -74,7 +74,7 @@ export class ProfileEditComponent {
 
   processPicture(pic: File) {
     if (pic.size > 100000) return this.toastr.error("File size must not exceed 100 kb! Dimmensions 300x300px!", "Failure")
-    this.uploadService.uploadAvImg(pic).subscribe(r => {
+    this.trafficService.upload(pic).subscribe(r => {
       this.fileAvatar = true;
       this.rf.get("avatarPicture").setValue(r);
     },error=>console.log(error,"nsh"));

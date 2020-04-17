@@ -1,16 +1,16 @@
-﻿using System.Linq;
-using Infrastructure.Models;
-using System.Threading.Tasks;
-using Acresh.Services.DBRepository.Contracts;
+﻿using Acresh.Services.DBRepository.Contracts;
 using Acresh.Services.Services.Contracts;
+using AutoMapper;
 using Common.AutomapperConfigurations;
+using DataTransferObjects.Cauldron;
 using DataTransferObjects.Ingredients;
 using DataTransferObjects.Recipes.Details;
+using Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System;
-using AutoMapper;
-using DataTransferObjects.Cauldron;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Acresh.Services.Services
 {
@@ -111,12 +111,12 @@ namespace Acresh.Services.Services
 
         public async Task<int> GetCauldronIngsCount(string phrase) =>
                await GetCauldronIngs(phrase).CountAsync();
-        
+
         public IQueryable<CauldronIngredientDTOout> GetCauldronIngs(string phrase) =>
                ingRepo.All().Where(x =>
-               !x.IsDeleted 
-              //&& x.IsEssential 
+               !x.IsDeleted
+               //&& x.IsEssential 
                && x.Name.ToLower().StartsWith(phrase.ToLower())).To<CauldronIngredientDTOout>();
-               
+
     }
 }

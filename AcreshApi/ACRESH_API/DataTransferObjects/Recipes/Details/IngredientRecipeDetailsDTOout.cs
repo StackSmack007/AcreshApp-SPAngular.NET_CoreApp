@@ -1,7 +1,4 @@
-﻿using AutoMapper.Configuration.Annotations;
-using Infrastructure.Models;
-
-namespace DataTransferObjects.Recipes.Details
+﻿namespace DataTransferObjects.Recipes.Details
 {
     public class IngredientRecipeDetailsDTOout
     {

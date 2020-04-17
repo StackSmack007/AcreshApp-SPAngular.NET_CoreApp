@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using Acresh.Services.JWT;
+﻿using Acresh.Services.JWT;
 using Acresh.Services.Services.Contracts;
 using ACRESH_API.DTO.UserData;
 using DataTransferObjects.UserData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace ACRESH_API.Controllers
 {
@@ -20,7 +20,7 @@ namespace ACRESH_API.Controllers
             this.userDataService = userDataService;
             this.jwtService = jwtService;
         }
-        
+
         [AllowAnonymous]
         [HttpGet("profileInfo")]
         public async Task<ActionResult<UserProfileData>> GetProfileInfo(string userName)
@@ -32,7 +32,7 @@ namespace ACRESH_API.Controllers
             }
             return userData;
         }
-                
+
         [HttpPost("setUserBlocking")]
         public async Task<ActionResult<UserProfileData>> SetBlocking(SetBlockingDTOIn blockData)
         {

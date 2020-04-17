@@ -6,6 +6,8 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
 import { IUserProfileData } from 'src/app/core/interfaces/user-data-interfaces/uprofile';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ToastrService } from 'ngx-toastr';
+import { TrafficService } from 'src/app/core/services/traffic.service';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'acr-profile-info',
@@ -30,11 +32,37 @@ export class ProfileInfoComponent {
   public user: IUserProfileData = null;
 
   public myUserName: string;
-  constructor(private toastr: ToastrService, route: ActivatedRoute, private authService: AuthService, private userDataService: UserDataService, private messageService: MessageService) {
+  constructor(private toastr: ToastrService,
+    route: ActivatedRoute,
+    private authService: AuthService,
+    private trafficService: TrafficService,
+    private userDataService: UserDataService,
+    private messageService: MessageService) {
     this.user = route.snapshot.data["userInfo"];
     this.myUserName = authService.getUserInfo()?.userName;
     this.amBlocked = this.user.blockedUserNames.includes(this.myUserName);
     this.iblocked = this.authService.getUserInfo()?.blocked.includes(this.user.userName);
+  }
+
+  getFile() {
+    let fileName = "ProfileData.txt";
+    this.trafficService.downloadUserInfo().subscribe(data => {
+      if (data.type === HttpEventType.Response) {
+        const downloadedFile = new Blob([data.body], { type: data.body.type });
+        const a = document.createElement('a');
+        a.setAttribute('style', 'display:none;');
+        document.body.appendChild(a);
+        a.download = fileName;
+        a.href = URL.createObjectURL(downloadedFile);
+        a.target = '_blank';
+        a.click();
+        document.body.removeChild(a);
+      } else if (data.type === HttpEventType.DownloadProgress) {
+        console.log("Loading:...", data.loaded, data.total, data.type);
+      }
+    }, err => {
+      console.error(err);
+    });
   }
 
   ngOnDestroy() {
@@ -59,6 +87,4 @@ export class ProfileInfoComponent {
     console.log(mf);
   }
 
-
-  s
 }

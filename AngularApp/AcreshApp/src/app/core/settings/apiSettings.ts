@@ -134,10 +134,14 @@ export interface ICommentPaths {
     getAllForRecipe: (page, id) => string,
 }
 
-export const uploadPaths: IUploadPaths = {
-    avatarImg: basePath + "upload/avatarImg",//post
+export const trafficPaths: ItrafficPaths = {
+    avatarImg: basePath + "traffic/avatarImg",//post
+    getFile:(fileName)=>basePath + `traffic/file?file=${fileName}`,//get
+    getUserData: basePath + `traffic/profile-data`
 }
 
-export interface IUploadPaths {
+export interface ItrafficPaths {
+    getUserData: string;
+    getFile(filename: string): string;
     avatarImg: string,
 }

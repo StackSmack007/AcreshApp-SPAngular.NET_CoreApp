@@ -1,6 +1,6 @@
 ﻿namespace DataTransferObjects.Ingredients
 {
-    public class IngredientDetailsDTOout: IngredientCardDTOout
+    public class IngredientDetailsDTOout : IngredientCardDTOout
     {
         public string MeasureType { get; set; }
         public string Description { get; set; }

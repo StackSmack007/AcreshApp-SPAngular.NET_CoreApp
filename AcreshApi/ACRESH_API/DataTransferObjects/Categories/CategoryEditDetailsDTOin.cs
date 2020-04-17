@@ -2,7 +2,7 @@
 
 namespace DataTransferObjects.Categories
 {
-    public class CategoryEditDetailsDTOin 
+    public class CategoryEditDetailsDTOin
     {
         public int Id { get; set; }
         [Required, MaxLength(128)]

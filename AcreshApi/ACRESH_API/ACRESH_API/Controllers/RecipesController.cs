@@ -50,7 +50,6 @@ namespace ACRESH_API.Controllers
         {
             IQueryable<RecipeCardDTOout> sqlReq = this.recipeService.GetPrivateRecipeCarts(criteria, UserId);
             if (sqlReq is null) return BadRequest(new { reason = "Criteria is invalid!" });
-
             var result = await sqlReq.Skip(REC_COUNT_PER_FETCH * (pageNum - 1)).Take(pageNum == 1 ? REC_COUNT_PER_FETCH + 1 : REC_COUNT_PER_FETCH).ToArrayAsync();
             return result;
         }

@@ -1,9 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ACRESH_API.Controllers
 {
@@ -15,9 +11,9 @@ namespace ACRESH_API.Controllers
         {
 
         }
-        
-        
-        
+
+
+
         // GET: api/General
         [HttpGet("difficulties")]
         public IEnumerable<string> Get()

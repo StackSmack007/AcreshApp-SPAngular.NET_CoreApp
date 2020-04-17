@@ -3,7 +3,7 @@
     using AutoMapper.Configuration.Annotations;
     using Infrastructure.Models;
     using System;
-    public class BlockedUserInfoDTOout 
+    public class BlockedUserInfoDTOout
     {
         public string UserName { get; set; }
         public string CookRank { get; set; }

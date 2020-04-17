@@ -27,7 +27,7 @@ namespace ACRESH_API.Hubs
             this.userManager = userManager;
         }
 
- 
+
         public void RegisterUserConnection(string userName)
         {
             if (!EnlistedMembersConections.ContainsKey(userName))

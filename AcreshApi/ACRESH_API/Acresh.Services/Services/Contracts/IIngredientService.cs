@@ -11,7 +11,7 @@ namespace Acresh.Services.Services.Contracts
     public interface IIngredientService
     {
         Task<ICollection<IngredientOptionDTOout>> GetAllIngridientsMini();
-        IQueryable<IngredientRecipeDetailsDTOout>  GetRecipeIngridients(string id);
+        IQueryable<IngredientRecipeDetailsDTOout> GetRecipeIngridients(string id);
         Task<IngredientCountsDTOout> GetCardsCountAsync(string index, string phrase, int pageCappacity);
         IQueryable<IngredientCardDTOout> GetCards(string index, string phrase, bool essential);
         Task<IngredientDetailsDTOout> GetDetailsAsync(int id);

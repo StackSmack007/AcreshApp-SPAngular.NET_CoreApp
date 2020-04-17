@@ -10,7 +10,7 @@ namespace Infrastructure.Models
         [ForeignKey(nameof(RecipeId))]
         public virtual Recipe Recipe { get; set; }
 
-        [Required, Url] 
+        [Required, Url]
         public string UrlPath { get; set; }
     }
 }

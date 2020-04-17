@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Configurations
         {
             builder.HasKey(e => e.Id);
             builder.HasOne(e => e.Recipe).WithMany(r => r.Pictures).HasForeignKey(e => e.RecipeId);
-           // builder.HasIndex(e => new { e.UrlPath, e.RecipeId }).IsUnique();
+            // builder.HasIndex(e => new { e.UrlPath, e.RecipeId }).IsUnique();
         }
     }
 }

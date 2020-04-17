@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Infrastructure.Data
+﻿namespace Infrastructure.Data
 {
     //class DBContextFactory :IDesignTimeDbContextFactory<ApplicationDbContext>
     ////public class BloggingContextFactory : IDesignTimeDbContextFactory<BloggingContext>
@@ -17,7 +10,7 @@ namespace Infrastructure.Data
 
     //        var te = new OperationalStoreOptions();
 
-           
+
     //        var dbC=new ApplicationDbContext(optionsBuilder.Options);
     //        return dbC;
     //    }

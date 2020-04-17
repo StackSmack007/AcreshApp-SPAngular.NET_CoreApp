@@ -4,6 +4,6 @@ using Infrastructure.Models;
 
 namespace DataTransferObjects.Ingredients
 {
-    public class IngredientOptionDTOout:BaseMiniClass<int>,IMapFrom<Ingredient>
-    {    }
+    public class IngredientOptionDTOout : BaseMiniClass<int>, IMapFrom<Ingredient>
+    { }
 }

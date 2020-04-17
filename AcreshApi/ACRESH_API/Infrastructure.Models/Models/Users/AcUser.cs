@@ -23,7 +23,7 @@ namespace Infrastructure.Models
             IngredientsAdded = new HashSet<Ingredient>();
             CategoriesAdded = new HashSet<Category>();
         }
-        [Required,MaxLength(64)]
+        [Required, MaxLength(64)]
         public string FirstName { get; set; }
         [MaxLength(64)]
         public string LastName { get; set; }

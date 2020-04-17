@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Acresh.Services.Services.Contracts;
+﻿using Acresh.Services.Services.Contracts;
 using DataTransferObjects.Messages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ACRESH_API.Controllers
 {

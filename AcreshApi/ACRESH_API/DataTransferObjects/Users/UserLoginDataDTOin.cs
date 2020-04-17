@@ -6,7 +6,7 @@ namespace DataTransferObjects.Users
     {
         [Required, MaxLength(64)]
         public string UserNameOrEmail { get; set; }
-       
+
         [Required]
         public string Password { get; set; }
     }
