@@ -5,17 +5,12 @@
                 <h4><i class="far fa-comments"></i> &nbsp; Comments For Recipe</h4>
             </div>
             <form *ngIf="isLoggedIn" class="px-4" #f="ngForm" (ngSubmit)="submitComment(f.value); f.reset()">
-                <div class="row justify-content-center">
-                    <div class="col-1"></div>
-                    <div class="col-6">
+                <div class="actions">
                         <textarea name="content" ngModel minlength="4" required class="form-control"
                             [placeholder]="isLastCommentor?'Cant post sequencial comments...':'write a comment...'"
-                            rows="2" [disabled]="isLastCommentor"></textarea>
-                    </div>
-                    <div class="col-2">
+                            rows="2" [disabled]="isLastCommentor">
+                        </textarea>
                         <button type="submit" class="btn btn-info pull-right" [disabled]="f.invalid">Post</button>
-                    </div>
-                    <div class="col-1"></div>
                 </div>
                 <br>
             </form>

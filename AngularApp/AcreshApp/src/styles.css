@@ -14,6 +14,9 @@ html{
    padding-bottom: 3.3em;
 }
 
+.nowrap{
+   white-space: nowrap;
+}
 
 
 /* <link rel="stylesheet" href="" crossorigin="anonymous" />

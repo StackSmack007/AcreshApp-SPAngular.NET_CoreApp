@@ -11,7 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'acr-list-comments',
   templateUrl: './list-comments.component.html',
-  styleUrls: ['./list-comments.component.css']
+  styleUrls: ['./list-comments.component.scss']
 })
 export class ListCommentsComponent implements OnInit {
 

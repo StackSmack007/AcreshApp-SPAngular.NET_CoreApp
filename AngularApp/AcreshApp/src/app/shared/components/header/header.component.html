@@ -11,7 +11,7 @@
       <li class="nav-item mr-2">
         <a class="nav-link" routerLink="cauldron" routerLinkActive="active"><i class="fas fa-flask"></i> Cauldron</a>
       </li>
-      <div class="dropdown">
+      <li class="dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-scroll"></i> Recipes
@@ -26,7 +26,7 @@
           <a class="dropdown-item" routerLink="recipes/most-rated"><i class='fas fa-users'></i>&nbsp; Most Rated Recipes</a>
           <a class="dropdown-item" routerLink="recipes/most-favoured"><i class='fas fa-grin-hearts'></i>&nbsp; Most Favoured</a>
         </div>
-      </div>
+      </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/ingredients"><i class="fas fa-puzzle-piece"></i>&nbsp;Ingredients</a>
       </li>
@@ -34,58 +34,53 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="categories/"><i class="fas fa-book-open"></i> Categories</a>
       </li>
-    </ul>
 
-    <ul class="navbar-nav mr-auto main-logo">
-      <li class="nav-item">
-        <h4 class="nav-link font-italic"><span class="acsh">A</span>pplication for <span
-            class="acsh">C</span>ooking
-          <span class="acsh">RE</span>cipes <span
-            class="acsh">SH</span>aring </h4>
-      </li>
-    </ul>
-
-    <ul *ngIf="userName; else unloggedOptions" class="navbar-nav pl-2 pr-0">
-      <li class="nav-item">
-        <div class="dropdown dropdown-menu-right">
-          <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-user fa-lg"></i> {{userName}}
-          </a>
-
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item " [routerLink]="['/user-data/profile/', userName]"><i class="fas fa-user-cog"></i> &nbsp; My Profile</a>
-            <a class="dropdown-item " [routerLink]="['/recipes/add-new']"><i class="fas fa-plus-circle"></i> &nbsp; Share New Recipe</a>
-            <a class="dropdown-item pt-2" routerLink="/message-box"><i class="far fa-envelope"></i> &nbsp; Communications
-              <span class="badge badge-pill badge-danger ml-2 py-2 my-0 px-2" *ngIf="unreadCount"> {{unreadCount}}</span>
-            </a>
-            <a class="dropdown-item " routerLink="/recipes/my-commented"><i class="far fa-comment-alt"></i> &nbsp; My Commented</a>
-            <a class="dropdown-item" routerLink="/recipes/my-favourite"><i class="far fa-heart"></i>&nbsp; My Favourite Recipes</a>
-            <a class="dropdown-item" [routerLink]="['/recipes/user/',userName]"><i class="fas fa-share-alt"></i> &nbsp; My Shared Recipes</a>
-            <a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt"></i> &nbsp; Logout</a>
-          </div>
-        </div>
-      </li>
-    </ul>
-    <ng-template #unloggedOptions>
-      <ul class="navbar-nav pl-2 pr-0">
-        <li class="nav-item">
-          <a class="nav-link " routerLink="authentication/login" routerLinkActive="active">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/authentication/register" routerLinkActive="active">Register</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about">About</a>
-        </li>
-      </ul>
-    </ng-template>
-    <div class="input-group pl-2 pr-2 col-2 ml-0">
-      <input #searchPhrase class="form-control my-0 py-1 lime-border" type="text" placeholder="Name of recipe..." aria-label="Search">
-      <div class="input-group-append">
-        <span class="input-group-text lime lighten-2" (click)="search()" id="sbtn"><i class="fas fa-search" aria-hidden="true"></i></span>
-      </div>
-    </div>
+          <li class="navbar-nav mr-auto main-logo nav-item">
+            <h4 class="nav-link font-italic"><span class="acsh">A</span>pplication for <span
+              class="acsh">C</span>ooking
+              <span class="acsh">RE</span>cipes <span
+              class="acsh">SH</span>aring </h4>
+            </li>
+            
+            <li  *ngIf="userName; else unloggedOptions" class="nav-item navbar-nav pl-2 pr-0">
+              <div class="dropdown dropdown-menu-right">
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user fa-lg"></i> {{userName}}
+              </a>
+              
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item " [routerLink]="['/user-data/profile/', userName]"><i class="fas fa-user-cog"></i> &nbsp; My Profile</a>
+                <a class="dropdown-item " [routerLink]="['/recipes/add-new']"><i class="fas fa-plus-circle"></i> &nbsp; Share New Recipe</a>
+                <a class="dropdown-item pt-2" routerLink="/message-box"><i class="far fa-envelope"></i> &nbsp; Communications
+                  <span class="badge badge-pill badge-danger ml-2 py-2 my-0 px-2" *ngIf="unreadCount"> {{unreadCount}}</span>
+                </a>
+                <a class="dropdown-item " routerLink="/recipes/my-commented"><i class="far fa-comment-alt"></i> &nbsp; My Commented</a>
+                <a class="dropdown-item" routerLink="/recipes/my-favourite"><i class="far fa-heart"></i>&nbsp; My Favourite Recipes</a>
+                <a class="dropdown-item" [routerLink]="['/recipes/user/',userName]"><i class="fas fa-share-alt"></i> &nbsp; My Shared Recipes</a>
+                <a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt"></i> &nbsp; Logout</a>
+              </div>
+            </div>
+          </li>
+          
+          <ng-template #unloggedOptions>
+            <li class="nav-item pl-2">
+              <a class="nav-link " routerLink="authentication/login" routerLinkActive="active">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/authentication/register" routerLinkActive="active">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About</a>
+            </li>
+          </ng-template>
+          <li class="input-group pl-2 pr-2 ml-0 search-box">
+            <input #searchPhrase class="form-control my-0 py-1 lime-border" type="text" placeholder="Name of recipe..." aria-label="Search">
+            <div class="input-group-append">
+              <span class="input-group-text lime lighten-2" (click)="search()" id="sbtn"><i class="fas fa-search" aria-hidden="true"></i></span>
+            </div>
+          </li>
+        </ul>
   </div>
 </nav>
 

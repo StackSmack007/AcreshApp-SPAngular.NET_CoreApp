@@ -7,7 +7,7 @@ import { MessageService } from 'src/app/core/services/message.service';
 @Component({
   selector: 'acr-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements DoCheck {
   public userName: string = null;

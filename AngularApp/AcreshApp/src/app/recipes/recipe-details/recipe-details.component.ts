@@ -14,7 +14,7 @@ import { DialogQuestionComponent } from 'src/app/core/components/questionCompone
 @Component({
   selector: 'acr-rec-det',
   templateUrl: './recipe-details.component.html',
-  styleUrls: ['./recipe-details.component.css']
+  styleUrls: ['./styles/styles.scss']
 })
 export class RecipeDetailsComponent implements OnDestroy {
   ratingNames = ["Distasteful", "Questionable", "Acceptable", "Recomendable", "Good", "Magnifique"]

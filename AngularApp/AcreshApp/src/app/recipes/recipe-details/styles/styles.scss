@@ -1,3 +1,5 @@
+@import 'layout';
+
 section.main {
     max-width: 100em; 
     margin: 0 auto;
@@ -5,9 +7,10 @@ section.main {
 }
 
 .hr{
+    height: 0;
+    width:100%;
     border-bottom: 2px solid royalblue;
-    margin: 1em 2em;
-
+    margin: 0 2em;   
 }
 table {
     width: 100%;

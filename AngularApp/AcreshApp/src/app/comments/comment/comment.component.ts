@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, AfterViewInit, EventEmitter, Output, Input, HostListener } from '@angular/core';
 import { CommentsService } from 'src/app/core/services/comments.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ICommentLikeStatus } from 'src/app/core/interfaces/comments/ILikesCommentStatus';
@@ -15,11 +15,11 @@ import { HelperService } from 'src/app/core/services/helper.service';
 })
 export class CommentComponent implements AfterViewInit {
 
+  get width() {return window.innerWidth;}
   editModeOn: boolean = false;
   editModeSwitch() { this.editModeOn = !this.editModeOn }
   private originalContent: string = null;
   ngAfterViewInit(): void { this.originalContent = this.comment.content; }
-
   constructor(private authService: AuthService, private commentService: CommentsService) { }
 
   @Output()
@@ -95,6 +95,5 @@ export class CommentComponent implements AfterViewInit {
   abortEdit() {
     this.comment.content = this.originalContent;
   }
-
 
 }

@@ -1,0 +1,27 @@
+div.content{ padding-bottom:1.5em; }
+
+div.comment-wrapper  { max-height:30em; }
+
+div.panel-body{
+    max-height:20em;
+    max-width: 80em;
+    margin: 0 auto;
+    overflow:auto auto;
+}
+
+div.actions{
+    display:flex;
+    justify-content: center;
+
+    textarea{
+        flex:0 1 40em;
+        min-width: 15em;
+    }
+
+    button{
+        flex: 0 0 2em;
+        margin-left:1.5em;
+        align-self: flex-end;
+    }
+
+}
