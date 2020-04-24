@@ -1,0 +1,19 @@
+@media only screen and (max-width: 600px) {
+    .bars {
+        flex:0 0 100%;
+        flex-wrap: wrap;
+        padding-right:1em;
+        & label{min-width:9rem; order:2}
+
+        div{ margin-top:1em; }
+    }
+
+    div.ing-types
+    ,div.right-section 
+    ,div.ing-container{
+        width:100%;
+        min-width:0;
+    }
+
+    // div.det-inf { min-height:50em; }
+}

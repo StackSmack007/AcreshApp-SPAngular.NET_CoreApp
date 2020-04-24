@@ -1,6 +1,7 @@
+@import "main-board-categories.responsive";
+
 section {
-    /* width:100%; */
-    min-height: calc(100vh - 5.625em);
+    min-height: calc(100vh - 6em);
     max-width:90em;
     margin:0 auto;
     background:whitesmoke;
@@ -8,27 +9,23 @@ section {
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
     align-content: flex-start;
 }
 
 div.title {
-    text-align: center;
     flex: 0 0 100%;
+    text-align: center;
 }
 
 div.tree,div.menu {
-    flex: 1 0 0;
+    flex: 1 0 20em;
     margin-right: 2em;
 }
 
 div.menu {
-    flex:0 0 37.5em;
-    margin-left:auto;
-    display:flex;
-    flex-direction: column;
-    padding-top: 4.8em;
-    /* justify-content: center; */
+    flex-grow:1.8;
+    padding-top: 2em;
 }
 
 div.details{
@@ -41,5 +38,4 @@ div.actions {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-around;
-    /* margin-top: auto; */
 }

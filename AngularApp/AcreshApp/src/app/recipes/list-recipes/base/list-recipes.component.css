@@ -14,3 +14,10 @@ div.content{  padding-bottom:2em; }
       background-color: lightblue;
     }
   }
+
+  @media only screen and (max-width: 600px) {
+    .cards{
+      padding:0em 1.5em 0 1em;
+  }
+  
+   }

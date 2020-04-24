@@ -18,7 +18,6 @@ namespace ACRESH_API.Controllers
     {
         private const int REC_COUNT_PER_FETCH = 3;
         private const int FIRST_BATCH_ADDUP = 1;
-
         private readonly IRecipesService recipeService;
 
         public RecipesController(IRecipesService recipeService)

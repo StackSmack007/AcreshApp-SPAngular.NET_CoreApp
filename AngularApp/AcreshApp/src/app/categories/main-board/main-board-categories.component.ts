@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'main-board-categories',
   templateUrl: './main-board-categories.component.html',
-  styleUrls: ['./main-board-categories.component.css']
+  styleUrls: ['./main-board-categories.component.scss']
 })
 export class MainBoardCategoriesComponent {
 

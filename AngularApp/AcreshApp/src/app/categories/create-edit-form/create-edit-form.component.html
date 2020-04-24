@@ -1,10 +1,11 @@
+<section class="edit-form">
 <h3 class="text-center">{{settings.headline}}</h3>
 
 <form [formGroup]="form" (ngSubmit)="submitForm()">
     <div class="row justify-content-between">
         <div class="col-6 pr-4">
             <div class="form-group has-danger has-success">
-                <label class="form-control-label h5" for="name">New Category Name*:</label>
+                <label class="form-control-label h5" for="name">New Category*:</label>
                 <input formControlName="name" class="form-control" id="name" [ngClass]="getValClasses('name')" placeholder="Name...">
                 <div class="invalid-feedback" *ngIf="invalidTouchedCtrl('name')"
                     [innerText]="getErr('name','required')?'Please provide Ingredient Name!':
@@ -17,7 +18,7 @@
         </div>
         <div class="col-6 pl-4">
             <div class="form-group">
-                <label class="form-control-label pr-3 h5" for="parentCategoryId">Parent Category:</label>
+                <label class="form-control-label pr-3 h5" for="parentCategoryId">Parent Categ<span *ngIf="width>450">ory</span>:</label>
                 <select  class="custom-select" formControlName="parentCategoryId" id="parentCategoryId">
                     <option  [value]="null">Root Category</option>                                            
                     <option *ngFor="let opt of (categorie$ | async); index as i" [value]="opt.id">{{opt.name}}</option>
@@ -41,3 +42,4 @@
     <button type="button" class="btn btn-info btn-sm float-left" (click)="abort()"><i class="fas fa-ban"></i> &nbsp; Abort</button>
     <button type="submit" class="btn btn-primary btn-sm float-right" [disabled]="btnDisabled" [innerHTML]="settings.submitBtnTitle | htmlRaw"></button>
 </form>
+</section>

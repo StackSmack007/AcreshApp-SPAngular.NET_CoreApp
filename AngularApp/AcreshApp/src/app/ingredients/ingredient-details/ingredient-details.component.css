@@ -63,3 +63,32 @@
             border-radius: .75em;
         }
         div.alert.deleted>p { padding:0;}
+
+
+@media only screen and (max-width: 600px) {
+    .det-container{
+        display:flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    div.main-pic {
+        flex: 0 0 95%;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    div.main-pic img {
+        height: 9em;
+        width:auto;
+    }
+
+    div.info{ 
+        flex:0 0 20em; 
+        max-width: 100%;
+         margin-top:1em
+    } 
+    div.desc{ 
+        flex:1 0 14em;
+         margin: 1em 0; 
+    } 
+}   

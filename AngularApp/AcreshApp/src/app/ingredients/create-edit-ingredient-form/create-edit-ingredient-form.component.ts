@@ -23,6 +23,7 @@ import { takenNameValidatorAsync } from 'src/app/core/validators/takenNameValida
 })
 export class CreateEditIngredientFormComponent implements OnDestroy {
 
+  get width() { return window.innerWidth }
   @Output()
   btnClickEvent: EventEmitter<IIngredientCreate> = new EventEmitter<IIngredientCreate>();
 
@@ -68,7 +69,7 @@ export class CreateEditIngredientFormComponent implements OnDestroy {
 
   measureTypes = HelperService.getEnumOptions(MeasureTypes);
   originTypes = HelperService.getEnumOptions(OriginTypes)
-                             .sort((a, b) =>a[0].length-b[0].length);
+    .sort((a, b) => a[0].length - b[0].length);
 
   picUrl = null;
   buildForm() {

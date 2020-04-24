@@ -15,15 +15,17 @@ import { takenNameValidatorAsync } from 'src/app/core/validators/takenNameValida
 })
 export class CreateEditFormComponent {
 
+  get width() { return window.innerWidth }
+
   @Output()
   btnClickEvent: EventEmitter<ICategoryCreate> = new EventEmitter<ICategoryCreate>();
   get btnDisabled() {
     return this.form.pristine || this.form.invalid || HelperService.compareObjects(this._category, this.form.value);
   }
-  
+
   @Output()
-  abortEvent:EventEmitter<any>=new EventEmitter();
-  abort(){    this.abortEvent.emit();  }
+  abortEvent: EventEmitter<any> = new EventEmitter();
+  abort() { this.abortEvent.emit(); }
 
   private _settings: { headline: string, submitBtnTitle: string, parentCategoryId: number }
   get settings() { return this._settings }

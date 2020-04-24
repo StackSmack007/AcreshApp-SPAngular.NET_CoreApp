@@ -1,34 +1,67 @@
-div.allContent {
-    max-width:100em;
+section.content{
+    display:flex;
+    flex-wrap:wrap;
+    align-items: flex-start;
+    min-height: calc(100vh - 6em);
+    padding:1em;
+    max-width: 100em;
     margin:0 auto;
-    height: 92vh;
     background: rgb(241, 241, 241);
-    padding-bottom: 2em;
+
+    h2.title {
+        flex:0 0 100%;
+        padding-top:0.75rem;
+        text-align: center;
+        margin-bottom:0;
+
+    }
 }
 
-div.allContent>div{ padding-bottom:3em; }
+.controls{
+    flex:0 0 100%;
+    display:flex;
+    justify-content: space-between;
 
-div.center {
-    margin:0 auto;
+    div {
+        display:flex;
+        justify-content: space-between;    
+    }
 }
 
-input.s-field {
-    width:10em;
+.checks{ 
+    flex:0 0 18em;
+    margin-top:1em;
 }
+
+.bars{ flex:0 0 34em;
+
+}
+
+input.big-checkbox {
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5rem;
+}
+
+#s-field{
+    width: 10em;
+    margin-right: 0.75em;
+}
+
 
 div.right-section{
     position:relative;
     display:inline-block;
     width: 54%;
     min-width:37.5em;
-    height:40em;
+    min-height:40em;
     margin: 0 2%;
     padding-left: 0.8em;
 }
 
 div.det-inf {
     display:block;
-    height:36em;
+    min-height:36em;
     border:2px solid purple;
     border-radius: 2em;
     overflow: auto hidden;
@@ -40,7 +73,6 @@ div.ing-types {
     display:inline-block;
     width:40%;
     min-width:25em;
-    height:40em;
     margin-left:2%;
     margin-bottom:1.6em;
 }
@@ -98,13 +130,6 @@ form>div.checks {
     min-width: 21em;
 }
 
-input.big-checkbox {
-    width: 1em;
-    height: 1em;
-    color:green;
-    margin-right: 0.5rem;
-}
-
 div.ings-box{
     overflow: auto auto;
     height: 15em;
@@ -120,3 +145,5 @@ div.actionBtns {
     bottom: 0.3em;
     right: 2.5em;
 }
+
+@import "list-ingredients.component.responsive";

@@ -12,10 +12,12 @@ import { CookRank } from 'src/app/core/enumerations/CookRank';
     trigger('fade-s', [
       transition('void=>*', [style({ opacity: '0', transform: 'translateX(-10rem) scaleX(0.1)' }), animate(1500, style({ opacity: '1', transform: 'translateX(0) scaleX(1)' }))]),
     ]),
-    trigger('fade-m', [transition('void=>*', [style({ opacity: '0' }), animate(1200)])])  ]
+    trigger('fade-m', [transition('void=>*', [style({ opacity: '0' }), animate(1200)])])]
 })
 
 export class RecipeCartComponent implements OnInit {
+
+  get width() { return window.innerWidth }
 
   get cookRank() {
     return CookRank[this.recipe.authorCookRank];

@@ -30,8 +30,7 @@ li.media:nth-child(odd){
 }
 
 div.media-body{
-  padding-left:2em;
-  padding-right:3em;
+  padding:0 2em;
   }
 
 span.label-info{
@@ -62,3 +61,14 @@ span.actions>span{
     min-width:7.5em;
 }
 
+@media  screen and (max-width: 500px) {
+    div.media-body{ padding:0 1em; }
+}
+
+@media  screen and (max-width: 435px) {
+    span.label-info{font-size: 0.95em;} 
+    div.media-body{ padding:0 0.75em 0 0.5em; }
+    span.actions>span.active-btn{ margin-right: 0.5em; font-size: 0.8em; }
+    span.actions>span.active-btn:first-of-type{ margin-right: 0; }
+    img.img-circle {padding-left: 0.4em;}
+}

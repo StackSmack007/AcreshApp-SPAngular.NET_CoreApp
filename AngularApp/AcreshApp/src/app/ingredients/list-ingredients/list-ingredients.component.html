@@ -1,116 +1,103 @@
-<div class="container-fluid allContent pt-4">
-    <h2 class="text-center py-2"><i class="fas fa-puzzle-piece"></i>&nbsp; All Ingredients</h2>
+<section class="content">
+    <h2 class="title"><i class="fas fa-puzzle-piece"></i>&nbsp; All Ingredients</h2>
+        <form class="controls form-inline my-2" [formGroup]="filterForm">
+           <div class="bars">
+               <div class="form-group">
+                   <label for="index" class="pr-2 h4">&nbsp; <i class="fas fa-sort-alpha-down"></i> &nbsp; Index:</label>
+                   <select formControlName="index" id="index" class="form-control">
+                       <option value="-">A-Z</option>
+                       <option *ngFor="let letter of indexLetters" [value]="letter">{{letter}}</option>
+                   </select>
+               </div>
+               <div class="form-group">
+                   <input id="s-field" class="form-control s-field" type="text" formControlName="phrase"
+                       placeholder="Search phrase...">
+                   <label class="h4"><i class="fas fa-search"></i>&nbsp; Search</label>
+               </div>
+           </div>
 
-    <div class="row justify-content-between">
-        <div class="col-12 pb-4">
-            <div class="row justify-content-between">
-                <div class="filter-box">
-                    <form class="form-inline my-2 my-lg-0" [formGroup]="filterForm">
-                        <div class="form-group float-left pr-4 mr-4">
-                            <label for="index" class="pr-2 h4">&nbsp; <i class="fas fa-sort-alpha-down"></i> &nbsp;
-                                Index:</label>
-                            <select formControlName="index" id="index" class="form-control">
-                                <option value="-">A-Z</option>
-                                <option *ngFor="let letter of indexLetters" [value]="letter">{{letter}}</option>
-                            </select>
-                        </div>
-                        <div class="form-group float-left pl-4">
-                            <input id="s-field" class="form-control s-field" type="text" formControlName="phrase"
-                                placeholder="Search phrase...">
-                            <label class="pl-2 h4"><i class="fas fa-search"></i>&nbsp; Search</label>
-                        </div>
-
-                        <div class="checks">
-                            <div class="form-check float-left">
-                                <label class="form-check-label  h4">
-                                    <input type="checkbox" class="form-check-input pr-3 big-checkbox"
-                                        formControlName="essentials" (change)="setLocks()">Primal
-                                </label>
-                            </div>
-                            <div class="form-check float-right  mr-4">
-                                <label class="form-check-label h4">
-                                    <input type="checkbox" class="form-check-input pr-3 big-checkbox"
-                                        formControlName="non-essentials" (change)="setLocks()">Additional
-                                </label>
-                            </div>
-                        </div>
-                    </form>
+            <div class="checks">
+                <div class="form-check">
+                    <label class="form-check-label h4">
+                        <input type="checkbox" class="form-check-input big-checkbox"
+                            formControlName="essentials" (change)="setLocks()">Primal
+                    </label>
                 </div>
+                <div class="form-check">
+                    <label class="form-check-label h4">
+                        <input type="checkbox" class="form-check-input big-checkbox"
+                            formControlName="non-essentials" (change)="setLocks()">Additional
+                    </label>
+                </div>
+            </div>
+        </form>
+
+    <div class="ing-types">
+        <div class="ing-container" *ngIf="essentials.value">
+            <div class="ing-types-header">
+                <h5 class="text-center" mat-raised-button matTooltipPosition="below"
+                    matTooltip="Ingredients you are likely to have (spices, oils and such...)"
+                    aria-label="Section description">
+                    <span>Primal Ingredients</span>
+                </h5>
+                <span  *ngIf="width>420" class="font-italic text-muted">Found {{resultsFd.essentials}}. Displayed
+                    {{cards.essentials.cards.length}}</span>
+            </div>
+            <div class="ings-box" (scroll)="onScrollEsts($event)">
+                <div *ngIf="this.cards.essentials.loading" style="position:relative">
+                    <ngx-spinner style="position: absolute; top: 2em; right: 31%;" bdColor="rgba(51,51,51,0.8)"
+                        size="medium" color="rgba(119, 41, 83, 0.73)" type="ball-scale-multiple" [fullScreen]="false">
+                        <div>
+                            <p
+                                style="font-size: 18px; color:rgba(119, 41, 83, 0.73); padding-left: 10em; padding-top: 2em;">
+                                Loading ingredients...</p>
+                        </div>
+                    </ngx-spinner>
+                </div>
+                <acr-ingredient-card *ngFor="let ingC of cards.essentials.cards" [ingredient]="ingC"
+                    [ingrIdSelected]="ingrIdSelected">
+                </acr-ingredient-card>
             </div>
         </div>
 
-        <div class="ing-types">
-            <div class="ing-container" *ngIf="essentials.value">
-                <div class="ing-types-header">
-                    <h5 class="text-center" mat-raised-button matTooltipPosition="below"
-                        matTooltip="Ingredients you are likely to have (spices, oils and such...)"
-                        aria-label="Section description">
-                        <span>Primal Ingredients</span>
-                    </h5>
-                    <span class="font-italic text-muted">Found {{resultsFd.essentials}}. Displayed
-                        {{cards.essentials.cards.length}}</span>
-                </div>
-                <div class="ings-box" (scroll)="onScrollEsts($event)">
-                    <div *ngIf="this.cards.essentials.loading" style="position:relative">
-                        <ngx-spinner style="position: absolute; top: 2em; right: 31%;" bdColor="rgba(51,51,51,0.8)"
-                            size="medium" color="rgba(119, 41, 83, 0.73)" type="ball-scale-multiple"
-                            [fullScreen]="false">
-                            <div>
-                                <p
-                                    style="font-size: 18px; color:rgba(119, 41, 83, 0.73); padding-left: 10em; padding-top: 2em;">
-                                    Loading ingredients...</p>
-                            </div>
-                        </ngx-spinner>
-                    </div>
-                    <acr-ingredient-card *ngFor="let ingC of cards.essentials.cards" [ingredient]="ingC"
-                        [ingrIdSelected]="ingrIdSelected">
-                    </acr-ingredient-card>
-                </div>
+        <div class="ing-container" *ngIf="nonEssentials.value">
+            <div class="ing-types-header">
+                <h5 mat-raised-button matTooltipPosition="below" matTooltip="Ingredients you might have..."
+                    aria-label="Section description">
+                    <span>Additional Ingredients</span>
+                </h5>
+                <span *ngIf="width>420" class="font-italic text-muted">Found {{resultsFd.nonEssentials}}. Displayed {{cards.nonEssentials.cards.length}}</span>
             </div>
-
-            <div class="ing-container" *ngIf="nonEssentials.value">
-                <div class="ing-types-header">
-                    <h5 mat-raised-button matTooltipPosition="below" matTooltip="Ingredients you might have..."
-                        aria-label="Section description">
-                        <span>Additional Ingredients</span>
-                    </h5>
-                    <span class="font-italic text-muted">Found {{resultsFd.nonEssentials}}. Displayed
-                        {{cards.nonEssentials.cards.length}}</span>
+            <div class="ings-box" (scroll)="onScrollNonEsts($event)">
+                <div *ngIf="this.cards.nonEssentials.loading" style="position:relative">
+                    <ngx-spinner style="position: absolute; top: 2em; right: 31%;" bdColor="rgba(51,51,51,0.8)"
+                        size="medium" color="rgba(119, 41, 83, 0.73)" type="ball-scale-multiple" [fullScreen]="false">
+                        <div>
+                            <p style="font-size: 18px; color:rgba(119, 41, 83, 0.73); padding-left: 10em; padding-top: 2em;">
+                                Loading ingredients...</p>
+                        </div>
+                    </ngx-spinner>
                 </div>
-                <div class="ings-box" (scroll)="onScrollNonEsts($event)">
-                    <div *ngIf="this.cards.nonEssentials.loading" style="position:relative">
-                        <ngx-spinner style="position: absolute; top: 2em; right: 31%;" bdColor="rgba(51,51,51,0.8)"
-                            size="medium" color="rgba(119, 41, 83, 0.73)" type="ball-scale-multiple"
-                            [fullScreen]="false">
-                            <div>
-                                <p
-                                    style="font-size: 18px; color:rgba(119, 41, 83, 0.73); padding-left: 10em; padding-top: 2em;">
-                                    Loading ingredients...</p>
-                            </div>
-                        </ngx-spinner>
-                    </div>
-                    <acr-ingredient-card *ngFor="let ingC of cards.nonEssentials.cards" [ingredient]="ingC"
-                        [ingrIdSelected]="ingrIdSelected">
-                    </acr-ingredient-card>
-                </div>
+                <acr-ingredient-card *ngFor="let ingC of cards.nonEssentials.cards" [ingredient]="ingC"
+                    [ingrIdSelected]="ingrIdSelected">
+                </acr-ingredient-card>
             </div>
-
         </div>
-        <div class="right-section">
-            <div class="det-inf">
-                <div>
-                    <router-outlet name="ing-outlet"></router-outlet>
-                </div>
-            </div>
-            <div class="actionBtns">
-                <a class="center btn btn-info" [ngClass]="{'disabled':!isLoggedIn}"
-                    [routerLink]="['/ingredients',{outlets: {'ing-outlet':['create']}}]" *ngIf="!isOnCreatePage()">
-                    <i class="fas fa-plus-circle"></i> &nbsp; Add</a>
-                <a class="center btn btn-danger" [ngClass]="{'disabled':!isLoggedIn}"
-                    [routerLink]="['/ingredients',{outlets: {'ing-outlet':['details',0]}}]" *ngIf="isOnCreatePage()">
-                    <i class="fas fa-ban"></i> &nbsp; Abort!</a>
-            </div>
 
+    </div>
+    <div class="right-section">
+        <div class="det-inf">
+            <div>
+                <router-outlet name="ing-outlet"></router-outlet>
+            </div>
+        </div>
+        <div class="actionBtns">
+            <a class="center btn btn-info" [ngClass]="{'disabled':!isLoggedIn}"
+                [routerLink]="['/ingredients',{outlets: {'ing-outlet':['create']}}]" *ngIf="!isOnCreatePage()">
+                <i class="fas fa-plus-circle"></i> &nbsp; Add</a>
+            <a class="center btn btn-danger" [ngClass]="{'disabled':!isLoggedIn}"
+                [routerLink]="['/ingredients',{outlets: {'ing-outlet':['details',0]}}]" *ngIf="isOnCreatePage()">
+                <i class="fas fa-ban"></i> &nbsp; Abort!</a>
         </div>
     </div>
-</div>
+</section>

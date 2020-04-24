@@ -31,3 +31,19 @@ section.selected.ing-cart{
     border:4px solid orangered;
     padding: 0.0625em;
 }
+
+@media only screen and (max-width: 420px) {
+    section.ing-cart{
+        height:7em;
+        width: 80%;
+
+        }
+        section.ing-cart img {
+            height:6.5em;
+            width: auto;
+        }
+        section.ing-cart p{
+           font-size: 0.9em;
+        }
+
+  }

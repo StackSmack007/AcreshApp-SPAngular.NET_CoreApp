@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { IngredientService } from 'src/app/core/services/ingredient.service';
@@ -10,9 +10,12 @@ import { AuthService } from 'src/app/core/services/auth.service';
 @Component({
   selector: 'acr-list-ingredients',
   templateUrl: './list-ingredients.component.html',
-  styleUrls: ['./list-ingredients.component.css']
+  styleUrls: ['./list-ingredients.component.scss']
 })
 export class ListIngredientsComponent {
+
+
+  get width() { return window.innerWidth }
   cards = {
     essentials: { page: 1, cards: [], loading: false },
     nonEssentials: { page: 1, cards: [], loading: false }

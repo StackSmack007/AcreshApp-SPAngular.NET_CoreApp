@@ -35,7 +35,6 @@ div.card-main{
   div.card-body{
     background-color: #f5f1e9;
     margin-top: 0;
-    height:10.5em;
   }
 
   span.small-font{
@@ -72,3 +71,21 @@ div.info>p{
     margin-right:0;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  img.meal-picture {
+    height: 7rem;
+    margin-right: 0.5em;
+  }
+  div.info>p{
+    height: 9rem;
+    padding-right:.8em;
+  }
+ }
+
+ @media only screen and (max-width: 420px) {
+  img.meal-picture {
+    height: 5rem;
+    margin-right: 0.4em;
+  }
+ }

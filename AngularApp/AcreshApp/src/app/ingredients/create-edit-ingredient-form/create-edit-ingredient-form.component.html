@@ -5,7 +5,7 @@
         <div class="col-5 pl-2">
                 <div class="form-group ">
                     <div class="form-group has-danger has-success">
-                        <label class="form-control-label h5" for="name"> Ingredient Name*:</label>
+                        <label class="form-control-label h5" for="name"> Ingredient <span *ngIf="width>600">Name</span>*:</label>
                         <input formControlName="name" class="form-control" id="name" [ngClass]="getValClasses('name')"
                             placeholder="Name...">
                         <div class="invalid-feedback" *ngIf="invalidTouchedCtrl('name')"
@@ -25,7 +25,7 @@
                     </div>
                 </div>                
                 
-                <legend class="h5">Measure Units Type*:</legend>
+                <legend class="h5"><span *ngIf="width>600">Measure </span>Units Type*:</legend>
                 <div class="form-check pb-2 pl-4" *ngFor="let type of measureTypes">
                     <label class="form-check-label" >
                         <input type="radio" name="measureType" class="form-check-input" formControlName="measureType"
@@ -53,7 +53,7 @@
                 <div class="form-group">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input mr-2 text-success" id="isVegan" [checked]="form.get('origin').value!='3'" readonly>
-                        <label class="custom-control-label h5" [ngClass]="{'text-success':form.get('origin').value!='3'}">{{form.get('origin').value!=3?'':'Non'}} Vegan Compatible</label>
+                        <label class="custom-control-label h5" [ngClass]="{'text-success':form.get('origin').value!='3'}">{{form.get('origin').value!=3?'':'Non'}} Vegan <span *ngIf="width>600">Compatible</span></label>
                     </div>
                 </div>
                
