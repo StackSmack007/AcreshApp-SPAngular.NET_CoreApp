@@ -49,10 +49,6 @@ const routes: Routes = [
   },
 
   {
-    path: "**", component: AboutComponent
-  },
-
-  {
     path: "recipes",
     children: [
       {
@@ -171,7 +167,10 @@ const routes: Routes = [
   {
     path: "cauldron",
     component: CauldronComponent,
-  }
+  },
+  {
+    path: "**", component: AboutComponent
+  },
   // {
   //   path: "categories",
   //   component: MainBoardCategoriesComponent
