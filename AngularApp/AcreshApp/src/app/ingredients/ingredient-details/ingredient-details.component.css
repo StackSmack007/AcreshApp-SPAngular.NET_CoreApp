@@ -24,7 +24,7 @@
             max-width: 37.5%;
             min-width:30%;
             max-height: 18em;
-            
+            float: right;
             /* background: lemonchiffon; */
         }
 

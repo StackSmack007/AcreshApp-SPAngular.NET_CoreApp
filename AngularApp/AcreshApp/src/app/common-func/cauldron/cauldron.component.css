@@ -141,11 +141,27 @@ acr-couldron-rec-card {
     padding-bottom:1em;
 }
 
-@media  screen and (max-width: 50em) { media.cauldron-gif{ min-width: 15em; }}
+@media  screen and (max-width: 800px) { 
+    media.cauldron-gif{ 
+        width: 12em; 
+        min-width: 8em; 
+    }
 
-@media  screen and (max-width: 86.5em) {
+    
+}
+
+@media  screen and (max-width: 1384px) {
     .cauld-browse>ul.ings{
         justify-content: space-between;
         max-height: 12em;
     }
+
+    media.cauldron-gif{ 
+        width: 15em; 
+        min-width: 10em; 
+    }
+
+    section.cauld-browse { order: 2}
+    section.cauld-res{order:3}
+    article.result-set{order:4}
 }

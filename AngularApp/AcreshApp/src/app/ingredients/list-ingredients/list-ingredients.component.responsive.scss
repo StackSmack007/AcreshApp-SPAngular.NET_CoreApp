@@ -14,6 +14,28 @@
         width:100%;
         min-width:0;
     }
+}
 
-    // div.det-inf { min-height:50em; }
+@media only screen and (max-width: 1145px) {
+    div.ing-types {
+        flex-grow:1;
+        display:flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+
+    div.ing-container{
+        flex:0 1 45%;
+        margin:1em 0.5em;
+    }     
+    
+    div.right-section{flex-grow:1; }
+}
+
+@media only screen and (max-width: 1000px) {
+   div.ing-types {flex-wrap: wrap;}
+    div.ing-container{
+        flex:0 0 100%;
+        margin:0.5em 0;
+    }       
 }
