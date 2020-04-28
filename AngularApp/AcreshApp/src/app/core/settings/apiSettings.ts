@@ -1,6 +1,6 @@
 //export const basePath: string = isDevMode()?"https://localhost:5020/":"acresh.nsh7.tk";
-// export const basePath: string = "https://localhost:5020/";
- export const basePath: string = "https://www.acresh.nsh7.tk/";
+export const basePath: string = "https://localhost:5020/";
+//  export const basePath: string = "https://www.acresh.nsh7.tk/";
 
 export const authPaths: IAuthPaths = {
     checkUserNameOrEmailTaken: basePath + "users/is-singIn-data-free",//post
