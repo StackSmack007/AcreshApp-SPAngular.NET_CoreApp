@@ -1,7 +1,0 @@
-.edit-form { padding-bottom:2em; }
-
-@media only screen and (max-width: 550px) {
-    label {
-     font-size: 1em;
-    }
-  }
