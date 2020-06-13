@@ -1,0 +1,24 @@
+td.ing-info popover-content * {
+font-family:inherit;
+}
+
+td.ing-info .popover-header {
+    background:rgba(119, 41, 83, 0.9);
+    color:#ffa64d;
+}
+
+td.ing-info div.ing-cart {
+    width:18em;
+}
+td.ing-info div.ing-cart>img{
+      width:100%;
+      padding:0.1em 0.2em;
+      padding-bottom:0.5em;
+      border-radius: 10%;
+}
+
+td.ing-info div.ing-cart>p{
+  width:100%;
+  padding:0;
+  margin:0 auto;
+}
